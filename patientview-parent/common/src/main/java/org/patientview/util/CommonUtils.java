@@ -112,21 +112,28 @@ public final class CommonUtils {
 
     public static boolean isNhsNumberValid(String nhsNumber, boolean ignoreUppercaseLetters) {
 
-        // Only permit 10 characters
+        // now matching order of validation steps from #403, alphanumerics NHSno ignored
+
+        // 1. Any spaces should be removed from the value
+        nhsNumber = nhsNumber.replaceAll("\\s", "");
+
+        // 2. The value should contain only numbers if this isn't the case it should be rejected.
+        if (!nhsNumber.matches("[0-9]+")) {
+            return false;
+        }
+
+        // 3. If the length of the value is 9 characters a 0 should be prepended to the value. This is due to
+        // some CHI (Scotland) numbers starting with 0 which is lost if the value is handled as a number.
+        if (nhsNumber.length() == NHS_NUMBER_LENGTH - 1) {
+            nhsNumber = "0" + nhsNumber;
+        }
+
+        // 4. If the value is not now 10 characters it should be rejected.
         if (nhsNumber.length() != NHS_NUMBER_LENGTH) {
             return false;
         }
 
-        // Remove all whitespace and non-visible characters such as tab, new line etc
-        nhsNumber = nhsNumber.replaceAll("\\s", "");
-
-        boolean nhsNoContainsOnlyNumbers = nhsNumber.matches("[0-9]+");
-        boolean nhsNoContainsLowercaseLetters = !nhsNumber.equals(nhsNumber.toUpperCase());
-
-        if (!nhsNoContainsOnlyNumbers && ignoreUppercaseLetters && !nhsNoContainsLowercaseLetters) {
-            return true;
-        }
-
+        // 5. The NHS Check Digit function should be run on the value. If this fails it should be rejected.
         return isNhsChecksumValid(nhsNumber);
     }
 
