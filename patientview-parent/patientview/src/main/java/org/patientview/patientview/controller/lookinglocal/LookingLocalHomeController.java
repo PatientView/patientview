@@ -76,19 +76,26 @@ public class LookingLocalHomeController extends BaseController {
     public String getAuth(@RequestParam(value = "username", required = false) String username,
                           @RequestParam(value = "password", required = false) String password) {
 
+        LOGGER.debug("auth start");
+
         PatientViewPasswordEncoder encoder = new PatientViewPasswordEncoder();
         User user = securityUserManager.get(username);
 
-        if (user.getPassword().equals(encoder.encode(password))) {
-            SecurityUser userLogin = (SecurityUser) userDetailsService.loadUserByUsername(username);
-            SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(userLogin,
-                    userLogin.getPassword(), userLogin.getAuthorities()));
+        if (user != null) {
+            if (user.getPassword().equals(encoder.encode(password))) {
+                SecurityUser userLogin = (SecurityUser) userDetailsService.loadUserByUsername(username);
+                SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(userLogin,
+                        userLogin.getPassword(), userLogin.getAuthorities()));
 
-            LOGGER.debug("passed");
-            return "redirect:main";
+                LOGGER.debug("passed");
+                return "redirect:" + Routes.LOOKING_LOCAL_MAIN_REDIRECT;
+            } else {
+                LOGGER.debug("failed, password");
+                return "redirect:" + Routes.LOOKING_LOCAL_ERROR_REDIRECT;
+            }
         } else {
-            LOGGER.debug("failed");
-            return "redirect:error";
+            LOGGER.debug("failed, user null");
+            return "redirect:" + Routes.LOOKING_LOCAL_ERROR_REDIRECT;
         }
     }
 
@@ -107,7 +114,7 @@ public class LookingLocalHomeController extends BaseController {
     }
 
     /**
-     * Deal with the URIs "/lookinglocal/main"
+     * Deal with the URIs "/lookinglocal/secure/main"
      */
     @RequestMapping(value = Routes.LOOKING_LOCAL_MAIN)
     @ResponseBody
@@ -121,7 +128,7 @@ public class LookingLocalHomeController extends BaseController {
     }
 
     /**
-     * Deal with the URIs "/lookinglocal/details"
+     * Deal with the URIs "/lookinglocal/secure/details"
      */
     @RequestMapping(value = Routes.LOOKING_LOCAL_DETAILS)
     @ResponseBody
@@ -148,7 +155,7 @@ public class LookingLocalHomeController extends BaseController {
     }
 
     /**
-     * Deal with the URIs "/lookinglocal/resultsDisplay"
+     * Deal with the URIs "/lookinglocal/secure/resultsDisplay"
      */
     @RequestMapping(value = Routes.LOOKING_LOCAL_RESULTS_DISPLAY)
     @ResponseBody
@@ -165,7 +172,7 @@ public class LookingLocalHomeController extends BaseController {
     }
 
     /**
-     * Deal with the URIs "/lookinglocal/letterDisplay"
+     * Deal with the URIs "/lookinglocal/secure/letterDisplay"
      */
     @RequestMapping(value = Routes.LOOKING_LOCAL_LETTER_DISPLAY)
     @ResponseBody

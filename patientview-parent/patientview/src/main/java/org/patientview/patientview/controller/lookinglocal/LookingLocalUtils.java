@@ -72,8 +72,9 @@ public final class LookingLocalUtils {
 
     public static Document getDocument() throws  Exception {
 
-        if(serverURL == null)
+        if (serverURL == null) {
             serverURL = LegacySpringUtils.getContextProperties().getProperty("config.site.url") + "web";
+        }
 
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
