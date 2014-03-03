@@ -59,9 +59,9 @@ public class CommonUtilsTest {
         assertFalse("Invalid NHS No passed validation", CommonUtils.isNhsNumberValid("12f45a6789"));
     }
 
-    /*@Test
+    @Test
     public void testOverridingValidationWithUppercaseNHSNo() {
         assertTrue("Invalid NHS No with uppercase letters did not pass validation although validation should have " +
                 "been overridden", CommonUtils.isNhsNumberValidWhenUppercaseLettersAreAllowed("12F45A6789"));
-    }*/
+    }
 }

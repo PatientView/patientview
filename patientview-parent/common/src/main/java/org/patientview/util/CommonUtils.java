@@ -110,22 +110,29 @@ public final class CommonUtils {
         }
     }
 
+    /**
+     * Uses 5 step NHS number validation, ignoring numeric-only and checksum validation if pseudo NHS numbers allowed
+     * Matches order of validation steps from Trello #403, note: when storing NHS number, spaces must be removed
+     * @param nhsNumber NHS number, either real or pseudo
+     * @param ignoreUppercaseLetters To allow pseudo NHS numbers to be checked if true
+     * @return
+     */
     public static boolean isNhsNumberValid(String nhsNumber, boolean ignoreUppercaseLetters) {
-
-        // now matching order of validation steps from #403, alphanumerics NHSno ignored
-
         // 1. Any spaces should be removed from the value
         nhsNumber = nhsNumber.replaceAll("\\s", "");
 
-        // 2. The value should contain only numbers if this isn't the case it should be rejected.
-        if (!nhsNumber.matches("[0-9]+")) {
-            return false;
-        }
+        if (!ignoreUppercaseLetters) {
+            // 2. (non-pseudo only) The value should contain only numbers if this isn't the case it should be rejected.
+            if (!nhsNumber.matches("[0-9]+")) {
+                return false;
+            }
 
-        // 3. If the length of the value is 9 characters a 0 should be prepended to the value. This is due to
-        // some CHI (Scotland) numbers starting with 0 which is lost if the value is handled as a number.
-        if (nhsNumber.length() == NHS_NUMBER_LENGTH - 1) {
-            nhsNumber = "0" + nhsNumber;
+            // 3. (non-pseudo only) If the length of the value is 9 characters a 0 should be prepended to the value.
+            // This is due to some CHI (Scotland) numbers starting with 0 which is lost if the value is handled
+            // as a number.
+            if (nhsNumber.length() == NHS_NUMBER_LENGTH - 1) {
+                nhsNumber = "0" + nhsNumber;
+            }
         }
 
         // 4. If the value is not now 10 characters it should be rejected.
@@ -134,7 +141,8 @@ public final class CommonUtils {
         }
 
         // 5. The NHS Check Digit function should be run on the value. If this fails it should be rejected.
-        return isNhsChecksumValid(nhsNumber);
+        // note: checksum ignored if ignoreUppercaseLetters is true
+        return (ignoreUppercaseLetters ? true : isNhsChecksumValid(nhsNumber));
     }
 
 
