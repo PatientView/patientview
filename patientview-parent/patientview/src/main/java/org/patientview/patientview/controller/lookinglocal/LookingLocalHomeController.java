@@ -72,7 +72,7 @@ public class LookingLocalHomeController extends BaseController {
     /**
      * Deal with the URIs "/lookinglocal/auth", check POSTed credentials and forward to main or error
      */
-    @RequestMapping(value = Routes.LOOKING_LOCAL_AUTH)
+    /*@RequestMapping(value = Routes.LOOKING_LOCAL_AUTH)
     public String getAuth(@RequestParam(value = "username", required = false) String username,
                           @RequestParam(value = "password", required = false) String password) {
 
@@ -96,6 +96,47 @@ public class LookingLocalHomeController extends BaseController {
         } else {
             LOGGER.debug("failed, user null");
             return "redirect:" + Routes.LOOKING_LOCAL_ERROR_REDIRECT;
+        }
+    }*/
+
+    @RequestMapping(value = Routes.LOOKING_LOCAL_AUTH)
+    @ResponseBody
+    public void getAuth(@RequestParam(value = "username", required = false) String username,
+                          @RequestParam(value = "password", required = false) String password,
+                          HttpServletResponse response) {
+
+        LOGGER.debug("auth start");
+
+        PatientViewPasswordEncoder encoder = new PatientViewPasswordEncoder();
+        User user = securityUserManager.get(username);
+
+        if (user != null) {
+            if (user.getPassword().equals(encoder.encode(password))) {
+                SecurityUser userLogin = (SecurityUser) userDetailsService.loadUserByUsername(username);
+                SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(userLogin,
+                        userLogin.getPassword(), userLogin.getAuthorities()));
+
+                LOGGER.debug("passed");
+                try {
+                    LookingLocalUtils.getAuthXml(response);
+                } catch (Exception e) {
+                    LOGGER.error("Could not create home screen response output stream{}" + e);
+                }
+            } else {
+                LOGGER.debug("failed, password");
+                try {
+                    LookingLocalUtils.getErrorXml(response);
+                } catch (Exception e) {
+                    LOGGER.error("Could not create home screen response output stream{}" + e);
+                }
+            }
+        } else {
+            LOGGER.debug("failed, user null");
+            try {
+                LookingLocalUtils.getErrorXml(response);
+            } catch (Exception e) {
+                LOGGER.error("Could not create home screen response output stream{}" + e);
+            }
         }
     }
 
