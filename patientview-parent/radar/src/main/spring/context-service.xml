@@ -109,6 +109,7 @@
         <property name="userDao" ref="userDao"/>
         <property name="patientManager" ref="patientManager"/>
         <property name="authenticationManager" ref="authenticationManager"/>
+        <property name="logEntryManager" ref="logEntryManager"/>
     </bean>
 
     <bean id="unitManager" class="org.patientview.radar.service.impl.UnitManagerImpl">
