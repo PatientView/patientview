@@ -26,7 +26,7 @@ package org.patientview.test.repository;
 import org.patientview.model.Patient;
 import org.patientview.patientview.logon.PatientLogonWithTreatment;
 import org.patientview.patientview.model.PatientCount;
-import org.patientview.patientview.model.Specialty;
+import org.patientview.model.Specialty;
 import org.patientview.patientview.model.SpecialtyUserRole;
 import org.patientview.patientview.model.User;
 import org.patientview.repository.PatientCountDao;
@@ -67,7 +67,8 @@ public class PatientDaoTest extends BaseDaoTest {
     private static String CENTRE_1 = "centre1";
 
     @Before
-    public void setupSystem() {
+    public void setupSystem() throws Exception {
+
         specialty = repositoryHelpers.createSpecialty("Specialty1", "ten1", "A test specialty");
 
         user = repositoryHelpers.createUserWithMapping("username1", "test@test.com", "password", NAME_OF_USER,
@@ -115,7 +116,7 @@ public class PatientDaoTest extends BaseDaoTest {
          * getUnitPatientsWithTreatmentDao
          */
 
-        patients = patientDao.getUnitPatientsWithTreatmentDao(CENTRE_1, NHS_NO_1, NAME_OF_USER, false, specialty);
+        patients = patientDao.getUnitPatientsWithTreatmentDao(CENTRE_1, NHS_NO_1, NAME_OF_USER,NAME_OF_USER, false, specialty);
         assertTrue("Can't get patients with treatment", patients.size() > 0);
 
         /**

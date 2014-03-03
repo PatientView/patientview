@@ -20,6 +20,7 @@
  * @copyright Copyright (c) 2004-2013, Worth Solutions Limited
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
+
 package org.patientview.security.impl;
 
 import org.aopalliance.intercept.MethodInvocation;
@@ -42,7 +43,7 @@ import javax.inject.Inject;
 import java.util.Collection;
 
 /**
- *  Implement finer grained authorisation per unit
+ * Implement finer grained authorisation per unit
  */
 @Transactional(propagation = Propagation.REQUIRED)
 public class UnitVoter implements AccessDecisionVoter {
@@ -100,7 +101,7 @@ public class UnitVoter implements AccessDecisionVoter {
 
             // super admins bypass method security
             if (securityUserManager.isRolePresent("superadmin")) {
-                result = ACCESS_GRANTED;
+                return ACCESS_GRANTED;
             }
 
             if (securedAnnotation != null && securedAnnotation.value() != null) {

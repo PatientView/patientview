@@ -60,6 +60,13 @@ http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
         <intercept-url pattern="/forgotten-password" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/emailverification.do" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 
+        <!-- Looking Local -->
+        <intercept-url pattern="/web/lookinglocal/home" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/web/lookinglocal/auth" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/web/lookinglocal/error" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/web/lookinglocal/main" access="ROLE_RENAL_PATIENT"/>
+        <intercept-url pattern="/web/lookinglocal/details" access="ROLE_RENAL_PATIENT"/>
+
         <!-- TEMP FOR STORY 32 RPV -->
         <intercept-url pattern="/messages.jsp" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/message.jsp" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
@@ -87,6 +94,7 @@ http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
         <!-- messages -->
         <intercept-url pattern="/control/messaging/message_confirm.jsp" access="ROLE_RENAL_UNITADMIN"/>
         <intercept-url pattern="/patient/conversation**" access="ROLE_RENAL_DEMO"/>
+        <intercept-url pattern="/patient/graphic_testresult**" access="ROLE_RENAL_DEMO"/>
         <intercept-url pattern="/control/conversation**" access="ROLE_RENAL_UNITSTAFF"/>
         <intercept-url pattern="/send-message**" access="ROLE_RENAL_DEMO"/>
         <intercept-url pattern="/unit-recipients**" access="ROLE_RENAL_UNITADMIN"/>
@@ -96,6 +104,10 @@ http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
         <intercept-url pattern="/join" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/joinSubmit" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/joinSubmit.do" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/contactMyUnit.do" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/contactMyUnit" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/contactUnitSubmit" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/contactUnitSubmit.do" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 
         <!-- Everything else is inaccessible, no one will ever have this role... -->
         <intercept-url pattern="/**" access="ROLE_NOT_ALLOWED"/>
@@ -108,7 +120,7 @@ http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
                 default-target-url="/logged_in.do"
                 authentication-success-handler-ref="patientViewAuthenticationSuccessHandler"
                 authentication-failure-handler-ref="patientViewAuthenticationFailedHandler"
-        />
+                />
 
         <logout logout-url="/logout.do" logout-success-url="/index.do"/>
 

@@ -1,3 +1,26 @@
+/*
+ * PatientView
+ *
+ * Copyright (c) Worth Solutions Limited 2004-2013
+ *
+ * This file is part of PatientView.
+ *
+ * PatientView is free software: you can redistribute it and/or modify it under the terms of the
+ * GNU General Public License as published by the Free Software Foundation, either version 3 of the License,
+ * or (at your option) any later version.
+ * PatientView is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License along with PatientView in a file
+ * titled COPYING. If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @package PatientView
+ * @link http://www.patientview.org
+ * @author PatientView <info@patientview.org>
+ * @copyright Copyright (c) 2004-2013, Worth Solutions Limited
+ * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
+ */
+
 package org.patientview.radar.web.panels.generic;
 
 import org.apache.wicket.Component;
@@ -8,6 +31,8 @@ import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.Radio;
+import org.apache.wicket.markup.html.form.RadioGroup;
 import org.apache.wicket.markup.html.link.ExternalLink;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -59,7 +84,7 @@ public class MedicalResultsPanel extends Panel {
         MedicalResult medicalResult = null;
 
         if (patient.hasValidId()) {
-            medicalResult = medicalResultManager.getMedicalResult(patient.getId(),
+            medicalResult = medicalResultManager.getMedicalResult(patient.getRadarNo(),
                     patient.getDiseaseGroup().getId());
         }
 
@@ -71,7 +96,7 @@ public class MedicalResultsPanel extends Panel {
 
         if (medicalResult == null) {
             medicalResult = new MedicalResult();
-            medicalResult.setRadarNo(patient.getId());
+            medicalResult.setRadarNo(patient.getRadarNo());
             medicalResult.setDiseaseGroup(patient.getDiseaseGroup());
             medicalResult.setNhsNo(patient.getNhsno());
         }
@@ -141,7 +166,7 @@ public class MedicalResultsPanel extends Panel {
 
                         // format needs to be NNN.NN or NN.NN
                         int weightStringLength = medicalResult.getWeight().toString().length();
-                        int indexOfDot = medicalResult.getWeight().toString().indexOf("");
+                        int indexOfDot = medicalResult.getWeight().toString().indexOf(".");
 
                         if ((weightStringLength != 4 && weightStringLength != 5 && weightStringLength != 6) ||
                                 (weightStringLength == 6 && indexOfDot != 3) ||
@@ -158,7 +183,7 @@ public class MedicalResultsPanel extends Panel {
 
                         // format needs to be NNN.N or NN.N
                         int heightStringLength = medicalResult.getHeight().toString().length();
-                        int indexOfDot = medicalResult.getHeight().toString().indexOf("");
+                        int indexOfDot = medicalResult.getHeight().toString().indexOf(".");
 
                         if ((heightStringLength != 4 && heightStringLength != 5) ||
                                 (heightStringLength == 5 && indexOfDot != 3) ||
@@ -193,11 +218,11 @@ public class MedicalResultsPanel extends Panel {
                         }
                     }
 
-//                    if (medicalResult.getAntihypertensiveDrugs() != null
-//                            && !medicalResult.getAntihypertensiveDrugs().equals(MedicalResult.YesNo.UNKNOWN)
-//                            && medicalResult.getAntihypertensiveDrugsDate() == null) {
-//                        get("antihypertensiveDrugsDate").error(TEST_RESULT_NULL_DATE_MESSAGE);
-//                    }
+                    if (medicalResult.getAntihypertensiveDrugs() != null
+                            && !medicalResult.getAntihypertensiveDrugs().equals(MedicalResult.YesNo.UNKNOWN)
+                            && medicalResult.getAntihypertensiveDrugsDate() == null) {
+                        get("antihypertensiveDrugsDate").error(TEST_RESULT_NULL_DATE_MESSAGE);
+                    }
 
                     if (medicalResult.getPcr() != null) {
                         if (medicalResult.getPcr() < 0 || medicalResult.getPcr() > 15000) {
@@ -221,7 +246,7 @@ public class MedicalResultsPanel extends Panel {
                 }
 
                 if (medicalResult.isToBeValidated() && !hasError()) {
-                    medicalResult.setRadarNo(patient.getId());
+                    medicalResult.setRadarNo(patient.getRadarNo());
                     medicalResult.setNhsNo(patient.getNhsno());
                     medicalResultManager.save(medicalResult);
                 }
@@ -255,14 +280,14 @@ public class MedicalResultsPanel extends Panel {
         form.add(new RadarTextFieldWithValidation<Integer>("bpDiastolic", null, form, componentsToUpdateList));
         form.add(new RadarDateTextField("bpDate", form, componentsToUpdateList));
 
-//        RadioGroup<MedicalResult.YesNo> antihypertensiveDrugs = new RadioGroup<MedicalResult.YesNo>(
-//                "antihypertensiveDrugs");
-//        antihypertensiveDrugs.add(new Radio("yes", new Model(MedicalResult.YesNo.YES)));
-//        antihypertensiveDrugs.add(new Radio("no", new Model(MedicalResult.YesNo.NO)));
-//        antihypertensiveDrugs.add(new Radio("unknown", new Model(MedicalResult.YesNo.UNKNOWN)));
-//        form.add(antihypertensiveDrugs);
-//
-//        form.add(new RadarDateTextField("antihypertensiveDrugsDate", form, componentsToUpdateList));
+        RadioGroup<MedicalResult.YesNo> antihypertensiveDrugs = new RadioGroup<MedicalResult.YesNo>(
+                "antihypertensiveDrugs");
+        antihypertensiveDrugs.add(new Radio("yes", new Model(MedicalResult.YesNo.YES)));
+        antihypertensiveDrugs.add(new Radio("no", new Model(MedicalResult.YesNo.NO)));
+        antihypertensiveDrugs.add(new Radio("unknown", new Model(MedicalResult.YesNo.UNKNOWN)));
+        form.add(antihypertensiveDrugs);
+
+        form.add(new RadarDateTextField("antihypertensiveDrugsDate", form, componentsToUpdateList));
 
         form.add(new RadarTextFieldWithValidation<Integer>("pcr", null, form, componentsToUpdateList));
         form.add(new RadarDateTextField("pcrDate", form, componentsToUpdateList));

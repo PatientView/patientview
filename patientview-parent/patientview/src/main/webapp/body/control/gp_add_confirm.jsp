@@ -27,8 +27,11 @@
   --%>
 
 <html:xhtml/>
+<div class="span9">
 
-<p class="header">GP</p>
+<div class="page-header">
+    <h1>GP</h1>
+</div>
 
 
 On <dt:format pattern="d MMM yyyy"><dt:currentTime/></dt:format> you successfully enrolled a new GP with the following details:
@@ -40,13 +43,13 @@ On <dt:format pattern="d MMM yyyy"><dt:currentTime/></dt:format> you successfull
       <td><logic:notEmpty name="gp">
             <bean:write name="gp" property="username" />
           </logic:notEmpty>
-    </td>
+      </td>
     </tr>
     <tr>
       <td><b>Password</b></td>
       <td class="password">
         <logic:notEmpty name="gp">
-          <bean:write name="gp" property="password" />
+          <h3><bean:write name="gp" property="password" /></h3>
         </logic:notEmpty>
     </td>
     </tr>
@@ -75,4 +78,5 @@ On <dt:format pattern="d MMM yyyy"><dt:currentTime/></dt:format> you successfull
       </td>
     </tr>
  </table>
-
+<br/>
+</div>

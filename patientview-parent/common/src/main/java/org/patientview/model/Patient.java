@@ -23,25 +23,22 @@
 
 package org.patientview.model;
 
+import org.joda.time.DateTime;
+import org.joda.time.Years;
 import org.patientview.model.enums.NhsNumberType;
 import org.patientview.model.generic.DiseaseGroup;
 import org.patientview.model.generic.GenericDiagnosis;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
-import javax.persistence.Column;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
 public class Patient extends BaseModel {
-
-
-    @Transient
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
     @Transient
     private static final SimpleDateFormat UK_DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
@@ -53,7 +50,7 @@ public class Patient extends BaseModel {
     @Column
     private String forename;
     @Column
-    private String dateofbirth;
+    private Date dateofbirth;
     @Column
     private String sex;
     @Column
@@ -128,7 +125,7 @@ public class Patient extends BaseModel {
     @Column
     private String surnameAlias;
 
-    @Column
+    @Column(nullable = true)
     private Integer age;
 
     @Column
@@ -138,7 +135,7 @@ public class Patient extends BaseModel {
     private String postcodeOld;
 
     @Column
-    private boolean consent;
+    private Boolean consent;
 
     @Column
     private Date dateBapnReg;
@@ -152,7 +149,7 @@ public class Patient extends BaseModel {
     @Column
     private String emailAddress;
 
-    @Column
+    @Column(nullable = true)
     private Integer rrtModality;
 
     @Column
@@ -174,13 +171,28 @@ public class Patient extends BaseModel {
     private String indiaId;
 
     @Column
-    private boolean generic;
+    private Boolean generic;
 
     @Column
     private String genericDiagnosis;
 
     @Column
     private Date dateOfGenericDiagnosis;
+
+    @Column(nullable = true)
+    private Long radarConsentConfirmedByUserId;
+
+    @Column
+    private Date mostRecentTestResultDateRangeStopDate;
+
+    @Column
+    private String sourceType;
+
+    @Column(nullable = true)
+    private Long patientLinkId;
+
+    @Transient
+    private String patientLinkUnitCode;
 
     @Transient
     private Clinician clinician;
@@ -210,13 +222,13 @@ public class Patient extends BaseModel {
     private RRTModality rrtModalityEunm;
 
     @Transient
-    private Date dob;
-
-    @Transient
     private Status statusModel;
 
     @Transient
     private Boolean diagnosisDateSelect;
+
+    @Transient
+    private boolean linked;
 
     public enum RRTModality {
         HD(1),
@@ -287,19 +299,25 @@ public class Patient extends BaseModel {
         this.unitcode = (unitCode != null) ? unitCode.toUpperCase() : unitCode;
     }
 
-    public String getDateofbirth() {
+    public Date getDateofbirth() {
         return dateofbirth;
     }
 
     public String getFormatedDateOfBirth() {
-        try {
-            return UK_DATE_FORMAT.format(DATE_FORMAT.parse(dateofbirth));
-        } catch (ParseException e) {
-            return dateofbirth;
+
+        if (dateofbirth != null) {
+            return UK_DATE_FORMAT.format(dateofbirth);
+        } else {
+            return null;
         }
+
     }
 
-    public void setDateofbirth(String dateofbirth) {
+    public String getDateOfBirthStr() {
+        return UK_DATE_FORMAT.format(dateofbirth);
+    }
+
+    public void setDateofbirth(Date dateofbirth) {
         this.dateofbirth = dateofbirth;
     }
 
@@ -488,18 +506,22 @@ public class Patient extends BaseModel {
     }
 
     public Integer getAge() {
-        return age;
+        // Return the difference between now and the date of birth
+        if (dateofbirth != null) {
+            return Years.yearsBetween(new DateTime(dateofbirth), new DateTime(new Date())).getYears();
+        }
+        return null;
     }
 
     public void setAge(Integer age) {
         this.age = age;
     }
 
-    public boolean isConsent() {
+    public Boolean isConsent() {
         return consent;
     }
 
-    public void setConsent(boolean consent) {
+    public void setConsent(Boolean consent) {
         this.consent = consent;
     }
 
@@ -567,11 +589,11 @@ public class Patient extends BaseModel {
         this.indiaId = indiaId;
     }
 
-    public boolean isGeneric() {
+    public Boolean isGeneric() {
         return generic;
     }
 
-    public void setGeneric(boolean generic) {
+    public void setGeneric(Boolean generic) {
         this.generic = generic;
     }
 
@@ -760,11 +782,11 @@ public class Patient extends BaseModel {
     }
 
     public Date getDob() {
-        return dob;
+        return getDateofbirth();
     }
 
     public void setDob(Date dob) {
-        this.dob = dob;
+        setDateofbirth(dob);
     }
 
     public Boolean getDiagnosisDateSelect() {
@@ -774,5 +796,52 @@ public class Patient extends BaseModel {
     public void setDiagnosisDateSelect(Boolean diagnosisDateSelect) {
         this.diagnosisDateSelect = diagnosisDateSelect;
     }
+
+    public Long getRadarConsentConfirmedByUserId() {
+        return radarConsentConfirmedByUserId;
+    }
+
+    public void setRadarConsentConfirmedByUserId(Long radarConsentConfirmedByUserId) {
+        this.radarConsentConfirmedByUserId = radarConsentConfirmedByUserId;
+    }
+
+    public Date getMostRecentTestResultDateRangeStopDate() {
+        return mostRecentTestResultDateRangeStopDate;
+    }
+
+    public void setMostRecentTestResultDateRangeStopDate(Date mostRecentTestResultDateRangeStopDate) {
+        this.mostRecentTestResultDateRangeStopDate = mostRecentTestResultDateRangeStopDate;
+    }
+
+    public String getSourceType() {
+        return sourceType;
+    }
+
+    public void setSourceType(String sourceType) {
+        this.sourceType = sourceType;
+    }
+
+    public Long getPatientLinkId() {
+        return patientLinkId;
+    }
+
+    public void setPatientLinkId(Long patientLinkId) {
+        this.patientLinkId = patientLinkId;
+    }
+
+    public boolean isLinked() {
+        return patientLinkId != null && patientLinkId > 0;
+    }
+
+    public String getPatientLinkUnitCode() {
+        return patientLinkUnitCode;
+    }
+
+    public void setPatientLinkUnitCode(String patientLinkUnitCode) {
+        this.patientLinkUnitCode = patientLinkUnitCode;
+    }
+
 }
+
+
 
