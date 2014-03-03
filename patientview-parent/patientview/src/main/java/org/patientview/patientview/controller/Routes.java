@@ -35,10 +35,12 @@ public final class Routes {
     public static final String LOOKING_LOCAL_HOME = "/lookinglocal/home";
     public static final String LOOKING_LOCAL_AUTH = "/lookinglocal/auth";
     public static final String LOOKING_LOCAL_ERROR = "/lookinglocal/error";
-    public static final String LOOKING_LOCAL_MAIN = "/lookinglocal/main";
-    public static final String LOOKING_LOCAL_DETAILS = "/lookinglocal/details";
-    public static final String LOOKING_LOCAL_RESULTS_DISPLAY = "/lookinglocal/resultsDisplay";
-    public static final String LOOKING_LOCAL_LETTER_DISPLAY = "/lookinglocal/letterDisplay";
+    public static final String LOOKING_LOCAL_ERROR_REDIRECT = "error";
+    public static final String LOOKING_LOCAL_MAIN = "/lookinglocal/secure/main";
+    public static final String LOOKING_LOCAL_MAIN_REDIRECT = "secure/main";
+    public static final String LOOKING_LOCAL_DETAILS = "/lookinglocal/secure/details";
+    public static final String LOOKING_LOCAL_RESULTS_DISPLAY = "/lookinglocal/secure/resultsDisplay";
+    public static final String LOOKING_LOCAL_LETTER_DISPLAY = "/lookinglocal/secure/letterDisplay";
     public static final String JOIN_REQUEST_LIST_PAGE = "/control/join_request_list";
     public static final String JOIN_REQUEST_EDIT_INPUT_PAGE = "/control/join_requests_edit_input";
 
