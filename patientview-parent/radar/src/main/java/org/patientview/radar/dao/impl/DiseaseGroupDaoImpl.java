@@ -42,7 +42,7 @@ public class DiseaseGroupDaoImpl extends BaseDaoImpl implements DiseaseGroupDao 
     public List<DiseaseGroup> getAll() {
          List<DiseaseGroup> diseaseGroups =
                  jdbcTemplate.query("SELECT * FROM unit WHERE sourceType='radargroup' ORDER BY name",
-                new DiseaseGroupRowMapper());
+                         new DiseaseGroupRowMapper());
         Collections.sort(diseaseGroups);
         return diseaseGroups;
     }
