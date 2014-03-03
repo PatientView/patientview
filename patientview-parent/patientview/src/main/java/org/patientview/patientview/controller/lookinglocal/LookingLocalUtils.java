@@ -838,4 +838,45 @@ public final class LookingLocalUtils {
         outputXml(doc, response);
     }
 
+    public static void getAuthXml(HttpServletResponse response) throws Exception {
+
+        Document doc = getDocument();
+        // add page to screen
+        Element pageElement = doc.createElement("page");
+        pageElement.setAttribute("title", "Login Successful");
+        pageElement.setAttribute("transform", "default");
+        doc.getElementsByTagName("screen").item(0).appendChild(pageElement);
+
+        // add form to screen
+        Element formElement = doc.createElement("form");
+        formElement.setAttribute("action", serverURL + Routes.LOOKING_LOCAL_MAIN);
+        formElement.setAttribute("method", "get");
+        pageElement.appendChild(formElement);
+
+        // static element
+        Element details = doc.createElement("static");
+        details.setAttribute("value", "You are now logged in.");
+        formElement.appendChild(details);
+
+        // home button
+        Element home = doc.createElement("submit");
+        home.setAttribute("name", "main");
+        home.setAttribute("title", "Go to the main screen");
+        formElement.appendChild(home);
+
+        // form action
+        Element formAction = doc.createElement("hiddenField");
+        formAction.setAttribute("name", "formAction");
+        formAction.setAttribute("value", serverURL + Routes.LOOKING_LOCAL_MAIN);
+        formElement.appendChild(formAction);
+
+        // form method
+        Element formMethod = doc.createElement("hiddenField");
+        formMethod.setAttribute("name", "formMethod");
+        formMethod.setAttribute("value", "get");
+        formElement.appendChild(formMethod);
+
+        outputXml(doc, response);
+    }
+
 }
