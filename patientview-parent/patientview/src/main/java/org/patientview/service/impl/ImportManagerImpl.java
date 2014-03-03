@@ -47,6 +47,7 @@ import org.patientview.quartz.handler.ErrorHandler;
 import org.patientview.repository.UnitDao;
 import org.patientview.service.ImportManager;
 import org.patientview.service.LogEntryManager;
+import org.patientview.util.CommonUtils;
 import org.patientview.utils.LegacySpringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,7 +72,6 @@ import java.util.List;
 public class ImportManagerImpl implements ImportManager {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ImportManagerImpl.class);
-
 
     @Inject
     private XmlImportUtils xmlImportUtils;
@@ -153,6 +153,7 @@ public class ImportManagerImpl implements ImportManager {
             removePatientFromSystem(resultParser);
             return AddLog.PATIENT_DATA_REMOVE;
         } else {
+            validateNhsNumber(resultParser.getPatient());
             validateUnitCode(resultParser.getCentre());
             updatePatientDetails(resultParser.getPatient(), resultParser.getDateRanges());
             deleteDateRanges(resultParser.getDateRanges());
@@ -284,6 +285,13 @@ public class ImportManagerImpl implements ImportManager {
         }
         return mostRecentTestResultDateRangeStopDate;
     }
+
+    private void validateNhsNumber(Patient patient) throws ProcessException {
+        if (!CommonUtils.isNhsNumberValidWhenUppercaseLettersAreAllowed(patient.getNhsno())) {
+            throw new ProcessException("The NHS number is not in a invalid format");
+        }
+    }
+
 
     private void validateUnitCode(Centre centre) throws ProcessException {
 

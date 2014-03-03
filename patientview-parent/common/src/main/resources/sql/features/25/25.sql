@@ -1,4 +1,4 @@
-    /**
+/**
     alter the columns in the tables to DATETIME
      */
     /**

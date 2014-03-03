@@ -191,7 +191,7 @@ public class ResultParser {
                             dateRangeStop = TimestampUtils.createTimestamp(dateRangeStopString);
                             dateRangeStop.add(Calendar.HOUR, HOURS_IN_DAY); // set it to end of day instead of beginning
                         }
-                    } else if ((testResultNode.getNodeType() == Node.ELEMENT_NODE)
+                    }  else if ((testResultNode.getNodeType() == Node.ELEMENT_NODE)
                             && (testResultNode.getNodeName().equals("result"))) {
                         TestResult testResult = new TestResult(getData("nhsno"), getData("centrecode"), null,
                                 testCode, "");
