@@ -72,33 +72,6 @@ public class LookingLocalHomeController extends BaseController {
     /**
      * Deal with the URIs "/lookinglocal/auth", check POSTed credentials and forward to main or error
      */
-    /*@RequestMapping(value = Routes.LOOKING_LOCAL_AUTH)
-    public String getAuth(@RequestParam(value = "username", required = false) String username,
-                          @RequestParam(value = "password", required = false) String password) {
-
-        LOGGER.debug("auth start");
-
-        PatientViewPasswordEncoder encoder = new PatientViewPasswordEncoder();
-        User user = securityUserManager.get(username);
-
-        if (user != null) {
-            if (user.getPassword().equals(encoder.encode(password))) {
-                SecurityUser userLogin = (SecurityUser) userDetailsService.loadUserByUsername(username);
-                SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(userLogin,
-                        userLogin.getPassword(), userLogin.getAuthorities()));
-
-                LOGGER.debug("passed");
-                return "redirect:" + Routes.LOOKING_LOCAL_MAIN_REDIRECT;
-            } else {
-                LOGGER.debug("failed, password");
-                return "redirect:" + Routes.LOOKING_LOCAL_ERROR_REDIRECT;
-            }
-        } else {
-            LOGGER.debug("failed, user null");
-            return "redirect:" + Routes.LOOKING_LOCAL_ERROR_REDIRECT;
-        }
-    }*/
-
     @RequestMapping(value = Routes.LOOKING_LOCAL_AUTH)
     @ResponseBody
     public void getAuth(@RequestParam(value = "username", required = false) String username,
