@@ -35,7 +35,7 @@
                     <div class="active item">
                         <img src="/img/content/heroImage-man.jpg" alt="heroImage">
                         <div class="carousel-caption">
-                            <h4 class="largeCarouselTitle"><em>PatientView</em></h4>
+                            <h4 class="largeCarouselTitle"><em>Renal PatientView</em></h4>
                             <ul class="heroList">
                                 <li><em>Manage </em> your condition and medications</li>
                                 <li><em>Monitor </em> your symptoms and tests</li>
@@ -51,16 +51,18 @@
 
 <div class="row">
     <div class="span4 seperatingBorders">
-        <h3 class="mediumBlueTitle titleSeperator">About <em>PatientView</em></h3>
+        <h3 class="mediumBlueTitle titleSeperator">About <em>Renal PatientView</em></h3>
         <p>
-            PatientView is a project of <a target="_blank" href="http://www.renal.org/rixg">RIXG</a> a UK group representing renal
-            patients and the renal team.  It aims to provide online information about patients' diagnosis, treatment, and their latest test results.  Patients can share this information with anyone they want, and view it from anywhere in the world.
+            PatientView shows patients' latest test results plus information about their diagnosis and treatment.
+            They can share this information with anyone they want, and view it from anywhere in the world.
+            PatientView has developed from a project launched for patients of Renal Units, but has expanded to be
+            able to show information for others too.
+            It requires your local unit to have joined. (e.g. renal unit, diabetes unit, IBD unit)
+            <a target="_blank" href="http://www.rixg.org/developer/pages/how-to/where.php">Does my unit have PatientView?</a>
         </p>
         <p>
-            PatientView is only available from some UK disease units, and for patients who have chosen to participate.
-            Here is a <a target="_blank" href="http://www.renal.org/rixg/units.html">list of units</a> involved so far.  The information
-            comes directly from existing databases within units, so if you suspect a mistake, you should check with your
-            own unit.  Links are provided after you log in.
+            The information comes directly from existing records, for example hospital and GP records, so if you suspect
+            a mistake, you should tell your own unit so it can be corrected there. Links to do that are provided after you log in.
         </p>
     </div>
     <div class="span4 seperatingBorders">
@@ -76,7 +78,7 @@
         </p>
 
         <p>
-            Patient View is funded by contributions from disease units in England and Wales and by the Scottish Government in
+            RPV is funded by contributions from renal units in England and Wales and by the Scottish Government in
             Scotland. Development funding has come from the Department of Health in England, Scotland and Wales, and
             from NHS Kidney Care.
         </p>
@@ -85,11 +87,11 @@
         <p>
             If you want to see your results on PatientView then click here to enter your details:
 
-            <div class="control-group">
-                <div class="controls">
-                    <a href="/join.do" class="btn btn-success">I want to join</a>
-                </div>
+        <div class="control-group">
+            <div class="controls">
+                <a href="/join.do" class="btn btn-success">I want to join</a>
             </div>
+        </div>
         </p>
     </div>
     <div class="span4 seperatingBorders">
