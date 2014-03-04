@@ -167,10 +167,7 @@ public class LookingLocalHomeController extends BaseController {
             if (buttonPressed != null) {
                 if (buttonPressed.equals("left")) {
                     getMainScreenXml(response);
-                } else {
-                    getErrorScreenXml(response);
-                }
-            } else if (selection != null) {
+                } else if (selection != null) {
                 switch (Integer.parseInt(selection)) {
                     case LookingLocalUtils.OPTION_1 : LookingLocalUtils.getMyDetailsXml(request, response);
                         break;
@@ -181,6 +178,9 @@ public class LookingLocalHomeController extends BaseController {
                     case LookingLocalUtils.OPTION_4 : LookingLocalUtils.getLettersXml(request, response);
                         break;
                     default : getErrorScreenXml(response);
+                    }
+                } else {
+                    getErrorScreenXml(response);
                 }
             } else {
                 getErrorScreenXml(response);
@@ -207,11 +207,11 @@ public class LookingLocalHomeController extends BaseController {
             if (buttonPressed != null) {
                 if (buttonPressed.equals("left")) {
                     getMainScreenXml(response);
+                } else if (selection != null) {
+                    LookingLocalUtils.getResultsDetailsXml(request, response, selection);
                 } else {
                     getErrorScreenXml(response);
                 }
-            } else if (selection != null) {
-                LookingLocalUtils.getResultsDetailsXml(request, response, selection);
             } else {
                 getErrorScreenXml(response);
             }
@@ -237,16 +237,17 @@ public class LookingLocalHomeController extends BaseController {
             if (buttonPressed != null) {
                 if (buttonPressed.equals("left")) {
                     getMainScreenXml(response);
+                } else if (selection != null) {
+                    LookingLocalUtils.getLetterDetailsXml(request, response, selection);
                 } else {
                     getErrorScreenXml(response);
                 }
-            } else if (selection != null) {
-                LookingLocalUtils.getLetterDetailsXml(request, response, selection);
             } else {
                 getErrorScreenXml(response);
             }
         } catch (Exception e) {
             LOGGER.error("Could not create letter details response output stream{}" + e);
         }
+
     }
 }
