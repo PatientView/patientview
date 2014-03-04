@@ -72,7 +72,11 @@ public class LookingLocalHomeController extends BaseController {
     }
 
     /**
-     * Deal with the URIs "/lookinglocal/auth", check POSTed credentials and forward to main or error
+     * Deal with the URIs "/lookinglocal/auth", check POSTed credentials
+     * @param request HTTP request
+     * @param response HTTP response
+     * @param username User entered username
+     * @param password User entered password
      */
     @RequestMapping(value = Routes.LOOKING_LOCAL_AUTH)
     @ResponseBody
@@ -148,17 +152,21 @@ public class LookingLocalHomeController extends BaseController {
 
     /**
      * Deal with the URIs "/lookinglocal/secure/details"
-     * @param request
-     * @param response
+     * @param request HTTP request
+     * @param response HTTP response
      * @param selection User option selection
+     * @param left Left submit, used for "Back" button
      */
     @RequestMapping(value = Routes.LOOKING_LOCAL_DETAILS)
     @ResponseBody
     public void getDetailsScreenXml(HttpServletRequest request, HttpServletResponse response,
-                                    @RequestParam(value = "selection", required = false) String selection) {
+                                    @RequestParam(value = "selection", required = false) String selection,
+                                    @RequestParam(value = "left", required = false) String left) {
         LOGGER.debug("details start");
         try {
-            if (selection != null) {
+            if (left != null) {
+                getMainScreenXml(response);
+            } else if (selection != null) {
                 switch (Integer.parseInt(selection)) {
                     case LookingLocalUtils.OPTION_1 : LookingLocalUtils.getMyDetailsXml(request, response);
                         break;
@@ -168,8 +176,10 @@ public class LookingLocalHomeController extends BaseController {
                         break;
                     case LookingLocalUtils.OPTION_4 : LookingLocalUtils.getLettersXml(request, response);
                         break;
-                    default:break;
+                    default : getErrorScreenXml(response);
                 }
+            } else {
+                getErrorScreenXml(response);
             }
         } catch (Exception e) {
             LOGGER.error("Could not create details response output stream{}" + e);
@@ -178,15 +188,24 @@ public class LookingLocalHomeController extends BaseController {
 
     /**
      * Deal with the URIs "/lookinglocal/secure/resultsDisplay"
+     * @param request HTTP request
+     * @param response HTTP response
+     * @param selection User option selection
+     * @param left Left submit, used for "Back" button
      */
     @RequestMapping(value = Routes.LOOKING_LOCAL_RESULTS_DISPLAY)
     @ResponseBody
     public void getMedicalResultsXml(HttpServletRequest request, HttpServletResponse response,
-                                     @RequestParam(value = "selection", required = false) String selection) {
+                                     @RequestParam(value = "selection", required = false) String selection,
+                                     @RequestParam(value = "left", required = false) String left) {
         LOGGER.debug("resultsDisplay start");
         try {
-            if (selection != null) {
+            if (left != null) {
+                getMainScreenXml(response);
+            } else if (selection != null) {
                 LookingLocalUtils.getResultsDetailsXml(request, response, selection);
+            } else {
+                getErrorScreenXml(response);
             }
         } catch (Exception e) {
             LOGGER.error("Could not create medical result details response output stream{}" + e);
@@ -195,15 +214,24 @@ public class LookingLocalHomeController extends BaseController {
 
     /**
      * Deal with the URIs "/lookinglocal/secure/letterDisplay"
+     * @param request HTTP request
+     * @param response HTTP response
+     * @param selection User option selection
+     * @param left Left submit, used for "Back" button
      */
     @RequestMapping(value = Routes.LOOKING_LOCAL_LETTER_DISPLAY)
     @ResponseBody
     public void getLetterXml(HttpServletRequest request, HttpServletResponse response,
-                             @RequestParam(value = "selection", required = false) String selection) {
-
+                             @RequestParam(value = "selection", required = false) String selection,
+                             @RequestParam(value = "left", required = false) String left) {
+        LOGGER.debug("letterDisplay start");
         try {
-            if (selection != null) {
+            if (left != null) {
+                getMainScreenXml(response);
+            } else if (selection != null) {
                 LookingLocalUtils.getLetterDetailsXml(request, response, selection);
+            } else {
+                getErrorScreenXml(response);
             }
         } catch (Exception e) {
             LOGGER.error("Could not create letter details response output stream{}" + e);

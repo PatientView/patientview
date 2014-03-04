@@ -127,7 +127,7 @@ public final class LookingLocalUtils {
         Element formElement = doc.createElement("form");
         formElement.setAttribute("action", Routes.SERVER_URL + Routes.LOOKING_LOCAL_DETAILS);
         formElement.setAttribute("method", "post");
-        formElement.setAttribute("pagingText", "Page 1 of 2");
+        //formElement.setAttribute("pagingText", "Page 1 of 2");
         pageElement.appendChild(formElement);
 
         if (patientDetails != null && !patientDetails.isEmpty()) {
@@ -205,10 +205,10 @@ public final class LookingLocalUtils {
             formElement.appendChild(otherConditions);
 
             // more button
-            Element more = doc.createElement("submit");
-            more.setAttribute("name", "right");
-            more.setAttribute("title", "More");
-            formElement.appendChild(more);
+            //Element more = doc.createElement("submit");
+            //more.setAttribute("name", "right");
+            //more.setAttribute("title", "More");
+            //formElement.appendChild(more);
         }
 
         // back button
@@ -248,7 +248,7 @@ public final class LookingLocalUtils {
         Element formElement = doc.createElement("form");
         formElement.setAttribute("action", Routes.SERVER_URL + Routes.LOOKING_LOCAL_DETAILS);
         formElement.setAttribute("method", "post");
-        formElement.setAttribute("pagingText", "Page 1 of 4");
+        //formElement.setAttribute("pagingText", "Page 1 of 4");
         pageElement.appendChild(formElement);
 
         if (medicineWithShortNames != null && !medicineWithShortNames.isEmpty()) {
@@ -279,10 +279,10 @@ public final class LookingLocalUtils {
         formElement.appendChild(back);
 
         // more button
-        Element more = doc.createElement("submit");
-        more.setAttribute("name", "right");
-        more.setAttribute("title", "More");
-        formElement.appendChild(more);
+        //Element more = doc.createElement("submit");
+        //more.setAttribute("name", "right");
+        //more.setAttribute("title", "More");
+        //formElement.appendChild(more);
 
         // form action
         Element formAction = doc.createElement("hiddenField");
@@ -333,7 +333,7 @@ public final class LookingLocalUtils {
         Element formElement = doc.createElement("form");
         formElement.setAttribute("action", Routes.SERVER_URL + Routes.LOOKING_LOCAL_RESULTS_DISPLAY);
         formElement.setAttribute("method", "post");
-        formElement.setAttribute("pagingText", "Page 1 of 3");
+        //formElement.setAttribute("pagingText", "Page 1 of 3");
         pageElement.appendChild(formElement);
 
         // static element
@@ -370,7 +370,6 @@ public final class LookingLocalUtils {
         fieldOption4.setAttribute("value", "4");
         multisubmit.appendChild(fieldOption4);
 
-
         // PO4 field Option
         Element fieldOption5 = doc.createElement("fieldOption");
         fieldOption5.setAttribute("name", "PO4");
@@ -396,10 +395,10 @@ public final class LookingLocalUtils {
         formElement.appendChild(back);
 
         // more button
-        Element more = doc.createElement("submit");
-        more.setAttribute("name", "right");
-        more.setAttribute("title", "More");
-        formElement.appendChild(more);
+        //Element more = doc.createElement("submit");
+        //more.setAttribute("name", "right");
+        //more.setAttribute("title", "More");
+        //formElement.appendChild(more);
 
         // form action
         Element formAction = doc.createElement("hiddenField");
@@ -435,7 +434,7 @@ public final class LookingLocalUtils {
         Element formElement = doc.createElement("form");
         formElement.setAttribute("action", Routes.SERVER_URL + Routes.LOOKING_LOCAL_LETTER_DISPLAY);
         formElement.setAttribute("method", "post");
-        formElement.setAttribute("pagingText", "Page 1 of 9");
+        //formElement.setAttribute("pagingText", "Page 1 of 9");
         pageElement.appendChild(formElement);
 
         if (permissionToReadLetter && letter != null) {
@@ -453,10 +452,10 @@ public final class LookingLocalUtils {
         formElement.appendChild(back);
 
         // more button
-        Element more = doc.createElement("submit");
-        more.setAttribute("name", "right");
-        more.setAttribute("title", "More");
-        formElement.appendChild(more);
+        //Element more = doc.createElement("submit");
+        //more.setAttribute("name", "right");
+        //more.setAttribute("title", "More");
+        //formElement.appendChild(more);
 
         // form action
         Element formAction = doc.createElement("hiddenField");
@@ -487,9 +486,9 @@ public final class LookingLocalUtils {
 
         // add form to screen
         Element formElement = doc.createElement("form");
-        formElement.setAttribute("action", Routes.SERVER_URL + Routes.LOOKING_LOCAL_RESULTS_DISPLAY);
+        formElement.setAttribute("action", Routes.SERVER_URL + Routes.LOOKING_LOCAL_LETTER_DISPLAY);
         formElement.setAttribute("method", "post");
-        formElement.setAttribute("pagingText", "Page 1 of 10");
+        //formElement.setAttribute("pagingText", "Page 1 of 10");
         pageElement.appendChild(formElement);
 
         if (letters != null && !letters.isEmpty()) {
@@ -526,15 +525,15 @@ public final class LookingLocalUtils {
         formElement.appendChild(back);
 
         // more button
-        Element more = doc.createElement("submit");
-        more.setAttribute("name", "right");
-        more.setAttribute("title", "More");
-        formElement.appendChild(more);
+        //Element more = doc.createElement("submit");
+        //more.setAttribute("name", "right");
+        //more.setAttribute("title", "More");
+        //formElement.appendChild(more);
 
         // form action
         Element formAction = doc.createElement("hiddenField");
         formAction.setAttribute("name", "formAction");
-        formAction.setAttribute("value", Routes.SERVER_URL + Routes.LOOKING_LOCAL_RESULTS_DISPLAY);
+        formAction.setAttribute("value", Routes.SERVER_URL + Routes.LOOKING_LOCAL_LETTER_DISPLAY);
         formElement.appendChild(formAction);
 
         // form method
@@ -563,7 +562,7 @@ public final class LookingLocalUtils {
         Element formElement = doc.createElement("form");
         formElement.setAttribute("action", Routes.SERVER_URL + Routes.LOOKING_LOCAL_DETAILS);
         formElement.setAttribute("method", "post");
-        formElement.setAttribute("pagingText", "Page 1 of 6");
+        //formElement.setAttribute("pagingText", "Page 1 of 6");
         pageElement.appendChild(formElement);
 
         List<TestResultWithUnitShortname> filterTestResults;
@@ -624,10 +623,10 @@ public final class LookingLocalUtils {
         formElement.appendChild(back);
 
         // more button
-        Element more = doc.createElement("submit");
-        more.setAttribute("name", "right");
-        more.setAttribute("title", "More");
-        formElement.appendChild(more);
+        //Element more = doc.createElement("submit");
+        //more.setAttribute("name", "right");
+        //more.setAttribute("title", "More");
+        //formElement.appendChild(more);
 
         // form action
         Element formAction = doc.createElement("hiddenField");
@@ -771,10 +770,10 @@ public final class LookingLocalUtils {
         multisubmit.appendChild(fieldOption4);
 
         // back button
-        Element back = doc.createElement("submit");
-        back.setAttribute("name", "left");
-        back.setAttribute("title", "Back");
-        formElement.appendChild(back);
+        //Element back = doc.createElement("submit");
+        //back.setAttribute("name", "left");
+        //back.setAttribute("title", "Back");
+        //formElement.appendChild(back);
 
         // form action
         Element formAction = doc.createElement("hiddenField");
@@ -849,13 +848,13 @@ public final class LookingLocalUtils {
 
         // static element
         Element details = doc.createElement("static");
-        details.setAttribute("value", "Continue");
+        details.setAttribute("value", "You have successfully logged in.");
         formElement.appendChild(details);
 
         // home button
         Element home = doc.createElement("submit");
         home.setAttribute("name", "left");
-        home.setAttribute("title", "Go to the main screen");
+        home.setAttribute("title", "Continue");
         formElement.appendChild(home);
 
         // form action
