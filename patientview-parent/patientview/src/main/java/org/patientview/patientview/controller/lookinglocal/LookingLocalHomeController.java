@@ -164,8 +164,12 @@ public class LookingLocalHomeController extends BaseController {
                                     @RequestParam(value = "buttonPressed", required = false) String buttonPressed) {
         LOGGER.debug("details start");
         try {
-            if (buttonPressed == "left") {
-                getMainScreenXml(response);
+            if (buttonPressed != null) {
+                if (buttonPressed.equals("left")) {
+                    getMainScreenXml(response);
+                } else {
+                    getErrorScreenXml(response);
+                }
             } else if (selection != null) {
                 switch (Integer.parseInt(selection)) {
                     case LookingLocalUtils.OPTION_1 : LookingLocalUtils.getMyDetailsXml(request, response);
@@ -200,8 +204,12 @@ public class LookingLocalHomeController extends BaseController {
                                      @RequestParam(value = "buttonPressed", required = false) String buttonPressed) {
         LOGGER.debug("resultsDisplay start");
         try {
-            if (buttonPressed == "left") {
-                getMainScreenXml(response);
+            if (buttonPressed != null) {
+                if (buttonPressed.equals("left")) {
+                    getMainScreenXml(response);
+                } else {
+                    getErrorScreenXml(response);
+                }
             } else if (selection != null) {
                 LookingLocalUtils.getResultsDetailsXml(request, response, selection);
             } else {
@@ -226,8 +234,12 @@ public class LookingLocalHomeController extends BaseController {
                              @RequestParam(value = "buttonPressed", required = false) String buttonPressed) {
         LOGGER.debug("letterDisplay start");
         try {
-            if (buttonPressed == "left") {
-                getMainScreenXml(response);
+            if (buttonPressed != null) {
+                if (buttonPressed.equals("left")) {
+                    getMainScreenXml(response);
+                } else {
+                    getErrorScreenXml(response);
+                }
             } else if (selection != null) {
                 LookingLocalUtils.getLetterDetailsXml(request, response, selection);
             } else {
