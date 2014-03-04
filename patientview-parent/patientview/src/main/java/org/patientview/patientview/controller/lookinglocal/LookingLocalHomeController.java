@@ -31,6 +31,7 @@ import org.patientview.service.SecurityUserManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
@@ -41,6 +42,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *  Looking local home controller
@@ -61,7 +63,7 @@ public class LookingLocalHomeController extends BaseController {
     @RequestMapping(value = Routes.LOOKING_LOCAL_HOME)
     @ResponseBody
     public void getHomeXml(HttpServletResponse response) {
-
+        LOGGER.debug("home start");
         try {
             LookingLocalUtils.getHomeXml(response);
         } catch (Exception e) {
@@ -74,10 +76,10 @@ public class LookingLocalHomeController extends BaseController {
      */
     @RequestMapping(value = Routes.LOOKING_LOCAL_AUTH)
     @ResponseBody
-    public void getAuth(@RequestParam(value = "username", required = false) String username,
-                          @RequestParam(value = "password", required = false) String password,
-                          HttpServletResponse response) {
-
+    public void getAuth(HttpServletRequest request,
+                        @RequestParam(value = "username", required = false) String username,
+                        @RequestParam(value = "password", required = false) String password,
+                        HttpServletResponse response) {
         LOGGER.debug("auth start");
 
         PatientViewPasswordEncoder encoder = new PatientViewPasswordEncoder();
@@ -85,18 +87,21 @@ public class LookingLocalHomeController extends BaseController {
 
         if (user != null) {
             if (user.getPassword().equals(encoder.encode(password))) {
+                // Authenticate user manually and add to session
                 SecurityUser userLogin = (SecurityUser) userDetailsService.loadUserByUsername(username);
-                SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(userLogin,
+                SecurityContext securityContext = SecurityContextHolder.getContext();
+                securityContext.setAuthentication(new UsernamePasswordAuthenticationToken(userLogin,
                         userLogin.getPassword(), userLogin.getAuthorities()));
-
-                LOGGER.debug("passed");
+                HttpSession session = request.getSession(true);
+                session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
+                LOGGER.debug("auth passed");
                 try {
                     LookingLocalUtils.getAuthXml(response);
                 } catch (Exception e) {
                     LOGGER.error("Could not create home screen response output stream{}" + e);
                 }
             } else {
-                LOGGER.debug("failed, password");
+                LOGGER.debug("auth failed, password");
                 try {
                     LookingLocalUtils.getErrorXml(response);
                 } catch (Exception e) {
@@ -104,7 +109,7 @@ public class LookingLocalHomeController extends BaseController {
                 }
             }
         } else {
-            LOGGER.debug("failed, user null");
+            LOGGER.debug("auth failed, user null");
             try {
                 LookingLocalUtils.getErrorXml(response);
             } catch (Exception e) {
@@ -119,7 +124,7 @@ public class LookingLocalHomeController extends BaseController {
     @RequestMapping(value = Routes.LOOKING_LOCAL_ERROR)
     @ResponseBody
     public void getErrorScreenXml(HttpServletResponse response) {
-
+        LOGGER.debug("error start");
         try {
             LookingLocalUtils.getErrorXml(response);
         } catch (Exception e) {
@@ -133,7 +138,7 @@ public class LookingLocalHomeController extends BaseController {
     @RequestMapping(value = Routes.LOOKING_LOCAL_MAIN)
     @ResponseBody
     public void getMainScreenXml(HttpServletResponse response) {
-
+        LOGGER.debug("main start");
         try {
             LookingLocalUtils.getMainXml(response);
         } catch (Exception e) {
@@ -143,12 +148,15 @@ public class LookingLocalHomeController extends BaseController {
 
     /**
      * Deal with the URIs "/lookinglocal/secure/details"
+     * @param request
+     * @param response
+     * @param selection User option selection
      */
     @RequestMapping(value = Routes.LOOKING_LOCAL_DETAILS)
     @ResponseBody
     public void getDetailsScreenXml(HttpServletRequest request, HttpServletResponse response,
                                     @RequestParam(value = "selection", required = false) String selection) {
-
+        LOGGER.debug("details start");
         try {
             if (selection != null) {
                 switch (Integer.parseInt(selection)) {
@@ -175,7 +183,7 @@ public class LookingLocalHomeController extends BaseController {
     @ResponseBody
     public void getMedicalResultsXml(HttpServletRequest request, HttpServletResponse response,
                                      @RequestParam(value = "selection", required = false) String selection) {
-
+        LOGGER.debug("resultsDisplay start");
         try {
             if (selection != null) {
                 LookingLocalUtils.getResultsDetailsXml(request, response, selection);
