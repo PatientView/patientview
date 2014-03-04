@@ -57,8 +57,10 @@ public class LookingLocalHomeController extends BaseController {
     private SecurityUserManager securityUserManager;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LookingLocalHomeController.class);
+
     /**
      * Deal with the URIs "/lookinglocal/home"
+     * @param response HTTP response
      */
     @RequestMapping(value = Routes.LOOKING_LOCAL_HOME)
     @ResponseBody
@@ -124,6 +126,7 @@ public class LookingLocalHomeController extends BaseController {
 
     /**
      * Deal with the URIs "/lookinglocal/error"
+     * @param response HTTP response
      */
     @RequestMapping(value = Routes.LOOKING_LOCAL_ERROR)
     @ResponseBody
@@ -138,6 +141,7 @@ public class LookingLocalHomeController extends BaseController {
 
     /**
      * Deal with the URIs "/lookinglocal/secure/main"
+     * @param response HTTP response
      */
     @RequestMapping(value = Routes.LOOKING_LOCAL_MAIN)
     @ResponseBody
@@ -248,6 +252,5 @@ public class LookingLocalHomeController extends BaseController {
         } catch (Exception e) {
             LOGGER.error("Could not create letter details response output stream{}" + e);
         }
-
     }
 }
