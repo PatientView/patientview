@@ -155,16 +155,16 @@ public class LookingLocalHomeController extends BaseController {
      * @param request HTTP request
      * @param response HTTP response
      * @param selection User option selection
-     * @param left Left submit, used for "Back" button
+     * @param buttonPressed button according to Looking Local, used for "Back", "More" etc buttons
      */
     @RequestMapping(value = Routes.LOOKING_LOCAL_DETAILS)
     @ResponseBody
     public void getDetailsScreenXml(HttpServletRequest request, HttpServletResponse response,
                                     @RequestParam(value = "selection", required = false) String selection,
-                                    @RequestParam(value = "left", required = false) String left) {
+                                    @RequestParam(value = "buttonPressed", required = false) String buttonPressed) {
         LOGGER.debug("details start");
         try {
-            if (left != null) {
+            if (buttonPressed == "left") {
                 getMainScreenXml(response);
             } else if (selection != null) {
                 switch (Integer.parseInt(selection)) {
@@ -191,16 +191,16 @@ public class LookingLocalHomeController extends BaseController {
      * @param request HTTP request
      * @param response HTTP response
      * @param selection User option selection
-     * @param left Left submit, used for "Back" button
+     * @param buttonPressed button according to Looking Local, used for "Back", "More" etc buttons
      */
     @RequestMapping(value = Routes.LOOKING_LOCAL_RESULTS_DISPLAY)
     @ResponseBody
     public void getMedicalResultsXml(HttpServletRequest request, HttpServletResponse response,
                                      @RequestParam(value = "selection", required = false) String selection,
-                                     @RequestParam(value = "left", required = false) String left) {
+                                     @RequestParam(value = "buttonPressed", required = false) String buttonPressed) {
         LOGGER.debug("resultsDisplay start");
         try {
-            if (left != null) {
+            if (buttonPressed == "left") {
                 getMainScreenXml(response);
             } else if (selection != null) {
                 LookingLocalUtils.getResultsDetailsXml(request, response, selection);
@@ -217,16 +217,16 @@ public class LookingLocalHomeController extends BaseController {
      * @param request HTTP request
      * @param response HTTP response
      * @param selection User option selection
-     * @param left Left submit, used for "Back" button
+     * @param buttonPressed button according to Looking Local, used for "Back", "More" etc buttons
      */
     @RequestMapping(value = Routes.LOOKING_LOCAL_LETTER_DISPLAY)
     @ResponseBody
     public void getLetterXml(HttpServletRequest request, HttpServletResponse response,
                              @RequestParam(value = "selection", required = false) String selection,
-                             @RequestParam(value = "left", required = false) String left) {
+                             @RequestParam(value = "buttonPressed", required = false) String buttonPressed) {
         LOGGER.debug("letterDisplay start");
         try {
-            if (left != null) {
+            if (buttonPressed == "left") {
                 getMainScreenXml(response);
             } else if (selection != null) {
                 LookingLocalUtils.getLetterDetailsXml(request, response, selection);
