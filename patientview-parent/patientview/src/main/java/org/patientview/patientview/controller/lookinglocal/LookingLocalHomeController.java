@@ -112,7 +112,7 @@ public class LookingLocalHomeController extends BaseController {
                 SecurityUser securityUser = (SecurityUser) securityContext.getAuthentication().getPrincipal();
                 List<SpecialtyUserRole> specialtyUserRoles = userManager.getSpecialtyUserRoles(user);
 
-                if(specialtyUserRoles != null) {
+                if (specialtyUserRoles != null) {
                     if (specialtyUserRoles.size() > 0) {
                         Specialty specialty = specialtyUserRoles.get(0).getSpecialty();
                         securityUser.setSpecialty(specialty);
