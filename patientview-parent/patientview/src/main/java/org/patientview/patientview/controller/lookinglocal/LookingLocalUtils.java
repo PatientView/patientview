@@ -128,10 +128,7 @@ public final class LookingLocalUtils {
     public static void getMyDetailsXml(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         User user = UserUtils.retrieveUser(request);
-
-        List<PatientDetails> patientDetails = LegacySpringUtils.getPatientManager().getPatientDetails(
-                user.getUsername());
-
+        List<PatientDetails> patientDetails = LegacySpringUtils.getPatientManager().getPatientDetails(user.getId());
         Document doc = getDocument();
 
         // add page to screen
