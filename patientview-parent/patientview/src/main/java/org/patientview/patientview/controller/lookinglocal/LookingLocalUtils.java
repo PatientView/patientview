@@ -705,10 +705,11 @@ public final class LookingLocalUtils {
         username.setAttribute("value", "");
         formElement.appendChild(username);
 
-        Element password = doc.createElement("numbersField");
+        Element password = doc.createElement("textField");
         password.setAttribute("hint", "Enter your Password");
         password.setAttribute("label", "Password:");
         password.setAttribute("name", "password");
+        password.setAttribute("password", "true");
         password.setAttribute("size", "10");
         password.setAttribute("value", "");
         formElement.appendChild(password);
