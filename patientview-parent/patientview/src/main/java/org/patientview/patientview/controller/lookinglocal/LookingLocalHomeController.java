@@ -112,26 +112,33 @@ public class LookingLocalHomeController extends BaseController {
                 SecurityUser securityUser = (SecurityUser) securityContext.getAuthentication().getPrincipal();
                 List<SpecialtyUserRole> specialtyUserRoles = userManager.getSpecialtyUserRoles(user);
 
-                if (specialtyUserRoles.size() > 0) {
-                    Specialty specialty = specialtyUserRoles.get(0).getSpecialty();
-                    securityUser.setSpecialty(specialty);
-                    // manually add to session
-                    HttpSession session = request.getSession(true);
-                    session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
-                    LOGGER.debug("auth passed");
-                    try {
-                        LookingLocalUtils.getAuthXml(response);
-                    } catch (Exception e) {
-                        LOGGER.error("Could not create home screen response output stream{}" + e);
-                    }
+                if(specialtyUserRoles != null) {
+                    if (specialtyUserRoles.size() > 0) {
+                        Specialty specialty = specialtyUserRoles.get(0).getSpecialty();
+                        securityUser.setSpecialty(specialty);
+                        // manually add to session
+                        HttpSession session = request.getSession(true);
+                        session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
+                        LOGGER.debug("auth passed");
+                        try {
+                            LookingLocalUtils.getAuthXml(response);
+                        } catch (Exception e) {
+                            LOGGER.error("Could not create home screen response output stream{}" + e);
+                        }
 
-                } else {
-                    LOGGER.debug("auth failed, no specialties");
-                    try {
-                        LookingLocalUtils.getErrorXml(response);
-                    } catch (Exception e) {
-                        LOGGER.error("Could not create home screen response output stream{}" + e);
+                    } else {
+                        LOGGER.debug("auth failed, no specialties");
+                        try {
+                            LookingLocalUtils.getErrorXml(response);
+                        } catch (Exception e) {
+                            LOGGER.error("Could not create home screen response output stream{}" + e);
+                        }
                     }
+                }
+                try {
+                    LookingLocalUtils.getErrorXml(response);
+                } catch (Exception e) {
+                    LOGGER.error("Could not create home screen response output stream{}" + e);
                 }
             } else {
                 LOGGER.debug("auth failed, password");
