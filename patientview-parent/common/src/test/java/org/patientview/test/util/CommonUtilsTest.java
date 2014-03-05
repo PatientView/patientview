@@ -28,6 +28,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.patientview.util.CommonUtils;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -63,5 +64,25 @@ public class CommonUtilsTest {
     public void testOverridingValidationWithUppercaseNHSNo() {
         assertTrue("Invalid NHS No with uppercase letters did not pass validation although validation should have " +
                 "been overridden", CommonUtils.isNhsNumberValidWhenUppercaseLettersAreAllowed("12F45A6789"));
+    }
+
+    @Test
+    public void testCleanNHSNo() {
+        assertEquals("0123456789", CommonUtils.cleanNhsNumber("123 456 789"));
+    }
+
+    @Test
+    public void testCleanNHSNoAlphanumeric() {
+        assertEquals("0XY3456AB9",CommonUtils.cleanNhsNumber("XY3 456 AB9"));
+    }
+
+    @Test
+    public void testCleanAndValidateNumericNHSNo() {
+        assertTrue("Valid unclean NHS No did not pass validation", CommonUtils.isNhsNumberValid(CommonUtils.cleanNhsNumber("012 000 299")));
+    }
+
+    @Test
+    public void testCleanAndValidateAlphanumericNHSNo() {
+        assertTrue("Valid unclean NHS No did not pass validation", CommonUtils.isNhsNumberValidWhenUppercaseLettersAreAllowed(CommonUtils.cleanNhsNumber("AB 123 456 X")));
     }
 }

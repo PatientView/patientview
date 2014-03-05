@@ -288,7 +288,7 @@ public class ImportManagerImpl implements ImportManager {
 
     private void validateNhsNumber(Patient patient) throws ProcessException {
         if (!CommonUtils.isNhsNumberValidWhenUppercaseLettersAreAllowed(patient.getNhsno())) {
-            throw new ProcessException("The NHS number is not in a invalid format");
+            throw new ProcessException("The NHS number is not in a valid format");
         }
     }
 
