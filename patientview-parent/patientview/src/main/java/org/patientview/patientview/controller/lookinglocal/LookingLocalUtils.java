@@ -66,13 +66,15 @@ public final class LookingLocalUtils {
     public static final int OPTION_6 = 6;
     public static final int OPTION_7 = 7;
 
-    //Dev Test
-    public static final String DEV_URL = "http://patientview.dev.solidstategroup.com/web";
-
     private LookingLocalUtils() {
     }
 
-    public static Document getDocument() throws  Exception {
+    /**
+     * Utility function, creates empty XML document
+     * @return Empty XML document
+     * @throws Exception
+     */
+    public static Document getDocument() throws Exception {
 
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
@@ -87,7 +89,13 @@ public final class LookingLocalUtils {
         return doc;
     }
 
-    public static void outputXml(Document doc, HttpServletResponse response) throws  Exception {
+    /**
+     * Write xml document to HTTP response
+     * @param doc Input XML to output to HTTP response
+     * @param response HTTP response
+     * @throws Exception
+     */
+    public static void outputXml(Document doc, HttpServletResponse response) throws Exception {
 
         // output string
         DOMSource domSource = new DOMSource(doc);
@@ -111,13 +119,16 @@ public final class LookingLocalUtils {
         out.flush();
     }
 
+    /**
+     * Create XML for the My Details screen in Looking Local
+     * @param request HTTP request
+     * @param response HTTP response
+     * @throws Exception
+     */
     public static void getMyDetailsXml(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         User user = UserUtils.retrieveUser(request);
-
-        List<PatientDetails> patientDetails = LegacySpringUtils.getPatientManager().getPatientDetails(
-                user.getUsername());
-
+        List<PatientDetails> patientDetails = LegacySpringUtils.getPatientManager().getPatientDetails(user.getId());
         Document doc = getDocument();
 
         // add page to screen
@@ -128,9 +139,8 @@ public final class LookingLocalUtils {
 
         // add form to screen
         Element formElement = doc.createElement("form");
-        formElement.setAttribute("action", DEV_URL + Routes.LOOKING_LOCAL_DETAILS);
+        formElement.setAttribute("action", Routes.SERVER_URL + Routes.LOOKING_LOCAL_DETAILS);
         formElement.setAttribute("method", "post");
-        formElement.setAttribute("pagingText", "Page 1 of 2");
         pageElement.appendChild(formElement);
 
         if (patientDetails != null && !patientDetails.isEmpty()) {
@@ -214,16 +224,10 @@ public final class LookingLocalUtils {
         back.setAttribute("title", "Back");
         formElement.appendChild(back);
 
-        // more button
-        Element more = doc.createElement("submit");
-        more.setAttribute("name", "right");
-        more.setAttribute("title", "More");
-        formElement.appendChild(more);
-
         // form action
         Element formAction = doc.createElement("hiddenField");
         formAction.setAttribute("name", "formAction");
-        formAction.setAttribute("value", DEV_URL + Routes.LOOKING_LOCAL_DETAILS);
+        formAction.setAttribute("value", Routes.SERVER_URL + Routes.LOOKING_LOCAL_DETAILS);
         formElement.appendChild(formAction);
 
         // form method
@@ -235,6 +239,12 @@ public final class LookingLocalUtils {
         outputXml(doc, response);
     }
 
+    /**
+     * Create XML for the Drugs screen in Looking Local
+     * @param request HTTP request
+     * @param response HTTP response
+     * @throws Exception
+     */
     public static void getDrugsXml(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         User user = UserUtils.retrieveUser(request);
@@ -249,9 +259,8 @@ public final class LookingLocalUtils {
 
         // add form to screen
         Element formElement = doc.createElement("form");
-        formElement.setAttribute("action", DEV_URL + Routes.LOOKING_LOCAL_DETAILS);
+        formElement.setAttribute("action", Routes.SERVER_URL + Routes.LOOKING_LOCAL_DETAILS);
         formElement.setAttribute("method", "post");
-        formElement.setAttribute("pagingText", "Page 1 of 4");
         pageElement.appendChild(formElement);
 
         if (medicineWithShortNames != null && !medicineWithShortNames.isEmpty()) {
@@ -281,16 +290,10 @@ public final class LookingLocalUtils {
         back.setAttribute("title", "Back");
         formElement.appendChild(back);
 
-        // more button
-        Element more = doc.createElement("submit");
-        more.setAttribute("name", "right");
-        more.setAttribute("title", "More");
-        formElement.appendChild(more);
-
         // form action
         Element formAction = doc.createElement("hiddenField");
         formAction.setAttribute("name", "formAction");
-        formAction.setAttribute("value", DEV_URL + Routes.LOOKING_LOCAL_DETAILS);
+        formAction.setAttribute("value", Routes.SERVER_URL + Routes.LOOKING_LOCAL_DETAILS);
         formElement.appendChild(formAction);
 
         // form method
@@ -302,6 +305,12 @@ public final class LookingLocalUtils {
         outputXml(doc, response);
     }
 
+    /**
+     * Get patient medicines, including unit based on User
+     * @param user Patient/logged in User
+     * @return List of MedicineWithShortName medicines
+     * @throws Exception
+     */
     private static List<MedicineWithShortName> getMedicinesForPatient(User user)
             throws Exception {
         List<MedicineWithShortName> medicinesWithShortName = new ArrayList<MedicineWithShortName>();
@@ -322,6 +331,12 @@ public final class LookingLocalUtils {
         return medicinesWithShortName;
     }
 
+    /**
+     * Create XML for the Result screen in Looking Local
+     * @param request HTTP request
+     * @param response HTTP response
+     * @throws Exception
+     */
     public static void getMedicalResultsXml(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         Document doc = getDocument();
@@ -334,9 +349,9 @@ public final class LookingLocalUtils {
 
         // add form to screen
         Element formElement = doc.createElement("form");
-        formElement.setAttribute("action", DEV_URL + Routes.LOOKING_LOCAL_RESULTS_DISPLAY);
+        formElement.setAttribute("action", Routes.SERVER_URL + Routes.LOOKING_LOCAL_RESULTS_DISPLAY);
         formElement.setAttribute("method", "post");
-        formElement.setAttribute("pagingText", "Page 1 of 3");
+        //formElement.setAttribute("pagingText", "Page 1 of 3");
         pageElement.appendChild(formElement);
 
         // static element
@@ -373,7 +388,6 @@ public final class LookingLocalUtils {
         fieldOption4.setAttribute("value", "4");
         multisubmit.appendChild(fieldOption4);
 
-
         // PO4 field Option
         Element fieldOption5 = doc.createElement("fieldOption");
         fieldOption5.setAttribute("name", "PO4");
@@ -398,16 +412,10 @@ public final class LookingLocalUtils {
         back.setAttribute("title", "Back");
         formElement.appendChild(back);
 
-        // more button
-        Element more = doc.createElement("submit");
-        more.setAttribute("name", "left");
-        more.setAttribute("right", "More");
-        formElement.appendChild(more);
-
         // form action
         Element formAction = doc.createElement("hiddenField");
         formAction.setAttribute("name", "formAction");
-        formAction.setAttribute("value", DEV_URL + Routes.LOOKING_LOCAL_RESULTS_DISPLAY);
+        formAction.setAttribute("value", Routes.SERVER_URL + Routes.LOOKING_LOCAL_RESULTS_DISPLAY);
         formElement.appendChild(formAction);
 
         // form method
@@ -419,6 +427,13 @@ public final class LookingLocalUtils {
         outputXml(doc, response);
     }
 
+    /**
+     * Create XML for the letter details screen in Looking Local based on letter ID
+     * @param request HTTP request
+     * @param response HTTP response
+     * @param selection ID of letter to show on screen, chosen by user
+     * @throws Exception
+     */
     public static void getLetterDetailsXml(HttpServletRequest request, HttpServletResponse response,
                                            String selection) throws Exception {
 
@@ -436,9 +451,8 @@ public final class LookingLocalUtils {
 
         // add form to screen
         Element formElement = doc.createElement("form");
-        formElement.setAttribute("action", DEV_URL + Routes.LOOKING_LOCAL_LETTER_DISPLAY);
+        formElement.setAttribute("action", Routes.SERVER_URL + Routes.LOOKING_LOCAL_LETTER_DISPLAY);
         formElement.setAttribute("method", "post");
-        formElement.setAttribute("pagingText", "Page 1 of 9");
         pageElement.appendChild(formElement);
 
         if (permissionToReadLetter && letter != null) {
@@ -455,16 +469,10 @@ public final class LookingLocalUtils {
         back.setAttribute("title", "Back");
         formElement.appendChild(back);
 
-        // more button
-        Element more = doc.createElement("submit");
-        more.setAttribute("name", "left");
-        more.setAttribute("right", "More");
-        formElement.appendChild(more);
-
         // form action
         Element formAction = doc.createElement("hiddenField");
         formAction.setAttribute("name", "formAction");
-        formAction.setAttribute("value", DEV_URL + Routes.LOOKING_LOCAL_LETTER_DISPLAY);
+        formAction.setAttribute("value", Routes.SERVER_URL + Routes.LOOKING_LOCAL_LETTER_DISPLAY);
         formElement.appendChild(formAction);
 
         // form method
@@ -476,6 +484,12 @@ public final class LookingLocalUtils {
         outputXml(doc, response);
     }
 
+    /**
+     * Create XML for the Select Letter screen in Looking Local, displays list of patient letters
+     * @param request HTTP request
+     * @param response HTTP response
+     * @throws Exception
+     */
     public static void getLettersXml(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         User user = UserUtils.retrieveUser(request);
@@ -484,15 +498,14 @@ public final class LookingLocalUtils {
         Document doc = getDocument();
         // add page to screen
         Element pageElement = doc.createElement("page");
-        pageElement.setAttribute("title", "Select letter");
+        pageElement.setAttribute("title", "Select Letter");
         pageElement.setAttribute("transform", "default");
         doc.getElementsByTagName("screen").item(0).appendChild(pageElement);
 
         // add form to screen
         Element formElement = doc.createElement("form");
-        formElement.setAttribute("action", DEV_URL + Routes.LOOKING_LOCAL_RESULTS_DISPLAY);
+        formElement.setAttribute("action", Routes.SERVER_URL + Routes.LOOKING_LOCAL_LETTER_DISPLAY);
         formElement.setAttribute("method", "post");
-        formElement.setAttribute("pagingText", "Page 1 of 10");
         pageElement.appendChild(formElement);
 
         if (letters != null && !letters.isEmpty()) {
@@ -528,16 +541,10 @@ public final class LookingLocalUtils {
         back.setAttribute("title", "Back");
         formElement.appendChild(back);
 
-        // more button
-        Element more = doc.createElement("submit");
-        more.setAttribute("name", "left");
-        more.setAttribute("right", "More");
-        formElement.appendChild(more);
-
         // form action
         Element formAction = doc.createElement("hiddenField");
         formAction.setAttribute("name", "formAction");
-        formAction.setAttribute("value", DEV_URL + Routes.LOOKING_LOCAL_RESULTS_DISPLAY);
+        formAction.setAttribute("value", Routes.SERVER_URL + Routes.LOOKING_LOCAL_LETTER_DISPLAY);
         formElement.appendChild(formAction);
 
         // form method
@@ -549,6 +556,13 @@ public final class LookingLocalUtils {
         outputXml(doc, response);
     }
 
+    /**
+     * Create XML for the result details screen in Looking Local
+     * @param request HTTP request
+     * @param response HTTP response
+     * @param selection Result ID to display, chosen by user from list
+     * @throws Exception
+     */
     public static void getResultsDetailsXml(HttpServletRequest request,
                                             HttpServletResponse response, String selection) throws Exception {
 
@@ -564,9 +578,8 @@ public final class LookingLocalUtils {
 
         // add form to screen
         Element formElement = doc.createElement("form");
-        formElement.setAttribute("action", Routes.LOOKING_LOCAL_DETAILS);
+        formElement.setAttribute("action", Routes.SERVER_URL + Routes.LOOKING_LOCAL_DETAILS);
         formElement.setAttribute("method", "post");
-        formElement.setAttribute("pagingText", "Page 1 of 6");
         pageElement.appendChild(formElement);
 
         List<TestResultWithUnitShortname> filterTestResults;
@@ -626,16 +639,10 @@ public final class LookingLocalUtils {
         back.setAttribute("title", "Back");
         formElement.appendChild(back);
 
-        // more button
-        Element more = doc.createElement("submit");
-        more.setAttribute("name", "right");
-        more.setAttribute("title", "More");
-        formElement.appendChild(more);
-
         // form action
         Element formAction = doc.createElement("hiddenField");
         formAction.setAttribute("name", "formAction");
-        formAction.setAttribute("value", DEV_URL + Routes.LOOKING_LOCAL_DETAILS);
+        formAction.setAttribute("value", Routes.SERVER_URL + Routes.LOOKING_LOCAL_DETAILS);
         formElement.appendChild(formAction);
 
         // form method
@@ -647,6 +654,12 @@ public final class LookingLocalUtils {
         outputXml(doc, response);
     }
 
+    /**
+     * Filter patient test results based on test code
+     * @param results List of TestResultWithUnitShortname patient test results
+     * @param testCode Test code to filter results by
+     * @return List of filtered test results
+     */
     private static List<TestResultWithUnitShortname> filterTestResults(List<TestResultWithUnitShortname> results,
                                                                        String testCode) {
 
@@ -659,6 +672,11 @@ public final class LookingLocalUtils {
         return filterResults;
     }
 
+    /**
+     * Create XML for the home screen in Looking Local
+     * @param response HTTP response
+     * @throws Exception
+     */
     public static void getHomeXml(HttpServletResponse response) throws Exception {
 
         Document doc = getDocument();
@@ -670,12 +688,11 @@ public final class LookingLocalUtils {
 
         // add form to screen
         Element formElement = doc.createElement("form");
-        formElement.setAttribute("action", DEV_URL + Routes.LOOKING_LOCAL_AUTH);
+        formElement.setAttribute("action", Routes.SERVER_URL + Routes.LOOKING_LOCAL_AUTH);
         formElement.setAttribute("method", "post");
         formElement.setAttribute("name", "blank");
         pageElement.appendChild(formElement);
 
-        // Hello World! static element
         Element details = doc.createElement("static");
         details.setAttribute("value", "Please key in your details:");
         formElement.appendChild(details);
@@ -711,7 +728,7 @@ public final class LookingLocalUtils {
         // form action
         Element formAction = doc.createElement("hiddenField");
         formAction.setAttribute("name", "formAction");
-        formAction.setAttribute("value", DEV_URL + Routes.LOOKING_LOCAL_AUTH);
+        formAction.setAttribute("value", Routes.SERVER_URL + Routes.LOOKING_LOCAL_AUTH);
         formElement.appendChild(formAction);
 
         // form method
@@ -721,9 +738,13 @@ public final class LookingLocalUtils {
         formElement.appendChild(formMethod);
 
         outputXml(doc, response);
-
     }
 
+    /**
+     * Create XML for the main screen in Looking Local with core options
+     * @param response HTTP response
+     * @throws Exception
+     */
     public static void getMainXml(HttpServletResponse response) throws Exception {
 
         Document doc = getDocument();
@@ -735,7 +756,7 @@ public final class LookingLocalUtils {
 
         // add form to screen
         Element formElement = doc.createElement("form");
-        formElement.setAttribute("action", DEV_URL + Routes.LOOKING_LOCAL_DETAILS);
+        formElement.setAttribute("action", Routes.SERVER_URL + Routes.LOOKING_LOCAL_DETAILS);
         formElement.setAttribute("method", "post");
         pageElement.appendChild(formElement);
 
@@ -773,16 +794,10 @@ public final class LookingLocalUtils {
         fieldOption4.setAttribute("value", "4");
         multisubmit.appendChild(fieldOption4);
 
-        // back button
-        Element back = doc.createElement("submit");
-        back.setAttribute("name", "left");
-        back.setAttribute("title", "Back");
-        formElement.appendChild(back);
-
         // form action
         Element formAction = doc.createElement("hiddenField");
         formAction.setAttribute("name", "formAction");
-        formAction.setAttribute("value", DEV_URL + Routes.LOOKING_LOCAL_DETAILS);
+        formAction.setAttribute("value", Routes.SERVER_URL + Routes.LOOKING_LOCAL_DETAILS);
         formElement.appendChild(formAction);
 
         // form method
@@ -794,6 +809,11 @@ public final class LookingLocalUtils {
         outputXml(doc, response);
     }
 
+    /**
+     * Create XML for the error page in Looking Local
+     * @param response HTTP response
+     * @throws Exception
+     */
     public static void getErrorXml(HttpServletResponse response) throws Exception {
 
         Document doc = getDocument();
@@ -805,7 +825,7 @@ public final class LookingLocalUtils {
 
         // add form to screen
         Element formElement = doc.createElement("form");
-        formElement.setAttribute("action", DEV_URL + Routes.LOOKING_LOCAL_HOME);
+        formElement.setAttribute("action", Routes.SERVER_URL + Routes.LOOKING_LOCAL_HOME);
         formElement.setAttribute("method", "get");
         pageElement.appendChild(formElement);
 
@@ -816,14 +836,14 @@ public final class LookingLocalUtils {
 
         // home button
         Element home = doc.createElement("submit");
-        home.setAttribute("name", "home");
+        home.setAttribute("name", "left");
         home.setAttribute("title", "Home");
         formElement.appendChild(home);
 
         // form action
         Element formAction = doc.createElement("hiddenField");
         formAction.setAttribute("name", "formAction");
-        formAction.setAttribute("value", DEV_URL + Routes.LOOKING_LOCAL_HOME);
+        formAction.setAttribute("value", Routes.SERVER_URL + Routes.LOOKING_LOCAL_HOME);
         formElement.appendChild(formAction);
 
         // form method
@@ -835,4 +855,49 @@ public final class LookingLocalUtils {
         outputXml(doc, response);
     }
 
+    /**
+     * Create XML for the Login Successful screen in Looking Local
+     * @param response HTTP response
+     * @throws Exception
+     */
+    public static void getAuthXml(HttpServletResponse response) throws Exception {
+
+        Document doc = getDocument();
+        // add page to screen
+        Element pageElement = doc.createElement("page");
+        pageElement.setAttribute("title", "Login Successful");
+        pageElement.setAttribute("transform", "default");
+        doc.getElementsByTagName("screen").item(0).appendChild(pageElement);
+
+        // add form to screen
+        Element formElement = doc.createElement("form");
+        formElement.setAttribute("action", Routes.SERVER_URL + Routes.LOOKING_LOCAL_MAIN);
+        formElement.setAttribute("method", "get");
+        pageElement.appendChild(formElement);
+
+        // static element
+        Element details = doc.createElement("static");
+        details.setAttribute("value", "You have successfully logged in.");
+        formElement.appendChild(details);
+
+        // home button
+        Element home = doc.createElement("submit");
+        home.setAttribute("name", "left");
+        home.setAttribute("title", "Continue");
+        formElement.appendChild(home);
+
+        // form action
+        Element formAction = doc.createElement("hiddenField");
+        formAction.setAttribute("name", "formAction");
+        formAction.setAttribute("value", Routes.SERVER_URL + Routes.LOOKING_LOCAL_MAIN);
+        formElement.appendChild(formAction);
+
+        // form method
+        Element formMethod = doc.createElement("hiddenField");
+        formMethod.setAttribute("name", "formMethod");
+        formMethod.setAttribute("value", "get");
+        formElement.appendChild(formMethod);
+
+        outputXml(doc, response);
+    }
 }

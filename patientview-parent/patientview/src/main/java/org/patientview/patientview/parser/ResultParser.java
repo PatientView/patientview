@@ -463,6 +463,8 @@ public class ResultParser {
         } else {
             topLevelDataSpecialCases(xmlData, dataId);
         }
+
+        // convert NHS number to clean version
     }
 
     private void topLevelDataSpecialCases(Map xmlData, String dataId) {

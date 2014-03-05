@@ -145,6 +145,23 @@ public final class CommonUtils {
         return (ignoreUppercaseLetters ? true : isNhsChecksumValid(nhsNumber));
     }
 
+    /**
+     * Removes spaces and correctly pads 9 character NHS numbers with 0 at start
+     * @param nhsNumber NHS number to clean
+     * @return Updated NHS number, with spaces and correct length (if originally 9 characters)
+     */
+    public static String cleanNhsNumber(String nhsNumber) {
+
+        // remove spaces
+        nhsNumber = nhsNumber.replaceAll("\\s", "");
+
+        // if 9 character, add 0 to start
+        if (nhsNumber.length() == NHS_NUMBER_LENGTH - 1) {
+            nhsNumber = "0" + nhsNumber;
+        }
+
+        return nhsNumber;
+    }
 
     public static boolean isNhsNumberValid(String nhsNumber) {
         return CommonUtils.isNhsNumberValid(nhsNumber, false);
