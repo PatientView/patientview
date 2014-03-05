@@ -45,6 +45,7 @@ import org.patientview.service.NewsManager;
 import org.patientview.service.PatientManager;
 import org.patientview.service.ResultHeadingManager;
 import org.patientview.service.SecurityUserManager;
+import org.patientview.service.SpecialtyManager;
 import org.patientview.service.SplashPageManager;
 import org.patientview.service.TestResultManager;
 import org.patientview.service.TimeManager;
@@ -136,6 +137,8 @@ public final class LegacySpringUtils {
     private static DiabetesCarePlanManager diabetesCarePlanManager;
 
     private static GeneticsManager geneticsManager;
+
+    private static SpecialtyManager specialtyManager;
 
     private LegacySpringUtils() {
 
@@ -419,5 +422,13 @@ public final class LegacySpringUtils {
 
     public static void setGeneticsManager(GeneticsManager geneticsManager) {
         LegacySpringUtils.geneticsManager = geneticsManager;
+    }
+
+    public static SpecialtyManager getSpecialtyManager() {
+        return specialtyManager;
+    }
+
+    public static void setSpecialtyManager(SpecialtyManager specialtyManager) {
+        LegacySpringUtils.specialtyManager = specialtyManager;
     }
 }

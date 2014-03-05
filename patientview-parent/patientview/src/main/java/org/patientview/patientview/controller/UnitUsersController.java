@@ -24,20 +24,32 @@
 package org.patientview.patientview.controller;
 
 import org.apache.commons.lang.StringUtils;
+import org.patientview.model.Specialty;
 import org.patientview.model.Unit;
+import org.patientview.service.UnitManager;
 import org.patientview.utils.LegacySpringUtils;
 import org.springframework.beans.support.MutableSortDefinition;
+import org.springframework.beans.support.PagedListHolder;
 import org.springframework.beans.support.SortDefinition;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.beans.support.PagedListHolder;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
 public class UnitUsersController extends BaseController {
+
+
+    @Inject
+    private UnitManager unitManager;
+
+    @RequestMapping(value = Routes.UNIT_BY_SPECIALTY_LIST_URL)
+    public List<Unit> getUnitsBySpecialty (@RequestParam Specialty specialty) {
+        return unitManager.getUnitsBySpecialty(specialty);
+    }
 
     @RequestMapping(value = Routes.UNIT_USERS_LIST_URL)
     public String getUsers(@RequestParam(value = "unitcode", required = false) String unitcode,

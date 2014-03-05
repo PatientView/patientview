@@ -82,6 +82,9 @@ public class ImportManagerImpl implements ImportManager {
     private UnitDao unitDao;
 
     @Inject
+    private PatientDao patientDao;
+
+    @Inject
     private ApplicationContext applicationContext;
 
     @Inject
@@ -157,6 +160,7 @@ public class ImportManagerImpl implements ImportManager {
         } else {
             validateNhsNumber(resultParser.getPatient());
             validateUnitCode(resultParser.getCentre());
+            validatePatientExistsInUnit(resultParser.getPatient(), resultParser.getCentre());
             updatePatientDetails(resultParser.getPatient(), resultParser.getDateRanges());
             deleteDateRanges(resultParser.getDateRanges());
             insertResults(resultParser.getTestResults());
@@ -174,10 +178,6 @@ public class ImportManagerImpl implements ImportManager {
             insertProcedures(resultParser.getProcedures());
             deleteAllergies(resultParser.getData("nhsno"), resultParser.getData("centrecode"));
             insertAllergies(resultParser.getAllergies());
-            deleteFootCheckup(resultParser.getData("nhsno"), resultParser.getData("centrecode"));
-            insertFootCheckup(resultParser.getFootCheckupses());
-            deleteEyeCheckup(resultParser.getData("nhsno"), resultParser.getData("centrecode"));
-            insertEyeCheckup(resultParser.getEyeCheckupses());
             // todo improvement: we should build a set of all units updated, then mark them at the end of the job
             markLastImportDateOnUnit(resultParser.getCentre());
 
@@ -298,6 +298,11 @@ public class ImportManagerImpl implements ImportManager {
         }
     }
 
+    private void validatePatientExistsInUnit(Patient patient, Centre centre) throws ProcessException {
+        if (patientDao.get(patient.getNhsno(), centre.getCentreCode()) == null) {
+            throw new ProcessException("Patient does not exist in unit");
+        }
+    }
 
     private void validateUnitCode(Centre centre) throws ProcessException {
 

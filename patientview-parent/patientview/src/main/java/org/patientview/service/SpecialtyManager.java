@@ -20,52 +20,22 @@
  * @copyright Copyright (c) 2004-2013, Worth Solutions Limited
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
+package org.patientview.service;
 
-package org.patientview.repository;
-
-import org.patientview.patientview.logon.UnitAdmin;
 import org.patientview.model.Specialty;
-import org.patientview.model.Unit;
-import org.patientview.patientview.model.User;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 /**
- *
+ * Created by Solid State Group on 04/03/14.
  */
-@Transactional(propagation = Propagation.MANDATORY)
-public interface UnitDao {
+@Transactional(propagation = Propagation.REQUIRED)
+@Secured(value = { "IS_AUTHENTICATED_ANONYMOUSLY" })
+public interface SpecialtyManager {
 
-    Unit get(Long id);
+    List<Specialty> getAll();
 
-    Unit get(String unitCode, Specialty specialty);
-
-    void save(Unit unit);
-
-    List<Unit> getAll(boolean sortByName);
-
-    List<Unit> getAll(boolean sortByName, Specialty specialty);
-
-    List<Unit> getAll(String[] sourceTypesToExclude, String[] sourceTypesToInclude);
-
-    List<Unit> getUnitsWithUser(Specialty specialty);
-
-    List<Unit> getAdminsUnits(Specialty specialty);
-
-    List<Unit> getAdminsUnits(Specialty specialty, boolean isRadarGroup);
-
-    List<Unit> get(List<String> usersUnitCodes, Specialty specialty);
-
-    List<Unit> get(List<String> usersUnitCodes, String[] notTheseUnitCodes, String[] plusTheseUnitCodes,
-                   Specialty specialty);
-
-    List<UnitAdmin> getUnitUsers(String unitcode, Specialty specialty);
-
-    List<UnitAdmin> getAllUnitUsers(Specialty specialty);
-
-    List<User> getUnitPatientUsers(String unitcode, Specialty specialty);
-
-    List<Unit> getUnitsBySpecialty(Specialty specialty);
 }

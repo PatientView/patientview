@@ -69,6 +69,17 @@
     </div>
 
     <div class="control-group">
+        <label class="control-label">Specialty</label>
+
+        <div class="controls">
+            <html:select property="unitcode" onchange="selectUnitsBySpecialty()">
+                <option value="-1" selected="selected">-- Select your specialty --</option>
+                <html:options collection="specialties" property="name" labelProperty="name"/>
+            </html:select>
+        </div>
+    </div>
+
+    <div class="control-group">
         <label class="control-label">Unit</label>
 
         <div class="controls">

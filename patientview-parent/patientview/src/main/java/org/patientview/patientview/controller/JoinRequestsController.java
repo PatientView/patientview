@@ -50,7 +50,7 @@ public class JoinRequestsController extends BaseController {
      * Deal with the URIs "/control/joinRequestList"
      * get the join requests list(paging and sorting)
      */
-    @RequestMapping(value = Routes.JOIN_REQUEST_LIST_URL)
+     @RequestMapping(value = Routes.JOIN_REQUEST_LIST_URL)
      public String joinRequestList(HttpServletRequest request,
                                    @RequestParam(value = "page", required = false) String page) {
         PagedListHolder pagedListHolder;

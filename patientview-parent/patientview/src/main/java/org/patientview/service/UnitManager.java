@@ -63,6 +63,8 @@ public interface UnitManager {
 
     void save(Unit unit);
 
+    List<Unit> getUnitsBySpecialty(Specialty specialty);
+
     List<Unit> getAllDisregardingSpeciality(boolean sortByName);
 
     List<Unit> getAll(boolean sortByName);

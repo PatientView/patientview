@@ -44,6 +44,7 @@ import org.patientview.patientview.model.enums.DiagnosticType;
 import org.patientview.patientview.model.enums.NodeError;
 import org.patientview.patientview.utils.TimestampUtils;
 import org.patientview.quartz.exception.ResultParserException;
+import org.patientview.util.CommonUtils;
 import org.patientview.utils.LegacySpringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -120,6 +121,9 @@ public class ResultParser {
         for (int i = 0; i < topLevelElements.length; i++) {
             collectTopLevelData(topLevelElements[i], document);
         }
+
+        // convert NHS number to clean version
+        xmlData.put("nhsno", CommonUtils.cleanNhsNumber(xmlData.get("nhsno").toString()));
 
         collectTestResults(document);
         if (corruptNodes.size() == 0) {
