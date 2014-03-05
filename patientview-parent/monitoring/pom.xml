@@ -53,6 +53,12 @@
             </properties>
         </profile>
         <profile>
+            <id>localhost-test</id>
+            <properties>
+                <env>localhost-test</env>
+            </properties>
+        </profile>
+        <profile>
             <id>test</id>
             <properties>
                 <env>test</env>

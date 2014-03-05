@@ -110,26 +110,58 @@ public final class CommonUtils {
         }
     }
 
+    /**
+     * Uses 5 step NHS number validation, ignoring numeric-only and checksum validation if pseudo NHS numbers allowed
+     * Matches order of validation steps from Trello #403, note: when storing NHS number, spaces must be removed
+     * @param nhsNumber NHS number, either real or pseudo
+     * @param ignoreUppercaseLetters To allow pseudo NHS numbers to be checked if true
+     * @return
+     */
     public static boolean isNhsNumberValid(String nhsNumber, boolean ignoreUppercaseLetters) {
+        // 1. Any spaces should be removed from the value
+        nhsNumber = nhsNumber.replaceAll("\\s", "");
 
-        // Only permit 10 characters
+        if (!ignoreUppercaseLetters) {
+            // 2. (non-pseudo only) The value should contain only numbers if this isn't the case it should be rejected.
+            if (!nhsNumber.matches("[0-9]+")) {
+                return false;
+            }
+
+            // 3. (non-pseudo only) If the length of the value is 9 characters a 0 should be prepended to the value.
+            // This is due to some CHI (Scotland) numbers starting with 0 which is lost if the value is handled
+            // as a number.
+            if (nhsNumber.length() == NHS_NUMBER_LENGTH - 1) {
+                nhsNumber = "0" + nhsNumber;
+            }
+        }
+
+        // 4. If the value is not now 10 characters it should be rejected.
         if (nhsNumber.length() != NHS_NUMBER_LENGTH) {
             return false;
         }
 
-        // Remove all whitespace and non-visible characters such as tab, new line etc
-        nhsNumber = nhsNumber.replaceAll("\\s", "");
-
-        boolean nhsNoContainsOnlyNumbers = nhsNumber.matches("[0-9]+");
-        boolean nhsNoContainsLowercaseLetters = !nhsNumber.equals(nhsNumber.toUpperCase());
-
-        if (!nhsNoContainsOnlyNumbers && ignoreUppercaseLetters && !nhsNoContainsLowercaseLetters) {
-            return true;
-        }
-
-        return isNhsChecksumValid(nhsNumber);
+        // 5. The NHS Check Digit function should be run on the value. If this fails it should be rejected.
+        // note: checksum ignored if ignoreUppercaseLetters is true
+        return (ignoreUppercaseLetters ? true : isNhsChecksumValid(nhsNumber));
     }
 
+    /**
+     * Removes spaces and correctly pads 9 character NHS numbers with 0 at start
+     * @param nhsNumber NHS number to clean
+     * @return Updated NHS number, with spaces and correct length (if originally 9 characters)
+     */
+    public static String cleanNhsNumber(String nhsNumber) {
+
+        // remove spaces
+        nhsNumber = nhsNumber.replaceAll("\\s", "");
+
+        // if 9 character, add 0 to start
+        if (nhsNumber.length() == NHS_NUMBER_LENGTH - 1) {
+            nhsNumber = "0" + nhsNumber;
+        }
+
+        return nhsNumber;
+    }
 
     public static boolean isNhsNumberValid(String nhsNumber) {
         return CommonUtils.isNhsNumberValid(nhsNumber, false);

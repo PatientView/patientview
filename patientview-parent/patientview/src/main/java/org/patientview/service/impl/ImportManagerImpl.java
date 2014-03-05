@@ -35,15 +35,16 @@ import org.patientview.patientview.logging.AddLog;
 import org.patientview.patientview.model.Centre;
 import org.patientview.patientview.model.Diagnosis;
 import org.patientview.patientview.model.Diagnostic;
+import org.patientview.patientview.model.TestResult;
 import org.patientview.patientview.model.Letter;
 import org.patientview.patientview.model.Medicine;
-import org.patientview.patientview.model.TestResult;
 import org.patientview.patientview.parser.ResultParser;
 import org.patientview.patientview.user.UserUtils;
 import org.patientview.patientview.utils.TimestampUtils;
 import org.patientview.quartz.exception.ProcessException;
 import org.patientview.quartz.exception.ResultParserException;
 import org.patientview.quartz.handler.ErrorHandler;
+import org.patientview.repository.PatientDao;
 import org.patientview.repository.UnitDao;
 import org.patientview.service.ImportManager;
 import org.patientview.service.LogEntryManager;
@@ -80,6 +81,9 @@ public class ImportManagerImpl implements ImportManager {
     private UnitDao unitDao;
 
     @Inject
+    private PatientDao patientDao;
+
+    @Inject
     private ApplicationContext applicationContext;
 
     @Inject
@@ -88,14 +92,11 @@ public class ImportManagerImpl implements ImportManager {
     @Inject
     private ErrorHandler errorHandler;
 
-
     @Override
     public Unit retrieveUnit(String unitCode) {
         unitCode = unitCode.toUpperCase();
         return unitDao.get(unitCode, null);
     }
-
-
 
     public void process(File xmlFile) throws ProcessException {
 
@@ -155,6 +156,7 @@ public class ImportManagerImpl implements ImportManager {
         } else {
             validateNhsNumber(resultParser.getPatient());
             validateUnitCode(resultParser.getCentre());
+            validatePatientExistsInUnit(resultParser.getPatient(), resultParser.getCentre());
             updatePatientDetails(resultParser.getPatient(), resultParser.getDateRanges());
             deleteDateRanges(resultParser.getDateRanges());
             insertResults(resultParser.getTestResults());
@@ -288,10 +290,15 @@ public class ImportManagerImpl implements ImportManager {
 
     private void validateNhsNumber(Patient patient) throws ProcessException {
         if (!CommonUtils.isNhsNumberValidWhenUppercaseLettersAreAllowed(patient.getNhsno())) {
-            throw new ProcessException("The NHS number is not in a invalid format");
+            throw new ProcessException("The NHS number is not in a valid format");
         }
     }
 
+    private void validatePatientExistsInUnit(Patient patient, Centre centre) throws ProcessException {
+        if (patientDao.get(patient.getNhsno(), centre.getCentreCode()) == null) {
+            throw new ProcessException("Patient does not exist in unit");
+        }
+    }
 
     private void validateUnitCode(Centre centre) throws ProcessException {
 
