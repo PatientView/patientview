@@ -22,12 +22,16 @@
  */
 package org.patientview.patientview.controller.lookinglocal;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.patientview.model.Specialty;
 import org.patientview.patientview.controller.BaseController;
 import org.patientview.patientview.controller.Routes;
+import org.patientview.patientview.model.SpecialtyUserRole;
 import org.patientview.patientview.model.User;
 import org.patientview.security.impl.PatientViewPasswordEncoder;
 import org.patientview.security.model.SecurityUser;
 import org.patientview.service.SecurityUserManager;
+import org.patientview.service.UserManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -43,6 +47,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  *  Looking local home controller
@@ -52,6 +57,9 @@ public class LookingLocalHomeController extends BaseController {
 
     @Inject
     private UserDetailsService userDetailsService;
+
+    @Inject
+    private UserManager userManager;
 
     @Inject
     private SecurityUserManager securityUserManager;
@@ -93,18 +101,38 @@ public class LookingLocalHomeController extends BaseController {
 
         if (user != null) {
             if (user.getPassword().equals(encoder.encode(password))) {
-                // Authenticate user manually and add to session
+
+                // Authenticate user manually
                 SecurityUser userLogin = (SecurityUser) userDetailsService.loadUserByUsername(username);
                 SecurityContext securityContext = SecurityContextHolder.getContext();
                 securityContext.setAuthentication(new UsernamePasswordAuthenticationToken(userLogin,
                         userLogin.getPassword(), userLogin.getAuthorities()));
-                HttpSession session = request.getSession(true);
-                session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
-                LOGGER.debug("auth passed");
-                try {
-                    LookingLocalUtils.getAuthXml(response);
-                } catch (Exception e) {
-                    LOGGER.error("Could not create home screen response output stream{}" + e);
+
+                // manage extra authentication success handlers manually (usually
+                // managed by PatientViewAuthenticationSuccessHandler.onAuthenticationSuccess)
+                SecurityUser securityUser = (SecurityUser) securityContext.getAuthentication().getPrincipal();
+                List<SpecialtyUserRole> specialtyUserRoles = userManager.getSpecialtyUserRoles(user);
+
+                if (CollectionUtils.isNotEmpty(specialtyUserRoles)) {
+                    Specialty specialty = specialtyUserRoles.get(0).getSpecialty();
+                    securityUser.setSpecialty(specialty);
+                    // manually add to session
+                    HttpSession session = request.getSession(true);
+                    session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
+                    LOGGER.debug("auth passed");
+                    try {
+                        LookingLocalUtils.getAuthXml(response);
+                    } catch (Exception e) {
+                        LOGGER.error("Could not create home screen response output stream{}" + e);
+                    }
+
+                } else {
+                    LOGGER.debug("auth failed, no specialties");
+                    try {
+                        LookingLocalUtils.getErrorXml(response);
+                    } catch (Exception e) {
+                        LOGGER.error("Could not create home screen response output stream{}" + e);
+                    }
                 }
             } else {
                 LOGGER.debug("auth failed, password");
