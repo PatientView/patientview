@@ -457,10 +457,15 @@ public final class LookingLocalUtils {
 
         if (permissionToReadLetter && letter != null) {
             pageElement.setAttribute("title", letter.getFormattedDate() + " " + letter.getType());
-            // static element
-            Element content = doc.createElement("static");
-            content.setAttribute("value", letter.getFormattedContent());
-            formElement.appendChild(content);
+
+            // display letter using static elements
+            String letterContent = letter.getContent();
+
+            for (String paragraph : letterContent.split("\n")) {
+                Element content = doc.createElement("static");
+                content.setAttribute("value", paragraph);
+                formElement.appendChild(content);
+            }
         }
 
         // back button
