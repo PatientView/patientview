@@ -106,12 +106,12 @@ public final class XssUtils {
 
     /**
      * Safely converts string containing shortcode (currently limited set) to HTML compatible string
-     * @param sourceString Input string containing shortcode
+     * @param content Input string containing shortcode
      * @return String suitable for use in HTML
      */
-    public static String convertShortCodeToHTML(String sourceString) {
+    public static String convertShortCodeToHTML(String content) {
         // safely encode html
-        sourceString = ESAPI.encoder().encodeForHTML(sourceString);
+        content = ESAPI.encoder().encodeForHTML(content);
 
         // ordered set of replacements
         TreeMap<String, String> shortCodes = new TreeMap<String, String>();
@@ -127,10 +127,10 @@ public final class XssUtils {
 
         // run through replacements in order
         for (Map.Entry<String, String> shortCode : shortCodes.entrySet()) {
-            sourceString = sourceString.replace(shortCode.getKey(), shortCode.getValue());
+            content = content.replace(shortCode.getKey(), shortCode.getValue());
         }
 
-        return sourceString;
+        return content;
     }
 
 }
