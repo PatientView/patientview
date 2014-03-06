@@ -161,7 +161,7 @@ public class ImportManagerImpl implements ImportManager {
         } else {
             validateNhsNumber(resultParser.getPatient());
             validateUnitCode(resultParser.getCentre());
-            validatePatientExistsInUnit(resultParser.getPatient(), resultParser.getCentre());
+            validatePatientExistsInUnit(resultParser.getPatient(), resultParser.getCentre());           
             updatePatientDetails(resultParser.getPatient(), resultParser.getDateRanges());
             deleteDateRanges(resultParser.getDateRanges());
             insertResults(resultParser.getTestResults());
@@ -295,7 +295,7 @@ public class ImportManagerImpl implements ImportManager {
 
     private void validateNhsNumber(Patient patient) throws ProcessException {
         if (!CommonUtils.isNhsNumberValidWhenUppercaseLettersAreAllowed(patient.getNhsno())) {
-            throw new ProcessException("The NHS number is not in a invalid format");
+            throw new ProcessException("The NHS number is not in a valid format");
         }
     }
 
