@@ -47,7 +47,7 @@ public class UnitUsersController extends BaseController {
     private UnitManager unitManager;
 
     @RequestMapping(value = Routes.UNIT_BY_SPECIALTY_LIST_URL)
-    public List<Unit> getUnitsBySpecialty (@RequestParam Specialty specialty) {
+    public List<Unit> getUnitsBySpecialty(@RequestParam Specialty specialty) {
         return unitManager.getUnitsBySpecialty(specialty);
     }
 
