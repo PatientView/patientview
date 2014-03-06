@@ -161,7 +161,7 @@ public class ImportManagerImpl implements ImportManager {
         } else {
             validateNhsNumber(resultParser.getPatient());
             validateUnitCode(resultParser.getCentre());
-            validatePatientExistsInUnit(resultParser.getPatient(), resultParser.getCentre());           
+            validatePatientExistsInUnit(resultParser.getPatient(), resultParser.getCentre());
             updatePatientDetails(resultParser.getPatient(), resultParser.getDateRanges());
             deleteDateRanges(resultParser.getDateRanges());
             insertResults(resultParser.getTestResults());
