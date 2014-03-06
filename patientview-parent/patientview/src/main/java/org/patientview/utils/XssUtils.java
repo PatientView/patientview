@@ -114,7 +114,7 @@ public final class XssUtils {
         content = ESAPI.encoder().encodeForHTML(content);
 
         // ordered set of replacements
-        TreeMap<String, String> shortCodes = new TreeMap<String, String>();
+        Map<String, String> shortCodes = new TreeMap<String, String>();
         shortCodes.put("&", "@");
         shortCodes.put("@#xd;@#xa;", "<br/>");
         shortCodes.put("@#x5b;link@#x5d;", "<a href=\"");
