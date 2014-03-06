@@ -33,6 +33,7 @@ import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.Map;
 
 /**
@@ -98,6 +99,35 @@ public final class XssUtils {
         strSrc = ESAPI.encoder().encodeForHTML(strSrc);
         for (String replace : strReplace) {
             strSrc = strSrc.replace(replace, "<br/>");
+        }
+
+        return strSrc;
+    }
+
+    /**
+     * Safely converts string containing shortcode (currently limited set) to HTML compatible string
+     * @param strSrc Input string containing shortcode
+     * @return String suitable for use in HTML
+     */
+    public static String convertShortCodeToHTML(String strSrc) {
+        // safely encode html
+        strSrc = ESAPI.encoder().encodeForHTML(strSrc);
+
+        // ordered set of replacements
+        TreeMap<String, String> shortCodes = new TreeMap<String, String>();
+        shortCodes.put("&", "@");
+        shortCodes.put("@#xd;@#xa;", "<br/>");
+        shortCodes.put("@#x5b;link@#x5d;", "<a href=\"");
+        shortCodes.put("@#x5b;@#x2f;link@#x5d;", "\">");
+        shortCodes.put("@#x5b;linktext@#x5d;", "");
+        shortCodes.put("@#x5b;@#x2f;linktext@#x5d;", "</a>");
+        shortCodes.put("@#x5b;bold@#x5d;", "<strong>");
+        shortCodes.put("@#x5b;@#x2f;bold@#x5d;", "</strong>");
+        shortCodes.put("@#x3a;@#x2f;@#x2f;", "://");
+
+        // run through replacements in order
+        for (Map.Entry<String, String> shortCode : shortCodes.entrySet()) {
+            strSrc = strSrc.replace(shortCode.getKey().toString(), shortCode.getValue().toString());
         }
 
         return strSrc;
