@@ -160,6 +160,7 @@ public class News extends BaseModel {
     }
 
     public String getBodyForHtml() {
-        return XssUtils.encodeForHTML(getBody(), new String[] {"&#xd;&#xa;" });
+        //return XssUtils.encodeForHTML(XssUtils.convertShortCodeToHTML(getBody()), new String[] {"&#xd;&#xa;" });
+        return XssUtils.convertShortCodeToHTML(getBody());
     }
 }
