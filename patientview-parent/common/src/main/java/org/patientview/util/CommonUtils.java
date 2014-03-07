@@ -89,7 +89,9 @@ public final class CommonUtils {
             // It seems that the strings in the DB have different date formats, nice.
             for (String dateFormat : dataFormats) {
                 try {
-                    dateOfBirth = new SimpleDateFormat(dateFormat).parse(dateField);
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat);
+                    simpleDateFormat.setLenient(false);
+                    dateOfBirth = simpleDateFormat.parse(dateField);
                     break;
                 } catch (ParseException e) {
                     LOGGER.debug("Could not parse date of birth {}", dateField);
