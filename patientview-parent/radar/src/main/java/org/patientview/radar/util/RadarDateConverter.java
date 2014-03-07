@@ -2,6 +2,8 @@ package org.patientview.radar.util;
 
 import org.apache.wicket.util.convert.converter.DateConverter;
 import org.apache.wicket.util.string.Strings;
+import org.patientview.util.CommonUtils;
+
 import java.util.Date;
 import java.util.Locale;
 
@@ -16,7 +18,7 @@ public class RadarDateConverter extends DateConverter {
         if ((value == null) || Strings.isEmpty(value)) {
             return null;
         } else {
-            return parse(getDateFormat(locale), value, locale);
+            return CommonUtils.parseUKDate(value);
         }
     }
 }
