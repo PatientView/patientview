@@ -130,7 +130,8 @@ public final class XssUtils {
             content = content.replace(shortCode.getKey(), shortCode.getValue());
         }
 
+        // convert back to standard ascii &#xxx format for non shortcode html characters
+        content = content.replace("@", "&");
         return content;
     }
-
 }
