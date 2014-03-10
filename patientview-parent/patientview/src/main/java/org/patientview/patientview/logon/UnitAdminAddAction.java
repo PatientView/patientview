@@ -105,7 +105,7 @@ public class UnitAdminAddAction extends Action {
                     }
                 }
 
-                request.setAttribute("currentUnitCodes", currentUnitCodes.toString().substring(0,
+                request.setAttribute("currentUnitCodes", currentUnitCodes.substring(0,
                         currentUnitCodes.length() - 2));
                 request.setAttribute("usermapping", userMappingNew);
                 mappingToFind = "existinguser";
