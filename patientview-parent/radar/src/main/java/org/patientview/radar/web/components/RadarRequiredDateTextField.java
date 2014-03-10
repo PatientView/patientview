@@ -23,6 +23,8 @@
 
 package org.patientview.radar.web.components;
 
+import org.patientview.radar.util.RadarDateConverter;
+import org.apache.wicket.util.convert.IConverter;
 import org.patientview.radar.web.RadarApplication;
 import org.apache.wicket.Component;
 import org.apache.wicket.extensions.markup.html.form.DateTextField;
@@ -30,19 +32,23 @@ import org.apache.wicket.feedback.FeedbackMessage;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.ComponentFeedbackPanel;
 import org.apache.wicket.model.IModel;
-
 import java.util.Date;
 import java.util.List;
 
 public class RadarRequiredDateTextField extends DateTextField {
+
+    private final IConverter<Date> converter;
+
     public RadarRequiredDateTextField(String id, Form form, List<Component> componentsToUpdate) {
         super(id, RadarApplication.DATE_PATTERN2);
         init(form, componentsToUpdate);
+        converter = new RadarDateConverter();
     }
 
     public RadarRequiredDateTextField(String id, IModel<Date> model, Form form, List<Component> componentsToUpdate) {
         super(id, model, RadarApplication.DATE_PATTERN2);
         init(form, componentsToUpdate);
+        converter = new RadarDateConverter();
     }
 
     private void init(Form form, List<Component> componentsToUpdate) {
@@ -82,5 +88,13 @@ public class RadarRequiredDateTextField extends DateTextField {
         componentsToUpdate.add(radarFormComponentFeedbackIndicator);
     }
 
-
+    @SuppressWarnings("unchecked")
+    @Override
+    public <C> IConverter<C> getConverter(final Class<C> type) {
+        if (Date.class.isAssignableFrom(type)) {
+            return (IConverter<C>) converter;
+        } else {
+            return super.getConverter(type);
+        }
+    }
 }
