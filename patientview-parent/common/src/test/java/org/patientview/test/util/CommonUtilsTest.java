@@ -23,10 +23,14 @@
 
 package org.patientview.test.util;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.patientview.util.CommonUtils;
+
+import java.util.Calendar;
+import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -84,5 +88,52 @@ public class CommonUtilsTest {
     @Test
     public void testCleanAndValidateAlphanumericNHSNo() {
         assertTrue("Valid unclean NHS No did not pass validation", CommonUtils.isNhsNumberValidWhenUppercaseLettersAreAllowed(CommonUtils.cleanNhsNumber("AB 123 456 X")));
+    }
+
+    @Test
+    public void testDateParse(){
+        String correctDate = "2014-02-12";
+
+        Date date = CommonUtils.parseDate(correctDate);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+
+        Assert.assertTrue("The month for " + correctDate + " should be 2, is actually " +
+                (calendar.get(Calendar.MONTH)+1), (calendar.get(Calendar.MONTH)+1) == 2);
+        Assert.assertTrue("The day of the month for " + correctDate + " should be 12, is actually " +
+                calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.DAY_OF_MONTH) == 12);
+    }
+
+    @Test
+    public void testIncorrectDateParse(){
+        String incorrectDate = "2014-02-99";
+
+        // will return null due to setLenient(false) in parser
+        Date date = CommonUtils.parseDate(incorrectDate);
+        assertEquals("Incorrect date should return NULL", null, date);
+    }
+
+    @Test
+    public void testUKDateParse(){
+        String correctDate = "12-02-2014";
+
+        Date date = CommonUtils.parseUKDate(correctDate);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+
+        Assert.assertTrue("The month for " + correctDate + " should be 2, is actually " +
+                (calendar.get(Calendar.MONTH)+1), (calendar.get(Calendar.MONTH)+1) == 2);
+        Assert.assertTrue("The day of the month for " + correctDate + " should be 12, is actually " +
+                calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.DAY_OF_MONTH) == 12);
+    }
+
+    @Test
+    public void testIncorrectUKDateParse(){
+        String correctDate = "42-02-2014";
+
+        Date date = CommonUtils.parseUKDate(correctDate);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        Assert.assertTrue("Incorrect date was accepted", calendar.get(Calendar.YEAR) == 2);
     }
 }
