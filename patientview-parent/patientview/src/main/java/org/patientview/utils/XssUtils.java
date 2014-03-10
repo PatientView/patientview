@@ -115,15 +115,17 @@ public final class XssUtils {
 
         // ordered set of replacements
         Map<String, String> shortCodes = new TreeMap<String, String>();
-        shortCodes.put("&", "@");
-        shortCodes.put("@#xd;@#xa;", "<br/>");
-        shortCodes.put("@#x5b;link@#x5d;", "<a href=\"");
-        shortCodes.put("@#x5b;@#x2f;link@#x5d;", "\">");
-        shortCodes.put("@#x5b;linktext@#x5d;", "");
-        shortCodes.put("@#x5b;@#x2f;linktext@#x5d;", "</a>");
-        shortCodes.put("@#x5b;bold@#x5d;", "<strong>");
-        shortCodes.put("@#x5b;@#x2f;bold@#x5d;", "</strong>");
-        shortCodes.put("@#x3a;@#x2f;@#x2f;", "://");
+        shortCodes.put("&", "€");
+        shortCodes.put("€#xd;€#xa;", "<br/>");
+        shortCodes.put("€#x5b;link€#x5d;", "<a href=\"");
+        shortCodes.put("€#x5b;€#x2f;link€#x5d;", "\">");
+        shortCodes.put("€#x5b;linktext€#x5d;", "");
+        shortCodes.put("€#x5b;€#x2f;linktext€#x5d;", "</a>");
+        shortCodes.put("€#x5b;bold€#x5d;", "<strong>");
+        shortCodes.put("€#x5b;€#x2f;bold€#x5d;", "</strong>");
+        shortCodes.put("€#x3a;€#x2f;€#x2f;", "://");
+        shortCodes.put("€#x3a;", ":");
+        shortCodes.put("€#x40;", "@");
 
         // run through replacements in order
         for (Map.Entry<String, String> shortCode : shortCodes.entrySet()) {
@@ -131,7 +133,7 @@ public final class XssUtils {
         }
 
         // convert back to standard ascii &#xxx format for non shortcode html characters
-        content = content.replace("@", "&");
+        content = content.replace("€", "&");
         return content;
     }
 }
