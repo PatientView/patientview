@@ -61,6 +61,29 @@ public class NewsManagerImpl implements NewsManager {
     }
 
     @Override
+    public News getSecure(Long id) {
+
+        User user  = userManager.getLoggedInUser();
+
+        if (user == null) {
+            return newsDao.getSecureEveryone(id, securityUserManager.getLoggedInSpecialty());
+        } else {
+            String userType = LegacySpringUtils.getUserManager().getCurrentSpecialtyRole(user);
+
+            if ("superadmin".equals(userType)) {
+                return newsDao.get(id);
+            } else if ("unitadmin".equals(userType) || "unitstaff".equals(userType)) {
+                List<String> unitCodes = unitManager.getUsersUnitCodes(user);
+                return newsDao.getSecureAdmin(id, unitCodes, securityUserManager.getLoggedInSpecialty());
+            } else if ("patient".equals(userType)) {
+                List<String> unitCodes = unitManager.getUsersUnitCodes(user);
+                return newsDao.getSecurePatient(id, unitCodes, securityUserManager.getLoggedInSpecialty());
+            }
+            return null;
+        }
+    }
+
+    @Override
     public void save(News news) {
 
         // apply the Specialty to the news if not set

@@ -38,6 +38,32 @@ public interface NewsDao {
 
     News get(Long id);
 
+    /**
+     * Get news item as Everyone (general public)
+     * @param id News item ID
+     * @param specialty Specialty
+     * @return News item if permissions ok, otherwise null
+     */
+    News getSecureEveryone(Long id, Specialty specialty);
+
+    /**
+     * Get news item as Unit Admin
+     * @param id News item ID
+     * @param unitCodes List of unit codes the user belongs to
+     * @param specialty Specialty
+     * @return News item if permissions ok, otherwise null
+     */
+    News getSecureAdmin(Long id, List<String> unitCodes, Specialty specialty);
+
+    /**
+     * Get news item as Unit patient
+     * @param id News item ID
+     * @param unitCodes List of unit codes the user belongs to
+     * @param specialty Specialty
+     * @return News item if permissions ok, otherwise null
+     */
+    News getSecurePatient(Long id, List<String> unitCodes, Specialty specialty);
+
     void save(News news);
 
     void delete(News news);
