@@ -44,7 +44,7 @@ public interface NewsDao {
      * @param specialty Specialty
      * @return News item if permissions ok, otherwise null
      */
-    News getSecureEveryone(Long id, Specialty specialty);
+    News getSingleNewsAsEveryone(Long id, Specialty specialty);
 
     /**
      * Get news item as Unit Admin
@@ -53,7 +53,7 @@ public interface NewsDao {
      * @param specialty Specialty
      * @return News item if permissions ok, otherwise null
      */
-    News getSecureAdmin(Long id, List<String> unitCodes, Specialty specialty);
+    News getSingleNewsAsAdmin(Long id, List<String> unitCodes, Specialty specialty);
 
     /**
      * Get news item as Unit patient
@@ -62,7 +62,7 @@ public interface NewsDao {
      * @param specialty Specialty
      * @return News item if permissions ok, otherwise null
      */
-    News getSecurePatient(Long id, List<String> unitCodes, Specialty specialty);
+    News getSingleNewsAsPatient(Long id, List<String> unitCodes, Specialty specialty);
 
     void save(News news);
 

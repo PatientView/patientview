@@ -66,7 +66,7 @@ public class NewsManagerImpl implements NewsManager {
         User user  = userManager.getLoggedInUser();
 
         if (user == null) {
-            return newsDao.getSecureEveryone(id, securityUserManager.getLoggedInSpecialty());
+            return newsDao.getSingleNewsAsEveryone(id, securityUserManager.getLoggedInSpecialty());
         } else {
             String userType = LegacySpringUtils.getUserManager().getCurrentSpecialtyRole(user);
 
@@ -74,10 +74,10 @@ public class NewsManagerImpl implements NewsManager {
                 return newsDao.get(id);
             } else if ("unitadmin".equals(userType) || "unitstaff".equals(userType)) {
                 List<String> unitCodes = unitManager.getUsersUnitCodes(user);
-                return newsDao.getSecureAdmin(id, unitCodes, securityUserManager.getLoggedInSpecialty());
+                return newsDao.getSingleNewsAsAdmin(id, unitCodes, securityUserManager.getLoggedInSpecialty());
             } else if ("patient".equals(userType)) {
                 List<String> unitCodes = unitManager.getUsersUnitCodes(user);
-                return newsDao.getSecurePatient(id, unitCodes, securityUserManager.getLoggedInSpecialty());
+                return newsDao.getSingleNewsAsPatient(id, unitCodes, securityUserManager.getLoggedInSpecialty());
             }
             return null;
         }

@@ -46,7 +46,7 @@ import java.util.List;
 public class NewsDaoImpl extends AbstractHibernateDAO<News> implements NewsDao {
 
     @Override
-    public News getSecureEveryone(Long id, Specialty specialty) {
+    public News getSingleNewsAsEveryone(Long id, Specialty specialty) {
         CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<News> criteria = builder.createQuery(News.class);
         Root<News> from = criteria.from(News.class);
@@ -70,7 +70,7 @@ public class NewsDaoImpl extends AbstractHibernateDAO<News> implements NewsDao {
     }
 
     @Override
-    public News getSecureAdmin(Long id, List<String> unitCodes, Specialty specialty) {
+    public News getSingleNewsAsAdmin(Long id, List<String> unitCodes, Specialty specialty) {
         unitCodes.add("all");
 
         CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
@@ -106,7 +106,7 @@ public class NewsDaoImpl extends AbstractHibernateDAO<News> implements NewsDao {
     }
 
     @Override
-    public News getSecurePatient(Long id, List<String> unitCodes, Specialty specialty) {
+    public News getSingleNewsAsPatient(Long id, List<String> unitCodes, Specialty specialty) {
         unitCodes.add("all");
 
         CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
