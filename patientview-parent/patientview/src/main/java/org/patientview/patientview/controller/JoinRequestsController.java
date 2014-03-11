@@ -24,17 +24,26 @@
 package org.patientview.patientview.controller;
 
 import org.apache.commons.lang.StringUtils;
+import org.patientview.model.Specialty;
 import org.patientview.patientview.model.JoinRequest;
+import org.patientview.service.SpecialtyManager;
 import org.patientview.utils.LegacySpringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.beans.support.SortDefinition;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -43,8 +52,46 @@ import java.util.List;
 @Controller
 public class JoinRequestsController extends BaseController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(JoinRequestsController.class);
+
     @Value("${join.request.page.size}")
     private int pageSize;
+
+    @Inject
+    private SpecialtyManager specialtyManager;
+
+
+    /**
+     * Produce a list of all the specialties in the system
+     *
+     * @return
+     */
+    @RequestMapping(value = Routes.LIST_SPECIALTIES, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public List<Specialty> specialtyList() {
+        return specialtyManager.getAll();
+    }
+
+    /**
+     * Needs refactor into a form.
+     *
+     * @param nhsNumber
+     * @param firstName
+     * @param lastName
+     * @param dateOfBirth
+     * @param unitId
+     * @param email
+     * @param secuirtyQuestion
+     */
+    @RequestMapping(value = Routes.JOIN_REQUEST_SUBMIT)
+    public void submitJoinRequest(@RequestParam  String nhsNo, @RequestParam  String firstName,
+                                  @RequestParam  String lastName, @RequestParam  String dateOfBirth,
+                                  @RequestParam  Long unitId, @RequestParam  String email,
+                                  @RequestParam  String secuirtyQuestion) {
+
+        LOGGER.error("Executed endpoint");
+    }
+
 
     /**
      * Deal with the URIs "/control/joinRequestList"
@@ -122,6 +169,7 @@ public class JoinRequestsController extends BaseController {
 
         return forwardTo(request, Routes.JOIN_REQUEST_EDIT_INPUT_PAGE);
     }
+
 
     /**
      * Deal with the URIs "/control/joinRequestEdit"

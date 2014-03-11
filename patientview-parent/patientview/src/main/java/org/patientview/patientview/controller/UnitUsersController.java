@@ -31,9 +31,12 @@ import org.patientview.utils.LegacySpringUtils;
 import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.beans.support.SortDefinition;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -46,8 +49,12 @@ public class UnitUsersController extends BaseController {
     @Inject
     private UnitManager unitManager;
 
-    @RequestMapping(value = Routes.UNIT_BY_SPECIALTY_LIST_URL)
-    public List<Unit> getUnitsBySpecialty(@RequestParam Specialty specialty) {
+    @RequestMapping(value = Routes.UNIT_BY_SPECIALTY_LIST_URL, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public List<Unit> getUnitsBySpecialtyId(@RequestParam Long specialtyId) {
+        // Specialty Id is the only part required for this call
+        Specialty specialty = new Specialty();
+        specialty.setId(specialtyId);
         return unitManager.getUnitsBySpecialty(specialty);
     }
 

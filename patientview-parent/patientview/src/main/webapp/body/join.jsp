@@ -36,9 +36,8 @@
 <br />
 
 <div class="joinRequestModel">
-    <form action="/joinSubmit" styleClass="form-horizontal">
 
-
+    <form action="/web/joinRequestSubmit" styleClass="form-horizontal">
 
         <div class="control-group">
             <label class="control-label">First name</label>
@@ -72,8 +71,8 @@
             <label class="control-label">Specialty</label>
 
             <div class="controls">
-                <select id="specialty">
-                    <option value="-1" class="js-joinrequest-specialty" selected="selected">-- Select your specialty --</option>
+                <select id="specialty" class="js-joinrequest-specialty">
+                    <option value="-1" selected="selected">-- Select your specialty --</option>
                 </select>
             </div>
         </div>
@@ -82,7 +81,7 @@
             <label class="control-label">Unit</label>
 
             <div class="controls">
-                <select id="unitcode" class="js-joinrequest-unitcode">
+                <select id="unitcode" class="js-joinrequest-unit">
                     <option value="-1" selected="selected">-- Select your unit --</option>
                 </select>
             </div>
@@ -111,6 +110,5 @@
 
     </form>
 </div>
-<script src="/js/jquery-1.10.1.min.js"></script>
 <script src="/js/homejoinrequest.js" type="text/javascript"></script>
 

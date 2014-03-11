@@ -12,19 +12,35 @@ joinrequest.init = function()  {
 
     $(document).ready(function () {
 
-        $("#specialty").click("change", function() {
-            alert( "The specialty changed." );
+        $.getJSON('/web/listSpecialties', function(data) {
+
+            var specialties = $('.js-joinrequest-specialty');
+
+            $.each(data, function(i, result) {
+                specialties.append('<option value=' + result.id + '>' + result.name + '</option>');
+            });
+
+            specialties.click("change", function() {
+                var units = $('.js-joinrequest-unit');
+                var unitsUrl =  '/web/unit_by_specialty_list?specialtyId=' + specialties.val();
+
+                units.empty();
+
+                $.getJSON(unitsUrl, function(data) {
+                    $.each(data, function(i, result) {
+                        units.append('<option value=' + result.id + '>' + result.name + '</option>');
+                    });
+                });
+
+            });
+
         });
 
-        $("#unitcode").click("change",function() {
-            alert( "The unitcode changed." );
-        });
-
+        $('')
 
 
     });
 }
-
 
 joinrequest.getJoinRequest = function(form) {
 
@@ -35,7 +51,7 @@ joinrequest.getJoinRequest = function(form) {
         lastName = $form.find('.js-joinrequest-lastname'),
         dateOfBirth = $form.find('.js-joinrequest-dob'),
         nhsNumber = $form.find('.js-joinrequest-nhs-no'),
-        unitCode = $form.find('.js-joinrequest-unitcode'),
+        unitCode = $form.find('.js-joinrequest-unit'),
         specialty = $form.find('.js-joinrequest-specialty'),
         email = $form.find('.js-joinrequest-email'),
         securityQuestion = $form.find('.js-joinrequest-security-question'),
@@ -53,7 +69,7 @@ joinrequest.getJoinRequest = function(form) {
     data.lastName = lastName.val();
     data.dateOfBirth =  dateOfBirth.val();
     data.nhsNumber = nhsNumber.val();
-    data.unitCode = unitCode.val();
+    data.unitId = unitCode.val();
     data.email = email.val();
     data.securityQuestion = securityQuestion.val();
 
@@ -71,7 +87,7 @@ joinrequest.getJoinRequest = function(form) {
         error: function(jqXHR, textStatus, errorThrown) {
             onError(textStatus);
         },
-        dataType: 'json'
+        dataType: 'application/json'
     });
 
 }

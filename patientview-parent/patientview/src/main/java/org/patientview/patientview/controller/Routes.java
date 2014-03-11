@@ -46,14 +46,17 @@ public final class Routes {
     public static final String LOOKING_LOCAL_RESULTS_DISPLAY = "/lookinglocal/secure/resultsDisplay";
     public static final String LOOKING_LOCAL_LETTER_DISPLAY = "/lookinglocal/secure/letterDisplay";
 
+    public static final String LIST_SPECIALTIES = "/listSpecialties";
+
     public static final String JOIN_REQUEST_LIST_PAGE = "/control/join_request_list";
     public static final String JOIN_REQUEST_EDIT_INPUT_PAGE = "/control/join_requests_edit_input";
+    public static final String JOIN_REQUEST_SUBMIT = "/joinRequestSubmit";
 
     public static final String UNIT_PATIENTS_LIST_URL = "/control/unitPatients";
     public static final String UNIT_USERS_LIST_URL = "/control/unitUsers";
     public static final String UNIT_PATIENTS_LIST_PAGE = "/control/unit_patients";
     public static final String UNIT_USERS_LIST_PAGE = "/control/unit_users";
-    public static final String UNIT_BY_SPECIALTY_LIST_URL = "/control/unit_by_specialty_list";
+    public static final String UNIT_BY_SPECIALTY_LIST_URL = "/unit_by_specialty_list";
 
 
     public static final String EMAIL_VERIFICATION_URL = "/control/emailverification";
