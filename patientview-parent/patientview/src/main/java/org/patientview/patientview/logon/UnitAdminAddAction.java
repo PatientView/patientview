@@ -89,12 +89,25 @@ public class UnitAdminAddAction extends Action {
             }
 
             if (userMapping != null) {
+                // user exists in unit requested
                 request.setAttribute(LogonUtils.USER_ALREADY_EXISTS, username);
                 unitAdmin.setUsername("");
                 UnitUtils.setUserUnits(request);
                 mappingToFind = "input";
             } else {
+                // user exists but in other units
                 UserMapping userMappingNew = new UserMapping(username, unitcode, "");
+
+                // get string list of current user unit mappings and format into string for information
+                StringBuilder currentUnitCodes = new StringBuilder();
+                for (UserMapping existingUserMapping : usermappingList) {
+                    if (existingUserMapping.getUnitcode().length() > 0) {
+                        currentUnitCodes.append(existingUserMapping.getUnitcode() + ", ");
+                    }
+                }
+
+                request.setAttribute("currentUnitCodes", currentUnitCodes.substring(0,
+                        currentUnitCodes.length() - 2));
                 request.setAttribute("usermapping", userMappingNew);
                 mappingToFind = "existinguser";
             }

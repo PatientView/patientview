@@ -89,7 +89,9 @@ public final class CommonUtils {
             // It seems that the strings in the DB have different date formats, nice.
             for (String dateFormat : dataFormats) {
                 try {
-                    dateOfBirth = new SimpleDateFormat(dateFormat).parse(dateField);
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat);
+                    simpleDateFormat.setLenient(false);
+                    dateOfBirth = simpleDateFormat.parse(dateField);
                     break;
                 } catch (ParseException e) {
                     LOGGER.debug("Could not parse date of birth {}", dateField);
@@ -100,6 +102,39 @@ public final class CommonUtils {
         }
 
         return null;
+    }
+
+    /**
+     * Specific date parsing for dd-MM-yyyy text based date fields, as in UI, returned value is consistent
+     * with existing validation checks in RadarDateValidator
+     * @param date Date string to parse
+     * @return Date object, set to 0000-00-00 00:00:00 if could not parse (for validation by RadarDateValidator)
+     */
+    public static Date parseUKDate(String date) {
+        if (StringUtils.hasText(date)) {
+            try {
+                // force strict date parsing and return correctly parsed date
+                UK_DATE_FORMATTER.setLenient(false);
+                return UK_DATE_FORMATTER.parse(date);
+            } catch (ParseException e) {
+                LOGGER.debug("Could not parse date of birth {}", date);
+                try {
+                    // problem with date parsing, return 1000-00-00 00:00:00
+                    return new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse("0000-00-00 00:00:00");
+                } catch (ParseException e1) {
+                    // ignore parse exception during creation of SimpleDateFormat
+                    return null;
+                }
+            }
+        } else {
+            try {
+                // date string is empty, return 1000-00-00 00:00:00
+                return new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse("0000-00-00 00:00:00");
+            } catch (ParseException e2) {
+                // ignore parse exception during creation of SimpleDateFormat
+                return null;
+            }
+        }
     }
 
     public static String formatDate(Date date) {

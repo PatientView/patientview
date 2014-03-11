@@ -781,11 +781,17 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
         userMap.put(ID_FIELD_NAME, user.getUserId());
         userMap.put(USER_USERNAME_FIELD_NAME, user.getUsername());
         userMap.put(USER_PASSWORD_FIELD_NAME, user.getPassword());
-        userMap.put(USER_FIRST_NAME_FIELD_NAME, user.getFirstName());
-        userMap.put(USER_LAST_NAME_FIELD_NAME, user.getLastName());
         userMap.put(USER_EMAIL_FIELD_NAME, user.getEmail());
         userMap.put(USER_DUMMY_PATIENT_FIELD_NAME, false);
         userMap.put(USER_IS_CLINICIAN_FIELD_NAME, user.isClinician());
+
+        if (user instanceof ProfessionalUser) {
+            userMap.put(USER_FIRST_NAME_FIELD_NAME, ((ProfessionalUser) user).getForename());
+            userMap.put(USER_LAST_NAME_FIELD_NAME, ((ProfessionalUser) user).getSurname());
+        } else {
+            userMap.put(USER_FIRST_NAME_FIELD_NAME, user.getFirstName());
+            userMap.put(USER_LAST_NAME_FIELD_NAME, user.getLastName());
+        }
 
         if (user.hasValidUserId()) {
             namedParameterJdbcTemplate.update(buildUpdateQuery(USER_TABLE_NAME, ID_FIELD_NAME, userMap), userMap);
