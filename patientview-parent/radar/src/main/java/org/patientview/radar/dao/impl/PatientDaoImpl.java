@@ -439,6 +439,7 @@ public class PatientDaoImpl extends BaseDaoImpl implements PatientDao, Initializ
             patient.setPostcode(resultSet.getString("POSTCODE"));
             patient.setPostcodeOld(resultSet.getString("postcodeOld"));
             patient.setSexModel(getSex(resultSet.getString("SEX")));
+            patient.setSex(resultSet.getString("SEX"));
             patient.setEthnicity(getEthnicity(resultSet.getString("ethnicGp")));
             patient.setConsent(resultSet.getBoolean("CONSENT"));
             patient.setStatusModel(getStatus(resultSet.getLong("STATUS")));
