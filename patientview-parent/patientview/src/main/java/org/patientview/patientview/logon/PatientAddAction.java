@@ -35,8 +35,8 @@ import org.patientview.patientview.logging.AddLog;
 import org.patientview.patientview.model.User;
 import org.patientview.patientview.model.UserMapping;
 import org.patientview.patientview.unit.UnitUtils;
-import org.patientview.patientview.user.UserUtils;
 import org.patientview.service.UnitManager;
+import org.patientview.util.CommonUtils;
 import org.patientview.utils.LegacySpringUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -48,6 +48,7 @@ public class PatientAddAction extends Action {
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
                                  HttpServletResponse response) throws Exception {
 
+        // get patient details from form fields
         String username = BeanUtils.getProperty(form, "username");
         String password = LogonUtils.generateNewPassword();
         String gppassword = LogonUtils.generateNewPassword();
@@ -56,65 +57,80 @@ public class PatientAddAction extends Action {
         String email = BeanUtils.getProperty(form, "email");
         String nhsno = BeanUtils.getProperty(form, "nhsno").trim();
         String unitcode = BeanUtils.getProperty(form, "unitcode");
-        String overrideDuplicateNhsno = BeanUtils.getProperty(form, "overrideDuplicateNhsno");
         String overrideInvalidNhsno = BeanUtils.getProperty(form, "overrideInvalidNhsno");
         boolean dummypatient = "true".equals(BeanUtils.getProperty(form, "dummypatient"));
 
+        // get Unit selected by user
         UnitManager unitManager = LegacySpringUtils.getUnitManager();
         Unit unit = unitManager.get(unitcode);
+
+        // check if user is attempting to add patient to RADAR unit
         if ("radargroup".equalsIgnoreCase(unit.getSourceType())) {
             request.setAttribute("radarGroupPatient", unit.getName());
             return mapping.findForward("input");
         }
 
+        // create new PatientLogon object and set fields
         PatientLogon patientLogon = new PatientLogon(username, password, firstName, lastName,
                 email, false, true, dummypatient, null, 0, false);
 
+        // create 2 new UserMapping objects, one with selected details and another
+        // with generic PATIENT_ENTERS_UNITCODE unit code (currently user code "PATIENT")
         UserMapping userMapping = new UserMapping(username, unitcode, nhsno);
         UserMapping userMappingPatientEnters = new UserMapping(username, UnitUtils.PATIENT_ENTERS_UNITCODE, nhsno);
 
+        // add username-GP user for GP to log in and associated UserMapping
         PatientLogon gpPatientLogon = new PatientLogon(username + "-GP", gppassword, firstName,
                 lastName + "-GP", null, false, true, dummypatient, null, 0, false);
-
         UserMapping userMappingGp = new UserMapping(username + "-GP", unitcode, nhsno);
 
+        // get User object, used to check if user already exists
         User existingUser = LegacySpringUtils.getUserManager().get(username);
 
+        // get list of patients with same NHS number
         List existingPatientsWithSameNhsno = findExistingPatientsWithSameNhsno(nhsno);
 
         String mappingToFind = "";
-        if (!"on".equals(overrideInvalidNhsno) && !UserUtils.isNhsNumberValid(nhsno)) {
+
+        // check if NHS number is valid, if not then check again allowing pseudo NHS numbers and prompt user
+        // to allow pseudo NHS number in UI
+        if (!CommonUtils.isNhsNumberValid(nhsno) && !"on".equals(overrideInvalidNhsno)) {
             request.setAttribute(LogonUtils.INVALID_NHSNO, nhsno);
 
-            if (UserUtils.isNhsNumberValidWhenUppercaseLettersAreAllowed(nhsno)) {
+            if (CommonUtils.isNhsNumberValidWhenUppercaseLettersAreAllowed(nhsno)) {
                 request.setAttribute(LogonUtils.OFFER_TO_ALLOW_INVALID_NHSNO, nhsno);
             }
 
             mappingToFind = "input";
         }
 
+        // check if user already exists
         if (existingUser != null) {
             request.setAttribute(LogonUtils.USER_ALREADY_EXISTS, username);
             patientLogon.setUsername("");
             mappingToFind = "input";
         }
 
-        if (existingPatientsWithSameNhsno != null && !existingPatientsWithSameNhsno.isEmpty()
-                && !overrideDuplicateNhsno.equals("on")) {
+        // check other patients exist with same NHS no.
+        if (existingPatientsWithSameNhsno != null && !existingPatientsWithSameNhsno.isEmpty()) {
             for (Object obj : existingPatientsWithSameNhsno) {
                 UserMapping userMappingWithSameNhsno = (UserMapping) obj;
                 if (userMappingWithSameNhsno.getUnitcode().equalsIgnoreCase(unitcode)) {
+                    // patient with NHS no. found in current unit
                     request.setAttribute(LogonUtils.PATIENT_ALREADY_IN_UNIT, nhsno);
                     mappingToFind = "input";
                 }
             }
             if ("".equals(mappingToFind)) {
+                // patient with same NHS no. found in another unit, forwards to action asking to add this existing
+                // patient to current unit, ignoring all user entered details, firstname/lastname/username etc
                 request.setAttribute(LogonUtils.NHSNO_ALREADY_EXISTS, nhsno);
                 request.setAttribute(LogonUtils.PATIENTS_WITH_SAME_NHSNO, existingPatientsWithSameNhsno.get(0));
                 mappingToFind = "samenhsno";
             }
         }
 
+        // if all checks passed, save patient and related users
         if (mappingToFind.equals("")) {
             PatientLogon hashedPatient = (PatientLogon) patientLogon.clone();
             PatientLogon hashedGp = (PatientLogon) gpPatientLogon.clone();
@@ -138,14 +154,11 @@ public class PatientAddAction extends Action {
                 LegacySpringUtils.getPatientManager().save(patient);
             }
 
-
             AddLog.addLog(LegacySpringUtils.getSecurityUserManager().getLoggedInUsername(), AddLog.PATIENT_ADD,
                     patientLogon.getUsername(),
                     userMapping.getNhsno(), userMapping.getUnitcode(), "");
             mappingToFind = "success";
         }
-
-
 
         List<Unit> units = LegacySpringUtils.getUnitManager().getAll(false);
 

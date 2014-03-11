@@ -45,6 +45,7 @@ public class UnitAdminAddAction extends Action {
 
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
                                  HttpServletResponse response) throws Exception {
+        // get properties from form elements and generate new passwords
         String username = BeanUtils.getProperty(form, "username");
         String password = LogonUtils.generateNewPassword();
         String firstName = BeanUtils.getProperty(form, "firstName");
@@ -54,6 +55,8 @@ public class UnitAdminAddAction extends Action {
         String role = BeanUtils.getProperty(form, "role");
         boolean isRecipient = "true".equals(BeanUtils.getProperty(form, "isrecipient"));
         boolean isClinician = "true".equals(BeanUtils.getProperty(form, "isclinician"));
+
+        // create new UnitAdmin (extended from Logon but currently with no extra fields/methods)
         UnitAdmin unitAdmin = new UnitAdmin();
         unitAdmin.setUsername(username);
         unitAdmin.setPassword(password);
