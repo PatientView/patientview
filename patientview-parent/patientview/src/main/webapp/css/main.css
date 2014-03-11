@@ -25,6 +25,12 @@ h1, h2{
 	color: #0066cc;
 }
 
+h3{
+    font-size: 15px;
+    line-height: 20px;
+    margin-bottom: 15px;
+}
+
 .navbar-inner{
 	background: #0066cc;
     filter: none;
