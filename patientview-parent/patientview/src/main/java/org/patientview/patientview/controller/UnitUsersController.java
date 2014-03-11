@@ -49,7 +49,8 @@ public class UnitUsersController extends BaseController {
     @Inject
     private UnitManager unitManager;
 
-    @RequestMapping(value = Routes.UNIT_BY_SPECIALTY_LIST_URL, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = Routes.UNIT_BY_SPECIALTY_LIST_URL, method = RequestMethod.GET
+            , produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<Unit> getUnitsBySpecialtyId(@RequestParam Long specialtyId) {
         // Specialty Id is the only part required for this call

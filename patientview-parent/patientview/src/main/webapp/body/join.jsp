@@ -37,7 +37,7 @@
 
 <div class="joinRequestModel">
 
-    <form action="/web/joinRequestSubmit" styleClass="form-horizontal">
+    <form action="/web/joinRequestSubmit" class="js-joinrequest-form" styleClass="form-horizontal">
 
         <div class="control-group">
             <label class="control-label">First name</label>
