@@ -60,6 +60,7 @@ import org.patientview.utils.LegacySpringUtils;
 import org.springframework.core.io.Resource;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
@@ -93,6 +94,7 @@ public class ImporterTest extends BaseServiceTest {
     @Inject
     private DiagnosticManager diagnosticManager;
 
+    @Named(value = "importManager")
     @Inject
     private ImportManager importManager;
 
@@ -229,7 +231,7 @@ public class ImporterTest extends BaseServiceTest {
     }
 
     /**
-     * Test for a Process Exception with a invalid
+     * Test for a Process Exception with an invalid unit code
      *
      * @throws Exception
      */
@@ -238,6 +240,19 @@ public class ImporterTest extends BaseServiceTest {
 
         Resource xmlFileResource = springApplicationContextBean.getApplicationContext()
                 .getResource("classpath:A_00794_1234567890-InvalidUnitCode.gpg.xml");
+
+        importManager.process(xmlFileResource.getFile());
+    }
+
+    /**
+     * Test for Process Exception with invalid NHS number
+     * @throws Exception
+     */
+    @Test(expected = ProcessException.class)
+    public void testXmlParserChecksInvalidNHSNumber() throws Exception {
+
+        Resource xmlFileResource = springApplicationContextBean.getApplicationContext()
+                .getResource("classpath:A_00794_1234567890-InvalidNHSNumber.gpg.xml");
 
         importManager.process(xmlFileResource.getFile());
     }

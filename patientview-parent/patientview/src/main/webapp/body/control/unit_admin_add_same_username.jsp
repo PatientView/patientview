@@ -47,7 +47,11 @@ Please carefully check the details of that user, then you can choose to add the 
       <td><bean:write name="usermapping" property="username"/></td>
     </tr>
     <tr>
-      <td><b>NHS Number</b></td>
+        <td><b>User's Current Unit Codes</b></td>
+        <td><bean:write name="currentUnitCodes" /></td>
+    </tr>
+    <tr>
+      <td><b>Unit Code To Add To</b></td>
       <td><bean:write name="usermapping" property="unitcode" /></td>
     </tr>
     <tr>
