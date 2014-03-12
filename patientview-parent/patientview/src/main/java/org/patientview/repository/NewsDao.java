@@ -24,7 +24,7 @@
 package org.patientview.repository;
 
 import org.patientview.patientview.model.News;
-import org.patientview.patientview.model.Specialty;
+import org.patientview.model.Specialty;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +37,32 @@ import java.util.List;
 public interface NewsDao {
 
     News get(Long id);
+
+    /**
+     * Get news item as Everyone (general public)
+     * @param id News item ID
+     * @param specialty Specialty
+     * @return News item if permissions ok, otherwise null
+     */
+    News getSingleNewsAsEveryone(Long id, Specialty specialty);
+
+    /**
+     * Get news item as Unit Admin
+     * @param id News item ID
+     * @param unitCodes List of unit codes the user belongs to
+     * @param specialty Specialty
+     * @return News item if permissions ok, otherwise null
+     */
+    News getSingleNewsAsAdmin(Long id, List<String> unitCodes, Specialty specialty);
+
+    /**
+     * Get news item as Unit patient
+     * @param id News item ID
+     * @param unitCodes List of unit codes the user belongs to
+     * @param specialty Specialty
+     * @return News item if permissions ok, otherwise null
+     */
+    News getSingleNewsAsPatient(Long id, List<String> unitCodes, Specialty specialty);
 
     void save(News news);
 

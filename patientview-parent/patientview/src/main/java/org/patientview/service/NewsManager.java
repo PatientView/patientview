@@ -37,6 +37,8 @@ public interface NewsManager {
 
     News get(Long id);
 
+    News getSecure(Long id);
+
     void save(News news);
 
     void delete(Long id);

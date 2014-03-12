@@ -27,6 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import org.patientview.model.BaseModel;
+import org.patientview.model.Specialty;
 import org.patientview.patientview.utils.TimestampUtils;
 import org.patientview.utils.XssUtils;
 
@@ -159,6 +160,6 @@ public class News extends BaseModel {
     }
 
     public String getBodyForHtml() {
-        return XssUtils.encodeForHTML(getBody(), new String[] {"&#xd;&#xa;" });
+        return XssUtils.convertShortCodeToHTML(getBody());
     }
 }

@@ -5,14 +5,14 @@
 	<parent>
         <groupId>org.patientview</groupId>
         <artifactId>patientview-parent</artifactId>
-        <version>1.1-SNAPSHOT</version>
+        <version>1.1.3-SNAPSHOT</version>
     </parent>
 
     <groupId>org.patientview</groupId>
     <artifactId>radar</artifactId>
     <packaging>war</packaging>
 
-    <version>1.1-SNAPSHOT</version>
+    <version>1.1.3-SNAPSHOT</version>
 
     <name>Radar</name>
 
@@ -48,6 +48,15 @@
             <id>localhost</id>
             <properties>
                 <env>localhost</env>
+                <tomcatmanagerurl>http://radar.dev.solidstategroup.com/manager/text</tomcatmanagerurl>
+                <warpath>/</warpath>
+                <profile.build.output-webapp-dir>${project.build.directory}/${project.build.finalName}</profile.build.output-webapp-dir>
+            </properties>
+        </profile>
+        <profile>
+            <id>localhost-test</id>
+            <properties>
+                <env>localhost-test</env>
                 <tomcatmanagerurl>http://radar.dev.solidstategroup.com/manager/text</tomcatmanagerurl>
                 <warpath>/</warpath>
                 <profile.build.output-webapp-dir>${project.build.directory}/${project.build.finalName}</profile.build.output-webapp-dir>
@@ -299,7 +308,7 @@
         <dependency>
             <groupId>org.patientview</groupId>
             <artifactId>common</artifactId>
-            <version>1.1-SNAPSHOT</version>
+            <version>1.1.3-SNAPSHOT</version>
         </dependency>
 
         <dependency>
