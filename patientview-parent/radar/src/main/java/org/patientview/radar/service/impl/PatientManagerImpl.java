@@ -36,6 +36,7 @@ import org.patientview.radar.util.RadarUtility;
 
 import java.util.List;
 
+
 /**
  * Created for the new functionality with using just the on patient table. Going forward this can be then merged with
  * the class of the same name in Patient View
@@ -50,7 +51,6 @@ public class PatientManagerImpl implements PatientManager {
             + "title=\"Linked Patient\"></span>";
 
     private PatientDao patientDao;
-
 
     public List<Patient> getPatientByNhsNumber(String nhsNo) {
         return patientDao.getPatientsByNhsNumber(nhsNo);
