@@ -23,9 +23,9 @@
 
 package org.patientview.repository.impl;
 
+import org.patientview.model.Specialty;
 import org.patientview.patientview.model.EdtaCode;
 import org.patientview.patientview.model.EdtaCode_;
-import org.patientview.patientview.model.Specialty;
 import org.patientview.repository.AbstractHibernateDAO;
 import org.patientview.repository.EdtaCodeDao;
 import org.springframework.stereotype.Repository;

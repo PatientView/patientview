@@ -23,15 +23,14 @@
 
 package org.patientview.test.repository;
 
-import org.patientview.patientview.model.EdtaCode;
-import org.patientview.patientview.model.Specialty;
-import org.patientview.repository.EdtaCodeDao;
-import org.patientview.test.helpers.RepositoryHelpers;
 import org.junit.Before;
 import org.junit.Test;
+import org.patientview.model.Specialty;
+import org.patientview.patientview.model.EdtaCode;
+import org.patientview.repository.EdtaCodeDao;
+import org.patientview.test.helpers.RepositoryHelpers;
 
 import javax.inject.Inject;
-
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;

@@ -2,6 +2,7 @@
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
 <%@ taglib uri="http://jakarta.apache.org/taglibs/datetime-1.0" prefix="dt" %>
+<%@ page import="org.patientview.utils.LegacySpringUtils" %>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.Map" %>
 <%--
@@ -39,11 +40,11 @@
     <div class="span10" style="margin-left: 10px;margin-bottom:5px;">
         <div class="row" style="float: right;">
             <logic:equal value="false" name="unitUsers" property="firstPage">
-                <a href="./unitUsers?page=prev">Prev</a>&nbsp;
+                <a href="/<%=LegacySpringUtils.getSecurityUserManager().getLoggedInSpecialty().getContext()%>/web/control/unitUsers?page=prev">Prev</a>&nbsp;
             </logic:equal>
             &nbsp;
             <logic:equal value="false" name="unitUsers" property="lastPage">
-                <a href="./unitUsers?page=next">Next</a>
+                <a href="/<%=LegacySpringUtils.getSecurityUserManager().getLoggedInSpecialty().getContext()%>/web/control/unitUsers?page=next">Next</a>
             </logic:equal>
         </div>
     </div>
@@ -51,6 +52,8 @@
   <table cellpadding="3" border="0" class="table table-striped table-bordered table-condensed">
       <tr>
           <th class="tableheader" onclick="sort('name')"><a href="#">Name</a></th>
+          <th class="tableheader" onclick="sort('firstName')"><a href="#">First Name</a></th>
+          <th class="tableheader" onclick="sort('lastName')"><a href="#">Last Name</a></th>
           <th class="tableheader" onclick="sort('username')"><a href="#">Username</a></th>
           <th class="tableheader" onclick="sort('displayRole')"><a href="#">Role</a></th>
           <th class="tableheader" onclick="sort('email')"><a href="#">Email</a></th>
@@ -70,12 +73,14 @@
         %>
       <tr>
         <td class="tablecell">
-            <logic:present role="superadmin,unitadmin,radaradmin">
+            <logic:present role="superadmin,unitadmin">
                 <html:link action="/control/unitUserEditInput" name="patientKeyParams">
                     <bean:write name="unitUser" property="name"/>
                 </html:link>
             </logic:present>
         </td>
+        <td class="tablecell"><bean:write name="unitUser" property="firstName"/></td>
+        <td class="tablecell"><bean:write name="unitUser" property="lastName"/></td>
         <td class="tablecell"><bean:write name="unitUser" property="username"/></td>
         <td class="tablecell"><bean:write name="unitUser" property="displayRole"/></td>
         <td class="tablecell"><bean:write name="unitUser" property="email"/></td>

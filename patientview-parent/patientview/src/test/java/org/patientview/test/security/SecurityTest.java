@@ -23,17 +23,19 @@
 
 package org.patientview.test.security;
 
-import org.patientview.patientview.model.Specialty;
-import org.patientview.patientview.model.Unit;
+import org.junit.Before;
+import org.junit.Test;
+import org.patientview.model.Specialty;
+import org.patientview.model.Unit;
 import org.patientview.patientview.model.User;
-import org.patientview.patientview.model.Feedback;
-import org.patientview.patientview.model.UserMapping;
-import org.patientview.service.*;
+import org.patientview.service.FeedbackManager;
+import org.patientview.service.PatientManager;
+import org.patientview.service.SecurityUserManager;
+import org.patientview.service.UnitManager;
+import org.patientview.service.UserManager;
 import org.patientview.test.helpers.SecurityHelpers;
 import org.patientview.test.helpers.ServiceHelpers;
 import org.patientview.test.service.BaseServiceTest;
-import org.junit.Before;
-import org.junit.Test;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -41,14 +43,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import javax.inject.Inject;
-
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  *  Test the core functions of the security user manager and spring security context.
@@ -320,7 +324,8 @@ public class SecurityTest extends BaseServiceTest {
         serviceHelpers.createSpecialtyUserRole(specialty, superadmin, "superadmin");
         loginAsUser(superadmin.getUsername(), specialty);
 
-        unitManager.getAllUnitUsers(null);
+        //reinstatement. I don't know why without assert statement, I guess test no exception thrown. see testGetAllUnitUsersWithUnitAdmin method.
+        unitManager.getAllUnitUsers();
     }
 
     @Test(expected = AccessDeniedException.class)
@@ -330,7 +335,7 @@ public class SecurityTest extends BaseServiceTest {
         serviceHelpers.createSpecialtyUserRole(specialty2, unitadmin, "unitadmin");
         loginAsUser(unitadmin.getUsername(), specialty2);
 
-        patientManager.getAllUnitPatientsWithTreatment("", "", true);
+        patientManager.getAllUnitPatientsWithTreatment("", "","", true);
 
     }
 
@@ -343,7 +348,7 @@ public class SecurityTest extends BaseServiceTest {
         serviceHelpers.createSpecialtyUserRole(specialty, superadmin, "superadmin");
         loginAsUser(superadmin.getUsername(), specialty);
 
-        patientManager.getAllUnitPatientsWithTreatment("", "", true);
+        patientManager.getAllUnitPatientsWithTreatment("", "", "", true);
     }
 
     private void loginAsUser(String username, Specialty specialty) {

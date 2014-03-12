@@ -23,14 +23,6 @@
 
 package org.patientview.patientview.join;
 
-import org.patientview.ibd.action.BaseAction;
-import org.patientview.patientview.EmailUtils;
-import org.patientview.patientview.logon.LogonUtils;
-import org.patientview.patientview.model.JoinRequest;
-import org.patientview.patientview.model.Unit;
-import org.patientview.patientview.unit.UnitUtils;
-import org.patientview.patientview.user.UserUtils;
-import org.patientview.utils.LegacySpringUtils;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
@@ -39,6 +31,14 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.apache.struts.action.DynaActionForm;
+import org.patientview.ibd.action.BaseAction;
+import org.patientview.model.Unit;
+import org.patientview.patientview.EmailUtils;
+import org.patientview.patientview.logon.LogonUtils;
+import org.patientview.patientview.model.JoinRequest;
+import org.patientview.patientview.unit.UnitUtils;
+import org.patientview.patientview.user.UserUtils;
+import org.patientview.utils.LegacySpringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
