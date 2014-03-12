@@ -52,6 +52,8 @@
   <table cellpadding="3" border="0" class="table table-striped table-bordered table-condensed">
       <tr>
           <th class="tableheader" onclick="sort('name')"><a href="#">Name</a></th>
+          <th class="tableheader" onclick="sort('firstName')"><a href="#">First Name</a></th>
+          <th class="tableheader" onclick="sort('lastName')"><a href="#">Last Name</a></th>
           <th class="tableheader" onclick="sort('username')"><a href="#">Username</a></th>
           <th class="tableheader" onclick="sort('displayRole')"><a href="#">Role</a></th>
           <th class="tableheader" onclick="sort('email')"><a href="#">Email</a></th>
@@ -77,6 +79,8 @@
                 </html:link>
             </logic:present>
         </td>
+        <td class="tablecell"><bean:write name="unitUser" property="firstName"/></td>
+        <td class="tablecell"><bean:write name="unitUser" property="lastName"/></td>
         <td class="tablecell"><bean:write name="unitUser" property="username"/></td>
         <td class="tablecell"><bean:write name="unitUser" property="displayRole"/></td>
         <td class="tablecell"><bean:write name="unitUser" property="email"/></td>
