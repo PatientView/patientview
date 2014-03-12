@@ -20,6 +20,7 @@
  * @copyright Copyright (c) 2004-2013, Worth Solutions Limited
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
+
 package org.patientview.quartz;
 
 import com.Ostermiller.util.CSVPrinter;
@@ -34,12 +35,15 @@ import javax.inject.Inject;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
  *  Handle the import and export of UK transplant information for patients
  */
 public class UktImportExportScheduler {
+
+    private static final SimpleDateFormat EXPORT_DATE_FORMAT = new SimpleDateFormat("yyyy-mm-dd");
 
     @Value("${run.ukt.import.export}")
     private String runUkt;
@@ -99,21 +103,23 @@ public class UktImportExportScheduler {
         try {
             File uktExportDir = new File(uktExportDirectory);
             File uktExportFile = new File(uktExportDir, "ukt_rpv_export.txt");
-            if (uktExportFile.isFile()) {
-                CSVPrinter csv = new CSVPrinter(new FileWriter(uktExportFile));
-                csv.setAlwaysQuote(true);
-                csv.writeln(getPatients());
-                csv.flush();
-                csv.close();
-            } else {
-                LOGGER.error("Failed to exportUktData: uktExportFile is not a file");
+            if (!uktExportFile.isFile()) {
+                if (!uktExportFile.createNewFile()) {
+                    LOGGER.error("Failed to exportUktData: uktExportFile is not a file");
+                    return;
+                }
             }
+
+            CSVPrinter csv = new CSVPrinter(new FileWriter(uktExportFile));
+            csv.setAlwaysQuote(true);
+            csv.writeln(getPatients());
+            csv.flush();
+            csv.close();
+            LOGGER.info("Completed exportUktData()");
         } catch (Exception e) {
             LOGGER.error("Failed to exportUktData: {}", e.getMessage());
             LOGGER.debug(e.getMessage(), e);
         }
-
-        LOGGER.info("Completed exportUktData()");
     }
 
     // todo this should be moved out of here
@@ -129,7 +135,7 @@ public class UktImportExportScheduler {
             patientArray[i][0] = (patient.getNhsno() == null) ? "" : patient.getNhsno();
             patientArray[i][1] = cleanName(patient.getSurname());
             patientArray[i][2] = cleanName(patient.getForename());
-            patientArray[i][THREE] = (patient.getDateofbirth() == null) ? "" : patient.getDateofbirth();
+            patientArray[i][THREE] = (patient.getDob() == null) ? "" : EXPORT_DATE_FORMAT.format(patient.getDob());
             patientArray[i][FOUR] = (patient.getPostcode() == null) ? "" : patient.getPostcode();
         }
         return patientArray;

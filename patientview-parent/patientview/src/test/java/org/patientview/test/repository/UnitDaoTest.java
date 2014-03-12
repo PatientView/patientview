@@ -23,10 +23,11 @@
 
 package org.patientview.test.repository;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.patientview.model.Patient;
 import org.patientview.patientview.logon.UnitAdmin;
-import org.patientview.patientview.model.Specialty;
-import org.patientview.patientview.model.Unit;
+import org.patientview.model.Specialty;
+import org.patientview.model.Unit;
 import org.patientview.patientview.model.UnitStat;
 import org.patientview.patientview.model.User;
 import org.patientview.repository.PatientDao;
@@ -39,6 +40,7 @@ import org.patientview.test.helpers.SecurityHelpers;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -345,4 +347,57 @@ public class UnitDaoTest extends BaseDaoTest {
         assertEquals("Wrong number of users", "16/06/1985", users.get(0).getDateofbirthFormatted());
 
     }
+
+    /**
+     * test UnitDao.getAllUnitUsers method, this method is used by UnitUsersController.
+     * this method will be used when searching all unit users whose role is 'unitadmin' or 'unitstaff'.
+     */
+    @Test
+    public void testGetAllUnitUsers() {
+        // create 2 units('UNITCODEA' and 'UNITCODEB') and 3 users('paulc', 'deniz', 'dave')
+        //'paulc' and 'deniz' are in same unit 'UNITCODEA',
+        //'dave' is in 'UNITCODEB'.
+        //'deniz'' role is radaradmin, 'paulc' is 'unitadmin' and 'dave' is 'unitstaff'.
+        // so excuting getAllUnitUsers method will return 2 users, which are 'unitadmin' and 'dave'.
+        Unit unit = new Unit();
+        unit.setSpecialty(specialty);
+        unit.setUnitcode("UNITCODEA");
+        unit.setName("unit 1");
+        unit.setShortname("unit 1");
+        unitDao.save(unit);
+
+        unit = new Unit();
+        unit.setSpecialty(specialty);
+        unit.setUnitcode("UNITCODEB");
+        unit.setName("unit 2");
+        unit.setShortname("unit 2");
+        unitDao.save(unit);
+
+        User user = repositoryHelpers.createUserWithMapping("paulc", "paul@test.com", "p", "Paul", "UNITCODEA",
+                "nhs1", specialty);
+        repositoryHelpers.createSpecialtyUserRole(specialty, user, "unitadmin");
+
+        //this user's role is radaradmin, and he won't be in result list.
+        user = repositoryHelpers.createUserWithMapping("deniz", "deniz@test.com", "d", "Deniz", "UNITCODEA", "nhs2",
+                specialty);
+        repositoryHelpers.createSpecialtyUserRole(specialty, user, "radaradmin");
+
+        user = repositoryHelpers.createUserWithMapping("dave", "dave@test.com", "d", "Dave", "UNITCODEB", "nhs3",
+                specialty);
+        repositoryHelpers.createSpecialtyUserRole(specialty, user, "unitstaff");
+
+        securityHelpers.loginAsUser("paulc", specialty);
+
+        List<UnitAdmin> users = unitDao.getAllUnitUsers(specialty);
+        assertEquals("Wrong number of users in unit A", 2, users.size());
+
+        List<String> usernames = new ArrayList<String>();
+        for (UnitAdmin unitAdmin : users) {
+            usernames.add(unitAdmin.getUsername());
+        }
+        assertEquals("searching result is wrong", 0,
+                CollectionUtils.subtract(Arrays.asList(new String[]{"paulc", "dave"}),
+                        usernames).size());
+    }
+
 }
