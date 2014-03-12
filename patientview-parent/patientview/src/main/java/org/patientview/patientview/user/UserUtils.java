@@ -75,14 +75,17 @@ public final class UserUtils {
         LegacySpringUtils.getPatientManager().removePatientFromSystem(nhsno, unitcode);
     }
 
+    // depreciated, use CommonUtils
     public static boolean isNhsNumberValid(String nhsNumber) {
         return isNhsNumberValid(nhsNumber, false);
     }
 
+    // depreciated, use CommonUtils
     public static boolean isNhsNumberValidWhenUppercaseLettersAreAllowed(String nhsNumber) {
         return isNhsNumberValid(nhsNumber, true);
     }
 
+    // depreciated, use CommonUtils
     private static boolean isNhsNumberValid(String nhsNumber, boolean ignoreUppercaseLetters) {
 
         // Remove all whitespace and non-visible characters such as tab, new line etc
@@ -103,6 +106,7 @@ public final class UserUtils {
         return isNhsChecksumValid(nhsNumber);
     }
 
+    // depreciated, use CommonUtils
     private static boolean isNhsChecksumValid(String nhsNumber) {
         /**
          * Generate the checksum using modulus 11 algorithm
