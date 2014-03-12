@@ -418,7 +418,8 @@ public class DemographicsPanel extends Panel {
         final ClinicianDropDown clinician = new ClinicianDropDown("clinician", user, form.getModelObject());
         form.add(clinician);
 
-        DropDownChoice<Centre> renalUnit = new PatientCentreDropDown("renalUnit", user, form.getModelObject());
+        DropDownChoice<Centre> renalUnit = new PatientCentreDropDown("renalUnit", user, form.getModelObject(), form,
+                componentsToUpdateList);
 
         renalUnit.add(new AjaxFormComponentUpdatingBehavior("onchange") {
             @Override
