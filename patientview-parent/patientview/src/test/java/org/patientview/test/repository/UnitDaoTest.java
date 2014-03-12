@@ -24,27 +24,28 @@
 package org.patientview.test.repository;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.junit.Before;
+import org.junit.Test;
 import org.patientview.model.Patient;
-import org.patientview.patientview.logon.UnitAdmin;
 import org.patientview.model.Specialty;
 import org.patientview.model.Unit;
+import org.patientview.patientview.logon.UnitAdmin;
 import org.patientview.patientview.model.UnitStat;
 import org.patientview.patientview.model.User;
 import org.patientview.repository.PatientDao;
 import org.patientview.repository.UnitDao;
 import org.patientview.repository.UnitStatDao;
 import org.patientview.test.helpers.RepositoryHelpers;
-import org.junit.Before;
-import org.junit.Test;
 import org.patientview.test.helpers.SecurityHelpers;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  *
@@ -330,14 +331,14 @@ public class UnitDaoTest extends BaseDaoTest {
         Patient patient1 = new Patient();
         patient1.setNhsno("nhs1");
         patient1.setUnitcode("UNITCODEA");
-        patient1.setDateofbirth("1985-06-16");
+        patient1.setDateofbirth(new Date());
 
         patientDao.save(patient1);
 
         Patient patient2 = new Patient();
         patient2.setNhsno("nhs2");
         patient2.setUnitcode("UNITCODEA");
-        patient2.setDateofbirth("2001-05-01");
+        patient2.setDateofbirth(new Date());
 
         patientDao.save(patient2);
 
