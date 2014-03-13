@@ -24,25 +24,28 @@
 package org.patientview.test.repository;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.patientview.patientview.logon.UnitAdmin;
+import org.junit.Before;
+import org.junit.Test;
+import org.patientview.model.Patient;
 import org.patientview.model.Specialty;
 import org.patientview.model.Unit;
+import org.patientview.patientview.logon.UnitAdmin;
 import org.patientview.patientview.model.UnitStat;
 import org.patientview.patientview.model.User;
+import org.patientview.repository.PatientDao;
 import org.patientview.repository.UnitDao;
 import org.patientview.repository.UnitStatDao;
 import org.patientview.test.helpers.RepositoryHelpers;
-import org.junit.Before;
-import org.junit.Test;
 import org.patientview.test.helpers.SecurityHelpers;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  *
@@ -62,6 +65,9 @@ public class UnitDaoTest extends BaseDaoTest {
     private SecurityHelpers securityHelpers;
 
     private Specialty specialty;
+
+    @Inject
+    private PatientDao patientDao;
 
     @Test
     public void testAddGetUnitStatByUnitCode() {
@@ -310,6 +316,37 @@ public class UnitDaoTest extends BaseDaoTest {
 
         users = unitDao.getUnitUsers("UNITCODEB", specialty);
         assertEquals("Wrong number of users in unit B", 1, users.size());
+    }
+
+    @Test
+    public void testGetUnitPatientUsers() {
+        User user1 = repositoryHelpers.createUserWithMapping("paulc", "paul@test.com", "p", "Paul", "UNITCODEA",
+                "nhs1", specialty);
+        repositoryHelpers.createSpecialtyUserRole(specialty, user1, "patient");
+        User user2 = repositoryHelpers.createUserWithMapping("deniz", "deniz@test.com", "d", "Deniz", "UNITCODEA", "nhs2",
+                specialty);
+        repositoryHelpers.createSpecialtyUserRole(specialty, user2, "patient");
+
+        // create two patient
+        Patient patient1 = new Patient();
+        patient1.setNhsno("nhs1");
+        patient1.setUnitcode("UNITCODEA");
+        patient1.setDateofbirth(new Date());
+
+        patientDao.save(patient1);
+
+        Patient patient2 = new Patient();
+        patient2.setNhsno("nhs2");
+        patient2.setUnitcode("UNITCODEA");
+        patient2.setDateofbirth(new Date());
+
+        patientDao.save(patient2);
+
+        List<User> users = unitDao.getUnitPatientUsers("UNITCODEA", "Paul", specialty);
+        assertEquals("Wrong number of users", 1, users.size());
+        assertEquals("Wrong number of users", "Paul", users.get(0).getName());
+        assertEquals("Wrong number of users", "16/06/1985", users.get(0).getDateofbirthFormatted());
+
     }
 
     /**

@@ -97,4 +97,6 @@ public interface UnitManager {
     List<UnitAdmin> getAllUnitUsers();
 
     List<User> getUnitPatientUsers(String unitcode, Specialty specialty);
+
+    List<User> getUnitPatientUsers(String unitcode, String name, Specialty specialty);
 }
