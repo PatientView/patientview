@@ -30,13 +30,10 @@ import org.apache.struts.action.ActionMapping;
 import org.patientview.model.Unit;
 import org.patientview.patientview.logging.AddLog;
 import org.patientview.patientview.model.User;
-import org.patientview.patientview.user.UserUtils;
 import org.patientview.service.SecurityUserManager;
 import org.patientview.service.UnitManager;
 import org.patientview.service.UserManager;
-import org.patientview.utils.LegacySpringUtils;
 import org.springframework.web.struts.ActionSupport;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
