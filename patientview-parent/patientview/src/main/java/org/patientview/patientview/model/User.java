@@ -25,14 +25,20 @@ package org.patientview.patientview.model;
 
 import org.patientview.model.BaseModel;
 import org.patientview.utils.LegacySpringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
 public class User extends BaseModel {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(User.class);
 
     @Column(nullable = false, unique = true)
     private String username;
@@ -41,7 +47,10 @@ public class User extends BaseModel {
     private String password;
 
     @Column(nullable = true)
-    private String name;
+    private String firstName;
+
+    @Column(nullable = true)
+    private String lastName;
 
     @Column(nullable = true)
     private String email;
@@ -76,6 +85,9 @@ public class User extends BaseModel {
     @Column(nullable = true)
     private Date updated;
 
+    @Transient
+    private Date dateofbirth;
+
     public User() {
     }
 
@@ -89,12 +101,25 @@ public class User extends BaseModel {
         return LegacySpringUtils.getUserManager().getCurrentSpecialtyRole(this);
     }
 
+    @Transient
     public String getName() {
-        return name;
+        return firstName + " " + lastName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getPassword() {
@@ -199,5 +224,31 @@ public class User extends BaseModel {
 
     public void setUpdated(Date updated) {
         this.updated = updated;
+    }
+
+    public String getDateofbirthFormatted() {
+        if (dateofbirth != null) {
+            try {
+                return new SimpleDateFormat("dd/MM/yyyy").format(dateofbirth);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return "";
+            }
+        }
+
+        return "";
+    }
+
+    public void setDateofbirth(String dateofbirth) {
+        if (dateofbirth != null) {
+            // It seems that the Dob in the DB have different date formats.
+            for (String dateFormat : new String[]{"dd.MM.y", "yyyy-MM-dd"}) {
+                try {
+                    this.dateofbirth = new SimpleDateFormat(dateFormat).parse(dateofbirth);
+                } catch (ParseException e) {
+                    LOGGER.debug("Could not parse date of birth {}", dateofbirth);
+                }
+            }
+        }
     }
 }

@@ -23,21 +23,19 @@
 
 package org.patientview.repository.impl;
 
+import org.patientview.model.Specialty;
+import org.patientview.model.Unit;
+import org.patientview.model.Unit_;
 import org.patientview.patientview.logon.UnitAdmin;
-import org.patientview.patientview.model.Specialty;
-import org.patientview.patientview.model.Unit;
-import org.patientview.patientview.model.Unit_;
 import org.patientview.patientview.model.User;
 import org.patientview.repository.AbstractHibernateDAO;
 import org.patientview.repository.UnitDao;
-import org.patientview.utils.LegacySpringUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
-import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -269,19 +267,10 @@ public class UnitDaoImpl extends AbstractHibernateDAO<Unit> implements UnitDao {
                 + "AND "
                 + "   sur.specialty_id = ? "
                 + "AND "
-                + "   um.unitcode = ? ";
+                + "   um.unitcode = ? "
+                + " AND "
+                + " (sur.role = 'unitadmin' OR sur.role = 'unitstaff') ";
 
-        String userRole = LegacySpringUtils.getUserManager().getLoggedInUserRole();
-        if ("radaradmin".equals(userRole)) {
-            sql += " AND "
-                    + " (sur.role = 'radaradmin') ";
-        } else if ("unitadmin".equals(userRole)) {
-            sql += " AND "
-                    + " (sur.role = 'unitadmin' OR sur.role = 'unitstaff') ";
-        } else if ("superadmin".equals(userRole)) {
-            sql += " AND "
-                    + " (sur.role = 'radaradmin' OR sur.role = 'unitadmin' OR sur.role = 'unitstaff') ";
-        }
 
         List<Object> params = new ArrayList<Object>();
         params.add(specialty == null ? "" : specialty.getId());
@@ -295,7 +284,8 @@ public class UnitDaoImpl extends AbstractHibernateDAO<Unit> implements UnitDao {
         public UnitAdmin mapRow(ResultSet resultSet, int i) throws SQLException {
             UnitAdmin unitAdmin = new UnitAdmin();
             unitAdmin.setUsername(resultSet.getString("username"));
-            unitAdmin.setName(resultSet.getString("name"));
+            unitAdmin.setFirstName(resultSet.getString("firstName"));
+            unitAdmin.setLastName(resultSet.getString("lastName"));
             unitAdmin.setEmail(resultSet.getString("email"));
             unitAdmin.setEmailverified(resultSet.getBoolean("emailverified"));
             unitAdmin.setRole(resultSet.getString("surrole"));
@@ -310,7 +300,7 @@ public class UnitDaoImpl extends AbstractHibernateDAO<Unit> implements UnitDao {
     }
 
     @Override
-    public List<UnitAdmin> getAllUnitUsers(Boolean isRadarGroup, Specialty specialty) {
+    public List<UnitAdmin> getAllUnitUsers(Specialty specialty) {
         String sql = "SELECT "
                 + "  u.*, um.unitcode, sur.role as surrole  "
                 + "FROM "
@@ -323,13 +313,7 @@ public class UnitDaoImpl extends AbstractHibernateDAO<Unit> implements UnitDao {
                 + "   u.id = sur.user_id "
                 + "AND "
                 + "   sur.specialty_id = ? "
-                + "AND ";
-
-        if (isRadarGroup == Boolean.TRUE) {
-            sql += "   (sur.role = 'radaradmin')";
-        } else {
-            sql += "   (sur.role = 'unitadmin' OR sur.role = 'unitstaff')";
-        }
+                + "AND (sur.role = 'unitadmin' OR sur.role = 'unitstaff')";
 
         List<Object> params = new ArrayList<Object>();
         params.add(specialty == null ? "" : specialty.getId());
@@ -341,9 +325,10 @@ public class UnitDaoImpl extends AbstractHibernateDAO<Unit> implements UnitDao {
     @Override
     public List<User> getUnitPatientUsers(String unitcode, Specialty specialty) {
         String sql = "SELECT "
-                + "   u.* "
+                + "   u.*,"
+                + " patient.dateofbirth "
                 + "FROM "
-                + "   usermapping um, "
+                + "   usermapping um LEFT OUTER JOIN patient on um.nhsno = patient.nhsno, "
                 + "   USER u, "
                 + "   specialtyuserrole sur "
                 + "WHERE"
@@ -351,17 +336,64 @@ public class UnitDaoImpl extends AbstractHibernateDAO<Unit> implements UnitDao {
                 + "AND"
                 + "   u.id = sur.user_id "
                 + "AND"
-                + "   sur.specialty_id = :specialtyId "
+                + "   sur.specialty_id = ? "
                 + "AND"
-                + "   um.unitcode = :unitcode "
+                + "   um.unitcode = ? "
                 + "AND"
                 + "   sur.role = 'patient' ";
 
-        Query query = getEntityManager().createNativeQuery(sql, User.class);
 
-        query.setParameter("specialtyId", specialty.getId());
-        query.setParameter("unitcode", unitcode);
 
-        return query.getResultList();
+        List<Object> params = new ArrayList<Object>();
+        params.add(specialty.getId());
+        params.add(unitcode);
+
+        return jdbcTemplate.query(sql, params.toArray(), new UserMapper());
+    }
+
+    @Override
+    public List<User> getUnitPatientUsers(String unitcode, String name, Specialty specialty) {
+        String sql = "SELECT "
+                + "   u.*,"
+                + " patient.dateofbirth "
+                + "FROM "
+                + "   usermapping um LEFT OUTER JOIN patient on um.nhsno = patient.nhsno, "
+                + "   USER u, "
+                + "   specialtyuserrole sur "
+                + "WHERE"
+                + "   um.username = u.username "
+                + "AND"
+                + "   u.id = sur.user_id "
+                + "AND"
+                + "   sur.specialty_id = ? "
+                + "AND"
+                + "   um.unitcode = ? "
+                + "AND"
+                + "   sur.role = 'patient' ";
+
+        List<Object> params = new ArrayList<Object>();
+        params.add(specialty.getId());
+        params.add(unitcode);
+
+        if (name != null && !"".equals(name)) {
+            sql += " AND u.name LIKE '%" + name + "%' ";
+        }
+
+        return jdbcTemplate.query(sql, params.toArray(), new UserMapper());
+    }
+
+    private class UserMapper implements RowMapper<User> {
+
+        @Override
+        public User mapRow(ResultSet resultSet, int i) throws SQLException {
+
+            User user = new User();
+            user.setId(resultSet.getLong("id"));
+            user.setUsername(resultSet.getString("username"));
+            user.setFirstName(resultSet.getString("firstname"));
+            user.setLastName(resultSet.getString("lastname"));
+            user.setDateofbirth(resultSet.getString("dateofbirth"));
+            return user;
+        }
     }
 }

@@ -27,7 +27,7 @@ import org.patientview.patientview.logon.UnitAdmin;
 import org.patientview.patientview.model.Conversation;
 import org.patientview.patientview.model.Message;
 import org.patientview.patientview.model.User;
-import org.patientview.patientview.model.Unit;
+import org.patientview.model.Unit;
 import org.patientview.patientview.model.Job;
 import org.patientview.patientview.model.MessageRecipient;
 import org.patientview.patientview.model.enums.GroupEnum;
@@ -439,6 +439,29 @@ public class MessageManagerImpl implements MessageManager {
         if (unit != null) {
             if (!unit.getUnitcode().equalsIgnoreCase("patient")) {
                 List<User> unitPatients = unitManager.getUnitPatientUsers(unit.getUnitcode(),
+                        unit.getSpecialty());
+
+                for (User unitPatient : unitPatients) {
+                    if (canIncludePatient(unitPatient)) {
+                        unitPatientRecipients.add(unitPatient);
+                    }
+                }
+            }
+        }
+
+        // sort by name
+        Collections.sort(unitPatientRecipients, new UserComparator());
+
+        return unitPatientRecipients;
+    }
+
+    @Override
+    public List<User> getUnitPatientRecipients(Unit unit, String name, User requestingUser) {
+        List<User> unitPatientRecipients = new ArrayList<User>();
+
+        if (unit != null) {
+            if (!unit.getUnitcode().equalsIgnoreCase("patient")) {
+                List<User> unitPatients = unitManager.getUnitPatientUsers(unit.getUnitcode(), name,
                         unit.getSpecialty());
 
                 for (User unitPatient : unitPatients) {

@@ -28,7 +28,11 @@
 
 <html:xhtml/>
 
-<p class="header">Patient</p>
+<div class="span9">
+
+    <div class="page-header">
+        <h1>Unit User</h1>
+    </div>
 
 
 There is already a unit user registered on RPV with that user name but in another unit.
@@ -43,7 +47,11 @@ Please carefully check the details of that user, then you can choose to add the 
       <td><bean:write name="usermapping" property="username"/></td>
     </tr>
     <tr>
-      <td><b>NHS Number</b></td>
+        <td><b>User's Current Unit Codes</b></td>
+        <td><bean:write name="currentUnitCodes" /></td>
+    </tr>
+    <tr>
+      <td><b>Unit Code To Add To</b></td>
       <td><bean:write name="usermapping" property="unitcode" /></td>
     </tr>
     <tr>
@@ -61,3 +69,5 @@ Please carefully check the details of that user, then you can choose to add the 
 
 <br />
 
+</div>
+</div>

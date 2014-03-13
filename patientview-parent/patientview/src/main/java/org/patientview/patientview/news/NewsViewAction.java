@@ -40,7 +40,7 @@ public class NewsViewAction extends Action {
                                  HttpServletResponse response) throws Exception {
         String id = BeanUtils.getProperty(form, "id");
         Long idLong = Long.decode(id);
-        News newsItem = LegacySpringUtils.getNewsManager().get(idLong);
+        News newsItem = LegacySpringUtils.getNewsManager().getSecure(idLong);
         request.setAttribute("news", newsItem);
         NewsUtils.putAppropriateNewsForViewingInRequest(request);
 
