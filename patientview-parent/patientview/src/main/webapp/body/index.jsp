@@ -35,7 +35,7 @@
                     <div class="active item">
                         <img src="/img/content/heroImage-man.jpg" alt="heroImage">
                         <div class="carousel-caption">
-                            <h4 class="largeCarouselTitle"><em>Renal PatientView</em></h4>
+                            <h4 class="largeCarouselTitle"><em>PatientView</em></h4>
                             <ul class="heroList">
                                 <li><em>Manage </em> your condition and medications</li>
                                 <li><em>Monitor </em> your symptoms and tests</li>
@@ -51,7 +51,7 @@
 
 <div class="row">
     <div class="span4 seperatingBorders">
-        <h3 class="mediumBlueTitle titleSeperator">About <em>Renal PatientView</em></h3>
+        <h3 class="mediumBlueTitle titleSeperator">About <em>PatientView</em></h3>
         <p>
             PatientView shows patients' latest test results plus information about their diagnosis and treatment.
             They can share this information with anyone they want, and view it from anywhere in the world.
