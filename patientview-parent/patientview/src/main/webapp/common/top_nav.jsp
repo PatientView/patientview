@@ -146,15 +146,15 @@
     %>
 
     <logic:present specialty="renal">
-        <li><html:link action="/help" styleClass="<%= ("help".equals(request.getAttribute("currentNav"))) ? "navlinkon" : "navlink" %>">Help?</html:link></li>
+        <li><html:link action="/help" styleClass='<%= ("help".equals(request.getAttribute("currentNav"))) ? "navlinkon" : "navlink" %>'>Help?</html:link></li>
     </logic:present>
 
     <logic:present specialty="ibd">
-        <li><html:link action="/ibd-help" styleClass="<%= ("help".equals(request.getAttribute("currentNav"))) ? "navlinkon" : "navlink" %>">Help?</html:link></li>
+        <li><html:link action="/ibd-help" styleClass='<%= ("help".equals(request.getAttribute("currentNav"))) ? "navlinkon" : "navlink" %>'>Help?</html:link></li>
     </logic:present>
 
     <logic:present specialty="diabetes">
-        <li><html:link action="/diabetes-help" styleClass="<%= ("help".equals(request.getAttribute("currentNav"))) ? "navlinkon" : "navlink" %>">Help?</html:link></li>
+        <li><html:link action="/diabetes-help" styleClass='<%= ("help".equals(request.getAttribute("currentNav"))) ? "navlinkon" : "navlink" %>'>Help?</html:link></li>
     </logic:present>
 
     <%
