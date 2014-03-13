@@ -92,7 +92,7 @@
             </div>
 
             <div class="control-group">
-                <label class="control-label">Account Unlocked</label>
+                <label class="control-label">Account/Password Unlocked</label>
                 <div class="controls">
                     <logic:equal name="patient" property="accountlocked" value="false"><big><font color="green">&#10004;</font></big></logic:equal>
                     <logic:equal name="patient" property="accountlocked" value="true"><big><font color="red">&#10008;</font></big></logic:equal>

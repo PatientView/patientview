@@ -24,7 +24,6 @@
 package org.patientview.patientview.logon;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -32,18 +31,27 @@ import org.patientview.model.Unit;
 import org.patientview.patientview.logging.AddLog;
 import org.patientview.patientview.model.User;
 import org.patientview.patientview.user.UserUtils;
+import org.patientview.service.SecurityUserManager;
+import org.patientview.service.UnitManager;
+import org.patientview.service.UserManager;
 import org.patientview.utils.LegacySpringUtils;
+import org.springframework.web.struts.ActionSupport;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-public class PasswordLockAction extends Action {
+public class PasswordLockAction extends ActionSupport {
 
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
                                  HttpServletResponse response) throws Exception {
+
+        UnitManager unitManager = getWebApplicationContext().getBean(UnitManager.class);
+        UserManager userManager = getWebApplicationContext().getBean(UserManager.class);
+        SecurityUserManager securityUserManager = getWebApplicationContext().getBean(SecurityUserManager.class);
+
         String username = BeanUtils.getProperty(form, "username");
-        User user = LegacySpringUtils.getUserManager().get(username);
+        User user = userManager.get(username);
 
         String mappingToFind = "";
 
@@ -52,14 +60,13 @@ public class PasswordLockAction extends Action {
             user.setAccountlocked(true);
             LegacySpringUtils.getUserManager().save(user);
 
-            AddLog.addLog(LegacySpringUtils.getSecurityUserManager().getLoggedInUsername(), AddLog.PASSWORD_LOCKED,
-                    user.getUsername(), "",
-                    UserUtils.retrieveUsersRealUnitcodeBestGuess(username), "");
+            AddLog.addLog(securityUserManager.getLoggedInUsername(), AddLog.PASSWORD_LOCKED,
+                    user.getUsername(), "", UserUtils.retrieveUsersRealUnitcodeBestGuess(username), "");
 
             mappingToFind = "success";
         }
 
-        List<Unit> units = LegacySpringUtils.getUnitManager().getAll(false);
+        List<Unit> units = unitManager.getAll(false);
         request.setAttribute("units", units);
         request.setAttribute("user", user);
 
