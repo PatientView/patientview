@@ -48,7 +48,9 @@ import org.patientview.radar.service.UtilityManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GradientPaint;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
