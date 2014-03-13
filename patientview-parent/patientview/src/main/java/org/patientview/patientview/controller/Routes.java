@@ -32,6 +32,8 @@ public final class Routes {
     public static final String JOIN_REQUEST_EDIT_URL = "/control/joinRequestEdit";
     public static final String JOIN_REQUEST_EDIT_INPUT_URL = "/control/joinRequestEditInput";
 
+
+
     public static final String SERVER_URL = "/web";
 
     public static final String LOOKING_LOCAL_HOME = "/lookinglocal/home";
@@ -44,15 +46,24 @@ public final class Routes {
     public static final String LOOKING_LOCAL_RESULTS_DISPLAY = "/lookinglocal/secure/resultsDisplay";
     public static final String LOOKING_LOCAL_LETTER_DISPLAY = "/lookinglocal/secure/letterDisplay";
 
+    public static final String LIST_SPECIALTIES = "/listSpecialties";
+
     public static final String JOIN_REQUEST_LIST_PAGE = "/control/join_request_list";
     public static final String JOIN_REQUEST_EDIT_INPUT_PAGE = "/control/join_requests_edit_input";
+    public static final String JOIN_REQUEST_SUBMIT = "/joinRequestSubmit";
 
     public static final String UNIT_PATIENTS_LIST_URL = "/control/unitPatients";
     public static final String UNIT_USERS_LIST_URL = "/control/unitUsers";
     public static final String UNIT_PATIENTS_LIST_PAGE = "/control/unit_patients";
     public static final String UNIT_USERS_LIST_PAGE = "/control/unit_users";
+    public static final String UNIT_BY_SPECIALTY_LIST_URL = "/unit_by_specialty_list";
+
 
     public static final String EMAIL_VERIFICATION_URL = "/control/emailverification";
+
+    public static final String DIABETES_CAREPLAN_URL = "/careplan-diabetes";
+    public static final String DIABETES_CAREPLAN_UPDATE_URL = "/careplan-update";
+    public static final String DIABETES_CAREPLAN_PAGE = "/diabetes/careplan/careplan-edit";
 
     private Routes() { }
 }

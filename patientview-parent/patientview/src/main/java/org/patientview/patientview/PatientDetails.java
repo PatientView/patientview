@@ -25,6 +25,7 @@ package org.patientview.patientview;
 
 import org.patientview.model.Patient;
 import org.patientview.patientview.model.EdtaCode;
+import org.patientview.patientview.model.MyDiabetes;
 import org.patientview.patientview.uktransplant.UktStatusForPatient;
 import org.patientview.model.Unit;
 
@@ -38,6 +39,7 @@ public class PatientDetails {
     private EdtaCode edtaTreatment;
     private UktStatusForPatient uktStatus;
     private List otherDiagnoses;
+    private MyDiabetes myDiabetes;
 
     public PatientDetails() {
     }
@@ -88,5 +90,13 @@ public class PatientDetails {
 
     public void setOtherDiagnoses(List otherDiagnoses) {
         this.otherDiagnoses = otherDiagnoses;
+    }
+
+    public MyDiabetes getMyDiabetes() {
+        return myDiabetes;
+    }
+
+    public void setMyDiabetes(MyDiabetes myDiabetes) {
+        this.myDiabetes = myDiabetes;
     }
 }

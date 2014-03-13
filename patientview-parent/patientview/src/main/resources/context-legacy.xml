@@ -24,10 +24,8 @@
 
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
-            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd">
+           http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
     <bean id="setAboutmeManager" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
         <property name="staticMethod" value="org.patientview.utils.LegacySpringUtils.setAboutmeManager"/>
@@ -182,6 +180,15 @@
         </property>
     </bean>
 
+    <bean id="setSpecialtyManager" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod" value="org.patientview.utils.LegacySpringUtils.setSpecialtyManager"/>
+        <property name="arguments">
+            <list>
+                <ref bean="specialtyManager"/>
+            </list>
+        </property>
+    </bean>
+
     <bean id="setSplashPageManager" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
         <property name="staticMethod" value="org.patientview.utils.LegacySpringUtils.setSplashPageManager"/>
         <property name="arguments">
@@ -290,6 +297,33 @@
         </property>
     </bean>
 
+    <bean id="setFootCheckupManager" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod" value="org.patientview.utils.LegacySpringUtils.setFootCheckupManager"/>
+        <property name="arguments">
+            <list>
+                <ref bean="footCheckupManager"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="setEyeCheckupManager" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod" value="org.patientview.utils.LegacySpringUtils.setEyeCheckupManager"/>
+        <property name="arguments">
+            <list>
+                <ref bean="eyeCheckupManager"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="setDiabetesCarePlanManager" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod" value="org.patientview.utils.LegacySpringUtils.setDiabetesCarePlanManager"/>
+        <property name="arguments">
+            <list>
+                <ref bean="diabetesCarePlanManager"/>
+            </list>
+        </property>
+    </bean>    
+    
     <bean id="setContextProperties" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
         <property name="staticMethod" value="org.patientview.utils.LegacySpringUtils.setContextProperties"/>
         <property name="arguments">
@@ -298,14 +332,15 @@
             </list>
         </property>
     </bean>
-
+    
     <bean id="setGeneticsManager" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
         <property name="staticMethod" value="org.patientview.utils.LegacySpringUtils.setGeneticsManager"/>
-        <property name="arguments">
-            <list>
-                <ref bean="geneticsManager"/>
-            </list>
-        </property>
-    </bean>
+            <property name="arguments">
+                <list>
+                    <ref bean="geneticsManager"/>
+                </list>
+            </property>
+        </bean>        
+
 
 </beans>

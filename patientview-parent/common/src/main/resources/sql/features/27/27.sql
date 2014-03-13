@@ -1,3 +1,4 @@
+
 # Removing the bad patient mappings
 
 DELETE   usm
@@ -50,7 +51,5 @@ WHERE dig.radar_no > 900;
 UPDATE tbl_hospitalisation dig
 SET radar_no = (SELECT radarno FROM patient ptt WHERE ptt.id = dig.radar_no)
 WHERE dig.radar_no > 900;
-
-
 
 

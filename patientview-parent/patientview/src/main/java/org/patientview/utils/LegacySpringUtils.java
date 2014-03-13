@@ -45,13 +45,18 @@ import org.patientview.service.NewsManager;
 import org.patientview.service.PatientManager;
 import org.patientview.service.ResultHeadingManager;
 import org.patientview.service.SecurityUserManager;
+import org.patientview.service.SpecialtyManager;
 import org.patientview.service.SplashPageManager;
 import org.patientview.service.TestResultManager;
 import org.patientview.service.TimeManager;
 import org.patientview.service.UKTransplantManager;
 import org.patientview.service.UnitManager;
 import org.patientview.service.UserManager;
+import org.patientview.service.UserLogManager;
+import org.patientview.service.FootCheckupManager;
+import org.patientview.service.EyeCheckupManager;
 import org.patientview.service.ibd.IbdManager;
+import org.patientview.service.DiabetesCarePlanManager;
 import org.patientview.service.impl.SpringApplicationContextBean;
 
 import java.util.Properties;
@@ -111,6 +116,8 @@ public final class LegacySpringUtils {
 
     private static UserManager userManager;
 
+    private static UserLogManager userLogManager;
+
     private static IbdManager ibdManager;
 
     private static MessageManager messageManager;
@@ -123,9 +130,18 @@ public final class LegacySpringUtils {
 
     private static Properties contextProperties;
 
+    private static FootCheckupManager footCheckupManager;
+
+    private static EyeCheckupManager eyeCheckupManager;
+
+    private static DiabetesCarePlanManager diabetesCarePlanManager;
+
     private static GeneticsManager geneticsManager;
 
+    private static SpecialtyManager specialtyManager;
+
     private LegacySpringUtils() {
+
     }
 
     public static AboutmeManager getAboutmeManager() {
@@ -308,6 +324,14 @@ public final class LegacySpringUtils {
         return userManager;
     }
 
+    public static UserLogManager getUserLogManager() {
+        return userLogManager;
+    }
+
+    public static void setUserLogManager(UserLogManager userLogManager) {
+        LegacySpringUtils.userLogManager = userLogManager;
+    }
+
     public static void setUserManager(UserManager userManager) {
         LegacySpringUtils.userManager = userManager;
     }
@@ -356,8 +380,32 @@ public final class LegacySpringUtils {
         return adminNotificationManager;
     }
 
+    public static void setFootCheckupManager(FootCheckupManager checkupsManager) {
+        LegacySpringUtils.footCheckupManager = checkupsManager;
+    }
+
+    public static FootCheckupManager getFootCheckupManager() {
+        return footCheckupManager;
+    }
+
+    public static void setEyeCheckupManager(EyeCheckupManager checkupsManager) {
+        LegacySpringUtils.eyeCheckupManager = checkupsManager;
+    }
+
+    public static EyeCheckupManager getEyeCheckupManager() {
+        return eyeCheckupManager;
+    }
+
     public static void setAdminNotificationManager(AdminNotificationManager adminNotificationManager) {
         LegacySpringUtils.adminNotificationManager = adminNotificationManager;
+    }
+
+    public static DiabetesCarePlanManager getDiabetesCarePlanManager() {
+        return diabetesCarePlanManager;
+    }
+
+    public static void setDiabetesCarePlanManager(DiabetesCarePlanManager diabetesCarePlanManager) {
+        LegacySpringUtils.diabetesCarePlanManager = diabetesCarePlanManager;
     }
 
     public static Properties getContextProperties() {
@@ -374,5 +422,13 @@ public final class LegacySpringUtils {
 
     public static void setGeneticsManager(GeneticsManager geneticsManager) {
         LegacySpringUtils.geneticsManager = geneticsManager;
+    }
+
+    public static SpecialtyManager getSpecialtyManager() {
+        return specialtyManager;
+    }
+
+    public static void setSpecialtyManager(SpecialtyManager specialtyManager) {
+        LegacySpringUtils.specialtyManager = specialtyManager;
     }
 }
