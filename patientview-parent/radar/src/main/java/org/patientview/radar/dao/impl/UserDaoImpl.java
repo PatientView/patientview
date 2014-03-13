@@ -1,3 +1,26 @@
+/*
+ * PatientView
+ *
+ * Copyright (c) Worth Solutions Limited 2004-2013
+ *
+ * This file is part of PatientView.
+ *
+ * PatientView is free software: you can redistribute it and/or modify it under the terms of the
+ * GNU General Public License as published by the Free Software Foundation, either version 3 of the License,
+ * or (at your option) any later version.
+ * PatientView is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License along with PatientView in a file
+ * titled COPYING. If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @package PatientView
+ * @link http://www.patientview.org
+ * @author PatientView <info@patientview.org>
+ * @copyright Copyright (c) 2004-2013, Worth Solutions Limited
+ * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
+ */
+
 package org.patientview.radar.dao.impl;
 
 import org.apache.commons.lang.StringUtils;
@@ -27,6 +50,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Date;
 
 public class UserDaoImpl extends BaseDaoImpl implements UserDao {
 
@@ -69,6 +93,9 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
     private static final String USER_DUMMY_PATIENT_FIELD_NAME = "dummypatient";
     private static final String USER_IS_CLINICIAN_FIELD_NAME = "isClinician";
     private static final String USER_ACCOUNT_LOCKED_FIELD_NAME = "accountlocked";
+    private static final String USER_CREATED_FIELD_NAME = "created";
+    private static final String USER_UPDATED_FIELD_NAME = "updated";
+
 
     // admin user fields
     private static final String ADMIN_USER_ID_FIELD_NAME = "uID";
@@ -115,6 +142,7 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
                         USER_EMAIL_FIELD_NAME,
                         USER_FIRST_NAME_FIELD_NAME,
                         USER_LAST_NAME_FIELD_NAME,
+                        USER_CREATED_FIELD_NAME,
                         USER_DUMMY_PATIENT_FIELD_NAME);
 
         userMappingInsert = new SimpleJdbcInsert(dataSource).withTableName(USER_MAPPING_TABLE_NAME)
@@ -771,8 +799,10 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
         }
 
         if (user.hasValidUserId()) {
+            userMap.put(USER_UPDATED_FIELD_NAME, new Date());
             namedParameterJdbcTemplate.update(buildUpdateQuery(USER_TABLE_NAME, ID_FIELD_NAME, userMap), userMap);
         } else {
+            userMap.put(USER_CREATED_FIELD_NAME, new Date());
             Number id = userInsert.executeAndReturnKey(userMap);
             user.setUserId(id.longValue());
         }
