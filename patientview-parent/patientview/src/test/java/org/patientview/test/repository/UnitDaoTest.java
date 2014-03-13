@@ -64,6 +64,9 @@ public class UnitDaoTest extends BaseDaoTest {
     @Inject
     private SecurityHelpers securityHelpers;
 
+    @Inject
+    private PatientDao patientDao;
+
     private Specialty specialty;
 
     @Test
