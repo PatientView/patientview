@@ -23,15 +23,6 @@
 
 package org.patientview.radar.web.panels.alport;
 
-import org.patientview.model.Patient;
-import org.patientview.model.generic.DiseaseGroup;
-import org.patientview.radar.model.alport.Medicine;
-import org.patientview.radar.service.alport.MedicineManager;
-import org.patientview.radar.service.generic.DiseaseGroupManager;
-import org.patientview.radar.web.RadarApplication;
-import org.patientview.radar.web.behaviours.RadarBehaviourFactory;
-import org.patientview.radar.web.components.RadarDateTextField;
-import org.patientview.radar.web.panels.PatientDetailPanel;
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
@@ -51,6 +42,15 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.patientview.model.Patient;
+import org.patientview.model.generic.DiseaseGroup;
+import org.patientview.radar.model.alport.Medicine;
+import org.patientview.radar.service.alport.MedicineManager;
+import org.patientview.radar.service.generic.DiseaseGroupManager;
+import org.patientview.radar.web.RadarApplication;
+import org.patientview.radar.web.behaviours.RadarBehaviourFactory;
+import org.patientview.radar.web.components.RadarDateTextField;
+import org.patientview.radar.web.panels.PatientDetailPanel;
 
 import java.util.ArrayList;
 import java.util.Date;

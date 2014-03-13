@@ -23,8 +23,8 @@
 
 package org.patientview.radar.test.dao;
 
-import org.patientview.radar.test.TestPvDbSchema;
 import org.junit.runner.RunWith;
+import org.patientview.radar.test.TestPvDbSchema;
 import org.springframework.test.context.ContextConfiguration;
 
 @RunWith(org.springframework.test.context.junit4.SpringJUnit4ClassRunner.class)

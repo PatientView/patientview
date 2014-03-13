@@ -23,20 +23,20 @@
 
 package org.patientview.service.impl;
 
+import org.patientview.model.Specialty;
+import org.patientview.model.Unit;
 import org.patientview.patientview.logon.PatientLogon;
 import org.patientview.patientview.logon.UnitAdmin;
-import org.patientview.model.Specialty;
-import org.patientview.patientview.model.SpecialtyUserRole;
-import org.patientview.patientview.model.radar.Demographics;
 import org.patientview.patientview.model.PatientUser;
-import org.patientview.model.Unit;
-import org.patientview.patientview.model.UserMapping;
+import org.patientview.patientview.model.SpecialtyUserRole;
 import org.patientview.patientview.model.User;
+import org.patientview.patientview.model.UserMapping;
+import org.patientview.patientview.model.radar.Demographics;
 import org.patientview.patientview.unit.UnitUtils;
 import org.patientview.patientview.user.UserUtils;
+import org.patientview.repository.PatientUserDao;
 import org.patientview.repository.RadarDao;
 import org.patientview.repository.SpecialtyUserRoleDao;
-import org.patientview.repository.PatientUserDao;
 import org.patientview.repository.UnitDao;
 import org.patientview.repository.UserDao;
 import org.patientview.repository.UserMappingDao;

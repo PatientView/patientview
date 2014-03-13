@@ -23,8 +23,8 @@
 
 package org.patientview.radar.test.util;
 
-import org.patientview.radar.util.TripleDes;
 import org.junit.Test;
+import org.patientview.radar.util.TripleDes;
 
 import java.util.Arrays;
 

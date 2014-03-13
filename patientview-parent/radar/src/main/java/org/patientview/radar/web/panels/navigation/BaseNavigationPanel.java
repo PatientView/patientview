@@ -23,12 +23,12 @@
 
 package org.patientview.radar.web.panels.navigation;
 
-import org.patientview.radar.web.RadarSecuredSession;
-import org.patientview.radar.web.pages.HomePage;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.patientview.radar.web.RadarSecuredSession;
+import org.patientview.radar.web.pages.HomePage;
 
 public class BaseNavigationPanel extends Panel {
     public BaseNavigationPanel() {

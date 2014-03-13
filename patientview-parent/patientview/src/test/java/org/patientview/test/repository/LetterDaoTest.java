@@ -23,17 +23,16 @@
 
 package org.patientview.test.repository;
 
-import org.patientview.patientview.model.Letter;
+import org.junit.Before;
+import org.junit.Test;
 import org.patientview.model.Specialty;
+import org.patientview.patientview.model.Letter;
 import org.patientview.patientview.model.UserMapping;
 import org.patientview.repository.LetterDao;
 import org.patientview.repository.UserMappingDao;
 import org.patientview.test.helpers.RepositoryHelpers;
-import org.junit.Before;
-import org.junit.Test;
 
 import javax.inject.Inject;
-
 import java.util.Calendar;
 import java.util.List;
 

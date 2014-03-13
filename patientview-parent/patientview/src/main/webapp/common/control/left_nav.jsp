@@ -1,5 +1,5 @@
-<%@ page import="org.patientview.patientview.model.User" %>
 <%@ page import="org.patientview.patientview.model.JoinRequest" %>
+<%@ page import="org.patientview.patientview.model.User" %>
 <%@ page import="org.patientview.patientview.user.UserUtils" %>
 <%@ page import="org.patientview.utils.LegacySpringUtils" %>
 <%@ page import="java.util.List" %>

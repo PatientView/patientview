@@ -23,12 +23,12 @@
 
 package org.patientview.radar.web;
 
-import org.patientview.radar.model.user.User;
 import org.apache.wicket.Session;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.authroles.authorization.strategies.role.Roles;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.request.Request;
+import org.patientview.radar.model.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.ProviderManager;

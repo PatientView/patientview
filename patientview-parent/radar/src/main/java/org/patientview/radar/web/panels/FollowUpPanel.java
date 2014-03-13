@@ -24,14 +24,6 @@
 package org.patientview.radar.web.panels;
 
 
-import org.patientview.radar.web.RadarApplication;
-import org.patientview.radar.web.behaviours.RadarBehaviourFactory;
-import org.patientview.radar.web.models.PageNumberModel;
-import org.patientview.radar.web.pages.patient.srns.SrnsPatientPage;
-import org.patientview.radar.web.panels.followup.ClinicalPicturePanel;
-import org.patientview.radar.web.panels.followup.FollowUpLaboratoryResultsPanel;
-import org.patientview.radar.web.panels.followup.FollowUpTreatmentPanel;
-import org.patientview.radar.web.panels.followup.RrtTherapyPanel;
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.Component;
 import org.apache.wicket.MarkupContainer;
@@ -42,6 +34,14 @@ import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
+import org.patientview.radar.web.RadarApplication;
+import org.patientview.radar.web.behaviours.RadarBehaviourFactory;
+import org.patientview.radar.web.models.PageNumberModel;
+import org.patientview.radar.web.pages.patient.srns.SrnsPatientPage;
+import org.patientview.radar.web.panels.followup.ClinicalPicturePanel;
+import org.patientview.radar.web.panels.followup.FollowUpLaboratoryResultsPanel;
+import org.patientview.radar.web.panels.followup.FollowUpTreatmentPanel;
+import org.patientview.radar.web.panels.followup.RrtTherapyPanel;
 
 public class FollowUpPanel extends Panel {
 

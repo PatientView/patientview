@@ -66,9 +66,6 @@ public class UnitDaoTest extends BaseDaoTest {
 
     private Specialty specialty;
 
-    @Inject
-    private PatientDao patientDao;
-
     @Test
     public void testAddGetUnitStatByUnitCode() {
 

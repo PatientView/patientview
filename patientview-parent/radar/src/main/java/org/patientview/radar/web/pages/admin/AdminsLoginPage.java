@@ -23,12 +23,6 @@
 
 package org.patientview.radar.web.pages.admin;
 
-import org.patientview.radar.model.user.AdminUser;
-import org.patientview.radar.service.UserManager;
-import org.patientview.radar.web.RadarSecuredSession;
-import org.patientview.radar.web.components.RadarRequiredPasswordTextField;
-import org.patientview.radar.web.components.RadarRequiredTextField;
-import org.patientview.radar.web.pages.BasePage;
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
@@ -40,6 +34,12 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.patientview.radar.model.user.AdminUser;
+import org.patientview.radar.service.UserManager;
+import org.patientview.radar.web.RadarSecuredSession;
+import org.patientview.radar.web.components.RadarRequiredPasswordTextField;
+import org.patientview.radar.web.components.RadarRequiredTextField;
+import org.patientview.radar.web.pages.BasePage;
 
 import java.util.ArrayList;
 import java.util.List;

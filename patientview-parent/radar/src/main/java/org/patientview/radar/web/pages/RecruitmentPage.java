@@ -23,18 +23,18 @@
 
 package org.patientview.radar.web.pages;
 
-import org.patientview.model.Patient;
-import org.patientview.radar.model.user.User;
-import org.patientview.radar.service.DemographicsManager;
-import org.patientview.radar.service.DiagnosisManager;
-import org.patientview.radar.web.RadarApplication;
-import org.patientview.radar.web.dataproviders.DemographicsDataProvider;
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.datetime.markup.html.basic.DateLabel;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.patientview.model.Patient;
+import org.patientview.radar.model.user.User;
+import org.patientview.radar.service.DemographicsManager;
+import org.patientview.radar.service.DiagnosisManager;
+import org.patientview.radar.web.RadarApplication;
+import org.patientview.radar.web.dataproviders.DemographicsDataProvider;
 
 @AuthorizeInstantiation({User.ROLE_PROFESSIONAL, User.ROLE_SUPER_USER})
 public class RecruitmentPage extends BasePage{

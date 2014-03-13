@@ -24,12 +24,12 @@
 package org.patientview.radar.service;
 
 import org.patientview.model.Patient;
-import org.patientview.radar.model.exception.InvalidSecurityQuestionAnswer;
-import org.patientview.radar.model.exception.UserEmailAlreadyExists;
 import org.patientview.radar.model.exception.DaoException;
 import org.patientview.radar.model.exception.DecryptionException;
 import org.patientview.radar.model.exception.EmailAddressNotFoundException;
+import org.patientview.radar.model.exception.InvalidSecurityQuestionAnswer;
 import org.patientview.radar.model.exception.RegistrationException;
+import org.patientview.radar.model.exception.UserEmailAlreadyExists;
 import org.patientview.radar.model.filter.PatientUserFilter;
 import org.patientview.radar.model.filter.ProfessionalUserFilter;
 import org.patientview.radar.model.user.AdminUser;

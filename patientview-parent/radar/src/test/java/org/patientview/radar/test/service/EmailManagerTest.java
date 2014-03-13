@@ -23,10 +23,10 @@
 
 package org.patientview.radar.test.service;
 
-import org.patientview.radar.service.EmailManager;
-import org.patientview.radar.test.TestPvDbSchema;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.patientview.radar.service.EmailManager;
+import org.patientview.radar.test.TestPvDbSchema;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 

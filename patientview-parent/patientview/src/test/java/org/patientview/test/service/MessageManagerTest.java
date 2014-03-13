@@ -23,21 +23,22 @@
 
 package org.patientview.test.service;
 
+import org.junit.Before;
+import org.junit.Test;
 import org.patientview.model.Specialty;
 import org.patientview.model.Unit;
-import org.patientview.patientview.model.*;
+import org.patientview.patientview.model.Conversation;
+import org.patientview.patientview.model.Message;
+import org.patientview.patientview.model.User;
 import org.patientview.patientview.model.enums.GroupEnum;
 import org.patientview.repository.UserDao;
 import org.patientview.service.MessageManager;
 import org.patientview.service.UnitManager;
 import org.patientview.test.helpers.SecurityHelpers;
 import org.patientview.test.helpers.ServiceHelpers;
-import org.junit.Before;
-import org.junit.Test;
 import org.springframework.mock.web.MockHttpSession;
 
 import javax.inject.Inject;
-
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
