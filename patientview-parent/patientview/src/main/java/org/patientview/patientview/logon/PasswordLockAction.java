@@ -58,10 +58,10 @@ public class PasswordLockAction extends ActionSupport {
         if (user != null) {
             user.setFailedlogons(0);
             user.setAccountlocked(true);
-            LegacySpringUtils.getUserManager().save(user);
+            userManager.save(user);
 
             AddLog.addLog(securityUserManager.getLoggedInUsername(), AddLog.PASSWORD_LOCKED,
-                    user.getUsername(), "", UserUtils.retrieveUsersRealUnitcodeBestGuess(username), "");
+                    user.getUsername(), "", userManager.getUsersRealUnitcodeBestGuess(username), "");
 
             mappingToFind = "success";
         }
