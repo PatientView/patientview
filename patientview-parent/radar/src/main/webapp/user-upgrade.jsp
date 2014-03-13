@@ -1,5 +1,5 @@
-<%@ page import="org.springframework.web.context.support.WebApplicationContextUtils" %>
-<%@ page import="org.patientview.radar.util.UserUpgradeManager" %><%--
+<%@ page import="org.patientview.radar.util.UserUpgradeManager" %>
+<%@ page import="org.springframework.web.context.support.WebApplicationContextUtils" %><%--
   ~ PatientView
   ~
   ~ Copyright (c) Worth Solutions Limited 2004-2013

@@ -23,13 +23,13 @@
 
 package org.patientview.radar.web.components;
 
-import org.patientview.radar.web.dataproviders.SortableDataProvider;
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.Model;
+import org.patientview.radar.web.dataproviders.SortableDataProvider;
 
 import java.util.List;
 

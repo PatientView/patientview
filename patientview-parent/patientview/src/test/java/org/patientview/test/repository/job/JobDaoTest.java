@@ -23,22 +23,25 @@
 
 package org.patientview.test.repository.job;
 
+import org.junit.Test;
 import org.patientview.model.Specialty;
-import org.patientview.patientview.model.*;
+import org.patientview.patientview.model.Conversation;
+import org.patientview.patientview.model.Job;
+import org.patientview.patientview.model.Message;
+import org.patientview.patientview.model.User;
 import org.patientview.patientview.model.enums.GroupEnum;
 import org.patientview.patientview.model.enums.SendEmailEnum;
 import org.patientview.repository.job.JobDao;
 import org.patientview.test.helpers.RepositoryHelpers;
 import org.patientview.test.repository.BaseDaoTest;
-import org.junit.Test;
 
 import javax.inject.Inject;
-
 import java.util.List;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class JobDaoTest extends BaseDaoTest {
 

@@ -23,13 +23,13 @@
 
 package org.patientview.radar.dao.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.patientview.radar.dao.IssueDao;
 import org.patientview.radar.model.Issue;
 import org.patientview.radar.model.enums.IssuePriority;
 import org.patientview.radar.model.enums.IssueStatus;
 import org.patientview.radar.model.enums.IssueType;
 import org.patientview.radar.model.filter.IssueFilter;
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;

@@ -24,10 +24,10 @@
 package org.patientview.radar.test.dao;
 
 import org.junit.Before;
+import org.junit.Test;
 import org.patientview.radar.dao.ClinicalDataDao;
 import org.patientview.radar.model.Phenotype;
 import org.patientview.radar.model.sequenced.ClinicalData;
-import org.junit.Test;
 import org.patientview.radar.test.TestDataHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 

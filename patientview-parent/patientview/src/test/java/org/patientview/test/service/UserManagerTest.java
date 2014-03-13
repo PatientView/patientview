@@ -23,25 +23,26 @@
 
 package org.patientview.test.service;
 
-import org.patientview.patientview.logon.UnitAdmin;
+import org.junit.Before;
+import org.junit.Test;
 import org.patientview.model.Specialty;
-import org.patientview.patientview.model.SpecialtyUserRole;
 import org.patientview.model.Unit;
+import org.patientview.patientview.logon.UnitAdmin;
+import org.patientview.patientview.model.SpecialtyUserRole;
 import org.patientview.patientview.model.User;
 import org.patientview.patientview.model.UserMapping;
 import org.patientview.service.UnitManager;
 import org.patientview.service.UserManager;
 import org.patientview.test.helpers.SecurityHelpers;
 import org.patientview.test.helpers.ServiceHelpers;
-import org.junit.Before;
-import org.junit.Test;
 
 import javax.inject.Inject;
-
 import java.util.List;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  *      These tests require an admin adminUser to be logged into a specialty

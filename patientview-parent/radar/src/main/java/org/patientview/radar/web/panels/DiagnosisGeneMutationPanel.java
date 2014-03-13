@@ -23,7 +23,6 @@
 
 package org.patientview.radar.web.panels;
 
-import org.patientview.radar.model.Diagnosis;
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxEventBehavior;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -33,6 +32,7 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+import org.patientview.radar.model.Diagnosis;
 
 import java.util.List;
 

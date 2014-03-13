@@ -23,12 +23,12 @@
 
 package org.patientview.radar.web.dataproviders;
 
-import org.patientview.radar.model.Issue;
-import org.patientview.radar.model.filter.IssueFilter;
-import org.patientview.radar.service.IssueManager;
 import org.apache.wicket.markup.repeater.data.IDataProvider;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+import org.patientview.radar.model.Issue;
+import org.patientview.radar.model.filter.IssueFilter;
+import org.patientview.radar.service.IssueManager;
 
 import java.util.Iterator;
 import java.util.List;

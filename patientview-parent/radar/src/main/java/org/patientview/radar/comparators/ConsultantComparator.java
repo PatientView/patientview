@@ -23,8 +23,8 @@
 
 package org.patientview.radar.comparators;
 
-import org.patientview.radar.model.Consultant;
 import org.apache.wicket.model.PropertyModel;
+import org.patientview.radar.model.Consultant;
 
 import java.io.Serializable;
 import java.util.Comparator;

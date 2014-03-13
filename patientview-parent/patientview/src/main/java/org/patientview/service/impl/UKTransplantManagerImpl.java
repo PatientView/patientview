@@ -25,11 +25,11 @@ package org.patientview.service.impl;
 
 import com.Ostermiller.util.CSVParser;
 import org.patientview.model.Patient;
+import org.patientview.model.Unit;
 import org.patientview.patientview.logging.AddLog;
 import org.patientview.patientview.model.Comment;
 import org.patientview.patientview.model.TestResult;
 import org.patientview.patientview.model.UktStatus;
-import org.patientview.model.Unit;
 import org.patientview.patientview.unit.UnitUtils;
 import org.patientview.patientview.utils.TimestampUtils;
 import org.patientview.repository.UktStatusDao;
@@ -54,11 +54,10 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

@@ -23,20 +23,20 @@
 
 package org.patientview.service.impl;
 
+import org.patientview.model.Specialty;
+import org.patientview.model.Unit;
 import org.patientview.patientview.logon.PatientLogon;
 import org.patientview.patientview.logon.UnitAdmin;
-import org.patientview.model.Specialty;
-import org.patientview.patientview.model.SpecialtyUserRole;
-import org.patientview.patientview.model.radar.Demographics;
 import org.patientview.patientview.model.PatientUser;
-import org.patientview.model.Unit;
-import org.patientview.patientview.model.UserMapping;
+import org.patientview.patientview.model.SpecialtyUserRole;
 import org.patientview.patientview.model.User;
+import org.patientview.patientview.model.UserMapping;
+import org.patientview.patientview.model.radar.Demographics;
 import org.patientview.patientview.unit.UnitUtils;
 import org.patientview.patientview.user.UserUtils;
+import org.patientview.repository.PatientUserDao;
 import org.patientview.repository.RadarDao;
 import org.patientview.repository.SpecialtyUserRoleDao;
-import org.patientview.repository.PatientUserDao;
 import org.patientview.repository.UnitDao;
 import org.patientview.repository.UserDao;
 import org.patientview.repository.UserMappingDao;
@@ -47,6 +47,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import java.util.Date;
 import java.util.List;
 
 @Service(value = "userManager")
@@ -181,6 +182,11 @@ public class UserManagerImpl implements UserManager {
         user.setUsername(unitAdmin.getUsername());
         user.setIsrecipient(unitAdmin.isIsrecipient());
         user.setIsclinician(unitAdmin.isIsclinician());
+        if (isNewUser) {
+            user.setCreated(new Date());
+        } else {
+            user.setUpdated(new Date());
+        }
 
         save(user);
 
@@ -207,10 +213,12 @@ public class UserManagerImpl implements UserManager {
 
         // check for an existing user
         User user = get(patientLogon.getUsername());
+        boolean isNewUser = false;
 
         if (user == null) {
             // create a user to save based on the unitAdmin
             user = new User();
+            isNewUser = true;
         }
         user.setAccountlocked(patientLogon.isAccountlocked());
         user.setDummypatient(patientLogon.isDummypatient());
@@ -223,6 +231,11 @@ public class UserManagerImpl implements UserManager {
         user.setLastName(patientLogon.getLastName());
         user.setPassword(patientLogon.getPassword());
         user.setUsername(patientLogon.getUsername());
+        if (isNewUser) {
+            user.setCreated(new Date());
+        } else {
+            user.setUpdated(new Date());
+        }
 
         save(user);
 
