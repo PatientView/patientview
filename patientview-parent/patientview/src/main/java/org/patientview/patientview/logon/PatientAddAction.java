@@ -24,7 +24,6 @@
 package org.patientview.patientview.logon;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -35,18 +34,26 @@ import org.patientview.patientview.logging.AddLog;
 import org.patientview.patientview.model.User;
 import org.patientview.patientview.model.UserMapping;
 import org.patientview.patientview.unit.UnitUtils;
+import org.patientview.service.PatientManager;
+import org.patientview.service.SecurityUserManager;
 import org.patientview.service.UnitManager;
+import org.patientview.service.UserManager;
 import org.patientview.util.CommonUtils;
-import org.patientview.utils.LegacySpringUtils;
+import org.springframework.web.struts.ActionSupport;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-public class PatientAddAction extends Action {
+public class PatientAddAction extends ActionSupport {
 
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
                                  HttpServletResponse response) throws Exception {
+
+        UnitManager unitManager = getWebApplicationContext().getBean(UnitManager.class);
+        UserManager userManager = getWebApplicationContext().getBean(UserManager.class);
+        SecurityUserManager securityUserManager = getWebApplicationContext().getBean(SecurityUserManager.class);
+        PatientManager patientManager = getWebApplicationContext().getBean(PatientManager.class);
 
         // get patient details from form fields
         String username = BeanUtils.getProperty(form, "username");
@@ -61,7 +68,6 @@ public class PatientAddAction extends Action {
         boolean dummypatient = "true".equals(BeanUtils.getProperty(form, "dummypatient"));
 
         // get Unit selected by user
-        UnitManager unitManager = LegacySpringUtils.getUnitManager();
         Unit unit = unitManager.get(unitcode);
 
         // check if user is attempting to add patient to RADAR unit
@@ -85,10 +91,10 @@ public class PatientAddAction extends Action {
         UserMapping userMappingGp = new UserMapping(username + "-GP", unitcode, nhsno);
 
         // get User object, used to check if user already exists
-        User existingUser = LegacySpringUtils.getUserManager().get(username);
+        User existingUser = userManager.get(username);
 
         // get list of patients with same NHS number
-        List existingPatientsWithSameNhsno = findExistingPatientsWithSameNhsno(nhsno);
+        List existingPatientsWithSameNhsno = userManager.getUserMappingsForNhsNo(nhsno);
 
         String mappingToFind = "";
 
@@ -138,29 +144,29 @@ public class PatientAddAction extends Action {
             hashedPatient.setPassword(LogonUtils.hashPassword(hashedPatient.getPassword()));
             hashedGp.setPassword(LogonUtils.hashPassword(hashedGp.getPassword()));
 
-            LegacySpringUtils.getUserManager().saveUserFromPatient(hashedPatient);
-            LegacySpringUtils.getUserManager().saveUserFromPatient(hashedGp);
+            userManager.saveUserFromPatient(hashedPatient);
+            userManager.saveUserFromPatient(hashedGp);
 
-            LegacySpringUtils.getUserManager().save(userMapping);
-            LegacySpringUtils.getUserManager().save(userMappingPatientEnters);
-            LegacySpringUtils.getUserManager().save(userMappingGp);
+            userManager.save(userMapping);
+            userManager.save(userMappingPatientEnters);
+            userManager.save(userMappingGp);
 
-            if (LegacySpringUtils.getPatientManager().get(nhsno, unitcode) == null) {
+            if (patientManager.get(nhsno, unitcode) == null) {
                 Patient patient = new Patient();
                 patient.setNhsno(nhsno);
                 patient.setUnitcode(unitcode);
                 patient.setEmailAddress(email);
                 patient.setSourceType(SourceType.PATIENT_VIEW.getName());
-                LegacySpringUtils.getPatientManager().save(patient);
+                patientManager.save(patient);
             }
 
-            AddLog.addLog(LegacySpringUtils.getSecurityUserManager().getLoggedInUsername(), AddLog.PATIENT_ADD,
+            AddLog.addLog(securityUserManager.getLoggedInUsername(), AddLog.PATIENT_ADD,
                     patientLogon.getUsername(),
                     userMapping.getNhsno(), userMapping.getUnitcode(), "");
             mappingToFind = "success";
         }
 
-        List<Unit> units = LegacySpringUtils.getUnitManager().getAll(false);
+        List<Unit> units = unitManager.getAll(false);
 
         request.setAttribute("units", units);
         request.setAttribute("patient", patientLogon);
@@ -169,9 +175,5 @@ public class PatientAddAction extends Action {
         request.getSession().setAttribute("userMappingGp", userMappingGp);
 
         return mapping.findForward(mappingToFind);
-    }
-
-    private List findExistingPatientsWithSameNhsno(String nhsno) {
-        return LegacySpringUtils.getUserManager().getUserMappingsForNhsNo(nhsno);
     }
 }
