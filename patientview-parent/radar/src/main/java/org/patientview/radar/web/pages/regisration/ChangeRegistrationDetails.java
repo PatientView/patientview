@@ -24,13 +24,6 @@
 package org.patientview.radar.web.pages.regisration;
 
 
-import org.patientview.radar.model.exception.DaoException;
-import org.patientview.radar.model.exception.DecryptionException;
-import org.patientview.radar.model.user.ProfessionalUser;
-import org.patientview.radar.service.UserManager;
-import org.patientview.radar.web.components.RadarComponentFactory;
-import org.patientview.radar.web.components.RadarRequiredTextField;
-import org.patientview.radar.web.pages.BasePage;
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
@@ -48,6 +41,13 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.validation.validator.StringValidator;
+import org.patientview.radar.model.exception.DaoException;
+import org.patientview.radar.model.exception.DecryptionException;
+import org.patientview.radar.model.user.ProfessionalUser;
+import org.patientview.radar.service.UserManager;
+import org.patientview.radar.web.components.RadarComponentFactory;
+import org.patientview.radar.web.components.RadarRequiredTextField;
+import org.patientview.radar.web.pages.BasePage;
 import org.springframework.security.core.AuthenticationException;
 
 import java.io.Serializable;

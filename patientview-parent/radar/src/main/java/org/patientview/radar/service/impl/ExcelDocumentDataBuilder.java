@@ -23,8 +23,6 @@
 
 package org.patientview.radar.service.impl;
 
-import org.patientview.radar.model.DocumentData;
-import org.patientview.radar.service.DocumentDataBuilder;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -34,6 +32,8 @@ import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.patientview.radar.model.DocumentData;
+import org.patientview.radar.service.DocumentDataBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

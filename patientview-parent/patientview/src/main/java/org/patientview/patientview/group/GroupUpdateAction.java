@@ -28,9 +28,8 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.patientview.model.Specialty;
-import org.patientview.patientview.logon.LogonUtils;
 import org.patientview.model.Unit;
+import org.patientview.patientview.logon.LogonUtils;
 import org.patientview.patientview.unit.UnitUtils;
 import org.patientview.utils.LegacySpringUtils;
 import org.slf4j.Logger;
@@ -49,8 +48,7 @@ public class GroupUpdateAction extends Action {
 
         try {
             Unit unit = LegacySpringUtils.getUnitManager().get(BeanUtils.getProperty(form, "unitcode"));
-            Specialty specialty = LegacySpringUtils.getSecurityUserManager().getLoggedInSpecialty();
-            UnitUtils.buildUnit(unit, form, specialty);
+            UnitUtils.buildUnit(unit, form);
             LegacySpringUtils.getUnitManager().save(unit);
             request.setAttribute("unit", unit);
             request.setAttribute("succeedMsg", "Updated the group successfully.");

@@ -23,9 +23,6 @@
 
 package org.patientview.patientview.model;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-
 import org.patientview.model.BaseModel;
 import org.patientview.model.Specialty;
 import org.patientview.patientview.utils.TimestampUtils;
@@ -35,6 +32,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 @Entity
 public class News extends BaseModel {

@@ -23,14 +23,14 @@
 
 package org.patientview.service.impl;
 
+import org.patientview.model.Specialty;
+import org.patientview.model.Unit;
 import org.patientview.patientview.logging.AddLog;
 import org.patientview.patientview.logon.UnitAdmin;
-import org.patientview.model.Specialty;
-import org.patientview.patientview.model.UserMapping;
 import org.patientview.patientview.model.PatientCount;
-import org.patientview.model.Unit;
-import org.patientview.patientview.model.User;
 import org.patientview.patientview.model.UnitStat;
+import org.patientview.patientview.model.User;
+import org.patientview.patientview.model.UserMapping;
 import org.patientview.repository.PatientCountDao;
 import org.patientview.repository.UnitDao;
 import org.patientview.repository.UnitStatDao;
@@ -77,7 +77,7 @@ public class UnitManagerImpl implements UnitManager {
 
     @Override
     public boolean checkDuplicateUnitCode(String unitCode) {
-        return unitDao.get(unitCode, null) != null;
+        return unitDao.get(unitCode, securityUserManager.getLoggedInSpecialty()) != null;
     }
 
     @Override
@@ -89,20 +89,6 @@ public class UnitManagerImpl implements UnitManager {
         }
 
         unitDao.save(unit);
-    }
-
-    @Override
-    public List<Unit> getUnitsBySpecialty(Specialty specialty) {
-
-        List<Unit> units;
-
-        if (specialty == null) {
-            units = unitDao.getAll(true);
-        } else {
-            units = unitDao.getUnitsBySpecialty(specialty);
-        }
-
-        return getVisibleUnits(units);
     }
 
     @Override
@@ -122,7 +108,15 @@ public class UnitManagerImpl implements UnitManager {
 
     @Override
     public List<Unit> getAllVisible(String[] sourceTypesToInclude) {
-        return getVisibleUnits(unitDao.getAll(null, sourceTypesToInclude));
+        List<Unit> units = new ArrayList<Unit>();
+
+        for (Unit unit : unitDao.getAll(null, sourceTypesToInclude)) {
+            if (unit.isVisible()) {
+                units.add(unit);
+            }
+        }
+
+        return units;
     }
 
     @Override
@@ -225,17 +219,8 @@ public class UnitManagerImpl implements UnitManager {
         return unitDao.getUnitPatientUsers(unitcode, securityUserManager.getLoggedInSpecialty());
     }
 
-
-    public List<Unit> getVisibleUnits(List<Unit> units) {
-        List<Unit> visibleUnits = new ArrayList<Unit>();
-
-        for (Unit unit : units) {
-            if (unit.isVisible()) {
-                visibleUnits.add(unit);
-            }
-        }
-
-        return visibleUnits;
-
+    @Override
+    public List<User> getUnitPatientUsers(String unitcode, String name, Specialty specialty) {
+        return unitDao.getUnitPatientUsers(unitcode, name, securityUserManager.getLoggedInSpecialty());
     }
 }

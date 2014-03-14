@@ -23,16 +23,6 @@
 
 package org.patientview.radar.web.panels.subtabs;
 
-import org.patientview.radar.model.sequenced.ClinicalData;
-import org.patientview.radar.model.sequenced.LabData;
-import org.patientview.radar.service.ClinicalDataManager;
-import org.patientview.radar.service.DiagnosisManager;
-import org.patientview.radar.service.LabDataManager;
-import org.patientview.radar.web.RadarApplication;
-import org.patientview.radar.web.components.RadarComponentFactory;
-import org.patientview.radar.web.components.RadarRequiredDateTextField;
-import org.patientview.radar.web.components.RadarTextFieldWithValidation;
-import org.patientview.radar.web.models.RadarModelFactory;
 import org.apache.wicket.Component;
 import org.apache.wicket.MarkupContainer;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -56,6 +46,16 @@ import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.validation.validator.RangeValidator;
+import org.patientview.radar.model.sequenced.ClinicalData;
+import org.patientview.radar.model.sequenced.LabData;
+import org.patientview.radar.service.ClinicalDataManager;
+import org.patientview.radar.service.DiagnosisManager;
+import org.patientview.radar.service.LabDataManager;
+import org.patientview.radar.web.RadarApplication;
+import org.patientview.radar.web.components.RadarComponentFactory;
+import org.patientview.radar.web.components.RadarRequiredDateTextField;
+import org.patientview.radar.web.components.RadarTextFieldWithValidation;
+import org.patientview.radar.web.models.RadarModelFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;

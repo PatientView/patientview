@@ -23,8 +23,6 @@
 
 package org.patientview.radar.web.pages.patient.srns;
 
-import org.patientview.radar.model.user.User;
-import org.patientview.radar.web.RadarSecuredSession;
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
@@ -32,6 +30,8 @@ import org.apache.wicket.markup.html.form.FormComponent;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.util.visit.IVisit;
 import org.apache.wicket.util.visit.IVisitor;
+import org.patientview.radar.model.user.User;
+import org.patientview.radar.web.RadarSecuredSession;
 
 import java.util.Arrays;
 import java.util.regex.Matcher;

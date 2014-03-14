@@ -23,6 +23,7 @@
 
 package org.patientview.patientview.unit;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.patientview.model.Specialty;
 import org.patientview.model.Unit;
@@ -32,7 +33,6 @@ import org.patientview.patientview.user.UserUtils;
 import org.patientview.service.UnitManager;
 import org.patientview.service.UserManager;
 import org.patientview.utils.LegacySpringUtils;
-import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;

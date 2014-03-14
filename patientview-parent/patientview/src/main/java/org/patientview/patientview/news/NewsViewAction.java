@@ -23,16 +23,16 @@
 
 package org.patientview.patientview.news;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.patientview.patientview.model.News;
-import org.patientview.utils.LegacySpringUtils;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.patientview.patientview.model.News;
+import org.patientview.utils.LegacySpringUtils;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class NewsViewAction extends Action {
 
@@ -40,7 +40,7 @@ public class NewsViewAction extends Action {
                                  HttpServletResponse response) throws Exception {
         String id = BeanUtils.getProperty(form, "id");
         Long idLong = Long.decode(id);
-        News newsItem = LegacySpringUtils.getNewsManager().get(idLong);
+        News newsItem = LegacySpringUtils.getNewsManager().getSecure(idLong);
         request.setAttribute("news", newsItem);
         NewsUtils.putAppropriateNewsForViewingInRequest(request);
 

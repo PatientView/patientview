@@ -25,14 +25,13 @@ package org.patientview.patientview.group;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.struts.action.Action;
+import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.action.ActionMessages;
 import org.apache.struts.action.ActionMessage;
-import org.apache.struts.action.ActionForm;
-import org.patientview.model.Specialty;
-import org.patientview.patientview.logon.LogonUtils;
+import org.apache.struts.action.ActionMessages;
 import org.patientview.model.Unit;
+import org.patientview.patientview.logon.LogonUtils;
 import org.patientview.patientview.unit.UnitUtils;
 import org.patientview.utils.LegacySpringUtils;
 import org.slf4j.Logger;
@@ -62,9 +61,8 @@ public class GroupAddAction extends Action {
 
         Unit unit = new Unit();
         try {
-            Specialty specialty = LegacySpringUtils.getSecurityUserManager().getLoggedInSpecialty();
             unit.setSourceType("radargroup");
-            UnitUtils.buildUnit(unit, form, specialty);
+            UnitUtils.buildUnit(unit, form);
 
             LegacySpringUtils.getUnitManager().save(unit);
 

@@ -23,12 +23,12 @@
 
 package org.patientview.test.quartz;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.patientview.patientview.model.Job;
 import org.patientview.patientview.model.enums.SendEmailEnum;
 import org.patientview.quartz.CheckSendEmailStatusJobQuartzScheduler;
 import org.patientview.service.JobManager;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;

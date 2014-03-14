@@ -1,5 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
+<%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles" %>
+
+<%--
   ~ PatientView
   ~
   ~ Copyright (c) Worth Solutions Limited 2004-2013
@@ -20,26 +21,11 @@
   ~ @author PatientView <info@patientview.org>
   ~ @copyright Copyright (c) 2004-2013, Worth Solutions Limited
   ~ @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
-  -->
+  --%>
 
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+<tiles:insert definition="control.layout" flush="true">
 
-    <!--Imports-->
-    <import resource="context-dao.xml"/>
-    <import resource="context-security.xml"/>
-    <import resource="context-service.xml"/>
-    <import resource="context-smtp.xml"/>
+  <tiles:put name="info_strip" value="/common/control/info_strip_no_login.jsp"/>
+  <tiles:put name="body" value="/body/control/password_lock_confirm.jsp"/>
 
-    <!--Properties Placeholder-->
-    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="location" value="classpath:radar.properties"/>
-    </bean>
-
-    <bean id="radarApplication" class="org.patientview.radar.web.RadarApplication">
-        <property name="ajaxDebug" value="${ajax.debug}"/>
-    </bean>
-
-</beans>
+</tiles:insert>

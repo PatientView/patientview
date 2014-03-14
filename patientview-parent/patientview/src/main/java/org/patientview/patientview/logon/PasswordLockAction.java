@@ -21,50 +21,52 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
-package org.patientview.patientview;
+package org.patientview.patientview.logon;
 
-import org.apache.struts.action.Action;
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.patientview.actionutils.ActionUtils;
-import org.patientview.model.Patient;
-import org.patientview.patientview.logon.LogonUtils;
-import org.patientview.patientview.model.Genetics;
+import org.patientview.model.Unit;
+import org.patientview.patientview.logging.AddLog;
 import org.patientview.patientview.model.User;
-import org.patientview.patientview.news.NewsUtils;
-import org.patientview.patientview.user.UserUtils;
-import org.patientview.utils.LegacySpringUtils;
-
+import org.patientview.service.SecurityUserManager;
+import org.patientview.service.UnitManager;
+import org.patientview.service.UserManager;
+import org.springframework.web.struts.ActionSupport;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
-public class PatientGeneticsAction extends Action {
+public class PasswordLockAction extends ActionSupport {
 
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
                                  HttpServletResponse response) throws Exception {
-        NewsUtils.putAppropriateNewsForViewingInRequest(request);
 
-        // allow the logged in user to be overridden when viewing the site as a patient using an admin account
-        User user = UserUtils.retrieveUser(request);
+        UnitManager unitManager = getWebApplicationContext().getBean(UnitManager.class);
+        UserManager userManager = getWebApplicationContext().getBean(UserManager.class);
+        SecurityUserManager securityUserManager = getWebApplicationContext().getBean(SecurityUserManager.class);
 
+        String username = BeanUtils.getProperty(form, "username");
+        User user = userManager.get(username);
 
+        String mappingToFind = "";
 
-        Patient patient = LegacySpringUtils.getPatientManager().getRadarPatient(
-                String.valueOf(request.getSession().getAttribute("userBeingViewedNhsno")));
+        if (user != null) {
+            user.setFailedlogons(0);
+            user.setAccountlocked(true);
+            userManager.save(user);
 
-        Genetics genetics = null;
-        if (patient != null) {
-            genetics = LegacySpringUtils.getGeneticsManager().get(patient.getRadarNo());
+            AddLog.addLog(securityUserManager.getLoggedInUsername(), AddLog.PASSWORD_LOCKED,
+                    user.getUsername(), "", userManager.getUsersRealUnitcodeBestGuess(username), "");
+
+            mappingToFind = "success";
         }
-        if (genetics == null) {
-            genetics = new Genetics();
-        }
 
-        request.setAttribute("genetics", genetics);
+        List<Unit> units = unitManager.getAll(false);
+        request.setAttribute("units", units);
+        request.setAttribute("user", user);
 
-        ActionUtils.setUpNavLink(mapping.getParameter(), request);
-
-        return LogonUtils.logonChecks(mapping, request);
+        return mapping.findForward(mappingToFind);
     }
 }

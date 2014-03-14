@@ -23,11 +23,11 @@
 
 package org.patientview.test.quartz;
 
-import org.patientview.patientview.model.*;
-import org.patientview.quartz.CreateEmailQueueJobQuartzScheduler;
-import org.patientview.service.EmailQueueManager;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.patientview.patientview.model.EmailQueue;
+import org.patientview.quartz.CreateEmailQueueJobQuartzScheduler;
+import org.patientview.service.EmailQueueManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;

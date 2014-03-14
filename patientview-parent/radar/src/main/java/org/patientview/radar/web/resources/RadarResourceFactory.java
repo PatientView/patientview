@@ -23,10 +23,10 @@
 
 package org.patientview.radar.web.resources;
 
-import org.patientview.radar.model.enums.ExportType;
 import org.apache.wicket.request.resource.ByteArrayResource;
 import org.apache.wicket.request.resource.ContentDisposition;
 import org.apache.wicket.util.time.Duration;
+import org.patientview.radar.model.enums.ExportType;
 
 import java.util.Map;
 

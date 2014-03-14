@@ -23,11 +23,6 @@
 
 package org.patientview.radar.web.pages.login;
 
-import org.patientview.radar.model.exception.DecryptionException;
-import org.patientview.radar.model.exception.EmailAddressNotFoundException;
-import org.patientview.radar.service.UserManager;
-import org.patientview.radar.web.components.RadarRequiredTextField;
-import org.patientview.radar.web.pages.BasePage;
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.extensions.ajax.markup.html.IndicatingAjaxButton;
@@ -38,6 +33,11 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.patientview.radar.model.exception.DecryptionException;
+import org.patientview.radar.model.exception.EmailAddressNotFoundException;
+import org.patientview.radar.service.UserManager;
+import org.patientview.radar.web.components.RadarRequiredTextField;
+import org.patientview.radar.web.pages.BasePage;
 
 import java.util.ArrayList;
 import java.util.List;

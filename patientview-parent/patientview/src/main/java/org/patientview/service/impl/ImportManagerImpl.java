@@ -35,8 +35,6 @@ import org.patientview.patientview.logging.AddLog;
 import org.patientview.patientview.model.Centre;
 import org.patientview.patientview.model.Diagnosis;
 import org.patientview.patientview.model.Diagnostic;
-import org.patientview.patientview.model.EyeCheckup;
-import org.patientview.patientview.model.FootCheckup;
 import org.patientview.patientview.model.Letter;
 import org.patientview.patientview.model.Medicine;
 import org.patientview.patientview.model.TestResult;
@@ -94,14 +92,11 @@ public class ImportManagerImpl implements ImportManager {
     @Inject
     private ErrorHandler errorHandler;
 
-
     @Override
     public Unit retrieveUnit(String unitCode) {
         unitCode = unitCode.toUpperCase();
         return unitDao.get(unitCode, null);
     }
-
-
 
     public void process(File xmlFile) throws ProcessException {
 
@@ -383,24 +378,4 @@ public class ImportManagerImpl implements ImportManager {
     }
 
 
-    private void deleteFootCheckup(String nhsno, String unitcode) {
-        LegacySpringUtils.getFootCheckupManager().delete(nhsno, unitcode);
-    }
-
-    private void insertFootCheckup(Collection<FootCheckup> checkupses) {
-        for (Iterator iterator = checkupses.iterator(); iterator.hasNext();) {
-            FootCheckup checkups = (FootCheckup) iterator.next();
-            LegacySpringUtils.getFootCheckupManager().save(checkups);
-        }
-    }
-
-    private void deleteEyeCheckup(String nhsno, String unitcode) {
-        LegacySpringUtils.getEyeCheckupManager().delete(nhsno, unitcode);
-    }
-
-    private void insertEyeCheckup(List<EyeCheckup> eyeCheckups) {
-        for (EyeCheckup eyeCheckup : eyeCheckups) {
-            LegacySpringUtils.getEyeCheckupManager().save(eyeCheckup);
-        }
-    }
 }

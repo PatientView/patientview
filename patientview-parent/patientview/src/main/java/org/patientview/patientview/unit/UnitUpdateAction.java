@@ -28,7 +28,6 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.patientview.model.Specialty;
 import org.patientview.model.Unit;
 import org.patientview.patientview.logon.LogonUtils;
 import org.patientview.patientview.model.User;
@@ -45,8 +44,7 @@ public class UnitUpdateAction extends Action {
             throws Exception {
 
         Unit unit = LegacySpringUtils.getUnitManager().get(BeanUtils.getProperty(form, "unitcode"));
-        Specialty specialty = LegacySpringUtils.getSecurityUserManager().getLoggedInSpecialty();
-        UnitUtils.buildUnit(unit, form, specialty);
+        UnitUtils.buildUnit(unit, form);
         LegacySpringUtils.getUnitManager().save(unit);
 
         boolean isRadarGroup = "radargroup".equalsIgnoreCase(mapping.getParameter());
