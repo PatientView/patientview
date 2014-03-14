@@ -74,6 +74,8 @@ public interface UserManager {
 
     List<User> getAllUsers();
 
+    List<User> getByEmailAddress(String emailAddress);
+
     void save(UserMapping userMapping);
 
     void deleteUserMappings(String username, String unitcode);
@@ -85,6 +87,8 @@ public interface UserManager {
     List<UserMapping> getUserMappingsExcludeUnitcode(String username, String unitcode);
 
     List<UserMapping> getUserMappings(String username, String unitcode);
+
+    List<UserMapping> getUserMappingsAllSpecialties(String username, String unitcode);
 
     List<UserMapping> getUserMappingsForNhsNo(String nhsNo);
 

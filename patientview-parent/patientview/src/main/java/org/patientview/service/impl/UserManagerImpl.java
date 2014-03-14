@@ -320,6 +320,11 @@ public class UserManagerImpl implements UserManager {
     }
 
     @Override
+    public List<User> getByEmailAddress(String emailAddress) {
+        return userDao.getByEmailAddress(emailAddress);
+    }
+
+    @Override
     public void save(UserMapping userMapping) {
 
         if (userMapping.getSpecialty() == null) {
@@ -352,6 +357,11 @@ public class UserManagerImpl implements UserManager {
     @Override
     public List<UserMapping> getUserMappings(String username, String unitcode) {
         return userMappingDao.getAll(username, unitcode, securityUserManager.getLoggedInSpecialty());
+    }
+
+    @Override
+    public List<UserMapping> getUserMappingsAllSpecialties(String username, String unitcode) {
+        return userMappingDao.getAll(username, unitcode);
     }
 
     @Override

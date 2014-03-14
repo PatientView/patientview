@@ -88,76 +88,99 @@ public class UnitAdminAddAction extends ActionSupport {
             }
         }
 
-        List<UserMapping> usermappingList = userManager.getUserMappings(username);
-
         // check if existing username is patient, only want to add admins with unique usernames
         if (!CollectionUtils.isEmpty(patientManager.getByUsername(username))) {
-            // patient exists with this username
             unitAdmin.setUsername("");
             request.setAttribute("adminuser", unitAdmin);
             request.setAttribute("patientAlreadyExists", username);
             return mapping.findForward("input");
-        } else {
-            // no existing patients with this username
-            String mappingToFind;
-            if (!usermappingList.isEmpty()) {
+        }
 
-                // Note: legacy code assumes that there is a unique results here
-                List<UserMapping> userMappings = userManager.getUserMappings(username, unitcode);
-                UserMapping userMapping = null;
-                if (!CollectionUtils.isEmpty(userMappings)) {
-                    userMapping = userMappings.get(0);
+        // no existing patients with this username, get list of user mappings
+        List<UserMapping> usermappingsAllSpecialties = userManager.getUserMappingsIgnoreSpecialty(username);
+        List<UserMapping> usermappingsThisSpecialty = userManager.getUserMappings(username);
+
+        if (!usermappingsAllSpecialties.isEmpty()) {
+
+            // check if user exists has mapping in currently specialty
+            if (!usermappingsThisSpecialty.isEmpty()) {
+                // user has mappings in this specialty
+                List<UserMapping> userMappingsThisUnit = userManager.getUserMappings(username, unitcode);
+                UserMapping userMappingThisUnit = null;
+                if (!CollectionUtils.isEmpty(userMappingsThisUnit)) {
+                    userMappingThisUnit = userMappingsThisUnit.get(0);
                 }
 
-                if (userMapping != null) {
-                    // user exists in unit requested
+                // check if user has mapping for current unit
+                if (userMappingThisUnit != null) {
+                    // user already exists in unit requested
                     request.setAttribute(LogonUtils.USER_ALREADY_EXISTS, username);
                     unitAdmin.setUsername("");
                     UnitUtils.setUserUnits(request);
-                    mappingToFind = "input";
+                    request.setAttribute("adminuser", unitAdmin);
+                    return mapping.findForward("input");
                 } else {
                     // user exists but in other units
                     UserMapping userMappingNew = new UserMapping(username, unitcode, "");
 
                     // get string list of current user unit mappings and format into string for information
                     StringBuilder currentUnitCodes = new StringBuilder();
-                    for (UserMapping existingUserMapping : usermappingList) {
+                    for (UserMapping existingUserMapping : usermappingsAllSpecialties) {
                         if (existingUserMapping.getUnitcode().length() > 0) {
-                            currentUnitCodes.append(existingUserMapping.getUnitcode() + ", ");
+                            currentUnitCodes.append(existingUserMapping.getUnitcode() + " ("
+                                    + existingUserMapping.getSpecialty().getName() + "), ");
                         }
                     }
 
                     request.setAttribute("currentUnitCodes", currentUnitCodes.substring(0,
                             currentUnitCodes.length() - 2));
                     request.setAttribute("usermapping", userMappingNew);
-                    mappingToFind = "existinguser";
+                    request.setAttribute("adminuser", unitAdmin);
+                    return mapping.findForward("existinguser");
                 }
+
             } else {
-                // create the new user
-                UnitAdmin hashedUnitAdmin = (UnitAdmin) unitAdmin.clone();
-                hashedUnitAdmin.setPassword(LogonUtils.hashPassword(hashedUnitAdmin.getPassword()));
-                User user = userManager.saveUserFromUnitAdmin(hashedUnitAdmin, unitcode);
-
-                // create mappings in radar if they don't already exist
-                if (!userManager.userExistsInRadar(user.getId())) {
-                    userManager.createProfessionalUserInRadar(user, unitcode);
-                }
-
-                if (CollectionUtils.isEmpty(userManager.getUserMappings(username, unitcode))) {
-                    UserMapping userMappingNew = new UserMapping(username, unitcode, "");
-                    userManager.save(userMappingNew);
-                    request.setAttribute("usermapping", userMappingNew);
-                }
-
-                AddLog.addLog(securityUserManager.getLoggedInUsername(), AddLog.ADMIN_ADD, unitAdmin.getUsername(),
-                        "", unitcode, "");
-                EmailVerificationUtils.createEmailVerification(hashedUnitAdmin.getUsername(),
-                        hashedUnitAdmin.getEmail(), request);
-                mappingToFind = "success";
+                // user has mappings in other specialties but not this one, add to this specialty with new usermapping
+                UserMapping userMappingNew = new UserMapping(username, unitcode, "");
+                request.setAttribute("currentUnitCodes", "This user does not currently belong to any units.");
+                request.setAttribute("usermapping", userMappingNew);
+                request.setAttribute("adminuser", unitAdmin);
+                return mapping.findForward("existinguser");
             }
+        } else {
+            // check if email already on system, means user already exists but no user mapping
+            if (!CollectionUtils.isEmpty(userManager.getByEmailAddress(email))) {
+                UserMapping userMappingNew = new UserMapping(username, unitcode, "");
+                request.setAttribute("currentUnitCodes", "This user does not currently belong to any units.");
+                request.setAttribute("usermapping", userMappingNew);
+                request.setAttribute("adminuser", unitAdmin);
+                return mapping.findForward("existinguser");
+            }
+
+            // create the new user
+            UnitAdmin hashedUnitAdmin = (UnitAdmin) unitAdmin.clone();
+            hashedUnitAdmin.setPassword(LogonUtils.hashPassword(hashedUnitAdmin.getPassword()));
+            User user = userManager.saveUserFromUnitAdmin(hashedUnitAdmin, unitcode);
+
+            // create mappings in radar if they don't already exist
+            if (!userManager.userExistsInRadar(user.getId())) {
+                userManager.createProfessionalUserInRadar(user, unitcode);
+            }
+
+            // note this check is not necessarily required as user mapping should be created
+            // in userManager.saveUserFromUnitAdmin()
+            if (CollectionUtils.isEmpty(userManager.getUserMappings(username, unitcode))) {
+                UserMapping userMappingNew = new UserMapping(username, unitcode, "");
+                userManager.save(userMappingNew);
+                request.setAttribute("usermapping", userMappingNew);
+            }
+
+            AddLog.addLog(securityUserManager.getLoggedInUsername(), AddLog.ADMIN_ADD, unitAdmin.getUsername(),
+                    "", unitcode, "");
+            EmailVerificationUtils.createEmailVerification(hashedUnitAdmin.getUsername(), hashedUnitAdmin.getEmail(),
+                    request);
             request.setAttribute("adminuser", unitAdmin);
-            return mapping.findForward(mappingToFind);
+            return mapping.findForward("success");
         }
     }
-
 }

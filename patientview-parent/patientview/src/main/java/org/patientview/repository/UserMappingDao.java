@@ -45,6 +45,8 @@ public interface UserMappingDao {
 
     List<UserMapping> getAll(String username);
 
+    List<UserMapping> getAll(String username, String unitcode);
+
     List<UserMapping> getAll(String username, Specialty specialty);
 
     List<UserMapping> getAllExcludeUnitcode(String username, String unitcode, Specialty specialty);
