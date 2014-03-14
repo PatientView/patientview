@@ -80,6 +80,8 @@ public interface UserManager {
 
     List<UserMapping> getUserMappings(String username);
 
+    List<UserMapping> getUserMappingsIgnoreSpecialty(String username);
+
     List<UserMapping> getUserMappingsExcludeUnitcode(String username, String unitcode);
 
     List<UserMapping> getUserMappings(String username, String unitcode);

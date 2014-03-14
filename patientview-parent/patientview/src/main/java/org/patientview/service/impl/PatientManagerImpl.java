@@ -213,6 +213,26 @@ public class PatientManagerImpl implements PatientManager {
     }
 
     @Override
+    public List<Patient> getByUsername(String username) {
+        List<UserMapping> userMappings = userManager.getUserMappings(username);
+
+        if (!CollectionUtils.isEmpty(userMappings)) {
+            for (UserMapping userMapping : userMappings) {
+                List<Patient> patients = getByNhsNo(userMapping.getNhsno());
+                if (CollectionUtils.isEmpty(patients)) {
+                    continue;
+                } else {
+                    return patients;
+                }
+            }
+        } else {
+            return null;
+        }
+
+        return null;
+    }
+
+    @Override
     public Patient getPatient(String username) {
         List<UserMapping> userMappings = userManager.getUserMappings(username);
 

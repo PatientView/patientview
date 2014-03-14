@@ -43,6 +43,8 @@ public interface UserMappingDao {
 
     void deleteUserMappings(String username, String unitcode, Specialty specialty);
 
+    List<UserMapping> getAll(String username);
+
     List<UserMapping> getAll(String username, Specialty specialty);
 
     List<UserMapping> getAllExcludeUnitcode(String username, String unitcode, Specialty specialty);

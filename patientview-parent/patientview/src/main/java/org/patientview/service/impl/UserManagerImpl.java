@@ -340,6 +340,11 @@ public class UserManagerImpl implements UserManager {
     }
 
     @Override
+    public List<UserMapping> getUserMappingsIgnoreSpecialty(String username) {
+        return userMappingDao.getAll(username);
+    }
+
+    @Override
     public List<UserMapping> getUserMappingsExcludeUnitcode(String username, String unitcode) {
         return userMappingDao.getAllExcludeUnitcode(username, unitcode, securityUserManager.getLoggedInSpecialty());
     }
