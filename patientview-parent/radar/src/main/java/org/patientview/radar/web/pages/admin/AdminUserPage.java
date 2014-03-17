@@ -23,9 +23,6 @@
 
 package org.patientview.radar.web.pages.admin;
 
-import org.patientview.radar.model.user.ProfessionalUser;
-import org.patientview.radar.service.UserManager;
-import org.patientview.radar.web.behaviours.RadarBehaviourFactory;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
@@ -41,6 +38,9 @@ import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.string.StringValue;
+import org.patientview.radar.model.user.ProfessionalUser;
+import org.patientview.radar.service.UserManager;
+import org.patientview.radar.web.behaviours.RadarBehaviourFactory;
 
 import java.util.Date;
 

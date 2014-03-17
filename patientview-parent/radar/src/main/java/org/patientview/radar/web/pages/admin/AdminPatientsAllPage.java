@@ -23,19 +23,6 @@
 
 package org.patientview.radar.web.pages.admin;
 
-import org.patientview.model.Patient;
-import org.patientview.radar.model.enums.ExportType;
-import org.patientview.radar.model.filter.DemographicsFilter;
-import org.patientview.radar.service.DemographicsManager;
-import org.patientview.radar.service.DiagnosisManager;
-import org.patientview.radar.service.ExportManager;
-import org.patientview.radar.web.behaviours.AJAXDownload;
-import org.patientview.radar.web.components.ClearLink;
-import org.patientview.radar.web.components.SearchDateField;
-import org.patientview.radar.web.components.SearchField;
-import org.patientview.radar.web.components.SortLink;
-import org.patientview.radar.web.dataproviders.DemographicsDataProvider;
-import org.patientview.radar.web.panels.RadarAjaxPagingNavigator;
 import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.datetime.markup.html.basic.DateLabel;
@@ -50,6 +37,19 @@ import org.apache.wicket.request.Response;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.resource.AbstractResourceStreamWriter;
 import org.apache.wicket.util.resource.IResourceStream;
+import org.patientview.model.Patient;
+import org.patientview.radar.model.enums.ExportType;
+import org.patientview.radar.model.filter.DemographicsFilter;
+import org.patientview.radar.service.DemographicsManager;
+import org.patientview.radar.service.DiagnosisManager;
+import org.patientview.radar.service.ExportManager;
+import org.patientview.radar.web.behaviours.AJAXDownload;
+import org.patientview.radar.web.components.ClearLink;
+import org.patientview.radar.web.components.SearchDateField;
+import org.patientview.radar.web.components.SearchField;
+import org.patientview.radar.web.components.SortLink;
+import org.patientview.radar.web.dataproviders.DemographicsDataProvider;
+import org.patientview.radar.web.panels.RadarAjaxPagingNavigator;
 
 import java.util.ArrayList;
 import java.util.Arrays;

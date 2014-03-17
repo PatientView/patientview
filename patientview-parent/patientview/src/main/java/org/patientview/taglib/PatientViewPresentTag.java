@@ -23,11 +23,11 @@
 
 package org.patientview.taglib;
 
+import org.apache.struts.taglib.TagUtils;
+import org.apache.struts.taglib.logic.PresentTag;
 import org.patientview.model.Unit;
 import org.patientview.patientview.unit.UnitUtils;
 import org.patientview.utils.LegacySpringUtils;
-import org.apache.struts.taglib.TagUtils;
-import org.apache.struts.taglib.logic.PresentTag;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;

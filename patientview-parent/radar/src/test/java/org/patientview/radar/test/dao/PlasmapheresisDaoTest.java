@@ -23,11 +23,10 @@
 
 package org.patientview.radar.test.dao;
 
-import org.junit.Ignore;
+import org.junit.Test;
 import org.patientview.radar.dao.PlasmapheresisDao;
 import org.patientview.radar.model.Plasmapheresis;
 import org.patientview.radar.model.PlasmapheresisExchangeUnit;
-import org.junit.Test;
 import org.patientview.radar.test.TestDataHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 

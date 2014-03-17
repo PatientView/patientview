@@ -23,12 +23,10 @@
 
 package org.patientview.radar.test.dao;
 
-import org.junit.Before;
-import org.junit.Ignore;
-import org.patientview.radar.dao.TransplantDao;
-import org.patientview.radar.model.Transplant;
 import junit.framework.Assert;
 import org.junit.Test;
+import org.patientview.radar.dao.TransplantDao;
+import org.patientview.radar.model.Transplant;
 import org.patientview.radar.test.TestDataHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 

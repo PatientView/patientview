@@ -23,9 +23,9 @@
 
 package org.patientview.radar.web.pages.content;
 
-import org.patientview.radar.web.pages.BasePage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.patientview.radar.web.pages.BasePage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

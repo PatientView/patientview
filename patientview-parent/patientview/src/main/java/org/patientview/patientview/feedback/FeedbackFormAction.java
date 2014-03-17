@@ -23,21 +23,21 @@
 
 package org.patientview.patientview.feedback;
 
-import org.patientview.model.Patient;
-import org.patientview.patientview.EmailUtils;
-import org.patientview.patientview.PatientUtils;
-import org.patientview.patientview.logon.LogonUtils;
-import org.patientview.patientview.model.Feedback;
-import org.patientview.model.Unit;
-import org.patientview.patientview.model.User;
-import org.patientview.patientview.unit.UnitUtils;
-import org.patientview.utils.LegacySpringUtils;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.DynaActionForm;
+import org.patientview.model.Patient;
+import org.patientview.model.Unit;
+import org.patientview.patientview.EmailUtils;
+import org.patientview.patientview.PatientUtils;
+import org.patientview.patientview.logon.LogonUtils;
+import org.patientview.patientview.model.Feedback;
+import org.patientview.patientview.model.User;
+import org.patientview.patientview.unit.UnitUtils;
+import org.patientview.utils.LegacySpringUtils;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;

@@ -143,8 +143,9 @@ public final class LookingLocalUtils {
         formElement.setAttribute("method", "post");
         pageElement.appendChild(formElement);
 
+        // if patient details exist
         if (patientDetails != null && !patientDetails.isEmpty()) {
-            // static element
+
             Element name = doc.createElement("static");
             name.setAttribute("value", "Name: " + patientDetails.get(0).getPatient().getForename() + " "
                     + patientDetails.get(0).getPatient().getSurname());
@@ -216,6 +217,11 @@ public final class LookingLocalUtils {
             otherConditions.setAttribute("value", "Other conditions: "
                     + patientDetails.get(0).getPatient().getOtherConditions());
             formElement.appendChild(otherConditions);
+        } else {
+            // no patient details found for this user, put error message
+            Element errorMessage = doc.createElement("static");
+            errorMessage.setAttribute("value", "The 'My Details' page is for patient information only.");
+            formElement.appendChild(errorMessage);
         }
 
         // back button

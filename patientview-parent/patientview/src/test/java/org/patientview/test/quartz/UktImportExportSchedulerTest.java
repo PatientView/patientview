@@ -29,10 +29,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.patientview.model.Patient;
 import org.patientview.model.Specialty;
-import org.patientview.patientview.model.*;
+import org.patientview.patientview.model.UktStatus;
+import org.patientview.patientview.model.User;
 import org.patientview.quartz.UktImportExportScheduler;
 import org.patientview.repository.PatientDao;
-import org.patientview.service.*;
+import org.patientview.service.UKTransplantManager;
 import org.patientview.test.helpers.RepositoryHelpers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -46,7 +47,10 @@ import java.io.FileReader;
 import java.io.FilenameFilter;
 import java.util.Date;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  *

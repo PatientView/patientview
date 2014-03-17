@@ -23,10 +23,10 @@
 
 package org.patientview.repository.impl;
 
+import org.patientview.model.Unit;
 import org.patientview.patientview.model.Panel;
 import org.patientview.patientview.model.TestResult;
 import org.patientview.patientview.model.TestResultWithUnitShortname;
-import org.patientview.model.Unit;
 import org.patientview.repository.AbstractHibernateDAO;
 import org.patientview.repository.TestResultDao;
 import org.springframework.jdbc.core.JdbcTemplate;

@@ -23,8 +23,8 @@
 
 package org.patientview.radar.web.choiceRenderers;
 
-import org.patientview.radar.web.RadarApplication;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
+import org.patientview.radar.web.RadarApplication;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
