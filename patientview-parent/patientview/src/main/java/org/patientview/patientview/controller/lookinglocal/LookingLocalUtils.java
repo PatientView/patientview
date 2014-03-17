@@ -23,6 +23,7 @@
 
 package org.patientview.patientview.controller.lookinglocal;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.patientview.model.Unit;
 import org.patientview.patientview.PatientDetails;
 import org.patientview.patientview.comment.CommentUtils;
@@ -128,7 +129,8 @@ public final class LookingLocalUtils {
     public static void getMyDetailsXml(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         User user = UserUtils.retrieveUser(request);
-        List<PatientDetails> patientDetails = LegacySpringUtils.getPatientManager().getPatientDetails(user.getId());
+        List<PatientDetails> patientDetails =
+                LegacySpringUtils.getPatientManager().getPatientDetails(user.getUsername());
         Document doc = getDocument();
 
         // add page to screen
@@ -143,8 +145,8 @@ public final class LookingLocalUtils {
         formElement.setAttribute("method", "post");
         pageElement.appendChild(formElement);
 
-        // if patient details exist
-        if (patientDetails != null && !patientDetails.isEmpty()) {
+        // if patient details exist, get first set of patient details and display on screen
+        if (!CollectionUtils.isEmpty(patientDetails)) {
 
             Element name = doc.createElement("static");
             name.setAttribute("value", "Name: " + patientDetails.get(0).getPatient().getForename() + " "
