@@ -109,13 +109,6 @@ public class PatientAddAction extends ActionSupport {
             mappingToFind = "input";
         }
 
-        // check if user already exists
-        if (existingUser != null) {
-            request.setAttribute(LogonUtils.USER_ALREADY_EXISTS, username);
-            patientLogon.setUsername("");
-            mappingToFind = "input";
-        }
-
         // get list of patients with same NHS number across specialties and within unit
         List<UserMapping> userMappingsAllSpecialties = userManager.getUserMappingsForNhsNoAllSpecialties(nhsno);
         List<UserMapping> userMappingsThisSpecialty = userManager.getUserMappingsForNhsNo(nhsno);
@@ -138,15 +131,22 @@ public class PatientAddAction extends ActionSupport {
             if ("".equals(mappingToFind)) {
                 // patient with same NHS no. found in another unit, forwards to action asking to add this existing
                 // patient to current unit, ignoring all user entered details, firstname/lastname/username etc
-                request.setAttribute(LogonUtils.NHSNO_ALREADY_EXISTS, nhsno);
+                //request.setAttribute(LogonUtils.NHSNO_ALREADY_EXISTS, nhsno);
                 request.setAttribute(LogonUtils.PATIENTS_WITH_SAME_NHSNO, userMappingsAllSpecialties.get(0));
                 mappingToFind = "samenhsno";
             }
-
         }
 
-        // if all checks passed, save patient and related users
+        // check if user already exists
+        if (existingUser != null &&  mappingToFind.equals("")) {
+            request.setAttribute(LogonUtils.USER_ALREADY_EXISTS, username);
+            patientLogon.setUsername("");
+            mappingToFind = "input";
+        }
+
+        // patient with NHS no. not already in database, user does not exist, create new user
         if (mappingToFind.equals("")) {
+
             PatientLogon hashedPatient = (PatientLogon) patientLogon.clone();
             PatientLogon hashedGp = (PatientLogon) gpPatientLogon.clone();
 
