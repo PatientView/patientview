@@ -370,6 +370,11 @@ public class UserManagerImpl implements UserManager {
     }
 
     @Override
+    public List<UserMapping> getUserMappingsForNhsNoAllSpecialties(String nhsNo) {
+        return userMappingDao.getAllForNhsNo(nhsNo);
+    }
+
+    @Override
     public String getUsersRealUnitcodeBestGuess(String username) {
         return userMappingDao.getUsersRealUnitcodeBestGuess(username, securityUserManager.getLoggedInSpecialty());
     }

@@ -92,6 +92,8 @@ public interface UserManager {
 
     List<UserMapping> getUserMappingsForNhsNo(String nhsNo);
 
+    List<UserMapping> getUserMappingsForNhsNoAllSpecialties(String nhsNo);
+
     String getUsersRealUnitcodeBestGuess(String username);
 
     String getUsersRealNhsNoBestGuess(String username);
