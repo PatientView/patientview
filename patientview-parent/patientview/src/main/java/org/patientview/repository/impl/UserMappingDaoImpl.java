@@ -65,6 +65,20 @@ public class UserMappingDaoImpl extends AbstractHibernateDAO<UserMapping> implem
     }
 
     @Override
+    public List<UserMapping> getAll(String username) {
+
+        CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<UserMapping> criteria = builder.createQuery(UserMapping.class);
+        Root<UserMapping> from = criteria.from(UserMapping.class);
+        List<Predicate> wherePredicates = new ArrayList<Predicate>();
+
+        wherePredicates.add(builder.equal(from.get(UserMapping_.username), username));
+
+        buildWhereClause(criteria, wherePredicates);
+        return getEntityManager().createQuery(criteria).getResultList();
+    }
+
+    @Override
     public List<UserMapping> getAll(String username, Specialty specialty) {
 
         CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
@@ -74,6 +88,21 @@ public class UserMappingDaoImpl extends AbstractHibernateDAO<UserMapping> implem
 
         wherePredicates.add(builder.equal(from.get(UserMapping_.username), username));
         wherePredicates.add(builder.equal(from.get(UserMapping_.specialty), specialty));
+
+        buildWhereClause(criteria, wherePredicates);
+        return getEntityManager().createQuery(criteria).getResultList();
+    }
+
+    @Override
+    public List<UserMapping> getAll(String username, String unitcode) {
+
+        CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<UserMapping> criteria = builder.createQuery(UserMapping.class);
+        Root<UserMapping> from = criteria.from(UserMapping.class);
+        List<Predicate> wherePredicates = new ArrayList<Predicate>();
+
+        wherePredicates.add(builder.equal(from.get(UserMapping_.username), username));
+        wherePredicates.add(builder.equal(from.get(UserMapping_.unitcode), unitcode));
 
         buildWhereClause(criteria, wherePredicates);
         return getEntityManager().createQuery(criteria).getResultList();
