@@ -95,7 +95,7 @@ public class PatientAddAction extends ActionSupport {
         User existingUser = userManager.get(username);
 
         // get list of patients with same NHS number
-        List existingUsersWithSameNhsNo = userManager.getUserMappingsForNhsNo(nhsno);
+        List<UserMapping> existingUsersWithSameNhsNo = userManager.getUserMappingsForNhsNo(nhsno);
 
         String mappingToFind = "";
 
@@ -120,8 +120,7 @@ public class PatientAddAction extends ActionSupport {
 
         // check other patients exist with same NHS no.
         if (!CollectionUtils.isEmpty(existingUsersWithSameNhsNo)) {
-            for (Object obj : existingUsersWithSameNhsNo) {
-                UserMapping userMappingWithSameNhsno = (UserMapping) obj;
+            for (UserMapping userMappingWithSameNhsno : existingUsersWithSameNhsNo) {
                 if (userMappingWithSameNhsno.getUnitcode().equalsIgnoreCase(unitcode)) {
                     // patient with NHS no. found in current unit
                     request.setAttribute(LogonUtils.PATIENT_ALREADY_IN_UNIT, nhsno);
