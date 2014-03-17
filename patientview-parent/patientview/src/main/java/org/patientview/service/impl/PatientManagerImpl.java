@@ -185,15 +185,6 @@ public class PatientManagerImpl implements PatientManager {
         return patientDetails;
     }
 
-    @Override
-    public List<PatientDetails> getPatientDetails(Long id) {
-        Patient patient = get(id);
-        List<PatientDetails> patientDetails = new ArrayList<PatientDetails>();
-        patientDetails.add(createPatientDetails(patient, unitManager.get(patient.getUnitcode())));
-        return patientDetails;
-
-    }
-
     private PatientDetails createPatientDetails(Patient patient, Unit unit) {
         PatientDetails patientDetail = new PatientDetails();
 
