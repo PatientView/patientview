@@ -94,8 +94,6 @@ public class PatientAddAction extends ActionSupport {
         // get User object, used to check if user already exists
         User existingUser = userManager.get(username);
 
-        // get list of patients with same NHS number
-        List<UserMapping> existingUsersWithSameNhsNo = userManager.getUserMappingsForNhsNo(nhsno);
 
         String mappingToFind = "";
 
@@ -118,13 +116,22 @@ public class PatientAddAction extends ActionSupport {
             mappingToFind = "input";
         }
 
+        // get list of patients with same NHS number across specialties and within unit
+        List<UserMapping> userMappingsAllSpecialties = userManager.getUserMappingsForNhsNoAllSpecialties(nhsno);
+        List<UserMapping> userMappingsThisSpecialty = userManager.getUserMappingsForNhsNo(nhsno);
+
         // check other patients exist with same NHS no.
-        if (!CollectionUtils.isEmpty(existingUsersWithSameNhsNo)) {
-            for (UserMapping userMappingWithSameNhsno : existingUsersWithSameNhsNo) {
-                if (userMappingWithSameNhsno.getUnitcode().equalsIgnoreCase(unitcode)) {
-                    // patient with NHS no. found in current unit
-                    request.setAttribute(LogonUtils.PATIENT_ALREADY_IN_UNIT, nhsno);
-                    mappingToFind = "input";
+        if (!CollectionUtils.isEmpty(userMappingsAllSpecialties)) {
+
+            // patients exist across all specialties
+            if (!CollectionUtils.isEmpty(userMappingsThisSpecialty)) {
+                // patients exist in this specialty
+                for (UserMapping userMappingWithSameNhsno : userMappingsThisSpecialty) {
+                    if (userMappingWithSameNhsno.getUnitcode().equalsIgnoreCase(unitcode)) {
+                        // patient with NHS no. found in current unit
+                        request.setAttribute(LogonUtils.PATIENT_ALREADY_IN_UNIT, nhsno);
+                        mappingToFind = "input";
+                    }
                 }
             }
 
@@ -132,9 +139,10 @@ public class PatientAddAction extends ActionSupport {
                 // patient with same NHS no. found in another unit, forwards to action asking to add this existing
                 // patient to current unit, ignoring all user entered details, firstname/lastname/username etc
                 request.setAttribute(LogonUtils.NHSNO_ALREADY_EXISTS, nhsno);
-                request.setAttribute(LogonUtils.PATIENTS_WITH_SAME_NHSNO, existingUsersWithSameNhsNo.get(0));
+                request.setAttribute(LogonUtils.PATIENTS_WITH_SAME_NHSNO, userMappingsAllSpecialties.get(0));
                 mappingToFind = "samenhsno";
             }
+
         }
 
         // if all checks passed, save patient and related users
