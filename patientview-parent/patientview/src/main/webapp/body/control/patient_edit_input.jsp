@@ -152,6 +152,11 @@
                             <html:submit value="Lock Password" styleClass="btn formbutton"/>
                         </html:form>
                     </logic:match>
+
+                    <html:form action="/control/patientHide" style="float:left;margin-left:5px;">
+                        <html:hidden name="patient" property="username"/>
+                        <html:submit value="Hide and Lock Patient" styleClass="btn formbutton"/>
+                    </html:form>
                 </div>
             </div>
 
