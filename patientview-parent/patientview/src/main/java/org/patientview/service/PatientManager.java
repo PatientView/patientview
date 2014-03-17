@@ -57,6 +57,13 @@ public interface PatientManager {
 
     List<Patient> getByNhsNo(String nhsNo);
 
+    /**
+     * Uses usermapping to get list of patients by username (expect single patient)
+     * @param username Username to search for
+     * @return List of patients with username
+     */
+    List<Patient> getByUsername(String username);
+
     // Note: generics not used as the result is half user, half patient
     List getUnitPatientsWithTreatment(String unitcode, String nhsno, String firstname, String lastname,
                                       boolean showgps);
@@ -75,8 +82,6 @@ public interface PatientManager {
      * @return a list of 'mini' objects based on patient records
      */
     List<PatientDetails> getPatientDetails(String username);
-
-    List<PatientDetails> getPatientDetails(Long id);
 
     Map.Entry<String, Date> getLatestTestResultUnit(String nhsNo);
 

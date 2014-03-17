@@ -45,4 +45,6 @@ public interface UserDao {
     List<User> getAll();
 
     List<User> get(User user, Specialty specialty, String userType, Unit unit);
+
+    List<User> getByEmailAddress(String emailAddress);
 }

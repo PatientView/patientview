@@ -185,15 +185,6 @@ public class PatientManagerImpl implements PatientManager {
         return patientDetails;
     }
 
-    @Override
-    public List<PatientDetails> getPatientDetails(Long id) {
-        Patient patient = get(id);
-        List<PatientDetails> patientDetails = new ArrayList<PatientDetails>();
-        patientDetails.add(createPatientDetails(patient, unitManager.get(patient.getUnitcode())));
-        return patientDetails;
-
-    }
-
     private PatientDetails createPatientDetails(Patient patient, Unit unit) {
         PatientDetails patientDetail = new PatientDetails();
 
@@ -210,6 +201,26 @@ public class PatientManagerImpl implements PatientManager {
 
         return patientDetail;
 
+    }
+
+    @Override
+    public List<Patient> getByUsername(String username) {
+        List<UserMapping> userMappings = userManager.getUserMappings(username);
+
+        if (!CollectionUtils.isEmpty(userMappings)) {
+            for (UserMapping userMapping : userMappings) {
+                List<Patient> patients = getByNhsNo(userMapping.getNhsno());
+                if (CollectionUtils.isEmpty(patients)) {
+                    continue;
+                } else {
+                    return patients;
+                }
+            }
+        } else {
+            return null;
+        }
+
+        return null;
     }
 
     @Override
