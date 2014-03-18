@@ -94,8 +94,8 @@ public class PatientAddAction extends ActionSupport {
         // get User object, used to check if user already exists
         User existingUser = userManager.get(username);
 
-
-        String mappingToFind = "";
+        List<Unit> units = unitManager.getAll(false);
+        request.setAttribute("units", units);
 
         // check if NHS number is valid, if not then check again allowing pseudo NHS numbers and prompt user
         // to allow pseudo NHS number in UI
@@ -105,8 +105,8 @@ public class PatientAddAction extends ActionSupport {
             if (CommonUtils.isNhsNumberValidWhenUppercaseLettersAreAllowed(nhsno)) {
                 request.setAttribute(LogonUtils.OFFER_TO_ALLOW_INVALID_NHSNO, nhsno);
             }
-
-            mappingToFind = "input";
+            request.setAttribute("patient", patientLogon);
+            return mapping.findForward("input");
         }
 
         // get list of patients with same NHS number across specialties and within unit
@@ -123,66 +123,56 @@ public class PatientAddAction extends ActionSupport {
                     if (userMappingWithSameNhsno.getUnitcode().equalsIgnoreCase(unitcode)) {
                         // patient with NHS no. found in current unit
                         request.setAttribute(LogonUtils.PATIENT_ALREADY_IN_UNIT, nhsno);
-                        mappingToFind = "input";
+                        request.setAttribute("patient", patientLogon);
+                        return mapping.findForward("input");
                     }
                 }
             }
 
-            if ("".equals(mappingToFind)) {
-                // patient with same NHS no. found in another unit, forwards to action asking to add this existing
-                // patient to current unit, ignoring all user entered details, firstname/lastname/username etc
-                //request.setAttribute(LogonUtils.NHSNO_ALREADY_EXISTS, nhsno);
-                request.setAttribute(LogonUtils.PATIENTS_WITH_SAME_NHSNO, userMappingsAllSpecialties.get(0));
-                mappingToFind = "samenhsno";
-            }
+            // patient with same NHS no. found in another unit, forwards to action asking to add this existing
+            // patient to current unit, ignoring all user entered details, firstname/lastname/username etc
+            request.setAttribute(LogonUtils.PATIENTS_WITH_SAME_NHSNO, userMappingsAllSpecialties.get(0));
+            request.setAttribute("userMapping", userMapping);
+            request.setAttribute("patient", patientLogon);
+            return mapping.findForward("samenhsno");
         }
 
         // check if user already exists
-        if (existingUser != null &&  mappingToFind.equals("")) {
+        if (existingUser != null) {
             request.setAttribute(LogonUtils.USER_ALREADY_EXISTS, username);
             patientLogon.setUsername("");
-            mappingToFind = "input";
+            request.setAttribute("patient", patientLogon);
+            return mapping.findForward("input");
         }
 
         // patient with NHS no. not already in database, user does not exist, create new user
-        if (mappingToFind.equals("")) {
+        PatientLogon hashedPatient = (PatientLogon) patientLogon.clone();
+        PatientLogon hashedGp = (PatientLogon) gpPatientLogon.clone();
 
-            PatientLogon hashedPatient = (PatientLogon) patientLogon.clone();
-            PatientLogon hashedGp = (PatientLogon) gpPatientLogon.clone();
+        hashedPatient.setPassword(LogonUtils.hashPassword(hashedPatient.getPassword()));
+        hashedGp.setPassword(LogonUtils.hashPassword(hashedGp.getPassword()));
 
-            hashedPatient.setPassword(LogonUtils.hashPassword(hashedPatient.getPassword()));
-            hashedGp.setPassword(LogonUtils.hashPassword(hashedGp.getPassword()));
+        userManager.saveUserFromPatient(hashedPatient);
+        userManager.saveUserFromPatient(hashedGp);
 
-            userManager.saveUserFromPatient(hashedPatient);
-            userManager.saveUserFromPatient(hashedGp);
+        userManager.save(userMapping);
+        userManager.save(userMappingPatientEnters);
+        userManager.save(userMappingGp);
 
-            userManager.save(userMapping);
-            userManager.save(userMappingPatientEnters);
-            userManager.save(userMappingGp);
-
-            if (patientManager.get(nhsno, unitcode) == null) {
-                Patient patient = new Patient();
-                patient.setNhsno(nhsno);
-                patient.setUnitcode(unitcode);
-                patient.setEmailAddress(email);
-                patient.setSourceType(SourceType.PATIENT_VIEW.getName());
-                patientManager.save(patient);
-            }
-
-            AddLog.addLog(securityUserManager.getLoggedInUsername(), AddLog.PATIENT_ADD,
-                    patientLogon.getUsername(),
-                    userMapping.getNhsno(), userMapping.getUnitcode(), "");
-            mappingToFind = "success";
+        if (patientManager.get(nhsno, unitcode) == null) {
+            Patient patient = new Patient();
+            patient.setNhsno(nhsno);
+            patient.setUnitcode(unitcode);
+            patient.setEmailAddress(email);
+            patient.setSourceType(SourceType.PATIENT_VIEW.getName());
+            patientManager.save(patient);
         }
 
-        List<Unit> units = unitManager.getAll(false);
+        AddLog.addLog(securityUserManager.getLoggedInUsername(), AddLog.PATIENT_ADD,
+                patientLogon.getUsername(), userMapping.getNhsno(), userMapping.getUnitcode(), "");
 
-        request.setAttribute("units", units);
         request.setAttribute("patient", patientLogon);
         request.setAttribute("userMapping", userMapping);
-        request.getSession().setAttribute("gp", gpPatientLogon);
-        request.getSession().setAttribute("userMappingGp", userMappingGp);
-
-        return mapping.findForward(mappingToFind);
+        return mapping.findForward("success");
     }
 }
