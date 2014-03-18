@@ -53,13 +53,14 @@ public interface PatientDao {
 
     // Note: generics not used as the result is half user, half patient
     List getUnitPatientsWithTreatmentDao(String unitcode, String nhsno, String firstname, String lastname,
-                                         boolean showgps, Specialty specialty);
+                                         boolean showgps, Specialty specialty, boolean includeHidden);
 
     List getAllUnitPatientsWithTreatmentDao(String nhsno, String firstname, String lastname, boolean showgps,
-                                       Specialty specialty);
+                                       Specialty specialty, boolean includeHidden);
 
     // Note: generics not used as the result is half user, half patient
-    List<PatientLogonWithTreatment> getUnitPatientsAllWithTreatmentDao(String unitcode, Specialty specialty);
+    List<PatientLogonWithTreatment> getUnitPatientsAllWithTreatmentDao(String unitcode, Specialty specialty
+            , boolean includeHidden);
 
     List<Patient> getUktPatients();
 }

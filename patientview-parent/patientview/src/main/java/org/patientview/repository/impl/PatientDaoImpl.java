@@ -174,7 +174,7 @@ public class PatientDaoImpl extends AbstractHibernateDAO<Patient> implements Pat
     // todo PERFORMANCE FIX & GENERAL BUG: removed the left join to the pv_user_log, need to reimplement
     @Override
     public List getUnitPatientsWithTreatmentDao(String unitcode, String nhsno, String firstname, String lastname,
-                                                boolean showgps, Specialty specialty) {
+                                                boolean showgps, Specialty specialty, boolean includeHidden) {
         StringBuilder query = new StringBuilder();
         query.append("SELECT    usr.username ");
         query.append(",         usr.password ");
@@ -183,6 +183,7 @@ public class PatientDaoImpl extends AbstractHibernateDAO<Patient> implements Pat
         query.append(",         usr.email ");
         query.append(",         usr.emailverified ");
         query.append(",         usr.accountlocked ");
+        query.append(",         usr.accounthidden ");
         query.append(",         usm.nhsno ");
         query.append(",         usm.unitcode ");
         query.append(",         null lastverificationdate ");
@@ -216,7 +217,9 @@ public class PatientDaoImpl extends AbstractHibernateDAO<Patient> implements Pat
             query.append("AND   usr.username NOT LIKE '%-GP' ");
         }
         query.append("AND       str.specialty_id = ? ");
-        query.append("AND       usr.accounthidden = false ");
+        if (!includeHidden) {
+            query.append("AND       usr.accounthidden = false ");
+        }
         query.append("GROUP BY  usr.username ");
         query.append(",         usr.password ");
         query.append(",         usr.firstname ");
@@ -257,7 +260,7 @@ public class PatientDaoImpl extends AbstractHibernateDAO<Patient> implements Pat
     // todo PERFORMANCE FIX & GENERAL BUG: removed the left join to the pv_user_log, need to reimplement
     @Override
     public List getAllUnitPatientsWithTreatmentDao(String nhsno, String firstname, String lastname, boolean showgps,
-                                                   Specialty specialty) {
+                                                   Specialty specialty, boolean includeHidden) {
 
         StringBuilder query = new StringBuilder();
         query.append("SELECT usr.username ");
@@ -267,6 +270,7 @@ public class PatientDaoImpl extends AbstractHibernateDAO<Patient> implements Pat
         query.append(",      usr.email ");
         query.append(",      usr.emailverified ");
         query.append(",      usr.accountlocked ");
+        query.append(",      usr.accounthidden ");
         query.append(",      MAX(ptt.nhsno) nhsno ");
         query.append(",      MAX(ptt.unitcode) unitcode ");
         query.append(",      null lastverificationdate ");
@@ -283,7 +287,9 @@ public class PatientDaoImpl extends AbstractHibernateDAO<Patient> implements Pat
         query.append("INNER JOIN specialtyuserrole str ON str.user_id = usr.id ");
         query.append("WHERE  str.role = 'patient' ");
         query.append("AND    usr.id = str.user_id ");
-        query.append("AND    usr.accounthidden = false ");
+        if (!includeHidden) {
+            query.append("AND    usr.accounthidden = false ");
+        }
         query.append("AND    usm.unitcode <> 'PATIENT' ");
         query.append("AND    ptt.nhsno IS NOT NULL ");
         query.append("AND    IF(ptt.patientLinkId = 0, NULL, ptt.patientLinkId) IS NULL ");
@@ -333,7 +339,8 @@ public class PatientDaoImpl extends AbstractHibernateDAO<Patient> implements Pat
     }
 
     @Override
-    public List<PatientLogonWithTreatment> getUnitPatientsAllWithTreatmentDao(String unitcode, Specialty specialty) {
+    public List<PatientLogonWithTreatment> getUnitPatientsAllWithTreatmentDao(String unitcode, Specialty specialty,
+                                                                              boolean includeHidden) {
         String sql = "SELECT "
                 + "   user.username,  "
                 + "   user.password, "
@@ -346,6 +353,7 @@ public class PatientDaoImpl extends AbstractHibernateDAO<Patient> implements Pat
                 + "   usermapping.unitcode, "
                 + "   user.firstlogon, "
                 + "   user.accountlocked, "
+                + "   user.accounthidden, "
                 + "   patient.treatment, "
                 + "   patient.dateofbirth, "
                 + "   patient.id "
@@ -364,11 +372,13 @@ public class PatientDaoImpl extends AbstractHibernateDAO<Patient> implements Pat
                 + "AND "
                 + "   specialtyuserrole.role = 'patient' "
                 + "AND "
-                + "   user.username NOT LIKE '%-GP' "
-                + "AND "
-                + "   user.accounthidden = false "
-                + "AND "
-                + "   specialtyuserrole.specialty_id = ? "
+                + "   user.username NOT LIKE '%-GP' ";
+
+        if (!includeHidden) {
+            sql += "AND user.accounthidden = false ";
+        }
+
+        sql     += "AND   specialtyuserrole.specialty_id = ? "
                 + "ORDER BY "
                 + "   user.lastname, user.firstname ASC";
 
@@ -428,6 +438,7 @@ public class PatientDaoImpl extends AbstractHibernateDAO<Patient> implements Pat
             patientLogonWithTreatment.setTreatment(resultSet.getString("treatment"));
             patientLogonWithTreatment.setDateofbirth(resultSet.getDate("dateofbirth"));
             patientLogonWithTreatment.setPatientId(resultSet.getLong("id"));
+            patientLogonWithTreatment.setAccounthidden(resultSet.getBoolean("accounthidden"));
             return patientLogonWithTreatment;
         }
     }
