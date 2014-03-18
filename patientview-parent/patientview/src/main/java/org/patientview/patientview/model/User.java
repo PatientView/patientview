@@ -74,6 +74,9 @@ public class User extends BaseModel {
     private boolean accountlocked;
 
     @Column(nullable = true)
+    private boolean accounthidden;
+
+    @Column(nullable = true)
     private boolean isrecipient;
 
     @Column(nullable = true)
@@ -192,6 +195,14 @@ public class User extends BaseModel {
 
     public void setAccountlocked(boolean accountlocked) {
         this.accountlocked = accountlocked;
+    }
+
+    public boolean isAccounthidden() {
+        return accounthidden;
+    }
+
+    public void setAccounthidden(boolean accounthidden) {
+        this.accounthidden = accounthidden;
     }
 
     public boolean isIsrecipient() {

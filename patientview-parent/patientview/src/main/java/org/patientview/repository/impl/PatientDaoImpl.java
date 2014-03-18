@@ -216,6 +216,7 @@ public class PatientDaoImpl extends AbstractHibernateDAO<Patient> implements Pat
             query.append("AND   usr.username NOT LIKE '%-GP' ");
         }
         query.append("AND       str.specialty_id = ? ");
+        query.append("AND       usr.accounthidden = false ");
         query.append("GROUP BY  usr.username ");
         query.append(",         usr.password ");
         query.append(",         usr.firstname ");
@@ -282,6 +283,7 @@ public class PatientDaoImpl extends AbstractHibernateDAO<Patient> implements Pat
         query.append("INNER JOIN specialtyuserrole str ON str.user_id = usr.id ");
         query.append("WHERE  str.role = 'patient' ");
         query.append("AND    usr.id = str.user_id ");
+        query.append("AND    usr.accounthidden = false ");
         query.append("AND    usm.unitcode <> 'PATIENT' ");
         query.append("AND    ptt.nhsno IS NOT NULL ");
         query.append("AND    IF(ptt.patientLinkId = 0, NULL, ptt.patientLinkId) IS NULL ");
@@ -364,6 +366,8 @@ public class PatientDaoImpl extends AbstractHibernateDAO<Patient> implements Pat
                 + "AND "
                 + "   user.username NOT LIKE '%-GP' "
                 + "AND "
+                + "   user.accounthidden = false "
+                + "AND "
                 + "   specialtyuserrole.specialty_id = ? "
                 + "ORDER BY "
                 + "   user.lastname, user.firstname ASC";
@@ -383,6 +387,7 @@ public class PatientDaoImpl extends AbstractHibernateDAO<Patient> implements Pat
                 + " patient.dateofbirth, patient.postcode, patient.id FROM patient, user, usermapping "
                 + " WHERE patient.nhsno REGEXP '^[0-9]{10}$' AND patient.nhsno = usermapping.nhsno "
                 + "AND user.username = usermapping.username "
+                + "AND user.accounthidden = false "
                 + " AND usermapping.username NOT LIKE '%-GP' AND user.dummypatient = 0";
 
         return jdbcTemplate.query(sql, new PatientMapper());
