@@ -71,7 +71,6 @@ public class UnitPatientsControlller extends BaseController {
             List patients = null;
             PatientManager patientManager = LegacySpringUtils.getPatientManager();
             if (StringUtils.isEmpty(unitcode)) {
-                //patients = patientManager.getAllUnitPatientsWithTreatment(nhsno, firstname, lastname, showgps);
                 if (LegacySpringUtils.getSecurityUserManager().isRolePresent("superadmin")) {
                     patients = patientManager.getAllUnitPatientsWithTreatmentIncludeHidden(nhsno, firstname,
                             lastname, showgps);
@@ -80,7 +79,6 @@ public class UnitPatientsControlller extends BaseController {
                             lastname, showgps);
                 }
             } else {
-                //patients = patientManager.getUnitPatientsWithTreatment(unitcode, nhsno, firstname, lastname, showgps);
                 if (LegacySpringUtils.getSecurityUserManager().isRolePresent("superadmin")) {
                     patients = patientManager.getUnitPatientsWithTreatmentIncludeHidden(unitcode, nhsno, firstname,
                             lastname, showgps);
