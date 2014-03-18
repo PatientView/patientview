@@ -93,7 +93,7 @@
                     patientKeyParams.put("patientId", patient.getPatientId().toString());
                     request.setAttribute("patientKeyParams", patientKeyParams);
                 %>
-                
+
                 <logic:equal name="patient" property="accounthidden" value="true">
                     <tr class="accounthidden">
                 </logic:equal>

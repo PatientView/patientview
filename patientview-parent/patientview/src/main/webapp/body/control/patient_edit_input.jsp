@@ -153,15 +153,21 @@
                         </html:form>
                     </logic:match>
 
-                    <html:form action="/control/patientHide" style="float:left;margin-left:5px;">
-                        <html:hidden name="patient" property="username"/>
-                        <html:submit value="Hide and Lock Patient" styleClass="btn formbutton"/>
-                    </html:form>
+                    <logic:match value="false" name="patient" property="accounthidden">
+                        <html:form action="/control/patientHide" style="float:left;margin-left:5px;">
+                            <html:hidden name="patient" property="username"/>
+                            <html:submit value="Hide and Lock Patient" styleClass="btn formbutton"/>
+                        </html:form>
+                    </logic:match>
+
+                    <logic:match value="true" name="patient" property="accounthidden">
+                        <html:form action="/control/patientUnhide" style="float:left;margin-left:5px;">
+                            <html:hidden name="patient" property="username"/>
+                            <html:submit value="Unhide Patient" styleClass="btn formbutton"/>
+                        </html:form>
+                    </logic:match>
                 </div>
             </div>
-
-
-
     </div>
 </div>
 </div>
