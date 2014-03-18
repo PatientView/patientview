@@ -56,7 +56,7 @@ public final class Routes {
     public static final String UNIT_USERS_LIST_URL = "/control/unitUsers";
     public static final String UNIT_PATIENTS_LIST_PAGE = "/control/unit_patients";
     public static final String UNIT_USERS_LIST_PAGE = "/control/unit_users";
-    public static final String UNIT_BY_SPECIALTY_LIST_URL = "/unit_by_specialty_list";
+    public static final String UNIT_BY_SPECIALTY_LIST_URL = "/unitBySpecialty";
 
 
     public static final String EMAIL_VERIFICATION_URL = "/control/emailverification";

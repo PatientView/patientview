@@ -39,6 +39,10 @@
 
     <form action="/web/joinRequestSubmit" class="js-joinrequest-form" styleClass="form-horizontal">
 
+        <div class="alert alert-error js-message-errors" style="display: none">
+            <strong>You do not have any messages.</strong>
+        </div>
+
         <div class="control-group">
             <label class="control-label">First name</label>
 
@@ -48,7 +52,7 @@
         <div class="control-group">
             <label class="control-label">Last name</label>
 
-            <div class="controls"><input name="lastName"/></div>
+            <div class="controls"><input name="lastName" class="js-joinrequest-lastname"/></div>
         </div>
 
         <div class="control-group">

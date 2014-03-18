@@ -82,10 +82,10 @@ public class JoinRequestsController extends BaseController {
      * @param secuirtyQuestion
      */
     @RequestMapping(value = Routes.JOIN_REQUEST_SUBMIT)
-    public void submitJoinRequest(@RequestParam  String nhsNo, @RequestParam  String firstName,
+    public void submitJoinRequest(@RequestParam  String nhsNumber, @RequestParam  String firstName,
                                   @RequestParam  String lastName, @RequestParam  String dateOfBirth,
                                   @RequestParam  Long unitId, @RequestParam  String email,
-                                  @RequestParam  String secuirtyQuestion) {
+                                  @RequestParam  String securityQuestion) {
 
         LOGGER.error("Executed endpoint");
     }

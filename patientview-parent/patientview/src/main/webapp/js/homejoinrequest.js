@@ -20,33 +20,41 @@ joinrequest.init = function()  {
                 specialties.append('<option value=' + result.id + '>' + result.name + '</option>');
             });
 
-            specialties.click("change", function() {
-                var units = $('.js-joinrequest-unit');
-                var unitsUrl =  '/web/unit_by_specialty_list?specialtyId=' + specialties.val();
+            specialties.change( function() {
+                try {
+                    var units = $('.js-joinrequest-unit');
+                    var unitsUrl =  '/web/unitBySpecialty?specialtyId=' + specialties.val();
 
-                units.empty();
+                    units.empty();
 
-                $.getJSON(unitsUrl, function(data) {
-                    $.each(data, function(i, result) {
-                        units.append('<option value=' + result.id + '>' + result.name + '</option>');
-                    });
-                });
+                    $.getJSON(unitsUrl, function(data) {
+                        $.each(data, function(i, result) {
+                            units.append('<option value=' + result.id + '>' + result.name + '</option>');
+                        });
+                    });}
+                catch (e) {
+                    console.log(e);
+                }
 
             });
 
-        });
+            var joinForm = $('.js-joinrequest-form');
 
-        $('')
+            joinForm.click(function(event) {
+                event.preventDefault();
+                joinrequest.sendJoinRequest(joinForm);
+            });
+
+        });
 
 
     });
 }
 
-joinrequest.getJoinRequest = function(form) {
+joinrequest.sendJoinRequest = function(form) {
+
 
     var $form = $(form),
-        submitBtn = $form.find('.js-message-submit-btn'),
-        originalBtnValue = submitBtn.val(),
         firstName = $form.find('.js-joinrequest-firstname'),
         lastName = $form.find('.js-joinrequest-lastname'),
         dateOfBirth = $form.find('.js-joinrequest-dob'),
@@ -55,15 +63,28 @@ joinrequest.getJoinRequest = function(form) {
         specialty = $form.find('.js-joinrequest-specialty'),
         email = $form.find('.js-joinrequest-email'),
         securityQuestion = $form.find('.js-joinrequest-security-question'),
+        errorsEl = $form.find('.js-message-errors'),
         errors = [],
         messagesEl = $('.js-messages'),
         data ={}
-        onError = function (errorSt) {
-            errorsEl.html(errorSt).show();
-            submitBtn.val(orin)
+        onError = function(errorSt) {
+           errorsEl.html(errorSt).show();
         };
 
     errorsEl.html('').hide();
+
+    if (!joinrequest.validateString(firstName.val())) {
+        errors.push('Please enter a firstname');
+    }
+
+    if (!joinrequest.validateString(lastName.val())) {
+        errors.push('Please enter a lastname');
+    }
+
+    if (!joinrequest.validateString(lastName.val())) {
+        errors.push('Please enter an email');
+    }
+
 
     data.firstName = firstName.val();
     data.lastName = lastName.val();
@@ -73,26 +94,32 @@ joinrequest.getJoinRequest = function(form) {
     data.email = email.val();
     data.securityQuestion = securityQuestion.val();
 
-    $.ajax({
-        type: "POST",
-        url: $form.attr('action'),
-        data: data,
-        success: function(data) {
-            if (data.errors.length > 0) {
-                onError(data.errors.join('<br />'));
-            } else {
-                submitBtn.val(originalBtnValue);
-            }
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            onError(textStatus);
-        },
-        dataType: 'application/json'
-    });
+    if (errors.length > 0) {
+        onError(errors.join('<br />'));
+        return false;
+    } else {
+        $.ajax({
+            type: "POST",
+            url: $form.attr('action'),
+            data: data,
+            success: function(data) {
+                alert('Sucess');
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                onError(textStatus);
+            },
+            dataType: 'json'
+        });
+    }
 
 }
 
-// add in a dom ready to fire utils.init
+joinrequest.validateString = function(s) {
+    return s && s.length > 0;
+};
+
+
+
 $(function() {
     joinrequest.init();
 });

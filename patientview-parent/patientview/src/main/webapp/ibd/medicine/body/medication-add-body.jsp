@@ -72,7 +72,7 @@
                             String medicationSelectClass = !medicationType.getId().equals(medicationTypeId) ? "hidden":"";
                             boolean medicationSelectDisabled = !medicationType.getId().equals(medicationTypeId);
                             %>
-                            <html:select property="medicationId" disabled="<%=medicationSelectDisabled%>" styleId="<%=medicationSelectId%>" styleClass="<%="medicationList " + medicationSelectClass%>">
+                            <html:select property="medicationId" disabled='<%=medicationSelectDisabled%>' styleId='<%=medicationSelectId%>' styleClass='<%="medicationList " + medicationSelectClass%>'>
                                 <html:option value="">Select</html:option>
                                 <html:options name="medicationType" collection="medications" property="id" labelProperty="name"/>
                                 <%
@@ -102,7 +102,7 @@
                                     String medicationDoseSelectClass = !medication.getId().equals(medicationId) ? "hidden":"";
                                     boolean medicationDoseSelectDisabled = !medication.getId().equals(medicationId);
                                     %>
-                                    <html:select property="medicationDoseId" disabled="<%=medicationDoseSelectDisabled%>" styleId="<%=medicationDoseSelectId%>" styleClass="<%="medicationDoseList " + medicationDoseSelectClass%>">
+                                    <html:select property="medicationDoseId" disabled="<%=medicationDoseSelectDisabled%>" styleId='<%=medicationDoseSelectId%>' styleClass='<%="medicationDoseList " + medicationDoseSelectClass%>'>
                                         <html:option value="">Select</html:option>
                                         <html:options name="medication" collection="allowedDosages" property="id" labelProperty="formattedValue"/>
                                     </html:select>
@@ -124,7 +124,7 @@
                     }
                 }
                 %>
-                <div class="<%=showOtherMedication ? "":"hidden"%>" id="medicationOtherContainer">
+                <div class='<%=showOtherMedication ? "":"hidden"%>' id="medicationOtherContainer">
                     <div class="control-group">
                         <label class="control-label">Other Medication:</label>
                         <div class="controls">
