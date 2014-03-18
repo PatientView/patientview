@@ -402,6 +402,7 @@ public class PatientDaoImpl extends BaseDaoImpl implements PatientDao, Initializ
         query.append("INNER JOIN usermapping m ");
         query.append("WHERE  m.nhsno = p.nhsno ");
         query.append("AND    u.username NOT LIKE '%-GP%' ");
+        query.append("AND    u.accounthidden = false ");
         query.append("AND    u.username = m.username ");
         query.append("AND    m.unitcode <> 'PATIENT' ");
         query.append("AND    m.unitcode IN (");
