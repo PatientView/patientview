@@ -76,8 +76,6 @@ public interface PatientManager {
      */
     List<PatientDetails> getPatientDetails(String username);
 
-    List<PatientDetails> getPatientDetails(Long id);
-
     Map.Entry<String, Date> getLatestTestResultUnit(String nhsNo);
 
 

@@ -218,7 +218,8 @@ public class LookingLocalHomeController extends BaseController {
                 getErrorScreenXml(response);
             }
         } catch (Exception e) {
-            LOGGER.error("Could not create details response output stream{}" + e);
+            getErrorScreenXml(response);
+            LOGGER.error("Could not create details response output stream: " + e.toString());
         }
     }
 
