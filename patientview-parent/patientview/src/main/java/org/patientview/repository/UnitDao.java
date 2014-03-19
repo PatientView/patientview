@@ -67,5 +67,7 @@ public interface UnitDao {
 
     List<User> getUnitPatientUsers(String unitcode, Specialty specialty);
 
+    List<User> getUnitPatientUsers(String unitcode, String name, Specialty specialty);
+
     List<Unit> getUnitsBySpecialty(Specialty specialty);
 }

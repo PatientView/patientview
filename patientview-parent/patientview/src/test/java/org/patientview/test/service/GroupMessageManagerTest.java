@@ -23,15 +23,19 @@
 
 package org.patientview.test.service;
 
-import org.patientview.patientview.model.*;
+import org.junit.Test;
+import org.patientview.patientview.model.Conversation;
+import org.patientview.patientview.model.GroupMessage;
+import org.patientview.patientview.model.User;
 import org.patientview.repository.messaging.GroupMessageDao;
 import org.patientview.service.GroupMessageManager;
 import org.patientview.test.helpers.ServiceHelpers;
-import org.junit.Test;
 
 import javax.inject.Inject;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  *      These tests require an admin adminUser to be logged into a specialty

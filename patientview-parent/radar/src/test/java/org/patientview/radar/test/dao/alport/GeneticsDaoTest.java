@@ -23,10 +23,10 @@
 
 package org.patientview.radar.test.dao.alport;
 
+import org.junit.Test;
 import org.patientview.radar.dao.alport.GeneticsDao;
 import org.patientview.radar.model.Genetics;
 import org.patientview.radar.test.dao.BaseDaoTest;
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.junit.Assert.assertEquals;

@@ -23,19 +23,10 @@
 
 package org.patientview.radar.web.panels.hnf1b;
 
-import org.apache.wicket.extensions.markup.html.form.DateTextField;
-import org.patientview.model.Patient;
-import org.patientview.radar.model.enums.YesNo;
-import org.patientview.radar.model.hnf1b.HNF1BMisc;
-import org.patientview.radar.service.hnf1b.HNF1BMiscManager;
-import org.patientview.radar.web.RadarApplication;
-import org.patientview.radar.web.components.ComponentHelper;
-import org.patientview.radar.web.components.RadarComponentFactory;
-import org.patientview.radar.web.components.RadarRequiredDateTextField;
-import org.patientview.radar.web.panels.PatientDetailPanel;
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
+import org.apache.wicket.extensions.markup.html.form.DateTextField;
 import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
@@ -48,6 +39,15 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.patientview.model.Patient;
+import org.patientview.radar.model.enums.YesNo;
+import org.patientview.radar.model.hnf1b.HNF1BMisc;
+import org.patientview.radar.service.hnf1b.HNF1BMiscManager;
+import org.patientview.radar.web.RadarApplication;
+import org.patientview.radar.web.components.ComponentHelper;
+import org.patientview.radar.web.components.RadarComponentFactory;
+import org.patientview.radar.web.components.RadarRequiredDateTextField;
+import org.patientview.radar.web.panels.PatientDetailPanel;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;

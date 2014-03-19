@@ -23,12 +23,12 @@
 
 package org.patientview.radar.web.panels.navigation;
 
+import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.patientview.radar.web.pages.admin.AdminConsultantsPage;
 import org.patientview.radar.web.pages.admin.AdminIssuesPage;
 import org.patientview.radar.web.pages.admin.AdminPatientsAllPage;
 import org.patientview.radar.web.pages.admin.AdminPatientsPage;
 import org.patientview.radar.web.pages.admin.AdminUsersPage;
-import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 
 public class AdminNavigationPanel extends BaseNavigationPanel {
     public AdminNavigationPanel() {

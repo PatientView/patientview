@@ -70,7 +70,9 @@ public class PatientDaoImpl extends BaseDaoImpl implements PatientDao, Initializ
     private static final Logger LOGGER = LoggerFactory.getLogger(DemographicsDaoImpl.class);
     private static final String DATE_FORMAT = "yyyy-MM-dd";
 
+
     // Static data
+    private Sex unSpecifiedSex;
     private List<Sex> sexes;
     private List<Status> statuses;
     private List<DiseaseGroup> diseaseGroups;
@@ -110,6 +112,13 @@ public class PatientDaoImpl extends BaseDaoImpl implements PatientDao, Initializ
         diseaseGroups = diseaseGroupDao.getAll();
         genericDiagnoses = genericDiagnosisDao.getAll();
         ethnicities = utilityDao.getEthnicities();
+
+        for (Sex sex : sexes) {
+            if (!sex.getType().toLowerCase().startsWith("m") && !sex.getType().toLowerCase().startsWith("f")) {
+                unSpecifiedSex = sex;
+            }
+        }
+
     }
 
     public List<Patient> getPatientsByNhsNumber(final String nhsNo) {
@@ -439,6 +448,7 @@ public class PatientDaoImpl extends BaseDaoImpl implements PatientDao, Initializ
             patient.setPostcode(resultSet.getString("POSTCODE"));
             patient.setPostcodeOld(resultSet.getString("postcodeOld"));
             patient.setSexModel(getSex(resultSet.getString("SEX")));
+            patient.setSex(resultSet.getString("SEX"));
             patient.setEthnicity(getEthnicity(resultSet.getString("ethnicGp")));
             patient.setConsent(resultSet.getBoolean("CONSENT"));
             patient.setStatusModel(getStatus(resultSet.getLong("STATUS")));
@@ -577,7 +587,7 @@ public class PatientDaoImpl extends BaseDaoImpl implements PatientDao, Initializ
                 }
             }
         }
-        return null;
+        return unSpecifiedSex;
     }
 
 

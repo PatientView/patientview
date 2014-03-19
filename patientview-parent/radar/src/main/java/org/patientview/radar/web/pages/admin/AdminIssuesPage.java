@@ -23,6 +23,14 @@
 
 package org.patientview.radar.web.pages.admin;
 
+import org.apache.wicket.datetime.markup.html.basic.DateLabel;
+import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.BookmarkablePageLink;
+import org.apache.wicket.markup.repeater.Item;
+import org.apache.wicket.markup.repeater.data.DataView;
+import org.apache.wicket.model.Model;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.patientview.radar.model.Issue;
 import org.patientview.radar.model.enums.IssuePriority;
 import org.patientview.radar.model.enums.IssueStatus;
@@ -36,14 +44,6 @@ import org.patientview.radar.web.components.SearchField;
 import org.patientview.radar.web.components.SortLink;
 import org.patientview.radar.web.dataproviders.IssuesDataProvider;
 import org.patientview.radar.web.panels.RadarAjaxPagingNavigator;
-import org.apache.wicket.datetime.markup.html.basic.DateLabel;
-import org.apache.wicket.markup.html.WebMarkupContainer;
-import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.link.BookmarkablePageLink;
-import org.apache.wicket.markup.repeater.Item;
-import org.apache.wicket.markup.repeater.data.DataView;
-import org.apache.wicket.model.Model;
-import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import java.util.Arrays;
 import java.util.Date;

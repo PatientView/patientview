@@ -23,20 +23,19 @@
 
 package org.patientview.test.repository;
 
+import org.junit.Before;
+import org.junit.Test;
 import org.patientview.model.Patient;
+import org.patientview.model.Specialty;
 import org.patientview.patientview.logon.PatientLogonWithTreatment;
 import org.patientview.patientview.model.PatientCount;
-import org.patientview.model.Specialty;
 import org.patientview.patientview.model.SpecialtyUserRole;
 import org.patientview.patientview.model.User;
 import org.patientview.repository.PatientCountDao;
 import org.patientview.repository.PatientDao;
 import org.patientview.test.helpers.RepositoryHelpers;
-import org.junit.Before;
-import org.junit.Test;
 
 import javax.inject.Inject;
-
 import java.util.Calendar;
 import java.util.List;
 

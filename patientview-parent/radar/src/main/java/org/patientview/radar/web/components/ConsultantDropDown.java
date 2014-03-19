@@ -23,14 +23,14 @@
 
 package org.patientview.radar.web.components;
 
-import org.patientview.model.Centre;
-import org.patientview.radar.model.Consultant;
-import org.patientview.radar.service.UtilityManager;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.patientview.model.Centre;
+import org.patientview.radar.model.Consultant;
+import org.patientview.radar.service.UtilityManager;
 
 import java.util.Collections;
 import java.util.List;

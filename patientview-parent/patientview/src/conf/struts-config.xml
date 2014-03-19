@@ -954,6 +954,20 @@
             <forward name="success" path="/control/password_unlock_confirm.jsp"/>
         </action>
 
+        <action path="/control/passwordLock"
+                type="org.patientview.patientview.logon.PasswordLockAction"
+                name="patientForm"
+                scope="request">
+            <forward name="success" path="/control/password_lock_confirm.jsp"/>
+        </action>
+
+        <action path="/control/patientHide"
+                type="org.patientview.patientview.logon.PatientHideAction"
+                name="patientForm"
+                scope="request">
+            <forward name="success" path="/control/patient_hide_confirm.jsp"/>
+        </action>
+
         <action path="/control/unitAddInput"
                 type="org.patientview.patientview.IndexAction"
                 name="unitForm"

@@ -24,8 +24,8 @@
 package org.patientview.radar.web.pages.content;
 
 
-import org.patientview.radar.web.pages.BasePage;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
+import org.patientview.radar.web.pages.BasePage;
 
 public class DiseaseIndexPage extends BasePage {
     public DiseaseIndexPage() {

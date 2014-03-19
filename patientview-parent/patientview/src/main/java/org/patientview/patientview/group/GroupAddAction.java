@@ -24,24 +24,25 @@
 package org.patientview.patientview.group;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.struts.action.Action;
+import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.action.ActionMessages;
 import org.apache.struts.action.ActionMessage;
-import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionMessages;
 import org.patientview.model.Specialty;
-import org.patientview.patientview.logon.LogonUtils;
 import org.patientview.model.Unit;
+import org.patientview.patientview.logon.LogonUtils;
 import org.patientview.patientview.unit.UnitUtils;
-import org.patientview.utils.LegacySpringUtils;
+import org.patientview.service.UnitManager;
+import org.patientview.service.UserManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.struts.ActionSupport;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class GroupAddAction extends Action {
+public class GroupAddAction extends ActionSupport {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GroupAddAction.class);
 
@@ -49,8 +50,11 @@ public class GroupAddAction extends Action {
             ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
-        Unit checkExistUnit = LegacySpringUtils.getImportManager().retrieveUnit(
-                BeanUtils.getProperty(form, "unitcode"));
+        UnitManager unitManager = getWebApplicationContext().getBean(UnitManager.class);
+        UserManager userManager = getWebApplicationContext().getBean(UserManager.class);
+
+        Unit checkExistUnit = unitManager.get(BeanUtils.getProperty(form, "unitcode"));
+
 
         if (checkExistUnit != null) {
             ActionMessages errors = new ActionMessages();
@@ -62,11 +66,11 @@ public class GroupAddAction extends Action {
 
         Unit unit = new Unit();
         try {
-            Specialty specialty = LegacySpringUtils.getSecurityUserManager().getLoggedInSpecialty();
             unit.setSourceType("radargroup");
+            Specialty specialty =  userManager.getCurrentSpecialty(userManager.getLoggedInUser());
             UnitUtils.buildUnit(unit, form, specialty);
 
-            LegacySpringUtils.getUnitManager().save(unit);
+            unitManager.save(unit);
 
             request.setAttribute("unit", unit);
             request.setAttribute("succeedMsg", "Added the group successfully.");
