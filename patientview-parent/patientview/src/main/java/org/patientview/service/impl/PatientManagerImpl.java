@@ -133,18 +133,39 @@ public class PatientManagerImpl implements PatientManager {
     public List getUnitPatientsWithTreatment(String unitcode, String nhsno, String firstname, String lastname,
                                              boolean showgps) {
         return patientDao.getUnitPatientsWithTreatmentDao(unitcode, nhsno, firstname, lastname, showgps,
-                securityUserManager.getLoggedInSpecialty());
+                securityUserManager.getLoggedInSpecialty(), false);
+    }
+
+    @Override
+    public List getUnitPatientsWithTreatmentIncludeHidden(String unitcode, String nhsno, String firstname,
+                                                          String lastname, boolean showgps) {
+        return patientDao.getUnitPatientsWithTreatmentDao(unitcode, nhsno, firstname, lastname, showgps,
+                securityUserManager.getLoggedInSpecialty(), true);
     }
 
     @Override
     public List getAllUnitPatientsWithTreatment(String nhsno, String firstname, String lastname, boolean showgps) {
         return patientDao.getAllUnitPatientsWithTreatmentDao(nhsno, firstname, lastname, showgps,
-                securityUserManager.getLoggedInSpecialty());
+                securityUserManager.getLoggedInSpecialty(), false);
+    }
+
+    @Override
+    public List getAllUnitPatientsWithTreatmentIncludeHidden(String nhsno, String firstname, String lastname,
+                                                             boolean showgps) {
+        return patientDao.getAllUnitPatientsWithTreatmentDao(nhsno, firstname, lastname, showgps,
+                securityUserManager.getLoggedInSpecialty(), true);
     }
 
     @Override
     public List getUnitPatientsAllWithTreatmentDao(String unitcode) {
-        return patientDao.getUnitPatientsAllWithTreatmentDao(unitcode, securityUserManager.getLoggedInSpecialty());
+        return patientDao.getUnitPatientsAllWithTreatmentDao(unitcode, securityUserManager.getLoggedInSpecialty()
+        , false);
+    }
+
+    @Override
+    public List getUnitPatientsAllWithTreatmentDaoIncludeHidden(String unitcode) {
+        return patientDao.getUnitPatientsAllWithTreatmentDao(unitcode, securityUserManager.getLoggedInSpecialty()
+        , true);
     }
 
     @Override

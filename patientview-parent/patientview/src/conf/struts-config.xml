@@ -967,6 +967,13 @@
             <forward name="success" path="/control/patient_hide_confirm.jsp"/>
         </action>
 
+        <action path="/control/patientUnhide"
+                type="org.patientview.patientview.logon.PatientUnhideAction"
+                name="patientForm"
+                scope="request">
+            <forward name="success" path="/control/patient_unhide_confirm.jsp"/>
+        </action>
+
         <action path="/control/unitAddInput"
                 type="org.patientview.patientview.IndexAction"
                 name="unitForm"
