@@ -158,3 +158,6 @@ ALTER TABLE pv_groupmessage ADD UNIQUE uniquegroupmessage (conversation_id, reci
 
 ALTER TABLE user ADD COLUMN 'accounthidden' tinyint(1) NOT NULL DEFAULT '0';
 
+INSERT INTO unit(unitcode, name,                            shortname,      unituser,   address1,     address2,   postcode, renaladminname, renaladminphone, renaladminemail,             unitenquiriesemail, sourceTYpe, specialty_id)
+VALUES ('SALIBD', 'Salford Royal Foundation Trust', 'Salford Royal', 'A_sdfsdf','Stott Lane', 'Salford', 'M6 8HD', 'C Calvert', '0161 206423', 'myibdportal@srft.nhs.uk', 'myibdportal@srft.nhs.uk', 'ibdunit', 2);
+

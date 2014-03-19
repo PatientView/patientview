@@ -418,7 +418,7 @@
 
     <tr>
         <td><b>Visible for user to join</b></td>
-        <td><html:checkbox name="unit" property="visible" /></td>
+        <td><html:checkbox property="visible" /></td>
     </tr>
 
     <tr>
