@@ -57,6 +57,7 @@ import org.patientview.service.MessageManager;
 import org.patientview.service.GroupMessageManager;
 import org.patientview.service.PatientManager;
 import org.patientview.service.SecurityUserManager;
+import org.patientview.service.SharedThoughtManager;
 import org.patientview.service.UnitManager;
 import org.patientview.service.UserManager;
 import org.patientview.service.ibd.IbdManager;
@@ -386,6 +387,7 @@ public class BaseAction extends ActionSupport {
 
         if (dateString != null && dateString.length() > 0) {
             try {
+                Ibd.DATE_FORMAT.setLenient(false);
                 return Ibd.DATE_FORMAT.parse(dateString);
             } catch (Exception e) {
                 return null;
@@ -417,6 +419,10 @@ public class BaseAction extends ActionSupport {
 
     protected GroupMessageManager getGroupMessageManager() {
         return getWebApplicationContext().getBean(GroupMessageManager.class);
+    }
+
+    protected SharedThoughtManager getSharedThoughtManager() {
+        return getWebApplicationContext().getBean(SharedThoughtManager.class);
     }
 
     protected UserManager getUserManager() {

@@ -623,6 +623,54 @@
             <forward name="success" path="/patient/feedback_for_unit.jsp"/>
         </action>
 
+        <action path="/patient/sharingThoughts" type="org.patientview.patientview.sharingthoughts.SharingThoughtsHomeAction" parameter="sharing_thoughts">
+            <forward name="success" path="/patient/sharingthoughts/sharing_thoughts.jsp"/>
+        </action>
+
+        <action path="/patient/sharingThoughtsPositiveNegative" type="org.patientview.patientview.sharingthoughts.SharingThoughtsPositiveNegativeAction" parameter="sharing_thoughts">
+            <forward name="success" path="/patient/sharingthoughts/sharing_thoughts_positive_negative.jsp"/>
+        </action>
+
+        <action path="/patient/sharingThoughtsPositive" type="org.patientview.patientview.sharingthoughts.SharingThoughtsPositiveAction" parameter="sharing_thoughts"
+                name="sharingThoughtsForm">
+            <forward name="success" path="/patient/sharingthoughts/sharing_thoughts_positive_add.jsp"/>
+        </action>
+
+        <action path="/patient/sharingThoughtsNegative" type="org.patientview.patientview.sharingthoughts.SharingThoughtsNegativeAction" parameter="sharing_thoughts"
+                name="sharingThoughtsForm">
+            <forward name="success" path="/patient/sharingthoughts/sharing_thoughts_negative_add.jsp"/>
+        </action>
+
+        <action path="/patient/sharingThoughtSave" type="org.patientview.patientview.sharingthoughts.SharingThoughtsSaveAction" parameter="sharing_thoughts"
+                name="sharingThoughtsForm"
+                scope="request">
+            <forward name="input_positive" path="/patient/sharingthoughts/sharing_thoughts_positive_add.jsp"/>
+            <forward name="input_negative" path="/patient/sharingthoughts/sharing_thoughts_negative_add.jsp"/>
+            <forward name="savedraft" path="/patient/sharingthoughts/sharing_thoughts_thought_list.jsp"/>
+            <forward name="submit" path="/patient/sharingthoughts/sharing_thoughts_thank_you.jsp"/>
+        </action>
+
+        <action path="/patient/sharingThoughtsEditThought" type="org.patientview.patientview.sharingthoughts.SharingThoughtsRetrieveThoughtAction" parameter="sharing_thoughts"
+                name="sharingThoughtsForm">
+            <forward name="positive" path="/patient/sharingthoughts/sharing_thoughts_positive_edit.jsp"/>
+            <forward name="negative" path="/patient/sharingthoughts/sharing_thoughts_negative_edit.jsp"/>
+        </action>
+
+        <action path="/patient/sharingThoughtsDeleteThought" type="org.patientview.patientview.sharingthoughts.SharingThoughtsDeleteThoughtAction" parameter="sharing_thoughts"
+                name="sharingThoughtsForm">
+            <forward name="success" path="/patient/sharingthoughts/sharing_thoughts_thought_list.jsp"/>
+        </action>
+
+        <action path="/patient/sharingThoughtsViewThought" type="org.patientview.patientview.sharingthoughts.SharingThoughtsRetrieveThoughtAction" parameter="sharing_thoughts"
+                name="sharingThoughtsForm">
+            <forward name="positive" path="/patient/sharingthoughts/sharing_thoughts_view_thought.jsp"/>
+            <forward name="negative" path="/patient/sharingthoughts/sharing_thoughts_view_thought.jsp"/>
+        </action>
+
+        <action path="/patient/sharingThoughtsUserList" type="org.patientview.patientview.sharingthoughts.SharingThoughtsUserListAction" parameter="sharing_thoughts">
+            <forward name="success" path="/patient/sharingthoughts/sharing_thoughts_thought_list.jsp"/>
+        </action>
+
         <action path="/joinSubmit"
                 type="org.patientview.patientview.join.JoinRequestSubmitAction"
                 name="joinForm"
