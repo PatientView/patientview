@@ -160,12 +160,14 @@
                         </html:form>
                     </logic:match>
 
-                    <logic:match value="true" name="patient" property="accounthidden">
-                        <html:form action="/control/patientUnhide" style="float:left;margin-left:5px;">
-                            <html:hidden name="patient" property="username"/>
-                            <html:submit value="Unhide Patient" styleClass="btn formbutton"/>
-                        </html:form>
-                    </logic:match>
+                    <logic:present role="superadmin">
+                        <logic:match value="true" name="patient" property="accounthidden">
+                            <html:form action="/control/patientUnhide" style="float:left;margin-left:5px;">
+                                <html:hidden name="patient" property="username"/>
+                                <html:submit value="Unhide Patient" styleClass="btn formbutton"/>
+                            </html:form>
+                        </logic:match>
+                    </logic:present>
                 </div>
             </div>
     </div>
