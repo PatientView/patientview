@@ -24,7 +24,6 @@
 package org.patientview.patientview;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -34,9 +33,12 @@ import org.patientview.patientview.model.ResultHeading;
 import org.patientview.patientview.model.TestResultWithUnitShortname;
 import org.patientview.patientview.model.User;
 import org.patientview.patientview.user.UserUtils;
-import org.patientview.utils.LegacySpringUtils;
+import org.patientview.service.ResultHeadingManager;
+import org.patientview.service.SecurityUserManager;
+import org.patientview.service.TestResultManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.struts.ActionSupport;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -49,15 +51,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class ResultsAction extends Action {
+public class ResultsAction extends ActionSupport {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ResultsAction.class);
 
     private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
 
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-                                 HttpServletResponse response)
-            throws Exception {
+                                 HttpServletResponse response) throws Exception {
+
+        SecurityUserManager securityUserManager = getWebApplicationContext().getBean(SecurityUserManager.class);
+        TestResultManager testResultManager = getWebApplicationContext().getBean(TestResultManager.class);
 
         User user = UserUtils.retrieveUser(request);
         List<String> resultCodes = new ArrayList<String>();
@@ -78,8 +82,7 @@ public class ResultsAction extends Action {
                 request.setAttribute("user", user);
 
                 List<TestResultWithUnitShortname> results
-                        = LegacySpringUtils.getTestResultManager().getTestResultForPatient(user, resultCodes,
-                        monthBeforeNow);
+                        = testResultManager.getTestResultForPatient(user, resultCodes, monthBeforeNow);
 
                 if (!results.isEmpty()) {
 
@@ -92,11 +95,11 @@ public class ResultsAction extends Action {
                         printWriter.close();
 
                     } catch (Exception e) {
-                        LOGGER.debug("Couldn't wring json data fro testresult graphing" + e.getMessage());
+                        LOGGER.debug("Couldn't wring json data for testresult graphing" + e.getMessage());
                     }
                 }
 
-            } else if (!LegacySpringUtils.getSecurityUserManager().isRolePresent("patient")) {
+            } else if (!securityUserManager.isRolePresent("patient")) {
                 return LogonUtils.logonChecks(mapping, request, "control");
             }
         }
@@ -106,11 +109,12 @@ public class ResultsAction extends Action {
 
     private String convertToJsonData(Collection<Result> resultData, String resultType1, String resultType2) {
 
+        ResultHeadingManager resultHeadingManager = getWebApplicationContext().getBean(ResultHeadingManager.class);
         String resultValue1 = "";
         String resultValue2 = "";
 
-        ResultHeading heading1 = LegacySpringUtils.getResultHeadingManager().get(resultType1);
-        ResultHeading heading2 = LegacySpringUtils.getResultHeadingManager().get(resultType2);
+        ResultHeading heading1 = resultHeadingManager.get(resultType1);
+        ResultHeading heading2 = resultHeadingManager.get(resultType2);
 
         StringBuffer sb = new StringBuffer();
         // cols header
@@ -186,7 +190,18 @@ public class ResultsAction extends Action {
                 sb.append("]}");
             }
         }
-        sb.append("]}");
+
+        // min value and max value (for graph range)
+        sb.append("],\"config\": {\"minvalue\" : \"");
+        if (!Double.isNaN(heading1.getMinvalue())) {
+            sb.append(heading1.getMinvalue());
+        }
+        sb.append("\", \"maxrange\" : \"");
+        if (!Double.isNaN(heading1.getMaxvalue())) {
+            sb.append(heading1.getMaxvalue());
+        }
+        sb.append("\"}}");
+
         return sb.toString();
     }
 

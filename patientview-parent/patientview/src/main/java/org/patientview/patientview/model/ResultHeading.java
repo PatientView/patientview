@@ -56,6 +56,12 @@ public class ResultHeading extends BaseModel {
     @Column(nullable = false)
     private int panelorder;
 
+    @Column(nullable = true)
+    private Double minvalue;
+
+    @Column(nullable = true)
+    private Double maxvalue;
+
     public ResultHeading() {
     }
 
@@ -129,4 +135,22 @@ public class ResultHeading extends BaseModel {
     public void setPanelorder(int panelorder) {
         this.panelorder = panelorder;
     }
+
+    public double getMinvalue() {
+        if (minvalue == null) {
+            return Double.NaN;
+        }
+        return minvalue;
+    }
+
+    public void setMinvalue(Double minvalue) { this.minvalue = minvalue; }
+
+    public double getMaxvalue() {
+        if (maxvalue == null) {
+            return Double.NaN;
+        }
+        return maxvalue;
+    }
+
+    public void setMaxvalue(Double maxvalue) { this.maxvalue = maxvalue; }
 }

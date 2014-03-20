@@ -54,7 +54,7 @@ function drawChart() {
             }
 
             var options = {
-                title: 'TestResults',
+                title: 'Test Results',
                 colors: arrColors,
                 tooltip: { isHtml: true, trigger: 'selection' },
                 vAxis: { logScale: boolScale },
