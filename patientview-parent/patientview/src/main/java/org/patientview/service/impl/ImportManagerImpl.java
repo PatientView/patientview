@@ -305,7 +305,7 @@ public class ImportManagerImpl implements ImportManager {
      * @throws ProcessException
      */
     private void validatePatientExistsInUnit(Patient patient, Centre centre) throws ProcessException {
-        if (userMappingDao.getAllForNhsNo(patient.getNhsno(), centre.getCentreCode()) == null) {
+        if (userMappingDao.getAllByNhsNo(patient.getNhsno(), centre.getCentreCode()) == null) {
             throw new ProcessException("Patient does not exist in unit");
         }
     }

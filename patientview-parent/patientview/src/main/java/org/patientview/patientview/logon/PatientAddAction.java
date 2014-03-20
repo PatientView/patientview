@@ -110,8 +110,8 @@ public class PatientAddAction extends ActionSupport {
         }
 
         // get list of patients with same NHS number across specialties and within unit
-        List<UserMapping> userMappingsAllSpecialties = userManager.getUserMappingsForNhsNoAllSpecialties(nhsno);
-        List<UserMapping> userMappingsThisSpecialty = userManager.getUserMappingsForNhsNo(nhsno);
+        List<UserMapping> userMappingsAllSpecialties = userManager.getUserMappingsByNhsNoAllSpecialties(nhsno);
+        List<UserMapping> userMappingsThisSpecialty = userManager.getUserMappingsByNhsNo(nhsno);
 
         // check other patients exist with same NHS no.
         if (!CollectionUtils.isEmpty(userMappingsAllSpecialties)) {

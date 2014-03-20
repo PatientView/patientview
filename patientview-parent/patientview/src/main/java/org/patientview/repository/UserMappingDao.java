@@ -53,11 +53,11 @@ public interface UserMappingDao {
 
     List<UserMapping> getAll(String username, String unitcode, Specialty specialty);
 
-    List<UserMapping> getAllForNhsNo(String nhsNo);
+    List<UserMapping> getAllByNhsNo(String nhsNo);
 
-    List<UserMapping> getAllForNhsNo(String nhsNo, String unitCode);
+    List<UserMapping> getAllByNhsNo(String nhsNo, String unitCode);
 
-    List<UserMapping> getAllForNhsNo(String nhsNo, Specialty specialty);
+    List<UserMapping> getAllByNhsNo(String nhsNo, Specialty specialty);
 
     String getUsersRealUnitcodeBestGuess(String username, Specialty specialty);
 

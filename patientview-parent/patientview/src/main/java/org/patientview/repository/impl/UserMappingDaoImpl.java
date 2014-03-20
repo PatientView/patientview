@@ -141,7 +141,7 @@ public class UserMappingDaoImpl extends AbstractHibernateDAO<UserMapping> implem
     }
 
     @Override
-    public List<UserMapping> getAllForNhsNo(String nhsNo) {
+    public List<UserMapping> getAllByNhsNo(String nhsNo) {
 
         CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<UserMapping> criteria = builder.createQuery(UserMapping.class);
@@ -155,7 +155,7 @@ public class UserMappingDaoImpl extends AbstractHibernateDAO<UserMapping> implem
     }
 
     @Override
-    public List<UserMapping> getAllForNhsNo(String nhsNo, String unitCode) {
+    public List<UserMapping> getAllByNhsNo(String nhsNo, String unitCode) {
 
         CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<UserMapping> criteria = builder.createQuery(UserMapping.class);
@@ -170,7 +170,7 @@ public class UserMappingDaoImpl extends AbstractHibernateDAO<UserMapping> implem
     }
 
     @Override
-    public List<UserMapping> getAllForNhsNo(String nhsNo, Specialty specialty) {
+    public List<UserMapping> getAllByNhsNo(String nhsNo, Specialty specialty) {
 
         CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<UserMapping> criteria = builder.createQuery(UserMapping.class);
