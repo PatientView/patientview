@@ -26,6 +26,8 @@ google.setOnLoadCallback(drawChart);
 var chart;
 
 function drawChart() {
+
+    if ($('#result_Type1').val() && $('#period').val()) {
     $.ajax({
         url: '/patient/graphic_testresult.do?resultType1=' + $('#result_Type1').val() + "&period=" + $('#period').val(),
         dataType:"json",
@@ -65,6 +67,7 @@ function drawChart() {
             google.visualization.events.addListener(chart, 'onmouseover', mouseOver);
         }
     });
+    }
 }
 
 function mouseOver(e) {
