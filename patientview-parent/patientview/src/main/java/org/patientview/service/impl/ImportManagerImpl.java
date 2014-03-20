@@ -35,9 +35,9 @@ import org.patientview.patientview.logging.AddLog;
 import org.patientview.patientview.model.Centre;
 import org.patientview.patientview.model.Diagnosis;
 import org.patientview.patientview.model.Diagnostic;
-import org.patientview.patientview.model.TestResult;
 import org.patientview.patientview.model.Letter;
 import org.patientview.patientview.model.Medicine;
+import org.patientview.patientview.model.TestResult;
 import org.patientview.patientview.parser.ResultParser;
 import org.patientview.patientview.user.UserUtils;
 import org.patientview.patientview.utils.TimestampUtils;
@@ -46,6 +46,7 @@ import org.patientview.quartz.exception.ResultParserException;
 import org.patientview.quartz.handler.ErrorHandler;
 import org.patientview.repository.PatientDao;
 import org.patientview.repository.UnitDao;
+import org.patientview.repository.UserMappingDao;
 import org.patientview.service.ImportManager;
 import org.patientview.service.LogEntryManager;
 import org.patientview.util.CommonUtils;
@@ -82,6 +83,9 @@ public class ImportManagerImpl implements ImportManager {
 
     @Inject
     private PatientDao patientDao;
+
+    @Inject
+    private UserMappingDao userMappingDao;
 
     @Inject
     private ApplicationContext applicationContext;
@@ -294,8 +298,14 @@ public class ImportManagerImpl implements ImportManager {
         }
     }
 
+    /**
+     * Check patient exists in unit using usermapping table
+     * @param patient Imported patient from XML
+     * @param centre Centre from XML (analogous to Unit, at least for unit/centre code)
+     * @throws ProcessException
+     */
     private void validatePatientExistsInUnit(Patient patient, Centre centre) throws ProcessException {
-        if (patientDao.get(patient.getNhsno(), centre.getCentreCode()) == null) {
+        if (userMappingDao.getAllForNhsNo(patient.getNhsno(), centre.getCentreCode()) == null) {
             throw new ProcessException("Patient does not exist in unit");
         }
     }
