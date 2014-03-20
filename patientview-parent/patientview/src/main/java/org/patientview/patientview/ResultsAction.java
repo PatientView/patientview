@@ -156,10 +156,23 @@ public class ResultsAction extends ActionSupport {
         // rows value
         sb.append("\"rows\":[");
 
+        Double resultHeadingMinValue = heading1.getMinvalue();
+        Double resultHeadingMaxValue = heading1.getMaxvalue();
+        Double dataMinValue = Double.MAX_VALUE;
+        Double dataMaxValue = Double.MIN_VALUE;
+
         for (Iterator iterator = resultData.iterator(); iterator.hasNext();) {
             Result result = (Result) iterator.next();
             resultValue1 = result.getValue(resultType1);
             resultValue2 = result.getValue(resultType2);
+
+            if (Double.parseDouble(resultValue1) < dataMinValue) {
+                dataMinValue = Double.parseDouble(resultValue1);
+            }
+
+            if (Double.parseDouble(resultValue1) > dataMaxValue) {
+                dataMaxValue = Double.parseDouble(resultValue1);
+            }
 
             sb.append("{\"c\":[");
             // DateTime
@@ -191,15 +204,35 @@ public class ResultsAction extends ActionSupport {
             }
         }
 
-        // min value and max value (for graph range)
+        // min value and max value (for graph range), get maximum range from either data or result heading defaults
         sb.append("],\"config\": {\"minvalue\" : \"");
-        if (!Double.isNaN(heading1.getMinvalue())) {
-            sb.append(heading1.getMinvalue());
+
+        if (!Double.isNaN(resultHeadingMinValue)) {
+            if (dataMinValue != Double.MAX_VALUE) {
+                if (dataMinValue < resultHeadingMinValue) {
+                    sb.append(dataMinValue);
+                } else {
+                    sb.append(resultHeadingMinValue);
+                }
+            }
+        } else {
+            sb.append(dataMinValue);
         }
-        sb.append("\", \"maxrange\" : \"");
-        if (!Double.isNaN(heading1.getMaxvalue())) {
-            sb.append(heading1.getMaxvalue());
+
+        sb.append("\", \"maxvalue\" : \"");
+
+        if (!Double.isNaN(resultHeadingMaxValue)) {
+            if (dataMaxValue != Double.MIN_VALUE) {
+                if (dataMaxValue > resultHeadingMaxValue) {
+                    sb.append(dataMaxValue);
+                } else {
+                    sb.append(resultHeadingMaxValue);
+                }
+            }
+        } else {
+            sb.append(dataMaxValue);
         }
+
         sb.append("\"}}");
 
         return sb.toString();
