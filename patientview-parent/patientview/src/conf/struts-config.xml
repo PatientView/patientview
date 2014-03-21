@@ -699,7 +699,6 @@
         <action path="/help"
                 type="org.patientview.patientview.IndexAction" parameter="help">
             <forward name="success" path="/help.jsp"/>
-            <forward name="success.diabetes" path="/diabetes/help.jsp"/>
         </action>
 
         <action path="/disclaimer"

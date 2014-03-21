@@ -1,5 +1,5 @@
 <%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles" %>
-
+<%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
 <%--
   ~ PatientView
   ~
@@ -26,11 +26,19 @@
 <tiles:insert definition="default.layout" flush="true" >
 
     <tiles:put name="left_nav" value="/common/left_nav_empty.jsp" />
+
+
     <logic:present specialty="renal">
-      <tiles:put name="body" value="/body/help.jsp" />
+        <tiles:put name="body" value="/body/help.jsp" />
     </logic:present>
+
     <logic:present specialty="diabetes">
         <tiles:put name="body" value="/diabetes/body/help.jsp" />
     </logic:present>
+
+    <logic:present specialty="ibd">
+        <tiles:put name="body" value="/ibd/body/help.jsp" />
+    </logic:present>
+
 
 </tiles:insert>
