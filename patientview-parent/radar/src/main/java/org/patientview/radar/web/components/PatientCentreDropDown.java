@@ -23,6 +23,8 @@
 
 package org.patientview.radar.web.components;
 
+import org.apache.wicket.Component;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.spring.injection.annot.SpringBean;
@@ -53,7 +55,8 @@ public class PatientCentreDropDown extends DropDownChoice<Centre> {
     @SpringBean
     private UtilityManager utilityManager;
 
-    public PatientCentreDropDown(String id, User viewingUser, Patient patient) {
+    public PatientCentreDropDown(String id, User viewingUser, Patient patient, WebMarkupContainer parent,
+                                 List<Component> componentsToUpdateList) {
         super(id);
 
         // work out the list of centres to show based on the viewing user and viewed patient
@@ -84,5 +87,13 @@ public class PatientCentreDropDown extends DropDownChoice<Centre> {
 
         setOutputMarkupId(true);
         setOutputMarkupPlaceholderTag(true);
+
+        setRequired(true);
+        RadarFormComponentFeedbackIndicator radarFormComponentFeedbackIndicator =
+                new RadarFormComponentFeedbackIndicator(getId() + "FeedbackIndicator", this);
+        parent.add(radarFormComponentFeedbackIndicator);
+        radarFormComponentFeedbackIndicator.setOutputMarkupId(true);
+        radarFormComponentFeedbackIndicator.setOutputMarkupPlaceholderTag(true);
+        componentsToUpdateList.add(radarFormComponentFeedbackIndicator);
     }
 }
