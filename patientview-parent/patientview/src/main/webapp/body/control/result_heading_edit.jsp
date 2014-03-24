@@ -64,11 +64,11 @@
     </tr>
     <tr>
         <td><b>Minimum Y-axis Value</b></td>
-        <td><html:text name="resultHeading" property="minvalue" /></td>
+        <td><html:text name="resultHeading" property="minRangeValue" /></td>
     </tr>
     <tr>
         <td><b>Maximum Y-axis Value</b></td>
-        <td><html:text name="resultHeading" property="maxvalue" /></td>
+        <td><html:text name="resultHeading" property="maxRangeValue" /></td>
     </tr>
     <tr>
       <td><html:submit value="Update" styleClass="btn"/></td>

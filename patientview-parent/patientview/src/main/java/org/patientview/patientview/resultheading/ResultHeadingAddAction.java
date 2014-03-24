@@ -49,8 +49,8 @@ public class ResultHeadingAddAction extends ActionSupport {
         BeanUtils.setProperty(resultHeading, "link", BeanUtils.getProperty(form, "link"));
         BeanUtils.setProperty(resultHeading, "panel", BeanUtils.getProperty(form, "panel"));
         BeanUtils.setProperty(resultHeading, "panelorder", BeanUtils.getProperty(form, "panelorder"));
-        BeanUtils.setProperty(resultHeading, "minvalue", BeanUtils.getProperty(form, "minvalue"));
-        BeanUtils.setProperty(resultHeading, "maxvalue", BeanUtils.getProperty(form, "maxvalue"));
+        BeanUtils.setProperty(resultHeading, "minRangeValue", BeanUtils.getProperty(form, "minRangeValue"));
+        BeanUtils.setProperty(resultHeading, "maxRangeValue", BeanUtils.getProperty(form, "maxRangeValue"));
 
         resultHeadingManager.save(resultHeading);
         request.setAttribute("resultHeading", resultHeading);

@@ -163,8 +163,8 @@ public class ResultsAction extends ActionSupport {
         // rows value
         sb.append("\"rows\":[");
 
-        Double resultHeadingMinValue = heading1.getMinvalue();
-        Double resultHeadingMaxValue = heading1.getMaxvalue();
+        Double resultHeadingMinValue = heading1.getMinRangeValue();
+        Double resultHeadingMaxValue = heading1.getMaxRangeValue();
         Double dataMinValue = Double.MAX_VALUE;
         Double dataMaxValue = Double.MIN_VALUE;
 
@@ -213,7 +213,7 @@ public class ResultsAction extends ActionSupport {
 
         // min value and max value (for graph range) from either data or result heading defaults, store in config tag
 
-        sb.append("],\"config\": {\"minValue\" : \"");
+        sb.append("],\"config\": {\"minRangeValue\" : \"");
 
         // for minimum graph y-axis value uses the lowest of either the data's range or the ResultHeading.minvalue
         if (resultHeadingMinValue != null) {
@@ -228,7 +228,7 @@ public class ResultsAction extends ActionSupport {
             sb.append(dataMinValue);
         }
 
-        sb.append("\", \"maxValue\" : \"");
+        sb.append("\", \"maxRangeValue\" : \"");
 
         // for maximum graph y-axis value uses the highest of either the data's range or the ResultHeading.maxvalue
         if (resultHeadingMaxValue != null) {

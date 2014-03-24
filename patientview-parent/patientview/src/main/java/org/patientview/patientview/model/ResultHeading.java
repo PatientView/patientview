@@ -57,10 +57,10 @@ public class ResultHeading extends BaseModel {
     private int panelorder;
 
     @Column(nullable = true)
-    private Double minvalue;
+    private Double minRangeValue;
 
     @Column(nullable = true)
-    private Double maxvalue;
+    private Double maxRangeValue;
 
     public ResultHeading() {
     }
@@ -136,25 +136,11 @@ public class ResultHeading extends BaseModel {
         this.panelorder = panelorder;
     }
 
-    public Double getMinvalueDouble() {
-        if (minvalue == null) {
-            return Double.NaN;
-        }
-        return minvalue;
-    }
+    public Double getMinRangeValue() { return minRangeValue; }
 
-    public Double getMinvalue() { return minvalue; }
+    public void setMinRangeValue(Double minRangeValue) { this.minRangeValue = minRangeValue; }
 
-    public void setMinvalue(Double minvalue) { this.minvalue = minvalue; }
+    public Double getMaxRangeValue() { return maxRangeValue; }
 
-    public Double getMaxvalueDouble() {
-        if (maxvalue == null) {
-            return Double.NaN;
-        }
-        return maxvalue;
-    }
-
-    public Double getMaxvalue() { return maxvalue; }
-
-    public void setMaxvalue(Double maxvalue) { this.maxvalue = maxvalue; }
+    public void setMaxRangeValue(Double maxRangeValue) { this.maxRangeValue = maxRangeValue; }
 }

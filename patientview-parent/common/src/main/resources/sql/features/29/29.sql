@@ -39,5 +39,5 @@ WHERE p.id = b.id ;
 ALTER TABLE pv_groupmessage ADD UNIQUE uniquegroupmessage (conversation_id, recipient_id);
 
 ALTER TABLE user ADD COLUMN 'accounthidden' tinyint(1) NOT NULL DEFAULT '0';
-ALTER TABLE result_heading ADD COLUMN 'minvalue' float DEFAULT NULL;
-ALTER TABLE result_heading ADD COLUMN 'maxvalue' float DEFAULT NULL;
+ALTER TABLE result_heading ADD COLUMN 'minRangeValue' float DEFAULT NULL;
+ALTER TABLE result_heading ADD COLUMN 'maxRangeValue' float DEFAULT NULL;

@@ -25,6 +25,9 @@ package org.patientview.patientview.resultheading;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.patientview.patientview.model.ResultHeading;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.struts.action.ActionForm;
@@ -32,7 +35,6 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.patientview.patientview.logon.LogonUtils;
 import org.patientview.service.ResultHeadingManager;
-import org.springframework.util.StringUtils;
 import org.springframework.web.struts.ActionSupport;
 
 public class ResultHeadingUpdateAction extends ActionSupport {
@@ -49,17 +51,21 @@ public class ResultHeadingUpdateAction extends ActionSupport {
         BeanUtils.setProperty(resultHeading, "link", BeanUtils.getProperty(form, "link"));
         BeanUtils.setProperty(resultHeading, "panel", BeanUtils.getProperty(form, "panel"));
         BeanUtils.setProperty(resultHeading, "panelorder", BeanUtils.getProperty(form, "panelorder"));
-        if (!StringUtils.isEmpty(BeanUtils.getProperty(form, "minvalue"))) {
-            BeanUtils.setProperty(resultHeading, "minvalue", BeanUtils.getProperty(form, "minvalue"));
+        if (StringUtils.isNotEmpty(BeanUtils.getProperty(form, "minRangeValue"))
+                && NumberUtils.isNumber(BeanUtils.getProperty(form, "minRangeValue"))) {
+            BeanUtils.setProperty(resultHeading, "minRangeValue", BeanUtils.getProperty(form, "minRangeValue"));
+        } else {
+            resultHeading.setMinRangeValue(null);
         }
-        if (!StringUtils.isEmpty(BeanUtils.getProperty(form, "maxvalue"))) {
-            BeanUtils.setProperty(resultHeading, "maxvalue", BeanUtils.getProperty(form, "maxvalue"));
+        if (StringUtils.isNotEmpty(BeanUtils.getProperty(form, "maxRangeValue"))
+                && NumberUtils.isNumber(BeanUtils.getProperty(form, "maxRangeValue"))) {
+            BeanUtils.setProperty(resultHeading, "maxRangeValue", BeanUtils.getProperty(form, "maxRangeValue"));
+        } else {
+            resultHeading.setMaxRangeValue(null);
         }
 
         resultHeadingManager.save(resultHeading);
-
         request.setAttribute("resultHeading", resultHeading);
-
         return LogonUtils.logonChecks(mapping, request);
     }
 

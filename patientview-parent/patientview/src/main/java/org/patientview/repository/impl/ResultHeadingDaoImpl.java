@@ -33,11 +33,8 @@ import org.patientview.repository.ResultHeadingDao;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import org.patientview.utils.XssUtils;
-
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -60,29 +57,9 @@ public class ResultHeadingDaoImpl extends AbstractHibernateDAO<ResultHeading> im
     @Inject
     private DataSource dataSource;
 
-    @Inject
-    private XssUtils xssUtils;
-
     @PostConstruct
     public void init() {
         jdbcTemplate = new JdbcTemplate(dataSource);
-    }
-
-    @Override
-    public void save(ResultHeading resultHeading) {
-
-        EntityManager entityManager = getEntityManager();
-        xssUtils.cleanObjectForXss(resultHeading);
-
-        if (!resultHeading.hasValidId()) {
-
-            // apply any baseModel standards
-            entityManager.persist(resultHeading);
-        } else {
-            // apply any baseModel standards
-            entityManager.merge(resultHeading);
-        }
-        entityManager.flush();
     }
 
     @Override
@@ -190,15 +167,15 @@ public class ResultHeadingDaoImpl extends AbstractHibernateDAO<ResultHeading> im
             resultHeading.setLink(resultSet.getString("link"));
             resultHeading.setRollover(resultSet.getString("rollover"));
 
-            if (StringUtils.isNotEmpty(resultSet.getString("minvalue"))) {
-                resultHeading.setMinvalue(resultSet.getDouble("minvalue"));
+            if (StringUtils.isNotEmpty(resultSet.getString("minRangeValue"))) {
+                resultHeading.setMinRangeValue(resultSet.getDouble("minRangeValue"));
             } else {
-                resultHeading.setMinvalue(null);
+                resultHeading.setMinRangeValue(null);
             }
-            if (StringUtils.isNotEmpty(resultSet.getString("maxvalue"))) {
-                resultHeading.setMaxvalue(resultSet.getDouble("maxvalue"));
+            if (StringUtils.isNotEmpty(resultSet.getString("maxRangeValue"))) {
+                resultHeading.setMaxRangeValue(resultSet.getDouble("maxRangeValue"));
             } else {
-                resultHeading.setMaxvalue(null);
+                resultHeading.setMaxRangeValue(null);
             }
 
             return resultHeading;

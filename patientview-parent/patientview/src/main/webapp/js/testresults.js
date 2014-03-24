@@ -57,7 +57,7 @@ function drawChart() {
                 boolScale = false;
             }
 
-            var chartVAxis = {logScale: boolScale, viewWindow: {min: config.minValue, max: config.maxValue}};
+            var chartVAxis = {logScale: boolScale, viewWindow: {min: config.minRangeValue, max: config.maxRangeValue}};
 
             var options = {
                 title: 'Test Results',

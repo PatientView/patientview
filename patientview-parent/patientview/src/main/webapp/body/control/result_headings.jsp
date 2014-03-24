@@ -40,6 +40,9 @@
 If you have two results headings in the same panel that both have the same panel order then the
 order of those columns in the results page will be unpredictable.</p>
 
+<p>Min Value and Max Value are the minimum and maximum values to show on a graph of patient results.
+If result values go beyond this range the graph will expand to show these values.</p>
+
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
@@ -62,8 +65,8 @@ order of those columns in the results page will be unpredictable.</p>
          <td class="tablecell"><bean:write name="resultHeading" property="rollover" /></td>
          <td class="tablecell"><bean:write name="resultHeading" property="panel" /></td>
          <td class="tablecell"><bean:write name="resultHeading" property="panelorder" /></td>
-         <td class="tablecell"><bean:write name="resultHeading" property="minvalue" /></td>
-         <td class="tablecell"><bean:write name="resultHeading" property="maxvalue" /></td>
+         <td class="tablecell"><bean:write name="resultHeading" property="minRangeValue" /></td>
+         <td class="tablecell"><bean:write name="resultHeading" property="maxRangeValue" /></td>
          <td><html:submit value="Edit" styleClass="btn" /></td>
        </tr>
      </html:form>
