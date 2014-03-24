@@ -56,6 +56,12 @@ public class ResultHeading extends BaseModel {
     @Column(nullable = false)
     private int panelorder;
 
+    @Column(nullable = true)
+    private Double minRangeValue;
+
+    @Column(nullable = true)
+    private Double maxRangeValue;
+
     public ResultHeading() {
     }
 
@@ -129,4 +135,12 @@ public class ResultHeading extends BaseModel {
     public void setPanelorder(int panelorder) {
         this.panelorder = panelorder;
     }
+
+    public Double getMinRangeValue() { return minRangeValue; }
+
+    public void setMinRangeValue(Double minRangeValue) { this.minRangeValue = minRangeValue; }
+
+    public Double getMaxRangeValue() { return maxRangeValue; }
+
+    public void setMaxRangeValue(Double maxRangeValue) { this.maxRangeValue = maxRangeValue; }
 }

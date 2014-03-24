@@ -23,7 +23,7 @@
 
 package org.patientview.patientview;
 
-import org.apache.struts.action.Action;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -32,33 +32,34 @@ import org.patientview.patientview.logon.LogonUtils;
 import org.patientview.patientview.model.ResultHeading;
 import org.patientview.patientview.model.User;
 import org.patientview.patientview.user.UserUtils;
-import org.patientview.utils.LegacySpringUtils;
-
+import org.patientview.service.ResultHeadingManager;
+import org.patientview.service.SecurityUserManager;
+import org.springframework.web.struts.ActionSupport;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-public class ResultsInitAction extends Action {
+public class ResultsInitAction extends ActionSupport {
 
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-                                 HttpServletResponse response)
-            throws Exception {
+                                 HttpServletResponse response) throws Exception {
 
-        final String defaultTestCode = "creatinine";
-
+        ResultHeadingManager resultHeadingManager = getWebApplicationContext().getBean(ResultHeadingManager.class);
+        SecurityUserManager securityUserManager = getWebApplicationContext().getBean(SecurityUserManager.class);
         User user = UserUtils.retrieveUser(request);
 
         if (user != null) {
             request.setAttribute("user", user);
 
-            List<ResultHeading> resultsHeadingsList
-                    = LegacySpringUtils.getResultHeadingManager().getAll(user.getUsername());
+            List<ResultHeading> resultsHeadingsList = resultHeadingManager.getAll(user.getUsername());
 
-            request.setAttribute("resultsHeadings", resultsHeadingsList);
-            ResultHeading heading = LegacySpringUtils.getResultHeadingManager().get(defaultTestCode);
-            request.setAttribute("resultTypeHeading", heading);
-            request.setAttribute("period", "24");
-        } else if (!LegacySpringUtils.getSecurityUserManager().isRolePresent("patient")) {
+            if (!CollectionUtils.isEmpty(resultsHeadingsList)) {
+                request.setAttribute("resultsHeadings", resultsHeadingsList);
+                ResultHeading heading = resultHeadingManager.get(resultsHeadingsList.get(0).getHeadingcode());
+                request.setAttribute("resultTypeHeading", heading);
+                request.setAttribute("period", "0");
+            }
+        } else if (!securityUserManager.isRolePresent("patient")) {
             return LogonUtils.logonChecks(mapping, request, "control");
         }
 
@@ -66,6 +67,5 @@ public class ResultsInitAction extends Action {
 
         return LogonUtils.logonChecks(mapping, request);
     }
-
 }
 
