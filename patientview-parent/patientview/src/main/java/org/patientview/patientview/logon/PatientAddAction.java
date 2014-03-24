@@ -165,6 +165,8 @@ public class PatientAddAction extends ActionSupport {
             patient.setNhsno(nhsno);
             patient.setUnitcode(unitcode);
             patient.setEmailAddress(email);
+            patient.setForename(firstName);
+            patient.setSurname(lastName);
             patient.setSourceType(SourceType.PATIENT_VIEW.getName());
             patientManager.save(patient);
         }

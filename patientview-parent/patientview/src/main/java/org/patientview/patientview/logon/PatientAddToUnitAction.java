@@ -66,6 +66,14 @@ public class PatientAddToUnitAction extends ActionSupport {
         patient.setNhsno(nhsno);
         patient.setUnitcode(unitcode);
         patient.setSourceType(SourceType.PATIENT_VIEW.getName());
+
+        // get firstname, lastname from existing user
+        User user = userManager.get(username);
+        if (user != null) {
+            patient.setForename(user.getFirstName());
+            patient.setSurname(user.getLastName());
+        }
+
         patientManager.save(patient);
 
         AddLog.addLog(securityUserManager.getLoggedInUsername(), AddLog.PATIENT_ADD, username, nhsno, unitcode, "");
