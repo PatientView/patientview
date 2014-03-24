@@ -42,6 +42,7 @@ import java.util.List;
 public final class LogonUtils {
 
     public static final String USER_ALREADY_EXISTS = "userAlreadyExists";
+    public static final String USER_ALREADY_EXISTS_WITH_EMAIL = "userAlreadyExistsWithEmail";
     public static final String NHSNO_ALREADY_EXISTS = "nhsnoAlreadyExists";
     public static final String PATIENTS_WITH_SAME_NHSNO = "nhsnoAlreadyExists";
     public static final String INVALID_NHSNO = "invalidNhsno";

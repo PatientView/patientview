@@ -35,7 +35,7 @@
     </div>
 
 
-There is already a unit user registered on RPV with that user name but in another unit.
+There is already a unit user registered on RPV with the same username or email but in another unit.
 
 Please carefully check the details of that user, then you can choose to add the existing user to your unit.
 <br /><br />
