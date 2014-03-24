@@ -39,6 +39,3 @@ WHERE p.id = b.id ;
 ALTER TABLE pv_groupmessage ADD UNIQUE uniquegroupmessage (conversation_id, recipient_id);
 
 ALTER TABLE user ADD COLUMN 'accounthidden' tinyint(1) NOT NULL DEFAULT '0';
-
-ALTER TABLE patient DROP INDEX 'nhsno';
-ALTER TABLE patient ADD CONSTRAINT UNIQUE KEY 'nhsno' ('nhsno','unitcode','sourceType');
