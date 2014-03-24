@@ -23,6 +23,7 @@
 
 package org.patientview.repository.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.patientview.model.Specialty;
 import org.patientview.patientview.model.Panel;
 import org.patientview.patientview.model.ResultHeading;
@@ -32,9 +33,11 @@ import org.patientview.repository.ResultHeadingDao;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.patientview.utils.XssUtils;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -46,7 +49,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 /**
  *
  */
@@ -58,9 +60,29 @@ public class ResultHeadingDaoImpl extends AbstractHibernateDAO<ResultHeading> im
     @Inject
     private DataSource dataSource;
 
+    @Inject
+    private XssUtils xssUtils;
+
     @PostConstruct
     public void init() {
         jdbcTemplate = new JdbcTemplate(dataSource);
+    }
+
+    @Override
+    public void save(ResultHeading resultHeading) {
+
+        EntityManager entityManager = getEntityManager();
+        xssUtils.cleanObjectForXss(resultHeading);
+
+        if (!resultHeading.hasValidId()) {
+
+            // apply any baseModel standards
+            entityManager.persist(resultHeading);
+        } else {
+            // apply any baseModel standards
+            entityManager.merge(resultHeading);
+        }
+        entityManager.flush();
     }
 
     @Override
@@ -70,9 +92,7 @@ public class ResultHeadingDaoImpl extends AbstractHibernateDAO<ResultHeading> im
         CriteriaQuery<ResultHeading> criteria = builder.createQuery(ResultHeading.class);
         Root<ResultHeading> from = criteria.from(ResultHeading.class);
         List<Predicate> wherePredicates = new ArrayList<Predicate>();
-
         wherePredicates.add(builder.equal(from.get(ResultHeading_.headingcode), headingcode));
-
         buildWhereClause(criteria, wherePredicates);
         try {
             return getEntityManager().createQuery(criteria).getSingleResult();
@@ -169,6 +189,17 @@ public class ResultHeadingDaoImpl extends AbstractHibernateDAO<ResultHeading> im
             resultHeading.setHeadingcode(resultSet.getString("headingcode"));
             resultHeading.setLink(resultSet.getString("link"));
             resultHeading.setRollover(resultSet.getString("rollover"));
+
+            if (StringUtils.isNotEmpty(resultSet.getString("minvalue"))) {
+                resultHeading.setMinvalue(resultSet.getDouble("minvalue"));
+            } else {
+                resultHeading.setMinvalue(null);
+            }
+            if (StringUtils.isNotEmpty(resultSet.getString("maxvalue"))) {
+                resultHeading.setMaxvalue(resultSet.getDouble("maxvalue"));
+            } else {
+                resultHeading.setMaxvalue(null);
+            }
 
             return resultHeading;
         }

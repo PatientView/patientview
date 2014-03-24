@@ -25,31 +25,38 @@ package org.patientview.patientview.resultheading;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.patientview.patientview.model.ResultHeading;
-import org.patientview.utils.LegacySpringUtils;
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.patientview.patientview.logon.LogonUtils;
+import org.patientview.service.ResultHeadingManager;
+import org.springframework.util.StringUtils;
+import org.springframework.web.struts.ActionSupport;
 
-public class ResultHeadingUpdateAction extends Action {
+public class ResultHeadingUpdateAction extends ActionSupport {
 
     public ActionForward execute(
         ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        ResultHeading resultHeading
-                = LegacySpringUtils.getResultHeadingManager().get(BeanUtils.getProperty(form, "headingcode"));
+
+        ResultHeadingManager resultHeadingManager = getWebApplicationContext().getBean(ResultHeadingManager.class);
+        ResultHeading resultHeading = resultHeadingManager.get(BeanUtils.getProperty(form, "headingcode"));
 
         BeanUtils.setProperty(resultHeading, "heading", BeanUtils.getProperty(form, "heading"));
         BeanUtils.setProperty(resultHeading, "rollover", BeanUtils.getProperty(form, "rollover"));
         BeanUtils.setProperty(resultHeading, "link", BeanUtils.getProperty(form, "link"));
         BeanUtils.setProperty(resultHeading, "panel", BeanUtils.getProperty(form, "panel"));
         BeanUtils.setProperty(resultHeading, "panelorder", BeanUtils.getProperty(form, "panelorder"));
+        if (!StringUtils.isEmpty(BeanUtils.getProperty(form, "minvalue"))) {
+            BeanUtils.setProperty(resultHeading, "minvalue", BeanUtils.getProperty(form, "minvalue"));
+        }
+        if (!StringUtils.isEmpty(BeanUtils.getProperty(form, "maxvalue"))) {
+            BeanUtils.setProperty(resultHeading, "maxvalue", BeanUtils.getProperty(form, "maxvalue"));
+        }
 
-        LegacySpringUtils.getResultHeadingManager().save(resultHeading);
+        resultHeadingManager.save(resultHeading);
 
         request.setAttribute("resultHeading", resultHeading);
 

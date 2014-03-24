@@ -48,6 +48,8 @@ order of those columns in the results page will be unpredictable.</p>
             <th class="tableheader">Rollover</th>
             <th class="tableheader">Panel</th>
             <th class="tableheader">Panel Order</th>
+            <th class="tableheader">Min Value</th>
+            <th class="tableheader">Max Value</th>
             <th></th>
         </tr>
     </thead>
@@ -60,6 +62,8 @@ order of those columns in the results page will be unpredictable.</p>
          <td class="tablecell"><bean:write name="resultHeading" property="rollover" /></td>
          <td class="tablecell"><bean:write name="resultHeading" property="panel" /></td>
          <td class="tablecell"><bean:write name="resultHeading" property="panelorder" /></td>
+         <td class="tablecell"><bean:write name="resultHeading" property="minvalue" /></td>
+         <td class="tablecell"><bean:write name="resultHeading" property="maxvalue" /></td>
          <td><html:submit value="Edit" styleClass="btn" /></td>
        </tr>
      </html:form>

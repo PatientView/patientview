@@ -136,21 +136,25 @@ public class ResultHeading extends BaseModel {
         this.panelorder = panelorder;
     }
 
-    public double getMinvalue() {
+    public Double getMinvalueDouble() {
         if (minvalue == null) {
             return Double.NaN;
         }
         return minvalue;
     }
 
+    public Double getMinvalue() { return minvalue; }
+
     public void setMinvalue(Double minvalue) { this.minvalue = minvalue; }
 
-    public double getMaxvalue() {
+    public Double getMaxvalueDouble() {
         if (maxvalue == null) {
             return Double.NaN;
         }
         return maxvalue;
     }
+
+    public Double getMaxvalue() { return maxvalue; }
 
     public void setMaxvalue(Double maxvalue) { this.maxvalue = maxvalue; }
 }

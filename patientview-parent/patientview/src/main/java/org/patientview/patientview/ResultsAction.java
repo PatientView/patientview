@@ -216,7 +216,7 @@ public class ResultsAction extends ActionSupport {
         sb.append("],\"config\": {\"minValue\" : \"");
 
         // for minimum graph y-axis value uses the lowest of either the data's range or the ResultHeading.minvalue
-        if (!Double.isNaN(resultHeadingMinValue)) {
+        if (resultHeadingMinValue != null) {
             if (dataMinValue != Double.MAX_VALUE) {
                 if (dataMinValue < resultHeadingMinValue) {
                     sb.append(dataMinValue);
@@ -231,7 +231,7 @@ public class ResultsAction extends ActionSupport {
         sb.append("\", \"maxValue\" : \"");
 
         // for maximum graph y-axis value uses the highest of either the data's range or the ResultHeading.maxvalue
-        if (!Double.isNaN(resultHeadingMaxValue)) {
+        if (resultHeadingMaxValue != null) {
             if (dataMaxValue != Double.MIN_VALUE) {
                 if (dataMaxValue > resultHeadingMaxValue) {
                     sb.append(dataMaxValue);
