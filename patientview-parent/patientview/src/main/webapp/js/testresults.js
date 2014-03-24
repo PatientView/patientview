@@ -45,19 +45,25 @@ function drawChart() {
                 arrColors = ['blue','red'];
             }
 
+            // convert returned data to Google chart format
             var data = new google.visualization.DataTable(resultData);
             var dataView = new google.visualization.DataView(data);
+
+            // get config options from data and use to set min and max range values on y-axis
+            var config = resultData.config;
 
             var boolScale = true;
             if (dataView.getViewRows().length == 1) {
                 boolScale = false;
             }
 
+            var chartVAxis = {logScale: boolScale, viewWindow: {min: config.minValue, max: config.maxValue}};
+
             var options = {
                 title: 'Test Results',
                 colors: arrColors,
                 tooltip: { isHtml: true, trigger: 'selection' },
-                vAxis: { logScale: boolScale },
+                vAxis: chartVAxis,
                 interpolateNulls: true
             };
             chart = new google.visualization.AreaChart(document.getElementById('chart_div'));

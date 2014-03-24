@@ -107,6 +107,13 @@ public class ResultsAction extends ActionSupport {
         return null;
     }
 
+    /**
+     * Converts a set of patient results to JSON data suitable for Google Charts integration on clientside
+     * @param resultData A collection of Result objects containing patient test results
+     * @param resultType1 The name of the first set of results to convert
+     * @param resultType2 The name of the first set of results to convert (deprecated)
+     * @return A JSON format string containing formatted results data suitable for Google Charts
+     */
     private String convertToJsonData(Collection<Result> resultData, String resultType1, String resultType2) {
 
         ResultHeadingManager resultHeadingManager = getWebApplicationContext().getBean(ResultHeadingManager.class);
@@ -204,9 +211,11 @@ public class ResultsAction extends ActionSupport {
             }
         }
 
-        // min value and max value (for graph range), get maximum range from either data or result heading defaults
-        sb.append("],\"config\": {\"minvalue\" : \"");
+        // min value and max value (for graph range) from either data or result heading defaults, store in config tag
 
+        sb.append("],\"config\": {\"minValue\" : \"");
+
+        // for minimum graph y-axis value uses the lowest of either the data's range or the ResultHeading.minvalue
         if (!Double.isNaN(resultHeadingMinValue)) {
             if (dataMinValue != Double.MAX_VALUE) {
                 if (dataMinValue < resultHeadingMinValue) {
@@ -219,8 +228,9 @@ public class ResultsAction extends ActionSupport {
             sb.append(dataMinValue);
         }
 
-        sb.append("\", \"maxvalue\" : \"");
+        sb.append("\", \"maxValue\" : \"");
 
+        // for maximum graph y-axis value uses the highest of either the data's range or the ResultHeading.maxvalue
         if (!Double.isNaN(resultHeadingMaxValue)) {
             if (dataMaxValue != Double.MIN_VALUE) {
                 if (dataMaxValue > resultHeadingMaxValue) {
