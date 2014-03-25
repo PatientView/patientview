@@ -176,6 +176,8 @@ public class PatientAddAction extends ActionSupport {
 
         request.setAttribute("patient", patientLogon);
         request.setAttribute("userMapping", userMapping);
+        request.getSession().setAttribute("gp", gpPatientLogon);
+        request.getSession().setAttribute("userMappingGp", userMappingGp);
         return mapping.findForward("success");
     }
 }
