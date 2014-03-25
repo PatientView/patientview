@@ -79,7 +79,7 @@ public class JoinRequestsController extends BaseController {
      * @param dateOfBirth
      * @param unitId
      * @param email
-     * @param secuirtyQuestion
+     * @param securityQuestion
      */
     @RequestMapping(value = Routes.JOIN_REQUEST_SUBMIT)
     public void submitJoinRequest(@RequestParam  String nhsNumber, @RequestParam  String firstName,

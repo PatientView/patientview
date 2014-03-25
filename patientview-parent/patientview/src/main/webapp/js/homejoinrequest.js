@@ -20,7 +20,7 @@ joinrequest.init = function()  {
                 specialties.append('<option value=' + result.id + '>' + result.name + '</option>');
             });
 
-            specialties.change( function() {
+            specialties.change(function() {
                 try {
                     var units = $('.js-joinrequest-unit');
                     var unitsUrl =  '/web/unitBySpecialty?specialtyId=' + specialties.val();
@@ -103,7 +103,7 @@ joinrequest.sendJoinRequest = function(form) {
             url: $form.attr('action'),
             data: data,
             success: function(data) {
-                alert('Sucess');
+                alert('Your join request has been sent');
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 onError(textStatus);

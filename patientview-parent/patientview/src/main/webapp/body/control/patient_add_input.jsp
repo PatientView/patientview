@@ -1,7 +1,7 @@
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
-
+<%@ page isELIgnored ="false" %>
 <%--
   ~ PatientView
   ~
@@ -31,6 +31,10 @@
     <h1>Patient</h1>
 </div>
 
+    <form type="hidden" value="js-specialty-form">
+        <input type="hidden" name="specialty" class="js-user-specialty-id" value="${specialty.id}"/>
+    </form>
+
 <html:errors />
 
 <logic:present name="invalidNhsno" >
@@ -50,53 +54,163 @@
 </logic:present>
 
 
-<html:form action="/control/patientAdd">
-<table cellpadding="3" >
-    <tr>
-      <td><img src="images/space.gif" height="10" /> </td>
-    </tr>
+<form action="/web/patient/add" class="js-patient-form" styleClass="form-horizontal">
+
+    <div class="alert alert-error js-message-errors" style="display: none">
+        <strong>You do not have any messages.</strong>
+    </div>
+
+    <table cellpadding="3" >
     <tr>
       <td><b>User Name</b></td>
-      <td><html:text property="username" /></td>
+      <td><input name="username" class="js-patient-username"h/></td>
     </tr>
     <tr>
       <td><b>First Name</b></td>
-      <td><html:text property="firstName" /></td>
+        <td><input name="firstname" class="js-patient-firstname"h/></td>
     </tr>
     <tr>
         <td><b>Last Name</b></td>
-        <td><html:text property="lastName" /></td>
+        <td><input name="lastname" class="js-patient-lastname"h/></td>
     </tr>
     <tr>
       <td><b>NHS Number</b></td>
-      <td><html:text property="nhsno" /></td>
+      <td><input name="nhsno" class="js-patient-nhsno"/></td>
         <logic:present name="offerToAllowInvalidNhsno" >
         <td><b>Add patient with invalid NHS number</b></td>
-        <td><html:checkbox property="overrideInvalidNhsno"/></td>
+        <td><checkbox name="override-nhsno" class="js-patient-override-nhsno"/></td>
       </logic:present>
     </tr>
     <tr>
       <td><b>Email Address</b></td>
-      <td><html:text property="email" /></td>
+      <td><input name="email" class="js-patient-email"/></td>
     </tr>
     <tr>
       <td><b>
           <logic:present specialty="renal">Renal Unit</logic:present><logic:present specialty="ibd">IBD Unit</logic:present>
           <logic:present specialty="diabetes">Unit</logic:present>
       </b></td>
-      <td><html:select property="unitcode">
-             <html:options collection="units" property="unitcode" labelProperty="name"/>
-          </html:select></td>
+      <td><select property="units" class="js-patient-units">
+            <option value="-1" selected="selected">-- Select your unit --</option>
+      </select></td>
     </tr>
     <tr>
-      <td><b>Dummy Patient</b></td>
-      <td><html:checkbox property="dummypatient" value="true" /></td>
+      <td>
+          <b>Dummy Patient</b>
+      </td>
+      <td>
+          <input type="checkbox" name="dummypatient" class="js-patient-dummy" value="true" />
+      </td>
     </tr>
+
+    <logic:present specialty="ibd">
+        <tr>
+            <td>
+                <b>IBD Details</b>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <b>Primary Diagnosis</b>
+            </td>
+            <td>
+                <input name="primaryDiagnosis" class="js-ibd-primary-diagnosios"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>Disease Extent</b>
+            </td>
+            <td>
+                <input name="diseaseExtent" class="js-ibd-disease-extent"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>Year of Diagnosis</b>
+            </td>
+            <td>
+                <div class="date datePicker controls">
+                    <input name="yearOfDiagnosis" class="js-ibd-diagnosis-year" size="16" type="text">
+                    <span class="add-on"><i class="icon-th"></i></span>
+                    <span class="help-inline">dd-mm-yyyy</span>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>Complications</b>
+            </td>
+            <td>
+                <input name="complications" class="js-ibd-complications">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>Other parts affected</b>
+            </td>
+            <td>
+                <input name="otherPartsAffected" class="js-ibd-parts-affected">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>Family History</b>
+            </td>
+            <td>
+                <input name="familyHistory" class="js-ibd-family-history">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>Surgical History</b>
+            </td>
+            <td>
+                <input name="surgicalHistory" class="js-ibd-surgical-history">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>Smoking History</b>
+            </td>
+            <td>
+                <input name="smokingHistory" class="js-ibd-smoking-history">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>Vaccination Record</b>
+            </td>
+            <td>
+                <input name="vaccinationRecord" class="js-ibd-vaccination-record">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>Year of surveillance colonoscopy</b>
+            </td>
+            <td>
+                <input name="surveilanceColonoscopy" class="js-ibd-surveillance-colonoscopy">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>Named Consultant</b>
+            </td>
+            <td>
+                <input name="namedConsultant" class="js-ibd-named-consultant">
+            </td>
+        </tr>
+    </logic:present>
+
     <tr align="right">
       <td><html:submit value="Add" styleClass="btn" /></td>
     </tr>
  </table>
 
-</html:form>
+</form>
 </div>
 </div>
+<script src="/js/patient.js" type="text/javascript"></script>
+

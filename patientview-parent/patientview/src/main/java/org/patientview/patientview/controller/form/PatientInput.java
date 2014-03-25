@@ -1,7 +1,7 @@
 package org.patientview.patientview.controller.form;
 
 /**
- * Created by eatek on 21/03/2014.
+ * Created by james@solidstategroup.com on 21/03/2014.
  */
 public class PatientInput {
 
@@ -10,7 +10,7 @@ public class PatientInput {
     private String firstName;
     private String lastName;
     private String email;
-    private boolean emailVerified ;
+    private boolean emailVerified;
     private String nhsNo;
     private String unitCode;
     private String overrideDuplicateNhsNo;
