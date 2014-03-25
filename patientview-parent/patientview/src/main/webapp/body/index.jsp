@@ -54,7 +54,7 @@
         <h3 class="mediumBlueTitle titleSeperator">About <em>Renal PatientView</em></h3>
         <p>
             Renal PatientView is a project of <a target="_blank" href="http://www.renal.org/rixg">RIXG</a> a UK group representing renal
-            patients and the renal team.  It aims to provide online information about renal patients' diagnosis, treatment, and their latest test results.  Patients can share this information with anyone they want, and view it from anywhere in the world.
+            patients and the renal team.  It aims to provide online information about renal patients' diagnosis, treatment, and their latest org.patientview.test results.  Patients can share this information with anyone they want, and view it from anywhere in the world.
         </p>
         <p>
             PatientView is only available from some UK renal units, and for patients who have chosen to participate.

@@ -52,9 +52,9 @@
 
     <profiles>
         <profile>
-            <id>test</id>
+            <id>org.patientview.test</id>
             <properties>
-                <env>test</env>
+                <env>org.patientview.test</env>
                 <tomcatmanagerurl>http://locahost:9080/manager/html</tomcatmanagerurl>
                 <warpath>/</warpath>
                 <!-- localhost is designed to build and run with war:inplace -->
@@ -62,9 +62,9 @@
             </properties>
         </profile>
         <profile>
-            <id>localhost-test</id>
+            <id>localhost-org.patientview.test</id>
             <properties>
-                <env>localhost-test</env>
+                <env>localhost-org.patientview.test</env>
                 <tomcatmanagerurl>http://locahost:9080/manager/html</tomcatmanagerurl>
                 <warpath>/patientview</warpath>
                 <!-- localhost is designed to build and run with war:inplace -->
@@ -756,7 +756,7 @@
         <!--<scope>runtime</scope>-->
         <!--</dependency>-->
 
-        <!-- test stuff -->
+        <!-- org.patientview.test stuff -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -765,23 +765,23 @@
 
         <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
+            <artifactId>spring-org.patientview.test</artifactId>
             <version>${spring.version}</version>
-            <scope>test</scope>
+            <scope>org.patientview.test</scope>
         </dependency>
 
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <version>1.3.173</version>
-            <scope>test</scope>
+            <scope>org.patientview.test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.batch</groupId>
-            <artifactId>spring-batch-test</artifactId>
+            <artifactId>spring-batch-org.patientview.test</artifactId>
             <version>2.2.1.RELEASE</version>
-            <scope>test</scope>
+            <scope>org.patientview.test</scope>
         </dependency>
 
         <dependency>

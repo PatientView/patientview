@@ -151,8 +151,8 @@ public class MyDetailsTest {
         assertFormElementPresent("email");
         assertButtonPresentWithText("Send");
 
-        setTextField("message", "test-message");
-        setTextField("email", "test@patientview.com");
+        setTextField("message", "org.patientview.test-message");
+        setTextField("email", "org.patientview.test@patientview.com");
         submit();
 
         assertTextPresent("Your contact form was successfully submitted.");

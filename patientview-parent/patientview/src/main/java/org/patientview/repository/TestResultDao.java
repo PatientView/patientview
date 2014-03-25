@@ -40,7 +40,7 @@ import java.util.List;
 public interface TestResultDao {
 
     /**
-     * Get the test results for the patient for the units they belong to.
+     * Get the org.patientview.test results for the patient for the units they belong to.
      * The unit list is per Specialty.
      *
      * @param units not mandatory
@@ -51,7 +51,7 @@ public interface TestResultDao {
                                                               boolean isRadarGroup);
 
     /**
-     * Get the test results for the patient for the units they belong to.
+     * Get the org.patientview.test results for the patient for the units they belong to.
      * The unit list is per Specialty.
      *
      */

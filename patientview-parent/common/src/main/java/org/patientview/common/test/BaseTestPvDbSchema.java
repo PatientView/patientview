@@ -70,14 +70,14 @@ public class BaseTestPvDbSchema {
 
     @PostConstruct
     public void init() {
-        isLocalTestEnvironment = configEnvironment != null && configEnvironment.equals("localhost-test");
+        isLocalTestEnvironment = configEnvironment != null && configEnvironment.equals("localhost-org.patientview.test");
     }
 
     @Before
     public void testDbCreate() throws Exception {
 
         if (!isLocalTestEnvironment) {
-            boolean isTestEnvironment = configEnvironment != null && configEnvironment.equals("test");
+            boolean isTestEnvironment = configEnvironment != null && configEnvironment.equals("org.patientview.test");
             if (!isTestEnvironment) {
                 throw new IllegalStateException("Cannot run tests using "
                         + configEnvironment

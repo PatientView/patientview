@@ -18,7 +18,7 @@
     <asp:ScriptManager ID="ScriptManager1" runat="server">
     </asp:ScriptManager>
 <h1 style="display:inline">Patient Log-In</h1>&nbsp;&nbsp;&nbsp;
- <span style="margin-left:400px;"><a href="javascript:bookmarksite('RADAR', 'http://www.renal-test.org/patients.aspx')">Bookmark this page</a>
+ <span style="margin-left:400px;"><a href="javascript:bookmarksite('RADAR', org.patientview.teorg.patientview.test>Bookmark this page</a>
 </span>
     <p>Please enter your username, password and date of birth</p>
     <table cellpadding="5" class="style2">

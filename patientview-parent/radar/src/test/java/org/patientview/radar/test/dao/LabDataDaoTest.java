@@ -53,12 +53,12 @@ public class LabDataDaoTest extends BaseDaoTest {
     @Test
     public void testSaveLabData () {
 
-       // test creating a new object
+       // org.patientview.test creating a new object
        LabData labData = new LabData();
        labDataDao.saveLabData(labData);
        assertNotNull(labData.getId());
 
-       // test update
+       // org.patientview.test update
        LabData labData_update = new LabData();
        labData_update.setId(new Long(16));
        labDataDao.saveLabData(labData_update);
@@ -66,7 +66,7 @@ public class LabDataDaoTest extends BaseDaoTest {
 
     @Test
     public void getLabData() {
-        // We have a lab data with ID 16 in the test dataset
+        // We have a lab data with ID 16 in the org.patientview.test dataset
         LabData labData = labDataDao.getLabData(16L);
 
         assertNotNull("Lab data object was null", labData);
@@ -84,7 +84,7 @@ public class LabDataDaoTest extends BaseDaoTest {
         List<LabData> labDatas = labDataDao.getLabDataByRadarNumber(236L);
         assertNotNull("Lab data list was null querying by radar number", labDatas);
 
-        // Should be two results in our test dataset
+        // Should be two results in our org.patientview.test dataset
         assertEquals("Wrong size for list", 2, labDatas.size());
     }
 

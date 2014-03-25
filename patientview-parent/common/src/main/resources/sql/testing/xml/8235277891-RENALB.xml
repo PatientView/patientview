@@ -68,7 +68,7 @@
             <ibdnurse>Nurse B, Nurse BB</ibdnurse>
         </clinicaldetails>
         <testdetails>
-            <test>
+            <org.patientview.test>
                 <testname>Albumin</testname>
                 <testcode>albumin</testcode>
                 <units>g/L</units>
@@ -77,8 +77,8 @@
                     <datestamp>2012-08-17T15:06</datestamp>
                     <value>47</value>
                 </result>
-            </test>
-            <test>
+            </org.patientview.test>
+            <org.patientview.test>
                 <testname>serum ferritin:</testname>
                 <testcode>ferritin</testcode>
                 <units>ug/l</units>
@@ -87,8 +87,8 @@
                     <datestamp>2013-11-11T15:29</datestamp>
                     <value>43</value>
                 </result>
-            </test>
-            <test>
+            </org.patientview.test>
+            <org.patientview.test>
                 <testname>serum vitamin B12:</testname>
                 <testcode>vitb12</testcode>
                 <units>ng/L</units>
@@ -97,7 +97,7 @@
                     <datestamp>2012-08-17T15:29</datestamp>
                     <value>391</value>
                 </result>
-            </test>
+            </org.patientview.test>
         </testdetails>
     </patient>
 </patientview>

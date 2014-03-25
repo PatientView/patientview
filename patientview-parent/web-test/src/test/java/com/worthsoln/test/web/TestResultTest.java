@@ -122,7 +122,7 @@ public class TestResultTest {
 
         clickLinkWithText("Creatinine");
         gotoWindowByTitle("Creatinine (Renal PatientView)");
-        assertTextPresent("This is the best routine blood test for measuring");
+        assertTextPresent("This is the best routine blood org.patientview.test for measuring");
         gotoRootWindow();
 
         clickLinkWithText("K");
@@ -158,7 +158,7 @@ public class TestResultTest {
 
         clickLinkWithText("eGFR");
         gotoWindowByTitle("eGFR (Renal PatientView)");
-        assertTextPresent("eGFR uses the result of your Creatinine test ");
+        assertTextPresent("eGFR uses the result of your Creatinine org.patientview.test ");
         gotoRootWindow();
 
         clickLinkWithText("Comment");
@@ -507,10 +507,10 @@ public class TestResultTest {
         assertButtonPresentWithText("Add");
 
         // add
-        setTextField("patientResultValue1", "this is test comment!");
+        setTextField("patientResultValue1", "this is org.patientview.test comment!");
         submit();
 
-        assertTextPresent("this is test comment!");
+        assertTextPresent("this is org.patientview.test comment!");
         assertTextPresent("you will add these comments to your record");
         assertButtonPresentWithText("Submit All");
         assertButtonPresentWithText("Delete");
@@ -518,9 +518,9 @@ public class TestResultTest {
         // Submit All
         clickButtonWithText("Submit All");
         assertButtonNotPresentWithText("Delete");
-        assertTextNotPresent("this is test comment!");
+        assertTextNotPresent("this is org.patientview.test comment!");
 
-        setTextField("patientResultValue1", "test comment");
+        setTextField("patientResultValue1", "org.patientview.test comment");
         submit();
 
         assertButtonPresentWithText("Delete");

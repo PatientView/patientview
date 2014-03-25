@@ -56,13 +56,13 @@ public class DiagnosisDaoTest extends BaseDaoTest {
 
     @Test
     public void testSaveDiagnosis() {
-        // test save
+        // org.patientview.test save
         Diagnosis diagnosis = new Diagnosis();
         diagnosis.setText("Testing");
         diagnosisDao.saveDiagnosis(diagnosis);
         assertNotNull(diagnosis.getId());
 
-        // test update
+        // org.patientview.test update
         Diagnosis diagnosis2 = new Diagnosis();
         diagnosis2.setId(new Long(139));
         diagnosis2.setText("Testing");

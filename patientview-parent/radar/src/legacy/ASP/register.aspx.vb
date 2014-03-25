@@ -182,7 +182,7 @@ Partial Class register
                 strHTML = strHTML & "<p>&nbsp;</p>"
 
                 Dim objMsg As New System.Net.Mail.MailMessage()
-                'Dim addressFrom As New System.Net.Mail.MailAddress("Radar Website<website@renal-test.org>")
+                'Dim addressFrom As New System.Net.Mail.MailAddress("Radar Website<website@renal-org.patientview.test.org>")
                 Dim addressFrom As New System.Net.Mail.MailAddress("Radar Website<website@renalradar.org>")
 
                 'objMsg.To.Add("ihaynes@data-insite.co.uk")

@@ -37,7 +37,7 @@
                 The Diagnostics section lists your previous imaging and endoscopy tests direct from the hospital record.
             </li>
             <li>
-                Please note only the date and type of test is recorded. The full report is not available.
+                Please note only the date and type of org.patientview.test is recorded. The full report is not available.
             </li>
             <li>
                 If you have any further questions about your tests please contact us by

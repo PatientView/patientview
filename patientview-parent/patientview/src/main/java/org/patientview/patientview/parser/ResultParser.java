@@ -137,7 +137,7 @@ public class ResultParser {
     }
 
     private void collectDateRanges(Document doc) {
-        NodeList testNodeList = doc.getElementsByTagName("test");
+        NodeList testNodeList = doc.getElementsByTagName("org.patientview.test");
         for (int i = 0; i < testNodeList.getLength(); i++) {
             Node testNode = testNodeList.item(i);
             NodeList testResultNodes = testNode.getChildNodes();
@@ -164,7 +164,7 @@ public class ResultParser {
 
     private void collectTestResults(Document doc) {
 
-        NodeList testNodeList = doc.getElementsByTagName("test");
+        NodeList testNodeList = doc.getElementsByTagName("org.patientview.test");
 
         for (int i = 0; i < testNodeList.getLength(); i++) {
             Node testNode = testNodeList.item(i);
@@ -215,12 +215,12 @@ public class ResultParser {
                                      */
                                     if (testResultDate.isAfter(
                                             LegacySpringUtils.getTimeManager().getCurrentDate().getTime())) {
-                                        // add this test to corrupt tests list
+                                        // add this org.patientview.test to corrupt tests list
                                         corruptNodes.add(new CorruptNode(testNode, NodeError.FUTURE_RESULT));
                                     } else if (dateRangeStart != null && dateRangeStop != null && !(new Interval(
                                             new DateTime(dateRangeStart), new DateTime(dateRangeStop)).contains(
                                             new DateTime(testResultDate)))) {
-                                        // add this test to corrupt tests list
+                                        // add this org.patientview.test to corrupt tests list
                                         corruptNodes.add(new CorruptNode(testNode, NodeError.WRONG_DATE_RANGE));
                                     }
                                 }

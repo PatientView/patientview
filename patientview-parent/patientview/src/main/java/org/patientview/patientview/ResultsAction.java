@@ -109,7 +109,7 @@ public class ResultsAction extends ActionSupport {
 
     /**
      * Converts a set of patient results to JSON data suitable for Google Charts integration on clientside
-     * @param resultData A collection of Result objects containing patient test results
+     * @param resultData A collection of Result objects containing patient org.patientview.test results
      * @param resultType1 The name of the first set of results to convert
      * @param resultType2 The name of the first set of results to convert (deprecated)
      * @return A JSON format string containing formatted results data suitable for Google Charts

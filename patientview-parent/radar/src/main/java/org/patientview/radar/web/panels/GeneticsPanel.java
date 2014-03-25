@@ -89,7 +89,7 @@ public class GeneticsPanel extends Panel {
                 Genetics genetics = getModelObject();
 
                 if (genetics.getTestsDone() == null) {
-                    error("Please select if a genetic test been done");
+                    error("Please select if a genetic org.patientview.test been done");
                 }
 
                 if (!hasError()) {

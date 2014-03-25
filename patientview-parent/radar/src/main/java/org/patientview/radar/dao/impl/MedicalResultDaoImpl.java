@@ -96,7 +96,7 @@ public class MedicalResultDaoImpl extends BaseDaoImpl implements MedicalResultDa
             String testCode = (String) map.get("testcode");
             Object value = map.get("value");
 
-            // see if there is already a row for this test per uni and radar no and update
+            // see if there is already a row for this org.patientview.test per uni and radar no and update
             MedicalResultItem medicalResultItem = getMedicalResultItem(medicalResult.getRadarNo(), unitCode, testCode);
 
             if (medicalResultItem != null && medicalResultItem.hasValidId() &&

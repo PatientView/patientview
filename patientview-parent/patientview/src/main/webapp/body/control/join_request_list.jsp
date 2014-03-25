@@ -31,7 +31,7 @@
 <div class="page-header">
 
     <h1>Join Requests
-    <c:if test="${inCompletedNumber != null}">
+    <c:if org.patientview.test="${inCompletedNumber != null}">
         <span class="badge badge-important numberNote"><c:out value="${inCompletedNumber}"/></span>
     </c:if>
     </h1>
@@ -54,7 +54,7 @@
         <div class="row" style="float: right;">
 
             <c:choose>
-                <c:when test="${firstPage}">
+                <c:when org.patientview.test="${firstPage}">
                     &nbsp;
                 </c:when>
                 <c:otherwise>
@@ -62,7 +62,7 @@
                 </c:otherwise>
             </c:choose>
             <c:choose>
-                <c:when test="${lastPage}">
+                <c:when org.patientview.test="${lastPage}">
                     &nbsp;
                 </c:when>
                 <c:otherwise>

@@ -57,7 +57,7 @@ import java.util.List;
 public class MedicalResultsPanel extends Panel {
 
     public static final String TEST_RESULT_NULL_DATE_MESSAGE = "Test result must have a date";
-    public static final String TEST_RESULT_AT_LEAST_ONE = "A test result must be entered";
+    public static final String TEST_RESULT_AT_LEAST_ONE = "A org.patientview.test result must be entered";
     public static final String TEST_RESULT_BP = "BP Systolic and Diastolic must be entered";
     public static final String MUST_BE_BETWEEN_1_AND_100 = "Value must be between 1 - 100";
     public static final String MUST_BE_BETWEEN_10_AND_2800 = "Value must be between 10 - 2800";
@@ -138,7 +138,7 @@ public class MedicalResultsPanel extends Panel {
                         error(TEST_RESULT_AT_LEAST_ONE);
                     }
 
-                    // test result cannot have a null date
+                    // org.patientview.test result cannot have a null date
                     if (medicalResult.getBloodUrea() != null) {
                         if (medicalResult.getBloodUreaDate() == null) {
                             get("bloodUreaDate").error(TEST_RESULT_NULL_DATE_MESSAGE);
