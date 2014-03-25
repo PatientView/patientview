@@ -97,8 +97,8 @@ public class AddPatientPage extends BasePage {
         final List<Component> componentsToUpdateList = new ArrayList<Component>();
 
 
-        CompoundPropertyModel<AddPatientModel> addPatientModel =
-                new CompoundPropertyModel<AddPatientModel>(new AddPatientModel());
+        CompoundPropertyModel<AddPatientModel> addPatientModel
+                = new CompoundPropertyModel<AddPatientModel>(new AddPatientModel());
         addPatientModel.getObject().setCentre(user.getCentre());
 
         final IModel<List<Patient>> patientListModel = new ListModel<Patient>();
@@ -113,10 +113,11 @@ public class AddPatientPage extends BasePage {
 
             final AddPatientModel model = getModelObject();
 
-
             @Override
             protected void onSubmit() {
 
+                // clean NHS number
+                model.setPatientId(CommonUtils.cleanNhsNumber(model.getPatientId()));
                 Session.get().cleanupFeedbackMessages();
 
                 // just show the user one error at a time
