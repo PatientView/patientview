@@ -67,7 +67,7 @@
 
         <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>spring-org.patientview.test</artifactId>
+            <artifactId>spring-test</artifactId>
             <version>${spring.version}</version>
             <scope>org.patientview.test</scope>
         </dependency>
