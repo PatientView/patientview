@@ -24,7 +24,6 @@
 package org.patientview.patientview;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -34,9 +33,12 @@ import org.patientview.patientview.model.ResultHeading;
 import org.patientview.patientview.model.TestResultWithUnitShortname;
 import org.patientview.patientview.model.User;
 import org.patientview.patientview.user.UserUtils;
-import org.patientview.utils.LegacySpringUtils;
+import org.patientview.service.ResultHeadingManager;
+import org.patientview.service.SecurityUserManager;
+import org.patientview.service.TestResultManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.struts.ActionSupport;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -49,15 +51,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class ResultsAction extends Action {
+public class ResultsAction extends ActionSupport {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ResultsAction.class);
 
     private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
 
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-                                 HttpServletResponse response)
-            throws Exception {
+                                 HttpServletResponse response) throws Exception {
+
+        SecurityUserManager securityUserManager = getWebApplicationContext().getBean(SecurityUserManager.class);
+        TestResultManager testResultManager = getWebApplicationContext().getBean(TestResultManager.class);
 
         User user = UserUtils.retrieveUser(request);
         List<String> resultCodes = new ArrayList<String>();
@@ -78,8 +82,7 @@ public class ResultsAction extends Action {
                 request.setAttribute("user", user);
 
                 List<TestResultWithUnitShortname> results
-                        = LegacySpringUtils.getTestResultManager().getTestResultForPatient(user, resultCodes,
-                        monthBeforeNow);
+                        = testResultManager.getTestResultForPatient(user, resultCodes, monthBeforeNow);
 
                 if (!results.isEmpty()) {
 
@@ -92,11 +95,11 @@ public class ResultsAction extends Action {
                         printWriter.close();
 
                     } catch (Exception e) {
-                        LOGGER.debug("Couldn't wring json data fro testresult graphing" + e.getMessage());
+                        LOGGER.debug("Couldn't wring json data for testresult graphing" + e.getMessage());
                     }
                 }
 
-            } else if (!LegacySpringUtils.getSecurityUserManager().isRolePresent("patient")) {
+            } else if (!securityUserManager.isRolePresent("patient")) {
                 return LogonUtils.logonChecks(mapping, request, "control");
             }
         }
@@ -104,13 +107,21 @@ public class ResultsAction extends Action {
         return null;
     }
 
+    /**
+     * Converts a set of patient results to JSON data suitable for Google Charts integration on clientside
+     * @param resultData A collection of Result objects containing patient test results
+     * @param resultType1 The name of the first set of results to convert
+     * @param resultType2 The name of the first set of results to convert (deprecated)
+     * @return A JSON format string containing formatted results data suitable for Google Charts
+     */
     private String convertToJsonData(Collection<Result> resultData, String resultType1, String resultType2) {
 
+        ResultHeadingManager resultHeadingManager = getWebApplicationContext().getBean(ResultHeadingManager.class);
         String resultValue1 = "";
         String resultValue2 = "";
 
-        ResultHeading heading1 = LegacySpringUtils.getResultHeadingManager().get(resultType1);
-        ResultHeading heading2 = LegacySpringUtils.getResultHeadingManager().get(resultType2);
+        ResultHeading heading1 = resultHeadingManager.get(resultType1);
+        ResultHeading heading2 = resultHeadingManager.get(resultType2);
 
         StringBuffer sb = new StringBuffer();
         // cols header
@@ -152,10 +163,23 @@ public class ResultsAction extends Action {
         // rows value
         sb.append("\"rows\":[");
 
+        Double resultHeadingMinValue = heading1.getMinRangeValue();
+        Double resultHeadingMaxValue = heading1.getMaxRangeValue();
+        Double dataMinValue = Double.MAX_VALUE;
+        Double dataMaxValue = Double.MIN_VALUE;
+
         for (Iterator iterator = resultData.iterator(); iterator.hasNext();) {
             Result result = (Result) iterator.next();
             resultValue1 = result.getValue(resultType1);
             resultValue2 = result.getValue(resultType2);
+
+            if (Double.parseDouble(resultValue1) < dataMinValue) {
+                dataMinValue = Double.parseDouble(resultValue1);
+            }
+
+            if (Double.parseDouble(resultValue1) > dataMaxValue) {
+                dataMaxValue = Double.parseDouble(resultValue1);
+            }
 
             sb.append("{\"c\":[");
             // DateTime
@@ -186,7 +210,41 @@ public class ResultsAction extends Action {
                 sb.append("]}");
             }
         }
-        sb.append("]}");
+
+        // min value and max value (for graph range) from either data or result heading defaults, store in config tag
+
+        sb.append("],\"config\": {\"minRangeValue\" : \"");
+
+        // for minimum graph y-axis value uses the lowest of either the data's range or the ResultHeading.minvalue
+        if (resultHeadingMinValue != null) {
+            if (dataMinValue != Double.MAX_VALUE) {
+                if (dataMinValue < resultHeadingMinValue) {
+                    sb.append(dataMinValue);
+                } else {
+                    sb.append(resultHeadingMinValue);
+                }
+            }
+        } else {
+            sb.append(dataMinValue);
+        }
+
+        sb.append("\", \"maxRangeValue\" : \"");
+
+        // for maximum graph y-axis value uses the highest of either the data's range or the ResultHeading.maxvalue
+        if (resultHeadingMaxValue != null) {
+            if (dataMaxValue != Double.MIN_VALUE) {
+                if (dataMaxValue > resultHeadingMaxValue) {
+                    sb.append(dataMaxValue);
+                } else {
+                    sb.append(resultHeadingMaxValue);
+                }
+            }
+        } else {
+            sb.append(dataMaxValue);
+        }
+
+        sb.append("\"}}");
+
         return sb.toString();
     }
 

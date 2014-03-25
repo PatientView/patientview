@@ -225,7 +225,7 @@ public class UserDaoTest extends BaseDaoTest {
     @Test
     public void testGetAllForNhsNo() {
 
-        List<UserMapping> userMappings = userMappingDao.getAllForNhsNo("nhsno2", specialty);
+        List<UserMapping> userMappings = userMappingDao.getAllByNhsNo("nhsno2", specialty);
 
         assertEquals("Incorrect number of mappings found", 1, userMappings.size());
     }

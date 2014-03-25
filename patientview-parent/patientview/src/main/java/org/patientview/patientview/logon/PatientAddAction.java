@@ -64,6 +64,7 @@ public class PatientAddAction extends ActionSupport {
         String lastName = BeanUtils.getProperty(form, "lastName");
         String email = BeanUtils.getProperty(form, "email");
         String nhsno = BeanUtils.getProperty(form, "nhsno").trim();
+        nhsno = CommonUtils.cleanNhsNumber(nhsno);
         String unitcode = BeanUtils.getProperty(form, "unitcode");
         String overrideInvalidNhsno = BeanUtils.getProperty(form, "overrideInvalidNhsno");
         boolean dummypatient = "true".equals(BeanUtils.getProperty(form, "dummypatient"));
@@ -110,8 +111,8 @@ public class PatientAddAction extends ActionSupport {
         }
 
         // get list of patients with same NHS number across specialties and within unit
-        List<UserMapping> userMappingsAllSpecialties = userManager.getUserMappingsForNhsNoAllSpecialties(nhsno);
-        List<UserMapping> userMappingsThisSpecialty = userManager.getUserMappingsForNhsNo(nhsno);
+        List<UserMapping> userMappingsAllSpecialties = userManager.getUserMappingsByNhsNoAllSpecialties(nhsno);
+        List<UserMapping> userMappingsThisSpecialty = userManager.getUserMappingsByNhsNo(nhsno);
 
         // check other patients exist with same NHS no.
         if (!CollectionUtils.isEmpty(userMappingsAllSpecialties)) {
@@ -164,6 +165,8 @@ public class PatientAddAction extends ActionSupport {
             patient.setNhsno(nhsno);
             patient.setUnitcode(unitcode);
             patient.setEmailAddress(email);
+            patient.setForename(firstName);
+            patient.setSurname(lastName);
             patient.setSourceType(SourceType.PATIENT_VIEW.getName());
             patientManager.save(patient);
         }
