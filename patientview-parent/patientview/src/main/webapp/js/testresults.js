@@ -57,10 +57,10 @@ function drawChart() {
                 boolScale = false;
             }
 
-            var chartVAxis = {logScale: boolScale, viewWindow: {min: config.minRangeValue, max: config.maxRangeValue}};
+            var chartVAxis = {logScale: boolScale, viewWindow: {min: config.minRangeValue, max: config.maxRangeValue}, title: config.units};
 
             var options = {
-                title: 'Test Results',
+                title: config.titleText,
                 colors: arrColors,
                 tooltip: { isHtml: true, trigger: 'selection' },
                 vAxis: chartVAxis,

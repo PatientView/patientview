@@ -62,6 +62,9 @@ public class ResultHeading extends BaseModel {
     @Column(nullable = true)
     private Double maxRangeValue;
 
+    @Column(nullable = true)
+    private String units;
+
     public ResultHeading() {
     }
 
@@ -143,4 +146,8 @@ public class ResultHeading extends BaseModel {
     public Double getMaxRangeValue() { return maxRangeValue; }
 
     public void setMaxRangeValue(Double maxRangeValue) { this.maxRangeValue = maxRangeValue; }
+
+    public String getUnits() { return units; }
+
+    public void setUnits(String units) { this.units = units; }
 }

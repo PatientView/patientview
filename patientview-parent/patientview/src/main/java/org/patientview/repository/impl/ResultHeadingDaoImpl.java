@@ -177,6 +177,11 @@ public class ResultHeadingDaoImpl extends AbstractHibernateDAO<ResultHeading> im
             } else {
                 resultHeading.setMaxRangeValue(null);
             }
+            if (StringUtils.isNotEmpty(resultSet.getString("units"))) {
+                resultHeading.setUnits(resultSet.getString("units"));
+            } else {
+                resultHeading.setUnits(null);
+            }
 
             return resultHeading;
         }
