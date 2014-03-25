@@ -96,7 +96,6 @@ public class AddPatientPage extends BasePage {
         // list of items to update in ajax submits
         final List<Component> componentsToUpdateList = new ArrayList<Component>();
 
-
         CompoundPropertyModel<AddPatientModel> addPatientModel
                 = new CompoundPropertyModel<AddPatientModel>(new AddPatientModel());
         addPatientModel.getObject().setCentre(user.getCentre());
