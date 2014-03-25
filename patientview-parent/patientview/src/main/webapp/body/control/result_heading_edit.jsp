@@ -63,11 +63,11 @@
         <td><html:text name="resultHeading" property="panelorder" /></td>
     </tr>
     <tr>
-        <td><b>Minimum Y-axis Value</b></td>
+        <td><b>Min Graphing Value</b></td>
         <td><html:text name="resultHeading" property="minRangeValue" /></td>
     </tr>
     <tr>
-        <td><b>Maximum Y-axis Value</b></td>
+        <td><b>Max Graphing Value</b></td>
         <td><html:text name="resultHeading" property="maxRangeValue" /></td>
     </tr>
     <tr>
