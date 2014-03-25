@@ -34,6 +34,7 @@ import org.patientview.radar.exception.UserCreationException;
 import org.patientview.radar.exception.UserMappingException;
 import org.patientview.radar.exception.UserRoleException;
 import org.patientview.radar.model.JoinRequest;
+import org.patientview.radar.model.LogEntry;
 import org.patientview.radar.model.exception.DaoException;
 import org.patientview.radar.model.exception.DecryptionException;
 import org.patientview.radar.model.exception.EmailAddressNotFoundException;
@@ -47,8 +48,10 @@ import org.patientview.radar.model.user.PatientUser;
 import org.patientview.radar.model.user.ProfessionalUser;
 import org.patientview.radar.model.user.User;
 import org.patientview.radar.service.EmailManager;
+import org.patientview.radar.service.LogEntryManager;
 import org.patientview.radar.service.PatientManager;
 import org.patientview.radar.service.UserManager;
+import org.patientview.radar.web.RadarSecuredSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
@@ -78,6 +81,8 @@ public class UserManagerImpl implements UserManager, UserDetailsService {
     private UserDao userDao;
     private JoinRequestDao joinRequestDao;
     private PatientManager patientManager;
+
+    private LogEntryManager logEntryManager;
 
 
     public AdminUser getAdminUser(String email) {
@@ -167,6 +172,8 @@ public class UserManagerImpl implements UserManager, UserDetailsService {
         patientUser = createRadarUser(patientUser, patient);
         userDao.saveUserMapping(patientUser);
 
+        //logPatientCreation(patient, patientUser);
+
         // We've created a new user so we need to create a join request
         createJoinRequest(patient);
 
@@ -174,6 +181,7 @@ public class UserManagerImpl implements UserManager, UserDetailsService {
         return patientUser;
 
     }
+
 
     /**
      * Ensure that this newly added Radar patient/patientUser has the correct permissions.
@@ -237,6 +245,8 @@ public class UserManagerImpl implements UserManager, UserDetailsService {
                 }
 
                 createPermissionsForNewPatientUser(patient, patientUser);
+
+
             }
 
         }  catch (UserCreationException  uce) {
@@ -348,6 +358,21 @@ public class UserManagerImpl implements UserManager, UserDetailsService {
             throw new RegistrationException("Could not register professional", e);
         }
         emailManager.sendProfessionalRegistrationAdminNotificationEmail(professionalUser);
+    }
+
+
+    /** Log the creation of a new user into the log **/
+    private void logPatientCreation(Patient patient, PatientUser patientUser) {
+
+        LogEntry logEntry = new LogEntry();
+        logEntry.setAction(LogEntry.PATIENT_ADD);
+        logEntry.setActor(RadarSecuredSession.get().getUser().getUsername());
+        logEntry.setUser(patientUser.getUsername());
+        logEntry.setDate(new Date());
+        logEntry.setUnitcode(patient.getUnitcode());
+        logEntry.setNhsno(patient.getNhsno());
+        logEntryManager.save(logEntry);
+
     }
 
     public ProfessionalUser getProfessionalUser(Long id) {
@@ -541,5 +566,8 @@ public class UserManagerImpl implements UserManager, UserDetailsService {
         this.patientManager = patientManager;
     }
 
+    public void setLogEntryManager(LogEntryManager logEntryManager) {
+        this.logEntryManager = logEntryManager;
+    }
 }
 

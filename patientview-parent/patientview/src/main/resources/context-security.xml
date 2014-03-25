@@ -61,6 +61,10 @@ http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
         <intercept-url pattern="/emailverification.do" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 
 
+        <!-- Looking Local -->
+        <intercept-url pattern="/web/lookinglocal/secure/**" access="ROLE_RENAL_PATIENT"/>
+        <intercept-url pattern="/web/lookinglocal/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+
         <!-- TEMP FOR STORY 32 RPV -->
         <intercept-url pattern="/messages.jsp" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/message.jsp" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
@@ -114,7 +118,7 @@ http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
                 default-target-url="/logged_in.do"
                 authentication-success-handler-ref="patientViewAuthenticationSuccessHandler"
                 authentication-failure-handler-ref="patientViewAuthenticationFailedHandler"
-        />
+                />
 
         <logout logout-url="/logout.do" logout-success-url="/index.do"/>
 

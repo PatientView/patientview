@@ -30,13 +30,13 @@
     <parent>
         <groupId>org.patientview</groupId>
         <artifactId>patientview-parent</artifactId>
-        <version>1.1.3-RELEASE</version>
+        <version>1.1.4-RELEASE</version>
     </parent>
 
     <groupId>org.patientview</groupId>
     <artifactId>monitoring</artifactId>
     <packaging>jar</packaging>
-    <version>1.1.3-RELEASE</version>
+    <version>1.1.4-RELEASE</version>
 
     <name>PatientView Monitoring</name>
     <url>https://www.patientview.org</url>
@@ -50,6 +50,12 @@
             <id>localhost</id>
             <properties>
                 <env>localhost</env>
+            </properties>
+        </profile>
+        <profile>
+            <id>localhost-test</id>
+            <properties>
+                <env>localhost-test</env>
             </properties>
         </profile>
         <profile>

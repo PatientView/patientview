@@ -43,7 +43,7 @@ import java.util.List;
  */
 public class UktImportExportScheduler {
 
-    private static final SimpleDateFormat EXPORT_DATE_FORMAT = new SimpleDateFormat("yyyy-mm-dd");
+    private static final SimpleDateFormat EXPORT_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
     @Value("${run.ukt.import.export}")
     private String runUkt;
