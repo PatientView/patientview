@@ -369,7 +369,7 @@ public class UserManagerImpl implements UserManager, UserDetailsService {
         logEntry.setActor(RadarSecuredSession.get().getUser().getUsername());
         logEntry.setUser(patientUser.getUsername());
         logEntry.setDate(new Date());
-        logEntry.setUnitcode(patient.getUnitcode());
+        logEntry.setUnitcode(patient.getRenalUnit().getUnitCode());
         logEntry.setNhsno(patient.getNhsno());
         logEntryManager.save(logEntry);
 
