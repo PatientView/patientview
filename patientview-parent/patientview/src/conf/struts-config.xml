@@ -76,6 +76,7 @@
             <form-property name="panelorder" type="java.lang.String"/>
             <form-property name="minRangeValue" type="java.lang.String"/>
             <form-property name="maxRangeValue" type="java.lang.String"/>
+            <form-property name="units" type="java.lang.String"/>
         </form-bean>
         <form-bean name="patientForm" type="org.apache.struts.validator.DynaValidatorActionForm">
             <form-property name="username" type="java.lang.String"/>

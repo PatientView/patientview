@@ -53,6 +53,7 @@ If result values go beyond this range the graph will expand to show these values
             <th class="tableheader">Panel Order</th>
             <th class="tableheader">Min Value</th>
             <th class="tableheader">Max Value</th>
+            <th class="tableheader">Units</th>
             <th></th>
         </tr>
     </thead>
@@ -67,6 +68,7 @@ If result values go beyond this range the graph will expand to show these values
          <td class="tablecell"><bean:write name="resultHeading" property="panelorder" /></td>
          <td class="tablecell"><bean:write name="resultHeading" property="minRangeValue" /></td>
          <td class="tablecell"><bean:write name="resultHeading" property="maxRangeValue" /></td>
+         <td class="tablecell"><bean:write name="resultHeading" property="units" /></td>
          <td><html:submit value="Edit" styleClass="btn" /></td>
        </tr>
      </html:form>

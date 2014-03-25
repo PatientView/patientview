@@ -243,6 +243,18 @@ public class ResultsAction extends ActionSupport {
             sb.append(dataMaxValue);
         }
 
+        // title text (first result heading)
+        if (heading1.getHeading() != null) {
+            sb.append("\", \"titleText\" : \"");
+            sb.append(heading1.getHeading());
+        }
+
+        // units (y-axis label)
+        if (heading1.getUnits() != null) {
+            sb.append("\", \"units\" : \"");
+            sb.append(heading1.getUnits());
+        }
+
         sb.append("\"}}");
 
         return sb.toString();

@@ -63,6 +63,11 @@ public class ResultHeadingUpdateAction extends ActionSupport {
         } else {
             resultHeading.setMaxRangeValue(null);
         }
+        if (StringUtils.isNotEmpty(BeanUtils.getProperty(form, "units"))) {
+            BeanUtils.setProperty(resultHeading, "units", BeanUtils.getProperty(form, "units"));
+        } else {
+            resultHeading.setUnits(null);
+        }
 
         resultHeadingManager.save(resultHeading);
         request.setAttribute("resultHeading", resultHeading);

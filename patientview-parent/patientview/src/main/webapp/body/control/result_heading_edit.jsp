@@ -71,6 +71,10 @@
         <td><html:text name="resultHeading" property="maxRangeValue" /></td>
     </tr>
     <tr>
+        <td><b>Units (Y-axis Label)</b></td>
+        <td><html:text name="resultHeading" property="units" /></td>
+    </tr>
+    <tr>
       <td><html:submit value="Update" styleClass="btn"/></td>
     </tr>
 </html:form>
