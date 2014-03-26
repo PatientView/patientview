@@ -34,9 +34,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
-
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -139,6 +139,29 @@ public class PatientDaoImpl extends AbstractHibernateDAO<Patient> implements Pat
             return Collections.emptyList();
         }
 
+    }
+
+    @Override
+    public List<Patient> getByNhsNo(String nhsNo, Specialty specialty) {
+
+        StringBuilder queryText = new StringBuilder();
+        queryText.append("SELECT    ptt ");
+        queryText.append("FROM      Patient AS ptt ");
+        queryText.append(",         Unit AS uni ");
+        queryText.append("WHERE     ptt.nhsno = :nhsNo ");
+        queryText.append("AND       ptt.unitcode = uni.unitcode ");
+        queryText.append("AND       uni.specialty.id = :specialtyId ");
+        queryText.append("GROUP BY  ptt.nhsno");
+
+        TypedQuery<Patient> query = getEntityManager().createQuery(queryText.toString(), Patient.class);
+        query.setParameter("nhsNo", nhsNo);
+        query.setParameter("specialtyId", specialty.getId());
+
+        try {
+            return query.getResultList();
+        } catch (Exception e) {
+            return Collections.emptyList();
+        }
     }
 
     @Override

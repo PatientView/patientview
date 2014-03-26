@@ -43,7 +43,20 @@ public interface PatientDao {
 
     Patient getRadarPatient(String nhsNo);
 
+    /**
+     * Get Patient records based on NHS number
+     * @param nhsNo NHS number of patients to find
+     * @return List of Patient, found by NHS number
+     */
     List<Patient> getByNhsNo(String nhsNo);
+
+    /**
+     * Get Patient records based on NHS number, only including those in Specialty
+     * @param nhsNo NHS number of patients to find
+     * @param specialty Specialty to restrict search by
+     * @return List of Patient, found by NHS number and restricted by Specialty
+     */
+    List<Patient> getByNhsNo(String nhsNo, Specialty specialty);
 
     void save(Patient patient);
 
