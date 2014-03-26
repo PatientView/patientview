@@ -145,13 +145,13 @@ public class PatientDaoImpl extends AbstractHibernateDAO<Patient> implements Pat
 
         // note: due to lack of object model predicates not possible for joining tables
         StringBuilder query = new StringBuilder();
-        query.append("SELECT p FROM Patient AS p, Unit AS u ");
-        query.append("WHERE p.nhsno = '");
-        query.append(nhsNo);
-        query.append("' AND p.unitcode = u.unitcode ");
-        query.append("AND u.specialty.id = '");
-        query.append(specialty.getId());
-        query.append("' GROUP BY p.nhsno");
+        query.append("SELECT    ptt ");
+        query.append("FROM      Patient AS ptt ");
+        query.append(",         Unit AS uni ");
+        query.append("WHERE     ptt.nhsno = '").append(nhsNo).append("' ");
+        query.append("AND       ptt.unitcode = uni.unitcode ");
+        query.append("AND       uni.specialty.id = '").append(specialty.getId()).append("' ");
+        query.append("GROUP BY  ptt.nhsno");
 
         try {
             return getEntityManager().createQuery(query.toString()).getResultList();
