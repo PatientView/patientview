@@ -56,7 +56,7 @@
       <html:form action="/control/unitAdminAddToUnit">
         <html:hidden name="usermapping" property="username"/>
         <html:hidden name="usermapping" property="unitcode"/>
-        <td colspan="2"><html:submit value="Add to Unit" styleClass="formbutton" /></td>
+        <td colspan="2"><input type="button" value="Cancel" onclick="history.back()" class="formbutton">&nbsp;&nbsp;<html:submit value="Add to Unit" styleClass="formbutton" /></td>
       </html:form>
     </tr>
  </table>
