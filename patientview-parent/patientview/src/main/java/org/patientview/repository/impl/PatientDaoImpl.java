@@ -150,12 +150,12 @@ public class PatientDaoImpl extends AbstractHibernateDAO<Patient> implements Pat
         queryText.append(",         Unit AS uni ");
         queryText.append("WHERE     ptt.nhsno = :nhsNo ");
         queryText.append("AND       ptt.unitcode = uni.unitcode ");
-        queryText.append("AND       uni.specialty.id = :specialtyId ");
+        queryText.append("AND       uni.specialty = :specialty ");
         queryText.append("GROUP BY  ptt.nhsno");
 
         TypedQuery<Patient> query = getEntityManager().createQuery(queryText.toString(), Patient.class);
         query.setParameter("nhsNo", nhsNo);
-        query.setParameter("specialtyId", specialty.getId());
+        query.setParameter("specialty", specialty);
 
         try {
             return query.getResultList();
