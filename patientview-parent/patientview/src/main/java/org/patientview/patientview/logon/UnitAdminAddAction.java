@@ -96,7 +96,7 @@ public class UnitAdminAddAction extends ActionSupport {
                 } else {
                     // user exists in another unit
                     request.setAttribute("currentUnitCodes", getUnitCodeDisplay(usermappingsAllSpecialties));
-                    request.setAttribute("usermapping", new UserMapping(username, unitcode, ""));
+                    request.setAttribute("usermapping", new UserMapping(username, unitcode, null));
                     return mapping.findForward("existinguser");
                 }
 
@@ -104,7 +104,7 @@ public class UnitAdminAddAction extends ActionSupport {
                 // user has mappings in other specialties but not this one
                 request.setAttribute("currentUnitCodes"
                         , "This user does not currently belong to any units in this specialty.");
-                request.setAttribute("usermapping", new UserMapping(username, unitcode, ""));
+                request.setAttribute("usermapping", new UserMapping(username, unitcode, null));
                 return mapping.findForward("existinguser");
             }
         } else {
@@ -169,7 +169,7 @@ public class UnitAdminAddAction extends ActionSupport {
             // note this check is not necessarily required as user mapping should be created
             // in userManager.saveUserFromUnitAdmin()
             if (CollectionUtils.isEmpty(userManager.getUserMappings(username, unitcode))) {
-                UserMapping userMappingNew = new UserMapping(username, unitcode, "");
+                UserMapping userMappingNew = new UserMapping(username, unitcode, null);
                 userManager.save(userMappingNew);
                 request.setAttribute("usermapping", userMappingNew);
             }
