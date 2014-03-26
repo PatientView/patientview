@@ -309,7 +309,7 @@ public class PatientManagerImpl implements PatientManager {
     private Map<String, Date> getMostRecentTestResultDateByNhsNo(String nhsNo) {
 
         Map<String, Date> maxDataRangeDate = new HashMap<String, Date>();
-        for (Patient patient : patientDao.getByNhsNo(nhsNo, securityUserManager.getLoggedInSpecialty())) {
+        for (Patient patient : patientDao.getByNhsNo(nhsNo)) {
 
             if (patient.getMostRecentTestResultDateRangeStopDate() != null) {
                 maxDataRangeDate.put(patient.getUnitcode(), patient.getMostRecentTestResultDateRangeStopDate());
