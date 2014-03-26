@@ -24,6 +24,7 @@
 package org.patientview.service;
 
 import org.patientview.model.Patient;
+import org.patientview.model.Specialty;
 import org.patientview.patientview.PatientDetails;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.transaction.annotation.Propagation;
@@ -56,6 +57,8 @@ public interface PatientManager {
     List<Patient> get(String unitCode);
 
     List<Patient> getByNhsNo(String nhsNo);
+
+    List<Patient> getByNhsNo(String nhsNo, Specialty specialty);
 
     /**
      * Uses usermapping to get list of patients by username (expect single patient)
