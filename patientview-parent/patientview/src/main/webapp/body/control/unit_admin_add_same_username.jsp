@@ -29,17 +29,12 @@
 <html:xhtml/>
 
 <div class="span9">
-
     <div class="page-header">
         <h1>Unit User</h1>
     </div>
 
-
-There is already a unit user registered on RPV with the same username or email but in another unit.
-
-Please carefully check the details of that user, then you can choose to add the existing user to your unit.
-<br /><br />
-
+<strong> <span style="color: red">WARNING:</span></strong> There is already a unit user registered on PatientView with the same username or email but in another unit.
+<br/>Please carefully check the details of that user, then you can choose to add the existing user to your unit.<br /><br />
 
 <table cellpadding="3" >
     <tr>
