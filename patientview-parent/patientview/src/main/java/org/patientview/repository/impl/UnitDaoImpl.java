@@ -373,7 +373,8 @@ public class UnitDaoImpl extends AbstractHibernateDAO<Unit> implements UnitDao {
                 + "AND"
                 + "   um.unitcode = ? "
                 + "AND"
-                + "   sur.role = 'patient' ";
+                + "   sur.role = 'patient' "
+                + "GROUP BY u.username";
 
         List<Object> params = new ArrayList<Object>();
         params.add(specialty.getId());

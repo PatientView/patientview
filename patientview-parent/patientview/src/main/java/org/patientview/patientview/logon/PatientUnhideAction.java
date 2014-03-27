@@ -28,50 +28,45 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.patientview.model.Unit;
-import org.patientview.service.PatientManager;
+import org.patientview.patientview.logging.AddLog;
+import org.patientview.patientview.model.User;
 import org.patientview.service.SecurityUserManager;
 import org.patientview.service.UnitManager;
+import org.patientview.service.UserManager;
 import org.springframework.web.struts.ActionSupport;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-public class UnitPatientsAction extends ActionSupport {
+public class PatientUnhideAction extends ActionSupport {
 
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
                                  HttpServletResponse response) throws Exception {
 
-        PatientManager patientManager = getWebApplicationContext().getBean(PatientManager.class);
         UnitManager unitManager = getWebApplicationContext().getBean(UnitManager.class);
+        UserManager userManager = getWebApplicationContext().getBean(UserManager.class);
         SecurityUserManager securityUserManager = getWebApplicationContext().getBean(SecurityUserManager.class);
 
-        String unitcode = BeanUtils.getProperty(form, "unitcode");
-        unitcode = (unitcode == null) ? "" : unitcode;
-        String nhsno = BeanUtils.getProperty(form, "nhsno");
-        nhsno = (nhsno == null) ? "" : nhsno;
-        String firstname = BeanUtils.getProperty(form, "firstname");
-        firstname = (firstname == null) ? "" : firstname;
-        String lastname = BeanUtils.getProperty(form, "lastname");
-        lastname = (lastname == null) ? "" : lastname;
+        String username = BeanUtils.getProperty(form, "username");
+        User user = userManager.get(username);
 
-        boolean showgps = "true".equals(BeanUtils.getProperty(form, "showgps"));
+        String mappingToFind = "";
 
-        if (!"".equals(unitcode)) {
-            Unit unit = unitManager.get(unitcode);
-            request.setAttribute("unit", unit);
+        if (user != null) {
+            user.setAccounthidden(false);
+            userManager.save(user);
+
+            AddLog.addLog(securityUserManager.getLoggedInUsername(), AddLog.PATIENT_UNHIDE,
+                    user.getUsername(), "", userManager.getUsersRealUnitcodeBestGuess(username), "");
+
+            mappingToFind = "success";
         }
 
-        if (securityUserManager.isRolePresent("superadmin")) {
-            List patients = patientManager.getUnitPatientsWithTreatmentIncludeHidden(unitcode, nhsno, firstname,
-                    lastname, showgps);
-            request.setAttribute("patients", patients);
-        } else {
-            List patients = patientManager.getUnitPatientsWithTreatment(unitcode, nhsno, firstname,
-                    lastname, showgps);
-            request.setAttribute("patients", patients);
-        }
+        List<Unit> units = unitManager.getAll(false);
+        request.setAttribute("units", units);
+        request.setAttribute("user", user);
 
-        return LogonUtils.logonChecks(mapping, request);
+        return mapping.findForward(mappingToFind);
     }
-
 }

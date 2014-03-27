@@ -68,11 +68,18 @@ public interface PatientManager {
     List getUnitPatientsWithTreatment(String unitcode, String nhsno, String firstname, String lastname,
                                       boolean showgps);
 
+    List getUnitPatientsWithTreatmentIncludeHidden(String unitcode, String nhsno, String firstname, String lastname,
+                                      boolean showgps);
+
     @Secured(value = { "ROLE_RENAL_SUPERADMIN" })
     List getAllUnitPatientsWithTreatment(String nhsno, String firstname, String lastname, boolean showgps);
 
+    List getAllUnitPatientsWithTreatmentIncludeHidden(String nhsno, String firstname, String lastname, boolean showgps);
+
     // Note: generics not used as the result is half user, half patient
     List getUnitPatientsAllWithTreatmentDao(String unitcode);
+
+    List getUnitPatientsAllWithTreatmentDaoIncludeHidden(String unitcode);
 
     List<Patient> getUktPatients();
 

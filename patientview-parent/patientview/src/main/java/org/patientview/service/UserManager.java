@@ -90,9 +90,9 @@ public interface UserManager {
 
     List<UserMapping> getUserMappingsAllSpecialties(String username, String unitcode);
 
-    List<UserMapping> getUserMappingsForNhsNo(String nhsNo);
+    List<UserMapping> getUserMappingsByNhsNo(String nhsNo);
 
-    List<UserMapping> getUserMappingsForNhsNoAllSpecialties(String nhsNo);
+    List<UserMapping> getUserMappingsByNhsNoAllSpecialties(String nhsNo);
 
     String getUsersRealUnitcodeBestGuess(String username);
 

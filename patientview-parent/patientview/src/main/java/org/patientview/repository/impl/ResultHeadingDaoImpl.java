@@ -23,6 +23,7 @@
 
 package org.patientview.repository.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.patientview.model.Specialty;
 import org.patientview.patientview.model.Panel;
 import org.patientview.patientview.model.ResultHeading;
@@ -32,7 +33,6 @@ import org.patientview.repository.ResultHeadingDao;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.persistence.NoResultException;
@@ -46,7 +46,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 /**
  *
  */
@@ -70,9 +69,7 @@ public class ResultHeadingDaoImpl extends AbstractHibernateDAO<ResultHeading> im
         CriteriaQuery<ResultHeading> criteria = builder.createQuery(ResultHeading.class);
         Root<ResultHeading> from = criteria.from(ResultHeading.class);
         List<Predicate> wherePredicates = new ArrayList<Predicate>();
-
         wherePredicates.add(builder.equal(from.get(ResultHeading_.headingcode), headingcode));
-
         buildWhereClause(criteria, wherePredicates);
         try {
             return getEntityManager().createQuery(criteria).getSingleResult();
@@ -169,6 +166,22 @@ public class ResultHeadingDaoImpl extends AbstractHibernateDAO<ResultHeading> im
             resultHeading.setHeadingcode(resultSet.getString("headingcode"));
             resultHeading.setLink(resultSet.getString("link"));
             resultHeading.setRollover(resultSet.getString("rollover"));
+
+            if (StringUtils.isNotEmpty(resultSet.getString("minRangeValue"))) {
+                resultHeading.setMinRangeValue(resultSet.getDouble("minRangeValue"));
+            } else {
+                resultHeading.setMinRangeValue(null);
+            }
+            if (StringUtils.isNotEmpty(resultSet.getString("maxRangeValue"))) {
+                resultHeading.setMaxRangeValue(resultSet.getDouble("maxRangeValue"));
+            } else {
+                resultHeading.setMaxRangeValue(null);
+            }
+            if (StringUtils.isNotEmpty(resultSet.getString("units"))) {
+                resultHeading.setUnits(resultSet.getString("units"));
+            } else {
+                resultHeading.setUnits(null);
+            }
 
             return resultHeading;
         }

@@ -28,46 +28,28 @@
 
 <html:xhtml/>
 
-<div class="span9">
-
+<span class="span9">
     <div class="page-header">
-        <h1>Unit User</h1>
+        <h1>Patient is No Longer Hidden</h1>
     </div>
 
+    On <dt:format pattern="d MMM yyyy"><dt:currentTime/></dt:format> you successfully revealed the user:
+    <br/><br/>
 
-There is already a unit user registered on RPV with the same username or email but in another unit.
-
-Please carefully check the details of that user, then you can choose to add the existing user to your unit.
-<br /><br />
-
-
-<table cellpadding="3" >
-    <tr>
-      <td><b>User Name</b></td>
-      <td><bean:write name="usermapping" property="username"/></td>
-    </tr>
-    <tr>
-        <td><b>User's Current Unit Codes</b></td>
-        <td><bean:write name="currentUnitCodes" /></td>
-    </tr>
-    <tr>
-      <td><b>Unit Code To Add To</b></td>
-      <td><bean:write name="usermapping" property="unitcode" /></td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-    </tr>
-    <tr>
-      <html:form action="/control/unitAdminAddToUnit">
-        <html:hidden name="usermapping" property="username"/>
-        <html:hidden name="usermapping" property="unitcode"/>
-        <td colspan="2"><html:submit value="Add to Unit" styleClass="formbutton" /></td>
-      </html:form>
-    </tr>
- </table>
-
-
-<br />
-
-</div>
-</div>
+    <table cellpadding="3">
+        <tr>
+            <td><b>User Name</b></td>
+            <td><bean:write name="user" property="username"/></td>
+        </tr>
+        <tr>
+            <td><b>Name</b></td>
+            <td><bean:write name="user" property="name"/></td>
+        </tr>
+        <tr>
+            <td><b>Email Address</b></td>
+            <td><bean:write name="user" property="email"/></td>
+        </tr>
+    </table>
+    <br/><br/>
+    The account is still locked but they will now appear in patient lists.
+</span>
