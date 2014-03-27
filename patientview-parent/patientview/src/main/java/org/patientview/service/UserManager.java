@@ -112,4 +112,6 @@ public interface UserManager {
 
     void removeUserFromRadar(Long userId);
 
+    void saveHashPassword(User user) throws Exception;
+
 }

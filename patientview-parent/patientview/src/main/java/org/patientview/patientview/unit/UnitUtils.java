@@ -42,6 +42,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * This class has to be factored out of existence
+ *
+ */
 public final class UnitUtils {
 
     public static final String PATIENT_ENTERS_UNITCODE = "PATIENT";

@@ -20,6 +20,13 @@ patient.init = function() {
         });
     });
 
+    var patientForm = $('.js-patient-form');
+
+    patientForm.submit(function(event) {
+        event.preventDefault();
+        patient.add(patientForm);
+    });
+
 };
 
 
@@ -28,12 +35,12 @@ patient.add = function(form) {
 
     var $form = $(form),
         username = $form.find('.js-patient-username'),
-        firstname = $form.find('.js-patient-firstname'),
-        lastname = $form.find('.js-patient-lastname'),
-        nhsno = $form.find('.js-patient-nhsno'),
+        firstName = $form.find('.js-patient-firstname'),
+        lastName = $form.find('.js-patient-lastname'),
+        nhsNo = $form.find('.js-patient-nhsno'),
         override = $form.find('.js-patient-override-nhsno'),
         email = $form.find('.js-patient-email'),
-        unitcode = $form.find('.js-patient-units'),
+        unitCode = $form.find('.js-patient-units'),
         errorsEl = $form.find('.js-message-errors'),
         errors = [],
         messagesEl = $('.js-messages'),
@@ -45,11 +52,17 @@ patient.add = function(form) {
     errorsEl.html('').hide();
 
     data.username = username.val();
-    data.firstname = firstname.val();
-    data.lastname =  lastname.val();
-    data.nhsno = nhsno.val();
-    data.unitcode = unitcode.val();
+    data.firstName = firstName.val();
+    data.lastName =  lastName.val();
+    data.nhsNo = nhsNo.val();
+    data.unitCode = unitCode.val();
     data.email = email.val();
+    data.emailVerified = false;
+    data.overrideDuplicateNhsNo = false;
+    data.firstLogon = false;
+    data.dummyPatient = false;
+    data.accountLocked = false;
+    data.accountHidden = false;
 
     if (errors.length > 0) {
         onError(errors.join('<br />'));
@@ -58,14 +71,15 @@ patient.add = function(form) {
         $.ajax({
             type: "POST",
             url: $form.attr('action'),
-            data: data,
+            data: JSON.stringify(data),
             success: function(data) {
                 alert('Sucess');
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 onError(textStatus);
             },
-            dataType: 'json'
+            dataType: 'json',
+            contentType: "application/json; charset=UTF-8"
         });
     }
 

@@ -23,8 +23,10 @@
 
 package org.patientview.service.impl;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.patientview.model.Specialty;
 import org.patientview.model.Unit;
+import org.patientview.patientview.logon.LogonUtils;
 import org.patientview.patientview.logon.PatientLogon;
 import org.patientview.patientview.logon.UnitAdmin;
 import org.patientview.patientview.model.PatientUser;
@@ -334,36 +336,44 @@ public class UserManagerImpl implements UserManager {
         userMappingDao.save(userMapping);
     }
 
+    // Need moving to UserMappingManager
     @Override
     public void deleteUserMappings(String username, String unitcode) {
         userMappingDao.deleteUserMappings(username, unitcode, securityUserManager.getLoggedInSpecialty());
     }
 
+    // Need moving to UserMappingManager
     @Override
     public List<UserMapping> getUserMappings(String username) {
         return userMappingDao.getAll(username, securityUserManager.getLoggedInSpecialty());
     }
 
+    // Need moving to UserMappingManager
     @Override
     public List<UserMapping> getUserMappingsIgnoreSpecialty(String username) {
         return userMappingDao.getAll(username);
     }
 
+
+    // Need moving to UserMappingManager
     @Override
     public List<UserMapping> getUserMappingsExcludeUnitcode(String username, String unitcode) {
         return userMappingDao.getAllExcludeUnitcode(username, unitcode, securityUserManager.getLoggedInSpecialty());
     }
 
+    // Need moving to UserMappingManager
     @Override
     public List<UserMapping> getUserMappings(String username, String unitcode) {
         return userMappingDao.getAll(username, unitcode, securityUserManager.getLoggedInSpecialty());
     }
 
+    // Need moving to UserMappingManager
     @Override
     public List<UserMapping> getUserMappingsAllSpecialties(String username, String unitcode) {
         return userMappingDao.getAll(username, unitcode);
     }
 
+    // Need moving to UserMappingManager
     @Override
     public List<UserMapping> getUserMappingsByNhsNo(String nhsNo) {
         return userMappingDao.getAllByNhsNo(nhsNo, securityUserManager.getLoggedInSpecialty());
@@ -432,6 +442,19 @@ public class UserManagerImpl implements UserManager {
     @Override
     public void removeUserFromRadar(Long userId) {
         radarDao.removeUserFromRadar(userId);
+    }
+
+    @Override
+    public void saveHashPassword(User user) throws Exception {
+        User hashedUser;
+        try {
+            hashedUser = (User) BeanUtils.cloneBean(user);
+        } catch (Exception e) {
+            LOGGER.error("Error creating hashed user");
+            throw e;
+        }
+        hashedUser.setPassword(LogonUtils.hashPassword(user.getPassword()));
+        save(hashedUser);
     }
 
 }

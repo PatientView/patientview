@@ -5,12 +5,21 @@ import org.patientview.patientview.model.User;
 import org.patientview.patientview.model.UserMapping;
 import org.patientview.patientview.unit.UnitUtils;
 import org.patientview.repository.UserMappingDao;
+import org.patientview.service.UserMappingManager;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
+import java.util.List;
 
 /**
- * Created by eatek on 26/03/2014.
+ * Created by james@solidstategroup.com on 26/03/2014.
  */
+@Service
+@Transactional(propagation = Propagation.REQUIRED)
+@Secured(value = { "ROLE_ANY_USER" })
 public class UserMappingManagerImpl implements UserMappingManager {
 
     @Inject
@@ -38,6 +47,10 @@ public class UserMappingManagerImpl implements UserMappingManager {
         userMappingDao.save(userMappingPatientEnters);
         userMappingDao.save(userMappingGp);
 
+    }
+
+    public List<UserMapping> getAllByNhsNo(String nhsNo) {
+        return userMappingDao.getAllByNhsNo(nhsNo);
     }
 
 }

@@ -25,7 +25,10 @@ package org.patientview.service.impl;
 import org.patientview.model.Specialty;
 import org.patientview.repository.SpecialtyDao;
 import org.patientview.service.SpecialtyManager;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -33,6 +36,8 @@ import java.util.List;
 /**
  * Created by Solid State Group on 04/03/14.
  */
+@Transactional(propagation = Propagation.REQUIRED)
+@Secured(value = { "ROLE_ANY_USER" })
 @Service(value = "specialtyManager")
 public class SpecialtyManagerImpl implements SpecialtyManager {
 
@@ -44,4 +49,5 @@ public class SpecialtyManagerImpl implements SpecialtyManager {
     public List<Specialty> getAll() {
         return specialtyDao.getAll();
     }
+
 }

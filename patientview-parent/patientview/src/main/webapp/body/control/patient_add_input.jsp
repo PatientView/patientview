@@ -167,7 +167,28 @@
                 <b>Surgical History</b>
             </td>
             <td>
-                <input name="surgicalHistory" class="js-ibd-surgical-history">
+                <select name="surgicalHistory" class="js-ibd-surgical-history">
+                    <option value="-1" selected="selected">Please select</option>
+                    <option value="0">None/option>
+                    <option value="1">Right hemicolectomy</option>
+                    <option value="2">Total proctocolectomy</option>
+                    <option value="3">Ileoanal pouch</option>
+                    <option value="4">Total proctocolectomy</option>
+                    <option value="5">Permanent ileostomy</option>
+                    <option value="6">Colectomy ileostomy with retained rectal stump</option>
+                    <option value="7">Colectomy colostomy with retained rectal stump</option>
+                    <option value="8">Partial colectomy</option>
+                    <option value="9">Small bowel resection</option>
+                    <option value="10">Insertion of seton</option>
+                    <option value="11">Drainage of perianal sepsis</option>
+                    <option value="12">Gastric surgery</option>
+                    <option value="13">Stricturoplasty</option>
+                    <option value="14">Apendicectomy</option>
+                    <option value="15">Cholecystectomy</option>
+                    <option value="16">Radiological drainage of abscess</option>
+                    <option value="17">Other procedure</option>
+
+                </select>
             </td>
         </tr>
         <tr>
@@ -175,7 +196,13 @@
                 <b>Smoking History</b>
             </td>
             <td>
-                <input name="smokingHistory" class="js-ibd-smoking-history">
+                <select name="smokingHistory" class="js-ibd-smoking-history">
+                    <option value="-1" selected="selected">Please select</option>
+                    <option value="0">Never</option>
+                    <option value="1">Current</option>
+                    <option value="2">Ex smoker</option>
+                 </select>
+
             </td>
         </tr>
         <tr>
