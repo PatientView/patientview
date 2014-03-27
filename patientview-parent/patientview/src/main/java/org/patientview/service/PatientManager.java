@@ -24,12 +24,15 @@
 package org.patientview.service;
 
 import org.patientview.model.Patient;
+import org.patientview.model.Specialty;
 import org.patientview.patientview.PatientDetails;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -41,6 +44,10 @@ public interface PatientManager {
 
     Patient get(String nhsno, String unitcode);
 
+    Patient getPatient(String username);
+
+    Patient getRadarPatient(String nhsNo);
+
     void save(Patient patient);
 
     void delete(String nhsno, String unitcode);
@@ -49,16 +56,44 @@ public interface PatientManager {
 
     List<Patient> get(String unitCode);
 
+    List<Patient> getByNhsNo(String nhsNo);
+
+    List<Patient> getByNhsNo(String nhsNo, Specialty specialty);
+
+    /**
+     * Uses usermapping to get list of patients by username (expect single patient)
+     * @param username Username to search for
+     * @return List of patients with username
+     */
+    List<Patient> getByUsername(String username);
+
     // Note: generics not used as the result is half user, half patient
-    List getUnitPatientsWithTreatment(String unitcode, String nhsno, String name, boolean showgps);
+    List getUnitPatientsWithTreatment(String unitcode, String nhsno, String firstname, String lastname,
+                                      boolean showgps);
+
+    List getUnitPatientsWithTreatmentIncludeHidden(String unitcode, String nhsno, String firstname, String lastname,
+                                      boolean showgps);
 
     @Secured(value = { "ROLE_RENAL_SUPERADMIN" })
-    List getAllUnitPatientsWithTreatment(String nhsno, String name, boolean showgps);
+    List getAllUnitPatientsWithTreatment(String nhsno, String firstname, String lastname, boolean showgps);
+
+    List getAllUnitPatientsWithTreatmentIncludeHidden(String nhsno, String firstname, String lastname, boolean showgps);
 
     // Note: generics not used as the result is half user, half patient
     List getUnitPatientsAllWithTreatmentDao(String unitcode);
 
+    List getUnitPatientsAllWithTreatmentDaoIncludeHidden(String unitcode);
+
     List<Patient> getUktPatients();
 
+    /**
+     * Get all patient records that are associated with this user
+     * @param username of user
+     * @return a list of 'mini' objects based on patient records
+     */
     List<PatientDetails> getPatientDetails(String username);
+
+    Map.Entry<String, Date> getLatestTestResultUnit(String nhsNo);
+
+
 }

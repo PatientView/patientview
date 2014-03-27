@@ -23,14 +23,14 @@
 
 package org.patientview.test.repository.radar;
 
-import org.patientview.patientview.model.Unit;
+import org.junit.Test;
+import org.patientview.model.Unit;
 import org.patientview.patientview.model.User;
 import org.patientview.repository.RadarDao;
 import org.patientview.repository.UnitDao;
 import org.patientview.repository.UserDao;
 import org.patientview.test.helpers.RepositoryHelpers;
 import org.patientview.test.repository.BaseDaoTest;
-import org.junit.Test;
 
 import javax.inject.Inject;
 
@@ -64,7 +64,8 @@ public class RadarDaoTest extends BaseDaoTest {
         // first create a user
         User user = new User();
         user.setEmail("test@worthsolns.com");
-        user.setName("Firstname Lastname");
+        user.setFirstName("Firstname");
+        user.setLastName("Lastname");
         user.setPassword("password");
         user.setUsername("test");
 
@@ -93,7 +94,8 @@ public class RadarDaoTest extends BaseDaoTest {
         // first create a user
         User user = new User();
         user.setEmail("test@worthsolns.com");
-        user.setName("Firstname Lastname");
+        user.setFirstName("Firstname");
+        user.setLastName("Lastname");
         user.setPassword("password");
         user.setUsername("test");
 

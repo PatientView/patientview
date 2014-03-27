@@ -41,13 +41,14 @@
   <p><font color="red">The username <b><bean:write name="userAlreadyExists" /></b> you entered is already being used by another user. Please pick another.</font></p>
 </logic:present>
 
-<logic:present name="nhsnoAlreadyExists" >
-  <p><font color="red">The NHS number <b><bean:write name="nhsnoAlreadyExists" /></b> you entered is already allocated to another user. <br/> You may override this using the checkbox below. But please use this with care!!</font></p>
-</logic:present>
-
 <logic:present name="patientAlreadyInUnit" >
   <p><font color="red">The patient with NHS number <b><bean:write name="patientAlreadyInUnit" /></b> already exists in your unit. You can't add another patient with the same NHS no to your unit. Please check the NHS number.</font></p>
 </logic:present>
+
+<logic:present name="radarGroupPatient" >
+    <p><font color="red">Can't add a patient to <b><bean:write name="radarGroupPatient" /></b> unit.</font></p>
+</logic:present>
+
 
 <html:form action="/control/patientAdd">
 <table cellpadding="3" >
@@ -59,19 +60,16 @@
       <td><html:text property="username" /></td>
     </tr>
     <tr>
-      <td><b>Name</b></td>
-      <td><html:text property="name" /></td>
+      <td><b>First Name</b></td>
+      <td><html:text property="firstName" /></td>
+    </tr>
+    <tr>
+        <td><b>Last Name</b></td>
+        <td><html:text property="lastName" /></td>
     </tr>
     <tr>
       <td><b>NHS Number</b></td>
       <td><html:text property="nhsno" /></td>
-      <logic:present name="nhsnoAlreadyExists" >
-        <td><b>Override Duplicate</b></td>
-        <td><html:checkbox property="overrideDuplicateNhsno"/></td>
-      </logic:present>
-      <logic:notPresent name="nhsnoAlreadyExists" >
-        <html:hidden property="overrideDuplicateNhsno" value="" />
-      </logic:notPresent>
         <logic:present name="offerToAllowInvalidNhsno" >
         <td><b>Add patient with invalid NHS number</b></td>
         <td><html:checkbox property="overrideInvalidNhsno"/></td>

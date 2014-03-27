@@ -23,20 +23,20 @@
 
 package org.patientview.service.impl;
 
-import org.patientview.patientview.model.Specialty;
+import org.apache.commons.lang.StringUtils;
+import org.patientview.model.Specialty;
+import org.patientview.model.Unit;
 import org.patientview.patientview.model.SpecialtyUserRole;
 import org.patientview.patientview.model.User;
 import org.patientview.patientview.model.UserMapping;
-import org.patientview.patientview.model.Unit;
 import org.patientview.repository.SpecialtyDao;
-import org.patientview.repository.UserDao;
 import org.patientview.repository.SpecialtyUserRoleDao;
+import org.patientview.repository.UserDao;
 import org.patientview.repository.UserMappingDao;
 import org.patientview.security.model.SecurityUser;
 import org.patientview.service.SecurityUserManager;
 import org.patientview.service.UnitManager;
 import org.patientview.service.UserManager;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -44,6 +44,7 @@ import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @Service(value = "securityUserManager")
@@ -281,6 +282,7 @@ public class SecurityUserManagerImpl implements SecurityUserManager {
 
         if (user != null) {
             user.setFailedlogons(user.getFailedlogons() + 1);
+            user.setUpdated(new Date());
             userDao.save(user);
         }
     }
@@ -302,6 +304,7 @@ public class SecurityUserManagerImpl implements SecurityUserManager {
 
         if (user != null) {
             user.setAccountlocked(true);
+            user.setUpdated(new Date());
             userDao.save(user);
         }
     }
@@ -312,6 +315,7 @@ public class SecurityUserManagerImpl implements SecurityUserManager {
 
         if (user != null) {
             user.setFailedlogons(0);
+            user.setUpdated(new Date());
             userDao.save(user);
         }
     }

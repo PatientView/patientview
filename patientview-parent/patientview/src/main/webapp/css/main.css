@@ -21,8 +21,18 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+tr.accounthidden {
+    opacity:0.5;
+}
+
 h1, h2{
 	color: #0066cc;
+}
+
+h3{
+    font-size: 15px;
+    line-height: 20px;
+    margin-bottom: 15px;
 }
 
 .navbar-inner{
@@ -69,12 +79,24 @@ h1, h2{
 	border-bottom: 5px solid #ddd;
 }
 
+.nav-pills-no-border{
+    border-bottom: 0px solid #ddd;
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+}
+
+.seperatingLine{
+    border-bottom: 5px solid #ddd;
+    margin: 0px 0px 18px 0px;
+}
+
 .nav-pills > li > a{
 	color: #333;
 	font-size: 13px;
 	font-weight: bold;
-	padding-right: 7px;
-	padding-left: 7px;
+	padding-right: 5px;
+	padding-left: 5px;
 }
 
 .nav-pills > li:first-child > a{
@@ -480,4 +502,10 @@ section article.conversation .dull, section article.message .dull, .dull{
 .join-request-span12 {
     width: 1040px;
     margin-left: -20px;
+}
+
+.modal-body-message {
+    max-height: 405px;
+    padding: 15px;
+    overflow-y: auto;
 }

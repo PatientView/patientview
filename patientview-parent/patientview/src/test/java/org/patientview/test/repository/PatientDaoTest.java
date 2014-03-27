@@ -23,20 +23,19 @@
 
 package org.patientview.test.repository;
 
+import org.junit.Before;
+import org.junit.Test;
 import org.patientview.model.Patient;
+import org.patientview.model.Specialty;
 import org.patientview.patientview.logon.PatientLogonWithTreatment;
 import org.patientview.patientview.model.PatientCount;
-import org.patientview.patientview.model.Specialty;
 import org.patientview.patientview.model.SpecialtyUserRole;
 import org.patientview.patientview.model.User;
 import org.patientview.repository.PatientCountDao;
 import org.patientview.repository.PatientDao;
 import org.patientview.test.helpers.RepositoryHelpers;
-import org.junit.Before;
-import org.junit.Test;
 
 import javax.inject.Inject;
-
 import java.util.Calendar;
 import java.util.List;
 
@@ -116,7 +115,7 @@ public class PatientDaoTest extends BaseDaoTest {
          * getUnitPatientsWithTreatmentDao
          */
 
-        patients = patientDao.getUnitPatientsWithTreatmentDao(CENTRE_1, NHS_NO_1, NAME_OF_USER, false, specialty);
+        patients = patientDao.getUnitPatientsWithTreatmentDao(CENTRE_1, NHS_NO_1, NAME_OF_USER,NAME_OF_USER, false, specialty, false);
         assertTrue("Can't get patients with treatment", patients.size() > 0);
 
         /**
@@ -124,7 +123,7 @@ public class PatientDaoTest extends BaseDaoTest {
          */
 
         List<PatientLogonWithTreatment> patientsWithTreatment = patientDao.getUnitPatientsAllWithTreatmentDao(CENTRE_1,
-                specialty);
+                specialty, false);
         assertTrue("Can't get patients all with treatment", patientsWithTreatment.size() > 0);
     }
 

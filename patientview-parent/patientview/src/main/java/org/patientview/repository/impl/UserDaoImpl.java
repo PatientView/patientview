@@ -23,8 +23,8 @@
 
 package org.patientview.repository.impl;
 
-import org.patientview.patientview.model.Specialty;
-import org.patientview.patientview.model.Unit;
+import org.patientview.model.Specialty;
+import org.patientview.model.Unit;
 import org.patientview.patientview.model.User;
 import org.patientview.patientview.model.User_;
 import org.patientview.repository.AbstractHibernateDAO;
@@ -78,5 +78,20 @@ public class UserDaoImpl extends AbstractHibernateDAO<User> implements UserDao {
         query.setParameter("unitcode", unit.getUnitcode());
 
         return query.getResultList();
+    }
+
+    @Override
+    public List<User> getByEmailAddress(String emailAddress) {
+
+        CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<User> criteria = builder.createQuery(User.class);
+        Root<User> userRoot = criteria.from(User.class);
+        criteria.where(builder.equal(userRoot.get(User_.email), emailAddress));
+
+        try {
+            return getEntityManager().createQuery(criteria).getResultList();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 }

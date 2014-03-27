@@ -23,12 +23,12 @@
 
 package org.patientview.test.helpers.impl;
 
-import org.patientview.patientview.model.Specialty;
+import org.patientview.model.Specialty;
+import org.patientview.patientview.model.Conversation;
+import org.patientview.patientview.model.Message;
 import org.patientview.patientview.model.SpecialtyUserRole;
 import org.patientview.patientview.model.User;
 import org.patientview.patientview.model.UserMapping;
-import org.patientview.patientview.model.Conversation;
-import org.patientview.patientview.model.Message;
 import org.patientview.repository.SpecialtyDao;
 import org.patientview.repository.SpecialtyUserRoleDao;
 import org.patientview.repository.UserDao;
@@ -39,6 +39,7 @@ import org.patientview.test.helpers.RepositoryHelpers;
 import org.springframework.stereotype.Repository;
 
 import javax.inject.Inject;
+import java.util.Date;
 
 /**
  *
@@ -69,9 +70,11 @@ public class RepositoryHelpersImpl implements RepositoryHelpers {
 
         User user = new User();
         user.setEmail(email);
-        user.setName(name);
+        user.setFirstName(name);
+        user.setLastName("");
         user.setPassword(password);
         user.setUsername(username);
+        user.setCreated(new Date());
         userDao.save(user);
 
         return user;

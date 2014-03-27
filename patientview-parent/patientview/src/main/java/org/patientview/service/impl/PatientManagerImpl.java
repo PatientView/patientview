@@ -24,9 +24,10 @@
 package org.patientview.service.impl;
 
 import org.patientview.model.Patient;
+import org.patientview.model.Specialty;
+import org.patientview.model.Unit;
 import org.patientview.patientview.PatientDetails;
 import org.patientview.patientview.logging.AddLog;
-import org.patientview.patientview.model.Unit;
 import org.patientview.patientview.model.UserMapping;
 import org.patientview.patientview.uktransplant.UktUtils;
 import org.patientview.repository.PatientDao;
@@ -41,10 +42,16 @@ import org.patientview.service.UnitManager;
 import org.patientview.service.UserManager;
 import org.patientview.utils.LegacySpringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Service(value = "patientManager")
 public class PatientManagerImpl implements PatientManager {
@@ -77,13 +84,13 @@ public class PatientManagerImpl implements PatientManager {
     private MedicineManager medicineManager;
 
     @Override
-    public Patient get(Long id) {
-        return patientDao.get(id);
+    public Patient get(String nhsno, String unitcode) {
+        return patientDao.get(nhsno, unitcode);
     }
 
     @Override
-    public Patient get(String nhsno, String unitcode) {
-        return patientDao.get(nhsno, unitcode);
+    public Patient get(Long id) {
+        return patientDao.get(id);
     }
 
     @Override
@@ -114,20 +121,56 @@ public class PatientManagerImpl implements PatientManager {
     }
 
     @Override
-    public List getUnitPatientsWithTreatment(String unitcode, String nhsno, String name, boolean showgps) {
-        return patientDao.getUnitPatientsWithTreatmentDao(unitcode, nhsno, name, showgps,
-                securityUserManager.getLoggedInSpecialty());
+    public List<Patient> getByNhsNo(String nhsNo) {
+        return patientDao.getByNhsNo(nhsNo);
     }
 
     @Override
-    public List getAllUnitPatientsWithTreatment(String nhsno, String name, boolean showgps) {
-        return patientDao.getAllUnitPatientsWithTreatmentDao(nhsno, name, showgps,
-                securityUserManager.getLoggedInSpecialty());
+    public List<Patient> getByNhsNo(String nhsNo, Specialty specialty) {
+        return patientDao.getByNhsNo(nhsNo, specialty);
+    }
+
+    public Patient getRadarPatient(String nhsNo) {
+        return patientDao.getRadarPatient(nhsNo);
+    }
+
+    @Override
+    public List getUnitPatientsWithTreatment(String unitcode, String nhsno, String firstname, String lastname,
+                                             boolean showgps) {
+        return patientDao.getUnitPatientsWithTreatmentDao(unitcode, nhsno, firstname, lastname, showgps,
+                securityUserManager.getLoggedInSpecialty(), false);
+    }
+
+    @Override
+    public List getUnitPatientsWithTreatmentIncludeHidden(String unitcode, String nhsno, String firstname,
+                                                          String lastname, boolean showgps) {
+        return patientDao.getUnitPatientsWithTreatmentDao(unitcode, nhsno, firstname, lastname, showgps,
+                securityUserManager.getLoggedInSpecialty(), true);
+    }
+
+    @Override
+    public List getAllUnitPatientsWithTreatment(String nhsno, String firstname, String lastname, boolean showgps) {
+        return patientDao.getAllUnitPatientsWithTreatmentDao(nhsno, firstname, lastname, showgps,
+                securityUserManager.getLoggedInSpecialty(), false);
+    }
+
+    @Override
+    public List getAllUnitPatientsWithTreatmentIncludeHidden(String nhsno, String firstname, String lastname,
+                                                             boolean showgps) {
+        return patientDao.getAllUnitPatientsWithTreatmentDao(nhsno, firstname, lastname, showgps,
+                securityUserManager.getLoggedInSpecialty(), true);
     }
 
     @Override
     public List getUnitPatientsAllWithTreatmentDao(String unitcode) {
-        return patientDao.getUnitPatientsAllWithTreatmentDao(unitcode, securityUserManager.getLoggedInSpecialty());
+        return patientDao.getUnitPatientsAllWithTreatmentDao(unitcode, securityUserManager.getLoggedInSpecialty()
+        , false);
+    }
+
+    @Override
+    public List getUnitPatientsAllWithTreatmentDaoIncludeHidden(String unitcode) {
+        return patientDao.getUnitPatientsAllWithTreatmentDao(unitcode, securityUserManager.getLoggedInSpecialty()
+        , true);
     }
 
     @Override
@@ -135,43 +178,147 @@ public class PatientManagerImpl implements PatientManager {
         return patientDao.getUktPatients();
     }
 
+    /**
+     * Get all patient records that are associated with this user
+     * @param username of user
+     * @return a list of 'mini' objects based on patient records
+     */
     @Override
     public List<PatientDetails> getPatientDetails(String username) {
-        List<UserMapping> userMappings = userManager.getUserMappings(username);
 
+        // our results list
         List<PatientDetails> patientDetails = new ArrayList<PatientDetails>();
 
-        for (UserMapping userMapping : userMappings) {
-            String unitcode = userMapping.getUnitcode();
-            if (!securityUserManager.userHasReadAccessToUnit(unitcode)) {
-                continue;
+        // Get a set of nhs numbers associated with this user via the user mappings table
+        Set<String> nhsNumbersAssociatedWithUser = new HashSet<String>();
+        List<UserMapping> userMappings = userManager.getUserMappings(username);
+        if (!CollectionUtils.isEmpty(userMappings)) {
+            for (UserMapping userMapping : userMappings) {
+                nhsNumbersAssociatedWithUser.add(userMapping.getNhsno());
             }
+        }
 
-            Patient patient = get(userMapping.getNhsno(), unitcode);
-
-            Unit unit = unitManager.get(unitcode);
-
-            if (patient != null && unit != null) {
-                PatientDetails patientDetail = new PatientDetails();
-
-                patientDetail.setPatient(patient);
-                patientDetail.setUnit(unit);
-                patientDetail.setEdtaDiagnosis(edtaCodeManager.getEdtaCode(patient.getDiagnosis()));
-                patientDetail.setEdtaTreatment(edtaCodeManager.getEdtaCode(patient.getTreatment()));
-                patientDetail.setOtherDiagnoses(diagnosisManager.getOtherDiagnoses(patient.getNhsno(),
-                        patient.getUnitcode()));
-
-                // TODO: dont really know bout this UktUtils ?
-                patientDetail.setUktStatus(UktUtils.retreiveUktStatus(userMapping.getNhsno()));
-
-                patientDetails.add(patientDetail);
-
+        // get a set of patient records for these nhs numbers, including patients added by Radar
+        for (String nhsNumber : nhsNumbersAssociatedWithUser) {
+            for (Patient patient : getByNhsNo(nhsNumber, securityUserManager.getLoggedInSpecialty())) {
+                patientDetails.add(createPatientDetails(patient, unitManager.get(patient.getUnitcode())));
                 AddLog.addLog(LegacySpringUtils.getSecurityUserManager().getLoggedInUsername(),
-                        AddLog.PATIENT_VIEW, "", patient.getNhsno(),
-                        patient.getUnitcode(), "");
+                        AddLog.PATIENT_VIEW, "", patient.getNhsno(), patient.getUnitcode(), "");
             }
         }
 
         return patientDetails;
     }
+
+    private PatientDetails createPatientDetails(Patient patient, Unit unit) {
+        PatientDetails patientDetail = new PatientDetails();
+
+        patientDetail.setPatient(patient);
+
+        patientDetail.setUnit(unit);
+        patientDetail.setEdtaDiagnosis(edtaCodeManager.getEdtaCode(patient.getDiagnosis()));
+        patientDetail.setEdtaTreatment(edtaCodeManager.getEdtaCode(patient.getTreatment()));
+        patientDetail.setOtherDiagnoses(diagnosisManager.getOtherDiagnoses(patient.getNhsno(),
+                patient.getUnitcode()));
+
+        // get the transplant status for the patient
+        patientDetail.setUktStatus(UktUtils.retreiveUktStatus(patient.getNhsno()));
+
+        return patientDetail;
+
+    }
+
+    @Override
+    public List<Patient> getByUsername(String username) {
+        List<UserMapping> userMappings = userManager.getUserMappings(username);
+
+        if (!CollectionUtils.isEmpty(userMappings)) {
+            for (UserMapping userMapping : userMappings) {
+                List<Patient> patients = getByNhsNo(userMapping.getNhsno());
+                if (CollectionUtils.isEmpty(patients)) {
+                    continue;
+                } else {
+                    return patients;
+                }
+            }
+        } else {
+            return null;
+        }
+
+        return null;
+    }
+
+    @Override
+    public Patient getPatient(String username) {
+        List<UserMapping> userMappings = userManager.getUserMappings(username);
+
+
+        for (UserMapping userMapping : userMappings) {
+            String unitcode = userMapping.getUnitcode();
+            //check user's permission
+            if (!securityUserManager.userHasReadAccessToUnit(unitcode)) {
+                continue;
+            }
+            Unit unit = unitManager.get(unitcode);
+            if (!"radargroup".equalsIgnoreCase(unit.getSourceType())) {
+                continue;
+            }
+
+            Patient patient = get(userMapping.getNhsno(), unitcode);
+            if (patient == null) {
+                continue;
+            }
+
+            AddLog.addLog(LegacySpringUtils.getSecurityUserManager().getLoggedInUsername(),
+                    AddLog.PATIENT_VIEW, "", patient.getNhsno(),
+                    patient.getUnitcode(), "");
+            return patient;
+        }
+
+        return null;
+    }
+
+
+    /**
+     * This is to get the date by unit of the test results loaded into the system
+     *
+     *
+     * @param nhsNo
+     * @return
+     */
+    public Map.Entry<String, Date> getLatestTestResultUnit(String nhsNo) {
+
+        Map.Entry<String, Date> maxTestRange = null;
+
+        for (Map.Entry<String, Date> testDateRange : getMostRecentTestResultDateByNhsNo(nhsNo).entrySet()) {
+
+            if (maxTestRange == null) {
+                maxTestRange = testDateRange;
+            } else {
+                // Check which entry is the latest
+                if (maxTestRange.getValue().before(testDateRange.getValue())) {
+                    maxTestRange = testDateRange;
+                }
+            }
+
+        }
+
+        return maxTestRange;
+    }
+
+    private Map<String, Date> getMostRecentTestResultDateByNhsNo(String nhsNo) {
+
+        Map<String, Date> maxDataRangeDate = new HashMap<String, Date>();
+        for (Patient patient : patientDao.getByNhsNo(nhsNo)) {
+
+            if (patient.getMostRecentTestResultDateRangeStopDate() != null) {
+                maxDataRangeDate.put(patient.getUnitcode(), patient.getMostRecentTestResultDateRangeStopDate());
+            }
+
+        }
+        return maxDataRangeDate;
+    }
+
+
+
 }

@@ -24,6 +24,9 @@
 package org.patientview.patientview.logon;
 
 import com.Ostermiller.util.RandPass;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
 import org.patientview.patientview.logging.AddLog;
 import org.patientview.patientview.model.SplashPage;
 import org.patientview.patientview.model.SplashPageUserSeen;
@@ -31,9 +34,6 @@ import org.patientview.patientview.model.User;
 import org.patientview.patientview.splashpage.SplashPageUtils;
 import org.patientview.patientview.user.UserUtils;
 import org.patientview.utils.LegacySpringUtils;
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -42,6 +42,7 @@ import java.util.List;
 public final class LogonUtils {
 
     public static final String USER_ALREADY_EXISTS = "userAlreadyExists";
+    public static final String USER_ALREADY_EXISTS_WITH_EMAIL = "userAlreadyExistsWithEmail";
     public static final String NHSNO_ALREADY_EXISTS = "nhsnoAlreadyExists";
     public static final String PATIENTS_WITH_SAME_NHSNO = "nhsnoAlreadyExists";
     public static final String INVALID_NHSNO = "invalidNhsno";
@@ -176,8 +177,6 @@ public final class LogonUtils {
             displayRole = "Patient";
         } else if ("superadmin".equals(role)) {
             displayRole = "Super Admin";
-        } else if ("radaradmin".equals(role)) {
-            displayRole = "Radar Admin";
         } else {
             displayRole = "Role Unknown";
         }

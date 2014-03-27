@@ -23,9 +23,9 @@
 
 package org.patientview.repository;
 
-import org.patientview.patientview.model.Specialty;
-import org.patientview.patientview.model.UserMapping;
+import org.patientview.model.Specialty;
 import org.patientview.patientview.model.User;
+import org.patientview.patientview.model.UserMapping;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,13 +43,21 @@ public interface UserMappingDao {
 
     void deleteUserMappings(String username, String unitcode, Specialty specialty);
 
+    List<UserMapping> getAll(String username);
+
+    List<UserMapping> getAll(String username, String unitcode);
+
     List<UserMapping> getAll(String username, Specialty specialty);
 
     List<UserMapping> getAllExcludeUnitcode(String username, String unitcode, Specialty specialty);
 
     List<UserMapping> getAll(String username, String unitcode, Specialty specialty);
 
-    List<UserMapping> getAllForNhsNo(String nhsNo, Specialty specialty);
+    List<UserMapping> getAllByNhsNo(String nhsNo);
+
+    List<UserMapping> getAllByNhsNo(String nhsNo, String unitCode);
+
+    List<UserMapping> getAllByNhsNo(String nhsNo, Specialty specialty);
 
     String getUsersRealUnitcodeBestGuess(String username, Specialty specialty);
 

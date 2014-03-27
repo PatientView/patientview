@@ -23,8 +23,8 @@
 
 package org.patientview.repository;
 
-import org.patientview.patientview.model.Specialty;
-import org.patientview.patientview.model.Unit;
+import org.patientview.model.Specialty;
+import org.patientview.model.Unit;
 import org.patientview.patientview.model.User;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,4 +45,6 @@ public interface UserDao {
     List<User> getAll();
 
     List<User> get(User user, Specialty specialty, String userType, Unit unit);
+
+    List<User> getByEmailAddress(String emailAddress);
 }

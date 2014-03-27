@@ -38,7 +38,8 @@ public abstract class Logon {
     // This role attribute has gone a bit wonky now - to the getter and setter.
     // The role is now stored against the Specialty
     private String role;
-    private String name;
+    private String firstName;
+    private String lastName;
     private String email;
     private boolean emailverified;
     private String nhsno;
@@ -48,6 +49,7 @@ public abstract class Logon {
     private Date lastlogon;
     private int failedlogons;
     private boolean accountlocked;
+    private boolean accounthidden;
     private boolean isrecipient;
     private boolean isclinician;
     private Date lastverificationdate;
@@ -58,11 +60,23 @@ public abstract class Logon {
     }
 
     public String getName() {
-        return name;
+        return firstName + " " + lastName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getNhsno() {
@@ -186,6 +200,14 @@ public abstract class Logon {
 
     public void setAccountlocked(boolean accountlocked) {
         this.accountlocked = accountlocked;
+    }
+
+    public boolean isAccounthidden() {
+        return accounthidden;
+    }
+
+    public void setAccounthidden(boolean accounthidden) {
+        this.accounthidden = accounthidden;
     }
 
     public boolean isIsrecipient() {

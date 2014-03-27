@@ -24,6 +24,7 @@
 package org.patientview.patientview.model;
 
 import org.patientview.model.BaseModel;
+import org.patientview.model.Specialty;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -54,6 +55,15 @@ public class ResultHeading extends BaseModel {
 
     @Column(nullable = false)
     private int panelorder;
+
+    @Column(nullable = true)
+    private Double minRangeValue;
+
+    @Column(nullable = true)
+    private Double maxRangeValue;
+
+    @Column(nullable = true)
+    private String units;
 
     public ResultHeading() {
     }
@@ -128,4 +138,16 @@ public class ResultHeading extends BaseModel {
     public void setPanelorder(int panelorder) {
         this.panelorder = panelorder;
     }
+
+    public Double getMinRangeValue() { return minRangeValue; }
+
+    public void setMinRangeValue(Double minRangeValue) { this.minRangeValue = minRangeValue; }
+
+    public Double getMaxRangeValue() { return maxRangeValue; }
+
+    public void setMaxRangeValue(Double maxRangeValue) { this.maxRangeValue = maxRangeValue; }
+
+    public String getUnits() { return units; }
+
+    public void setUnits(String units) { this.units = units; }
 }

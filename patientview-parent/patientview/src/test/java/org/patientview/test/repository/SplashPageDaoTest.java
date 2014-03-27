@@ -23,18 +23,17 @@
 
 package org.patientview.test.repository;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.patientview.model.Specialty;
 import org.patientview.patientview.model.SplashPage;
 import org.patientview.patientview.model.SplashPageUserSeen;
-import org.patientview.patientview.model.Specialty;
 import org.patientview.patientview.model.User;
 import org.patientview.repository.SplashPageDao;
 import org.patientview.repository.SplashPageUserSeenDao;
 import org.patientview.test.helpers.RepositoryHelpers;
-import org.junit.Before;
-import org.junit.Test;
 
 import javax.inject.Inject;
-
 import java.util.ArrayList;
 import java.util.List;
 

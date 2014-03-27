@@ -29,6 +29,7 @@
 <div class="page-header">
     <h1>Forgotten password</h1>
 </div>
+<h3>If you know your username and have a registered email address, you can reset your password yourself now.</h3>
 <logic:notEmpty name="nullUser">
     <div class="alert alert-info">Please enter your user name and email address.</div>
 </logic:notEmpty>
@@ -59,6 +60,11 @@
         <div class="form-actions">
             <input type="submit" value="Submit" class="btn"/>
         </div>
+        <h3>If you have forgotten your username or don't have a working registered email address, you need to
+            contact your local unit's administrator.</h3>
     </fieldset>
+</form>
+<form action="contactMyUnit.do" class="form-horizontal">
+    <input type="submit" value="Contact my unit" class="btn" style="margin-top: -20px;"/>
 </form>
 

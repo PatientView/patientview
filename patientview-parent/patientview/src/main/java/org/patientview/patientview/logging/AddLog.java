@@ -47,6 +47,8 @@ public final class AddLog {
     public static final String PATIENT_ADD = "patient add";
     public static final String PATIENT_DELETE = "patient delete";
     public static final String PATIENT_VIEW = "patient view";
+    public static final String PATIENT_HIDE = "patient hide";
+    public static final String PATIENT_UNHIDE = "patient unhide";
     public static final String ADMIN_ADD = "admin add";
     public static final String UKT_DATA_REPLACE = "ukt data";
     public static final String PATIENT_COUNT = "patient count";

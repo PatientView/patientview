@@ -23,15 +23,15 @@
 
 package org.patientview.patientview.logon;
 
-import org.patientview.patientview.model.Unit;
-import org.patientview.patientview.model.UserMapping;
-import org.patientview.patientview.user.NhsnoUnitcode;
-import org.patientview.utils.LegacySpringUtils;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.patientview.model.Unit;
+import org.patientview.patientview.model.UserMapping;
+import org.patientview.patientview.user.NhsnoUnitcode;
+import org.patientview.utils.LegacySpringUtils;
 import org.springframework.beans.support.PagedListHolder;
 
 import javax.servlet.http.HttpServletRequest;
@@ -59,7 +59,8 @@ public class PatientEditAction extends Action {
                                  HttpServletResponse response) throws Exception {
         String username = BeanUtils.getProperty(form, "username");
         String password = BeanUtils.getProperty(form, "password");
-        String name = BeanUtils.getProperty(form, "name");
+        String firstName = BeanUtils.getProperty(form, "firstName");
+        String lastName = BeanUtils.getProperty(form, "lastName");
         String email = BeanUtils.getProperty(form, "email");
         boolean emailverified = "true".equals(BeanUtils.getProperty(form, "emailverified"));
         String nhsno = BeanUtils.getProperty(form, "nhsno");
@@ -72,6 +73,7 @@ public class PatientEditAction extends Action {
         String failedlogonsstring = BeanUtils.getProperty(form, "failedlogons");
         int failedlogons = Integer.decode(failedlogonsstring);
         boolean accountlocked = "true".equals(BeanUtils.getProperty(form, "accountlocked"));
+        boolean accounthidden = "true".equals(BeanUtils.getProperty(form, "accounthidden"));
         String mappingToFind = "";
 
         List duplicateUsers = findDuplicateUsers(nhsno, username);
@@ -83,9 +85,8 @@ public class PatientEditAction extends Action {
             request.setAttribute("nhsnot", nhsnoThing);
         } else {
 
-            PatientLogon patient =
-                    new PatientLogon(username, password, name, email, emailverified, firstlogon, dummypatient,
-                            lastlogon, failedlogons, accountlocked);
+            PatientLogon patient = new PatientLogon(username, password, firstName, lastName, email, emailverified,
+                    firstlogon, dummypatient, lastlogon, failedlogons, accountlocked);
             LegacySpringUtils.getUserManager().saveUserFromPatient(patient);
 
             List<UserMapping> userMappings = findUsersSiblings(username, unitcode);

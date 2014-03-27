@@ -28,14 +28,13 @@
 
 <html:xhtml/>
 
-<p class="header">Patient</p>
+<div class="span9">
+    <div class="page-header">
+        <h1>Unit User</h1>
+    </div>
 
-
-There is already a unit user registered on RPV with that user name but in another unit.
-
-Please carefully check the details of that user, then you can choose to add the existing user to your unit.
-<br /><br />
-
+<strong> <span style="color: red">WARNING:</span></strong> There is already a unit user registered on PatientView with the same username or email but in another unit.
+<br/>Please carefully check the details of that user, then you can choose to add the existing user to your unit.<br /><br />
 
 <table cellpadding="3" >
     <tr>
@@ -43,7 +42,11 @@ Please carefully check the details of that user, then you can choose to add the 
       <td><bean:write name="usermapping" property="username"/></td>
     </tr>
     <tr>
-      <td><b>NHS Number</b></td>
+        <td><b>User's Current Unit Codes</b></td>
+        <td><bean:write name="currentUnitCodes" /></td>
+    </tr>
+    <tr>
+      <td><b>Unit Code To Add To</b></td>
       <td><bean:write name="usermapping" property="unitcode" /></td>
     </tr>
     <tr>
@@ -53,7 +56,7 @@ Please carefully check the details of that user, then you can choose to add the 
       <html:form action="/control/unitAdminAddToUnit">
         <html:hidden name="usermapping" property="username"/>
         <html:hidden name="usermapping" property="unitcode"/>
-        <td colspan="2"><html:submit value="Add to Unit" styleClass="formbutton" /></td>
+        <td colspan="2"><input type="button" value="Cancel" onclick="history.back()" class="formbutton">&nbsp;&nbsp;<html:submit value="Add to Unit" styleClass="formbutton" /></td>
       </html:form>
     </tr>
  </table>
@@ -61,3 +64,5 @@ Please carefully check the details of that user, then you can choose to add the 
 
 <br />
 
+</div>
+</div>

@@ -20,11 +20,11 @@
  * @copyright Copyright (c) 2004-2013, Worth Solutions Limited
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
+
 package org.patientview.repository.impl.job;
 
 import org.patientview.patientview.model.EmailQueue;
 import org.patientview.patientview.model.EmailQueue_;
-
 import org.patientview.patientview.model.enums.SendEmailEnum;
 import org.patientview.repository.AbstractHibernateDAO;
 import org.patientview.repository.job.EmailQueueDao;

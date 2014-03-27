@@ -23,20 +23,20 @@
 
 package org.patientview.test.repository;
 
-import org.patientview.patientview.model.Specialty;
+import org.junit.Test;
+import org.patientview.model.Specialty;
 import org.patientview.patientview.model.SpecialtyUserRole;
 import org.patientview.patientview.model.User;
 import org.patientview.repository.SpecialtyDao;
 import org.patientview.repository.SpecialtyUserRoleDao;
 import org.patientview.test.helpers.RepositoryHelpers;
-import org.junit.Test;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import javax.inject.Inject;
-
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  *

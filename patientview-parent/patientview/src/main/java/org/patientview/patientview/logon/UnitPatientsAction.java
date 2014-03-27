@@ -23,39 +23,53 @@
 
 package org.patientview.patientview.logon;
 
-import java.util.List;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.patientview.utils.LegacySpringUtils;
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.patientview.patientview.model.Unit;
+import org.patientview.model.Unit;
+import org.patientview.service.PatientManager;
+import org.patientview.service.SecurityUserManager;
+import org.patientview.service.UnitManager;
+import org.springframework.web.struts.ActionSupport;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
-public class UnitPatientsAction extends Action {
+public class UnitPatientsAction extends ActionSupport {
 
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
                                  HttpServletResponse response) throws Exception {
+
+        PatientManager patientManager = getWebApplicationContext().getBean(PatientManager.class);
+        UnitManager unitManager = getWebApplicationContext().getBean(UnitManager.class);
+        SecurityUserManager securityUserManager = getWebApplicationContext().getBean(SecurityUserManager.class);
+
         String unitcode = BeanUtils.getProperty(form, "unitcode");
         unitcode = (unitcode == null) ? "" : unitcode;
         String nhsno = BeanUtils.getProperty(form, "nhsno");
         nhsno = (nhsno == null) ? "" : nhsno;
-        String name = BeanUtils.getProperty(form, "name");
-        name = (name == null) ? "" : name;
+        String firstname = BeanUtils.getProperty(form, "firstname");
+        firstname = (firstname == null) ? "" : firstname;
+        String lastname = BeanUtils.getProperty(form, "lastname");
+        lastname = (lastname == null) ? "" : lastname;
+
         boolean showgps = "true".equals(BeanUtils.getProperty(form, "showgps"));
 
         if (!"".equals(unitcode)) {
-            Unit unit = LegacySpringUtils.getUnitManager().get(unitcode);
+            Unit unit = unitManager.get(unitcode);
             request.setAttribute("unit", unit);
         }
 
-        List patients
-                = LegacySpringUtils.getPatientManager().getUnitPatientsWithTreatment(unitcode, nhsno, name, showgps);
-
-        request.setAttribute("patients", patients);
+        if (securityUserManager.isRolePresent("superadmin")) {
+            List patients = patientManager.getUnitPatientsWithTreatmentIncludeHidden(unitcode, nhsno, firstname,
+                    lastname, showgps);
+            request.setAttribute("patients", patients);
+        } else {
+            List patients = patientManager.getUnitPatientsWithTreatment(unitcode, nhsno, firstname,
+                    lastname, showgps);
+            request.setAttribute("patients", patients);
+        }
 
         return LogonUtils.logonChecks(mapping, request);
     }

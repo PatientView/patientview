@@ -23,20 +23,20 @@
 
 package org.patientview.service.impl;
 
+import org.patientview.model.Specialty;
+import org.patientview.model.Unit;
 import org.patientview.patientview.logon.PatientLogon;
 import org.patientview.patientview.logon.UnitAdmin;
-import org.patientview.patientview.model.Specialty;
-import org.patientview.patientview.model.SpecialtyUserRole;
-import org.patientview.patientview.model.radar.Demographics;
 import org.patientview.patientview.model.PatientUser;
-import org.patientview.patientview.model.Unit;
-import org.patientview.patientview.model.UserMapping;
+import org.patientview.patientview.model.SpecialtyUserRole;
 import org.patientview.patientview.model.User;
+import org.patientview.patientview.model.UserMapping;
+import org.patientview.patientview.model.radar.Demographics;
 import org.patientview.patientview.unit.UnitUtils;
 import org.patientview.patientview.user.UserUtils;
+import org.patientview.repository.PatientUserDao;
 import org.patientview.repository.RadarDao;
 import org.patientview.repository.SpecialtyUserRoleDao;
-import org.patientview.repository.PatientUserDao;
 import org.patientview.repository.UnitDao;
 import org.patientview.repository.UserDao;
 import org.patientview.repository.UserMappingDao;
@@ -47,6 +47,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import java.util.Date;
 import java.util.List;
 
 @Service(value = "userManager")
@@ -162,20 +163,30 @@ public class UserManagerImpl implements UserManager {
         if (isNewUser) {
             // create a user to save based on the unitAdmin
             user = new User();
+            user.setEmailverified(unitAdmin.isEmailverified());
+        } else {
+            if (!user.getEmail().equals(unitAdmin.getEmail())) {
+                user.setEmailverified(false);
+            }
         }
 
         user.setAccountlocked(unitAdmin.isAccountlocked());
         user.setDummypatient(unitAdmin.isDummypatient());
         user.setEmail(unitAdmin.getEmail());
-        user.setEmailverified(unitAdmin.isEmailverified());
         user.setFailedlogons(unitAdmin.getFailedlogons());
         user.setFirstlogon(unitAdmin.isFirstlogon());
         user.setLastlogon(unitAdmin.getLastlogon());
-        user.setName(unitAdmin.getName());
+        user.setFirstName(unitAdmin.getFirstName());
+        user.setLastName(unitAdmin.getLastName());
         user.setPassword(unitAdmin.getPassword());
         user.setUsername(unitAdmin.getUsername());
         user.setIsrecipient(unitAdmin.isIsrecipient());
         user.setIsclinician(unitAdmin.isIsclinician());
+        if (isNewUser) {
+            user.setCreated(new Date());
+        } else {
+            user.setUpdated(new Date());
+        }
 
         save(user);
 
@@ -202,10 +213,12 @@ public class UserManagerImpl implements UserManager {
 
         // check for an existing user
         User user = get(patientLogon.getUsername());
+        boolean isNewUser = false;
 
         if (user == null) {
             // create a user to save based on the unitAdmin
             user = new User();
+            isNewUser = true;
         }
         user.setAccountlocked(patientLogon.isAccountlocked());
         user.setDummypatient(patientLogon.isDummypatient());
@@ -214,9 +227,15 @@ public class UserManagerImpl implements UserManager {
         user.setFailedlogons(patientLogon.getFailedlogons());
         user.setFirstlogon(patientLogon.isFirstlogon());
         user.setLastlogon(patientLogon.getLastlogon());
-        user.setName(patientLogon.getName());
+        user.setFirstName(patientLogon.getFirstName());
+        user.setLastName(patientLogon.getLastName());
         user.setPassword(patientLogon.getPassword());
         user.setUsername(patientLogon.getUsername());
+        if (isNewUser) {
+            user.setCreated(new Date());
+        } else {
+            user.setUpdated(new Date());
+        }
 
         save(user);
 
@@ -301,6 +320,11 @@ public class UserManagerImpl implements UserManager {
     }
 
     @Override
+    public List<User> getByEmailAddress(String emailAddress) {
+        return userDao.getByEmailAddress(emailAddress);
+    }
+
+    @Override
     public void save(UserMapping userMapping) {
 
         if (userMapping.getSpecialty() == null) {
@@ -321,6 +345,11 @@ public class UserManagerImpl implements UserManager {
     }
 
     @Override
+    public List<UserMapping> getUserMappingsIgnoreSpecialty(String username) {
+        return userMappingDao.getAll(username);
+    }
+
+    @Override
     public List<UserMapping> getUserMappingsExcludeUnitcode(String username, String unitcode) {
         return userMappingDao.getAllExcludeUnitcode(username, unitcode, securityUserManager.getLoggedInSpecialty());
     }
@@ -331,8 +360,18 @@ public class UserManagerImpl implements UserManager {
     }
 
     @Override
-    public List<UserMapping> getUserMappingsForNhsNo(String nhsNo) {
-        return userMappingDao.getAllForNhsNo(nhsNo, securityUserManager.getLoggedInSpecialty());
+    public List<UserMapping> getUserMappingsAllSpecialties(String username, String unitcode) {
+        return userMappingDao.getAll(username, unitcode);
+    }
+
+    @Override
+    public List<UserMapping> getUserMappingsByNhsNo(String nhsNo) {
+        return userMappingDao.getAllByNhsNo(nhsNo, securityUserManager.getLoggedInSpecialty());
+    }
+
+    @Override
+    public List<UserMapping> getUserMappingsByNhsNoAllSpecialties(String nhsNo) {
+        return userMappingDao.getAllByNhsNo(nhsNo);
     }
 
     @Override
