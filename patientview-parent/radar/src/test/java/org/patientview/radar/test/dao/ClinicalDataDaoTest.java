@@ -62,7 +62,7 @@ public class ClinicalDataDaoTest extends BaseDaoTest {
         clinicalDataDao.saveClinicalDate(clinicalData);
         assertNotNull(clinicalData.getId());
 
-        // test update
+        // org.patientview.test update
         ClinicalData clinicalData_update = new ClinicalData();
         clinicalData_update.setId(new Long(195));
         clinicalData_update.setRadarNumber(new Long(238));

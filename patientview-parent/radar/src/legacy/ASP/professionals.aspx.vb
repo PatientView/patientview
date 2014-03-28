@@ -116,7 +116,7 @@ Partial Class professionals
             pnlLoggedIn.Visible = False
         End If
 
-        If Request.ServerVariables("SERVER_NAME") = "www.renal-test.org" Then
+        If Request.ServerVariables("SERVER_NAME") = "www.renal-org.patientview.test.org" Then
             pnlDemo.Visible = True
             'txtUid.Enabled = False
             'txtPwd.Enabled = False

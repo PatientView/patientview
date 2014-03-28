@@ -149,7 +149,7 @@ public class PlasmapheresisDaoImpl extends BaseDaoImpl implements Plasmapheresis
                     BaseDaoImpl.getEnumValue(RemissionAchieved.class, resultSet.getInt("RESPONSE_TO_PLASMA")));
 
             // There is a PLASMAPH varchar(20) field but it doesn't appear to be used anywhere
-            // It's set to "8P" in the test data, who knows...
+            // It's set to "8P" in the org.patientview.test data, who knows...
 
             // There is also a  DUR_PLASMAPH int field that doesn't appear to be used
 

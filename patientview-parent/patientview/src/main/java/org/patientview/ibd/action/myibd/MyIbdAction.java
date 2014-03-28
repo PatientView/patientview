@@ -53,7 +53,7 @@ public class MyIbdAction extends BaseAction {
             request.setAttribute(Ibd.MY_IBD_PARAM, myIbd);
         }
 
-        // get the patients latest weight from the test results
+        // get the patients latest weight from the org.patientview.test results
         String weight = getIbdManager().getWeight(user);
 
         if (weight != null) {

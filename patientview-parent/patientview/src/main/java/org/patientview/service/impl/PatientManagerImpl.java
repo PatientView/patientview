@@ -276,7 +276,7 @@ public class PatientManagerImpl implements PatientManager {
 
 
     /**
-     * This is to get the date by unit of the test results loaded into the system
+     * This is to get the date by unit of the org.patientview.test results loaded into the system
      *
      *
      * @param nhsNo

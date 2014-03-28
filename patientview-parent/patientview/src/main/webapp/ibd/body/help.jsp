@@ -90,7 +90,7 @@
     <dd>
         <p>
             My IBD Portal takes information from your hospital's computer system and links it to useful explanations
-            about your condition and its treatment. It shows blood test results, clinic letters (if they are on your
+            about your condition and its treatment. It shows blood org.patientview.test results, clinic letters (if they are on your
             hospital's computer system), and much more. It is updated at least once a day so that it should be up to
             date. Because it shows information from your local hospital's computer system, you should contact your
             hospital NHS Trust if you see (or suspect) errors.

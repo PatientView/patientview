@@ -5,7 +5,7 @@ Partial Class Default3
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
 
-        If Request.ServerVariables("SERVER_NAME") = "www.renal-test.org" Then
+        If Request.ServerVariables("SERVER_NAME") = "www.renal-org.patientview.test.org" Then
             pnlDemo.Visible = True
            
         End If

@@ -88,7 +88,7 @@
                     </li>
                     <li>
                         <p>
-                            To provide the basis for a predictive in vitro test for patients who will suffer 
+                            To provide the basis for a predictive in vitro org.patientview.test for patients who will suffer
                             recurrence of the disease post-transplantation
                         </p>
                     </li>
@@ -153,7 +153,7 @@
                     childhood SRNS. Although there are seven genes described in the patient 
                     information sheets that have so far been identified, it is envisaged that there 
                     will be others that are identified later. The consent has been specifically 
-                    written so that the samples can be utilised at a later date to test for any new 
+                    written so that the samples can be utilised at a later date to org.patientview.test for any new
                     genes.
                 </p>
                 <p>
@@ -168,7 +168,7 @@
                     will have an identifiable gene mutation with the majority of these podocin 
                     mutations. However in SRNS as a whole it is expected that this number may be 
                     less in those above the age of two at onset. However this is an exciting 
-                    opportunity to test a large cohort of patients to tell us more about prevalence 
+                    opportunity to org.patientview.test a large cohort of patients to tell us more about prevalence
                     of these gene abnormalities in the UK population. It also affords the 
                     opportunity to look for heterozygous sequence variants and digenic inheritance 
                     (2 separate genes affected) in greater detail.

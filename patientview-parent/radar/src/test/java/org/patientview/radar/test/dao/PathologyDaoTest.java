@@ -47,12 +47,12 @@ public class PathologyDaoTest extends BaseDaoTest {
 
     @Test
     public void testSavePathology() throws Exception {
-        // test save
+        // org.patientview.test save
         Pathology pathology = new Pathology();
         pathologyDao.savePathology(pathology);
         assertNotNull(pathology.getId());
 
-        // test update
+        // org.patientview.test update
         Pathology pathologyUpdate = new Pathology();
         pathologyUpdate.setId(new Long(1));
         pathologyDao.savePathology(pathologyUpdate);

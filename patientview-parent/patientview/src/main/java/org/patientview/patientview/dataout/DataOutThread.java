@@ -150,7 +150,7 @@ public class DataOutThread implements Runnable {
             for (TestResult testResult : testResults) {
 
                 if (!testCodeTrack.equals(testResult.getTestcode())) {
-                    currentTest = addChildElement(doc, testDetails, "test");
+                    currentTest = addChildElement(doc, testDetails, "org.patientview.test");
                     if (!(null == currentDateRange)) {
                         currentDateRange.setAttribute("stop", currentDateRangeStop);
                     }

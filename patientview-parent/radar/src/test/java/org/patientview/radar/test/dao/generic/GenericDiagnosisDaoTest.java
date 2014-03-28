@@ -65,7 +65,7 @@ public class GenericDiagnosisDaoTest extends BaseDaoTest {
         Assert.assertEquals("Returned generic diagnosis with wrong id", "code6", genericDiagnosises.get(0).getId());
         Assert.assertEquals("Returned generic diagnosis with wrong id", "code5", genericDiagnosises.get(1).getId());
 
-        // test ordering
+        // org.patientview.test ordering
         Assert.assertEquals("Returned generic diagnosis with wrong ordering", new Integer(5),
                 genericDiagnosises.get(0).getOrder());
 

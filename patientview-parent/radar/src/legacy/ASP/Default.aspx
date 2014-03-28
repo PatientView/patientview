@@ -34,7 +34,7 @@
         <asp:Panel runat="server" ID="pnlDemo" Visible="false">
         <div style="background-color:lemonchiffon; border:1px solid black; padding:20px; width:600px; height:70px;">
         <p>The <b>Renal Radar</b> site is now live at <a href="http://www.renalradar.org">www.renalradar.org</a></p>
-        <p>This test site should only be used for development and training puposes.</p>
+        <p>This org.patientview.test site should only be used for development and training puposes.</p>
         </div></asp:Panel>
         <p>The purpose of the registry is to assemble cohorts of patients whose kidney 
             disease is thoroughly investigated and characterised. Patients in the registry 

@@ -1,7 +1,7 @@
 PatientView
 ===========
 
-PatientView allows patients to login and see their details, medicines and test results.
+PatientView allows patients to login and see their details, medicines and org.patientview.test results.
 
 Data is supplied by the patients renal unit.  It is sent to the PatientView server from the hospital units via encrypted XML over sFTP,
  then imported into the database.
@@ -12,7 +12,7 @@ Health care professionals can login to PatientView to administrate patients and 
 Getting Started
 ===============
 
-- Get running locally with the test database (see below)
+- Get running locally with the org.patientview.test database (see below)
 - Login as a patient and a superadmin (see below)
 
 Note:
@@ -57,26 +57,26 @@ Test Users
 Running Tests Against Mysql
 ===========================
 
-Tests run against a separate db and rebuild the schema and data from scratch for each test run.
+Tests run against a separate db and rebuild the schema and data from scratch for each org.patientview.test run.
 
-- Setup your properties file.  It should be located at /src/main/filters/test-filters.properties.
+- Setup your properties file.  It should be located at /src/main/filters/org.patientview.test-filters.properties.
   Copy this manually and complete for your local environment.
 - Set your jdbc.databasename and jdbc.url properties to point to a new empty database
 - Run the tests
 
-`mvn test -Ptest'
+`mvn org.patientview.test -Ptest'
 
 
 Running Tests In Memory
 =======================
 
-Tests run against a H2 in memory db and rebuild the schema using the JPA definitions from scratch for each test run.
+Tests run against a H2 in memory db and rebuild the schema using the JPA definitions from scratch for each org.patientview.test run.
 
-- Setup your properties file.  It should be located at /src/main/filters/localhost-test-filters.properties.
+- Setup your properties file.  It should be located at /src/main/filters/localhost-org.patientview.test-filters.properties.
   Copy this manually and complete for your local environment.
 - Run the tests
 
-`mvn test -Plocalhost-test'
+`mvn org.patientview.test -Plocalhost-org.patientview.test'
 
 
 Outsourced Development Process

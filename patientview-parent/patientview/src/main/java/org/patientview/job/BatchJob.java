@@ -63,8 +63,8 @@ public abstract class BatchJob {
     public void run() {
 
         if (configEnvironment != null && !configEnvironment.equalsIgnoreCase("localhost")
-                && !configEnvironment.equalsIgnoreCase("test")
-                && !configEnvironment.equalsIgnoreCase("localhost-test")) {
+                && !configEnvironment.equalsIgnoreCase("org.patientview.test")
+                && !configEnvironment.equalsIgnoreCase("localhost-org.patientview.test")) {
 
             Map<String, JobParameter> map = new HashMap<String, JobParameter>();
             map.put("key", new JobParameter(new Date()));

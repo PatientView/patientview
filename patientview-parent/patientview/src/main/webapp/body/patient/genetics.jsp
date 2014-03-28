@@ -35,7 +35,7 @@
 <table width="440" border="0" cellspacing="1" cellpadding="3" class="table table-bordered table-striped">
 
 <tr valign="top">
-  <td class="tablecellbold" style="width: 25%">Has a genetic test been done?</td>
+  <td class="tablecellbold" style="width: 25%">Has a genetic org.patientview.test been done?</td>
   <td class="tablecell">
       <logic:present name="genetics" property="testsDone">
         <bean:write name="genetics" property="testsDone.value"/>
@@ -43,11 +43,11 @@
   </td>
 </tr>
 <tr valign="top">
-  <td class="tablecellbold" style="width: 25%">Lab where the test was done:</td>
+  <td class="tablecellbold" style="width: 25%">Lab where the org.patientview.test was done:</td>
   <td class="tablecell"><bean:write name="genetics" property="labWhereTestWasDone"/></td>
 </tr>
 <tr valign="top">
-  <td class="tablecellbold" style="width: 25%">Who was the test done on: </td>
+  <td class="tablecellbold" style="width: 25%">Who was the org.patientview.test done on: </td>
   <td class="tablecell"><bean:write name="genetics" property="testDoneOn"/></td>
 </tr>
 <tr valign="top">

@@ -87,11 +87,11 @@
         <p>
             If you want to see your results on PatientView then click here to enter your details:
 
-        <div class="control-group">
-            <div class="controls">
-                <a href="/join.do" class="btn btn-success">I want to join</a>
+            <div class="control-group">
+                <div class="controls">
+                    <a href="/join.do" class="btn btn-success">I want to join</a>
+                </div>
             </div>
-        </div>
         </p>
     </div>
     <div class="span4 seperatingBorders">

@@ -36,6 +36,7 @@
         <module>patientview</module>
         <module>radar</module>
         <module>monitoring</module>
+        <module>integration-tests</module>
     </modules>
 
     <!-- place for common configuration and dependencies -->

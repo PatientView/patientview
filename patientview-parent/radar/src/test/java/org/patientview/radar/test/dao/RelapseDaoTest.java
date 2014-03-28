@@ -70,7 +70,7 @@ public class RelapseDaoTest extends BaseDaoTest {
 
     @Test
     public void getLabData() {
-        // We have a lab data with ID 16 in the test dataset
+        // We have a lab data with ID 16 in the org.patientview.test dataset
         testDataHelper.createRelapse();
         Relapse relapse = relapseDao.getRelapse(4L);
         assertNotNull("Relapse object was null", relapse);

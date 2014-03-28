@@ -243,14 +243,14 @@ public class ImportManagerImpl implements ImportManager {
 
     /**
      *
-     *  If we have test results that are later than any seen before,
+     *  If we have org.patientview.test results that are later than any seen before,
      *  update the patient mostRecentTestResultDateRangeStopDate.
      *
      *  Only update the mostRecentTestResultDateRangeStopDate if the new values is after the
      *  existing value on the existing patient record
      *
      * @param patient new patient details
-     * @param dateRanges the date ranges for test results found in this import
+     * @param dateRanges the date ranges for org.patientview.test results found in this import
      */
     private void updatePatientDetails(Patient patient, List<TestResultDateRange> dateRanges) throws ProcessException {
 

@@ -97,7 +97,7 @@ public class TestDataHelper {
             createClinPres(4l, "Proteinuria");
             createClinPres(99l, "other");
         } catch (Exception e) {
-            LOGGER.debug("error create test data to tbl_Clin_Pres table : " + e.getMessage());
+            LOGGER.debug("error create org.patientview.test data to tbl_Clin_Pres table : " + e.getMessage());
         }
     }
 
@@ -125,7 +125,7 @@ public class TestDataHelper {
             clinicalData.setRadarNumber(245l);
             saveClinicalData(clinicalData);
         } catch (Exception e) {
-            LOGGER.debug("error create test data to tbl_clinicalData table : " + e.getMessage());
+            LOGGER.debug("error create org.patientview.test data to tbl_clinicalData table : " + e.getMessage());
         }
     }
 
@@ -195,7 +195,7 @@ public class TestDataHelper {
             consultant.setId(121l);
             saveConsultant(consultant);
         } catch (Exception e) {
-            LOGGER.debug("error create test data to tbl_Consultants table : " + e.getMessage());
+            LOGGER.debug("error create org.patientview.test data to tbl_Consultants table : " + e.getMessage());
         }
     }
 
@@ -223,7 +223,7 @@ public class TestDataHelper {
             country.setId(2l);
             saveCountry(country);
         } catch (Exception e) {
-            LOGGER.debug("error create test data to tbl_Country table : " + e.getMessage());
+            LOGGER.debug("error create org.patientview.test data to tbl_Country table : " + e.getMessage());
         }
     }
 
@@ -251,7 +251,7 @@ public class TestDataHelper {
             saveUnit(4, "RWM51", "Cardiff,  Children's Hospital for Wales", "Cardiff", "renalunit");
             saveUnit(5, "5", "group5", "group5", "renalunit");
         } catch (Exception e) {
-            LOGGER.debug("error create test data to unit table : " + e.getMessage());
+            LOGGER.debug("error create org.patientview.test data to unit table : " + e.getMessage());
         }
     }
 
@@ -272,7 +272,7 @@ public class TestDataHelper {
             saveDiagCode(1, "Steroid Resistant Nephrotic Syndrome ", "SRNS");
             saveDiagCode(2, "Mesangiocappillary Glomerulonephritis ", "MPGN/DDD");
         } catch (Exception e) {
-            LOGGER.debug("error create test data to tbl_DiagCode table : " + e.getMessage());
+            LOGGER.debug("error create org.patientview.test data to tbl_DiagCode table : " + e.getMessage());
         }
     }
 
@@ -306,8 +306,8 @@ public class TestDataHelper {
             hospitalisation.setId(2l);
             hospitalisation.setRadarNumber(246l);
             hospitalisation.setDateOfAdmission(sdf.parse("2010-01-12 00:00:00"));
-            hospitalisation.setReason("test");
-            hospitalisation.setComments("test");
+            hospitalisation.setReason("org.patientview.test");
+            hospitalisation.setComments("org.patientview.test");
             saveHospitalisation(hospitalisation);
 
             hospitalisation = new Hospitalisation();
@@ -320,7 +320,7 @@ public class TestDataHelper {
                     "love - result broken heart Treatment conservative & distraction");
             saveHospitalisation(hospitalisation);
         } catch (Exception e) {
-            LOGGER.debug("error create test data to tbl_Hospitalisation table : " + e.getMessage());
+            LOGGER.debug("error create org.patientview.test data to tbl_Hospitalisation table : " + e.getMessage());
         }
 
 
@@ -383,7 +383,7 @@ public class TestDataHelper {
             savePrdCode("code5", "code5");
             savePrdCode("code6", "code6");
         } catch (Exception e) {
-            LOGGER.debug("error create test data to rdr_prd_code table : " + e.getMessage());
+            LOGGER.debug("error create org.patientview.test data to rdr_prd_code table : " + e.getMessage());
         }
     }
 
@@ -408,7 +408,7 @@ public class TestDataHelper {
             saveDiagnosisMapping("1", "code5", 6);
             saveDiagnosisMapping("1", "code6", 5);
         } catch (Exception e) {
-            LOGGER.debug("error create test data to rdr_diagnosis_mapping table : " + e.getMessage());
+            LOGGER.debug("error create org.patientview.test data to rdr_diagnosis_mapping table : " + e.getMessage());
         }
     }
 
@@ -444,8 +444,8 @@ public class TestDataHelper {
             relapse.setRadarNumber(237l);
             relapse.setDateOfRelapse(sdf.parse("2009-10-20 00:00:00"));
             relapse.setTransplantedNative(KidneyTransplantedNative.TRANSPLANTED);
-            relapse.setViralTrigger("test");
-            relapse.setImmunisationTrigger("test");
+            relapse.setViralTrigger("org.patientview.test");
+            relapse.setImmunisationTrigger("org.patientview.test");
             relapse.setDrug1("test1");
             relapse.setDrug2("test2");
             relapse.setDrug3("test3");
@@ -458,8 +458,8 @@ public class TestDataHelper {
             relapse.setRadarNumber(237l);
             relapse.setDateOfRelapse(sdf.parse("2009-11-11 00:00:00"));
             relapse.setTransplantedNative(KidneyTransplantedNative.TRANSPLANTED);
-            relapse.setViralTrigger("test");
-            relapse.setDrug1("test");
+            relapse.setViralTrigger("org.patientview.test");
+            relapse.setDrug1("org.patientview.test");
             relapse.setRemissionAchieved(RemissionAchieved.COMPLETE);
             relapse.setDateOfRemission(sdf.parse("2009-10-30 00:00:00"));
             saveRelapse(relapse);
@@ -469,9 +469,9 @@ public class TestDataHelper {
             relapse.setRadarNumber(237l);
             relapse.setDateOfRelapse(sdf.parse("2009-06-09 00:00:00"));
             relapse.setTransplantedNative(KidneyTransplantedNative.NATIVE);
-            relapse.setViralTrigger("test");
-            relapse.setImmunisationTrigger("test");
-            relapse.setOtherTrigger("test");
+            relapse.setViralTrigger("org.patientview.test");
+            relapse.setImmunisationTrigger("org.patientview.test");
+            relapse.setOtherTrigger("org.patientview.test");
             relapse.setDrug1("test1");
             relapse.setDrug2("test2");
             relapse.setDrug3("test3");
@@ -479,7 +479,7 @@ public class TestDataHelper {
             relapse.setDateOfRemission(sdf.parse("2009-06-10 00:00:00"));
             saveRelapse(relapse);
         } catch (Exception e) {
-            LOGGER.debug("error create test data to tbl_Relapse table : " + e.getMessage());
+            LOGGER.debug("error create org.patientview.test data to tbl_Relapse table : " + e.getMessage());
         }
 
     }
@@ -554,7 +554,7 @@ public class TestDataHelper {
             plasmapheresis.setResponse(RemissionAchieved.PARTIAL);
             savePlasmapheresis(plasmapheresis);
         } catch (Exception e) {
-            LOGGER.debug("error create test data to tbl_RRT_PLASMA table : " + e.getMessage());
+            LOGGER.debug("error create org.patientview.test data to tbl_RRT_PLASMA table : " + e.getMessage());
         }
     }
 
@@ -603,7 +603,7 @@ public class TestDataHelper {
             issueDao.saveIssue(issue);
 
         } catch (Exception e) {
-            LOGGER.debug("error create test data to tbl_IssueTracker table : " + e.getMessage());
+            LOGGER.debug("error create org.patientview.test data to tbl_IssueTracker table : " + e.getMessage());
         }
     }
 
@@ -717,7 +717,7 @@ public class TestDataHelper {
             saveTransplant(2l, 219l, sdf.parse("2009-09-21 00:00:00"));
             saveTransplant(4l, 219l, null);
         } catch (Exception e) {
-            LOGGER.debug("error create test data to tbl_Transplant table : " + e.getMessage());
+            LOGGER.debug("error create org.patientview.test data to tbl_Transplant table : " + e.getMessage());
         }
 
     }
@@ -843,7 +843,7 @@ public class TestDataHelper {
     }
 
     public void createSpecialty() {
-        saveSpecialty(1, "testcontext", "testcontext", "test");
+        saveSpecialty(1, "testcontext", "testcontext", "org.patientview.test");
     }
 
     public void saveSex(final long id, final String type) {

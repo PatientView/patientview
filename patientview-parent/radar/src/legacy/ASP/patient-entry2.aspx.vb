@@ -27,7 +27,7 @@ Partial Class patient_entry2
                 'txtTest.Text = Session("unitID")
                 'Dim txtTest As TextBox = FindControl("ctl00").FindControl("ContentPlaceHolder1").FindControl("FormView1").FindControl("SNAMETextBox")
                 'Dim txtTest As TextBox = FindControl("ctl00_ContentPlaceHolder1_FormView1_SNAMETextBox")
-                'txtTest.Text = "test"
+                'txtTest.Text = "org.patientview.test"
 
                 Dim txtRadarNo As TextBox = FormView1.FindControl("RADAR_NOTextBox")
                 txtRadarNo.Text = "Auto Allocated"

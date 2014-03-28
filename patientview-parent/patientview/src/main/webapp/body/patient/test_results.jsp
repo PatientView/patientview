@@ -39,7 +39,7 @@
 </div>
 
 <logic:notEmpty name="resultsHeadings">
-<h3>Select test result to graph</h3>
+<h3>Select org.patientview.test result to graph</h3>
 <div class="btn-toolbar">
     <div class="btn-group">
         <button class="btn btn-danger dropdown-toggle" data-toggle="dropdown"><span id="heading1"><bean:write name="resultTypeHeading" property="heading"/></span><span id="d1" class="caret"></span></button>
@@ -73,7 +73,7 @@
 </div>
 </logic:notEmpty>
 <logic:empty name="resultsHeadings">
-    <div class="alert alert-error" id="errorMsg">No test results available.</div>
+    <div class="alert alert-error" id="errorMsg">No org.patientview.test results available.</div>
 </logic:empty>
 
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>

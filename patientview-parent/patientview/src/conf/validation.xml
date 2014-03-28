@@ -51,7 +51,7 @@
                     <var-value>6</var-value>
                 </var>
                 <var>
-                    <var-name>test</var-name>
+                    <var-name>org.patientview.test</var-name>
                     <var-value>(*this* != oldpassword)</var-value>
                 </var>
             </field>
@@ -59,7 +59,7 @@
                 <msg key="newpasswordagain.required" name="required"/>
                 <msg key="newpasswordagain.match" name="validwhen"/>
                 <var>
-                    <var-name>test</var-name>
+                    <var-name>org.patientview.test</var-name>
                     <var-value>(*this* == passwordPwd)</var-value>
                 </var>
             </field>
@@ -83,7 +83,7 @@
                 <msg key="newpasswordagain.required" name="required"/>
                 <msg key="newpasswordagain.match" name="validwhen"/>
                 <var>
-                    <var-name>test</var-name>
+                    <var-name>org.patientview.test</var-name>
                     <var-value>(*this* == passwordPwd)</var-value>
                 </var>
             </field>
@@ -104,7 +104,7 @@
                     <var-value>6</var-value>
                 </var>
                 <var>
-                    <var-name>test</var-name>
+                    <var-name>org.patientview.test</var-name>
                     <var-value>(*this* != oldpassword)</var-value>
                 </var>
             </field>
@@ -112,7 +112,7 @@
                 <msg key="newpasswordagain.required" name="required"/>
                 <msg key="newpasswordagain.match" name="validwhen"/>
                 <var>
-                    <var-name>test</var-name>
+                    <var-name>org.patientview.test</var-name>
                     <var-value>(*this* == passwordPwd)</var-value>
                 </var>
             </field>
@@ -136,7 +136,7 @@
                 <msg key="newpasswordagain.required" name="required"/>
                 <msg key="newpasswordagain.match" name="validwhen"/>
                 <var>
-                    <var-name>test</var-name>
+                    <var-name>org.patientview.test</var-name>
                     <var-value>(*this* == passwordPwd)</var-value>
                 </var>
             </field>
@@ -152,7 +152,7 @@
                 <msg key="email.valid" name="email"/>
                 <msg key="emailAddressAgain.match" name="validwhen"/>
                 <var>
-                    <var-name>test</var-name>
+                    <var-name>org.patientview.test</var-name>
                     <var-value>(*this* == emailAddress)</var-value>
                 </var>
             </field>
@@ -168,7 +168,7 @@
                 <msg key="email.valid" name="email"/>
                 <msg key="emailAddressAgain.match" name="validwhen"/>
                 <var>
-                    <var-name>test</var-name>
+                    <var-name>org.patientview.test</var-name>
                     <var-value>(*this* == emailAddress)</var-value>
                 </var>
             </field>
@@ -338,7 +338,7 @@
             <field property="unitcode" depends="validwhen">
                 <msg key="unitcode.required" name="validwhen"/>
                 <var>
-                    <var-name>test</var-name>
+                    <var-name>org.patientview.test</var-name>
                     <var-value>((role == "superadmin") or (*this* != null))</var-value>
                 </var>
             </field>
