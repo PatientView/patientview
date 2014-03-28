@@ -12,8 +12,8 @@ import java.util.List;
 public interface UserMappingManager {
 
 
-    public void createPatientMapping(User user, Patient patient);
+    void createPatientMapping(User user, Patient patient);
 
-    public List<UserMapping> getAllByNhsNo(String nhsNo);
+    List<UserMapping> getAllByNhsNo(String nhsNo);
 
 }

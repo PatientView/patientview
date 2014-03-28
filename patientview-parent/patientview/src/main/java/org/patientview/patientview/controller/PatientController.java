@@ -88,7 +88,8 @@ public class PatientController {
             patientInput.setUsername("");
             requestBody.setAttribute("patient", patientInput);
             return "/control/patient_add_input.jsp";
-        };
+        }
+
 
         // Produce required object for a User account on Patient View
         Patient patient = FormUtils.createPatient(patientInput);
@@ -118,7 +119,7 @@ public class PatientController {
 
     private boolean isUsernameAvailable(PatientInput patientInput) {
         // get User object, used to check if user already exists
-        return userManager.get(patientInput.getUsername()) == null? true : false;
+        return userManager.get(patientInput.getUsername()) == null ? true : false;
 
     }
 

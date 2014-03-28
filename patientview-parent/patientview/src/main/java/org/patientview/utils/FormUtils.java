@@ -11,6 +11,12 @@ import org.patientview.patientview.model.User;
  */
 public class FormUtils {
 
+
+    private FormUtils() {
+
+
+    }
+
     /**
      * Helper to create a patient object for a patient input object
      *
