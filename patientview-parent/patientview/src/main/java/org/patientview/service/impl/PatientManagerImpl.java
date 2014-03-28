@@ -24,6 +24,7 @@
 package org.patientview.service.impl;
 
 import org.patientview.model.Patient;
+import org.patientview.model.Specialty;
 import org.patientview.model.Unit;
 import org.patientview.patientview.PatientDetails;
 import org.patientview.patientview.logging.AddLog;
@@ -124,6 +125,10 @@ public class PatientManagerImpl implements PatientManager {
         return patientDao.getByNhsNo(nhsNo);
     }
 
+    @Override
+    public List<Patient> getByNhsNo(String nhsNo, Specialty specialty) {
+        return patientDao.getByNhsNo(nhsNo, specialty);
+    }
 
     public Patient getRadarPatient(String nhsNo) {
         return patientDao.getRadarPatient(nhsNo);
@@ -195,11 +200,10 @@ public class PatientManagerImpl implements PatientManager {
 
         // get a set of patient records for these nhs numbers, including patients added by Radar
         for (String nhsNumber : nhsNumbersAssociatedWithUser) {
-            for (Patient patient : getByNhsNo(nhsNumber)) {
+            for (Patient patient : getByNhsNo(nhsNumber, securityUserManager.getLoggedInSpecialty())) {
                 patientDetails.add(createPatientDetails(patient, unitManager.get(patient.getUnitcode())));
                 AddLog.addLog(LegacySpringUtils.getSecurityUserManager().getLoggedInUsername(),
-                        AddLog.PATIENT_VIEW, "", patient.getNhsno(),
-                        patient.getUnitcode(), "");
+                        AddLog.PATIENT_VIEW, "", patient.getNhsno(), patient.getUnitcode(), "");
             }
         }
 
