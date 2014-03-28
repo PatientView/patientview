@@ -9,7 +9,7 @@ import org.patientview.patientview.model.User;
 /**
  * Created by eatek on 26/03/2014.
  */
-public class FormUtils {
+public final class FormUtils {
 
 
     private FormUtils() {
