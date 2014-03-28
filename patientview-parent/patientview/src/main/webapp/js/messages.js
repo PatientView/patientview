@@ -44,10 +44,9 @@ messages.init = function() {
         }
     });
 
-    $("#search").keydown(function(e) {
-        if (e.keyCode == 13) {
-            messages.getRecipientsByUnit($('.js-message-form'));
-        }
+    $(".js-filter-button").click(function(e) {
+        e.preventDefault();
+        messages.getRecipientsByUnit($('.js-message-form'));
     });
 
     // set up the modal view
@@ -79,12 +78,20 @@ messages.getRecipientsByUnit = function(form) {
         recipientContainer = $form.find('.js-recipient-container'),
         recipientIdEl = $form.find('.js-message-recipient-id'),
         loadingEl = $form.find('.js-message-unit-loading'),
-        errorsEl = $form.find('.js-message-unit-recipient-errors');
+        errorsEl = $form.find('.js-message-unit-recipient-errors'),
+        filteredEl = $form.find('.js-message-filtered'),
         searchNameEl = $("#search");
 
     errorsEl.html('').hide();
     recipientContainer.hide();
     recipientIdEl.html('');
+
+    if(messages.validateString(searchNameEl.val())) {
+        filteredEl.html('Filtered by (' + searchNameEl.val() + ')');
+        filteredEl.show();
+    } else {
+        filteredEl.hide();
+    }
 
     if (messages.validateString(unitCodeEl.val())) {
         loadingEl.show();
