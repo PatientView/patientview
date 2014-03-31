@@ -83,7 +83,7 @@ public class MedicalResultsPanel extends Panel {
 
         MedicalResult medicalResult = null;
 
-        if (patient.hasValidId()) {
+        if (patient.hasValidId() && patient.getDiseaseGroup() != null) {
             medicalResult = medicalResultManager.getMedicalResult(patient.getRadarNo(),
                     patient.getDiseaseGroup().getId());
         }

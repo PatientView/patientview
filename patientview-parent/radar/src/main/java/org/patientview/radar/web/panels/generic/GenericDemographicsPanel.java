@@ -53,7 +53,7 @@ import org.patientview.model.Ethnicity;
 import org.patientview.model.Patient;
 import org.patientview.model.Sex;
 import org.patientview.radar.exception.RegisterException;
-import org.patientview.radar.model.user.ProfessionalUser;
+import org.patientview.radar.model.user.User;
 import org.patientview.radar.service.PatientManager;
 import org.patientview.radar.service.UnitManager;
 import org.patientview.radar.service.UserManager;
@@ -116,7 +116,7 @@ public class GenericDemographicsPanel extends Panel {
 
         List<Component> nonEditableComponents = new ArrayList<Component>();
 
-        final ProfessionalUser user = (ProfessionalUser) RadarSecuredSession.get().getUser();
+        final User user = RadarSecuredSession.get().getUser();
 
         if (patient.getDateReg() == null) {
             patient.setDateReg(new Date());

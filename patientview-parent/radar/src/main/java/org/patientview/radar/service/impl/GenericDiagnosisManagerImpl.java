@@ -39,7 +39,11 @@ public class GenericDiagnosisManagerImpl implements GenericDiagnosisManager {
     }
 
     public List<GenericDiagnosis> getByDiseaseGroup(DiseaseGroup diseaseGroup) {
+        if (diseaseGroup != null) {
             return genericDiagnosisDao.getByDiseaseGroup(diseaseGroup);
+        } else {
+            return genericDiagnosisDao.getAll();
+        }
     }
 
     public GenericDiagnosis get(String prdCode, String workingGroup) {

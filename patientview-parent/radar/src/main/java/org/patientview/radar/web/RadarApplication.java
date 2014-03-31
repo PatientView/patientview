@@ -70,7 +70,6 @@ import org.patientview.radar.web.pages.login.ProfessionalsLoginPage;
 import org.patientview.radar.web.pages.patient.AddPatientPage;
 import org.patientview.radar.web.pages.patient.ExistingPatientsListingPage;
 import org.patientview.radar.web.pages.patient.GenericPatientPage;
-import org.patientview.radar.web.pages.patient.srns.SrnsPatientPage;
 import org.patientview.radar.web.pages.patient.srns.SrnsPatientPageReadOnly;
 import org.patientview.radar.web.pages.regisration.ChangeRegistrationDetails;
 import org.patientview.radar.web.pages.regisration.ProfessionalRegistrationPage;
@@ -183,8 +182,6 @@ public class RadarApplication extends AuthenticatedWebApplication {
         mountPage(ADMINS_BASE_URL + "/users/edit", AdminUserPage.class);
 
         // patient pages
-        mountPage("patient/edit", SrnsPatientPage.class);
-        mountPage("patient/view", SrnsPatientPageReadOnly.class);
         mountPage("patients", ExistingPatientsListingPage.class);
         mountPage("patient/new", AddPatientPage.class);
         mountPage("patient/edit/generic", GenericPatientPage.class);

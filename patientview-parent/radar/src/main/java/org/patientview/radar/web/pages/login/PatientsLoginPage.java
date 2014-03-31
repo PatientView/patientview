@@ -34,13 +34,19 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.patientview.model.Patient;
+import org.patientview.model.generic.DiseaseGroup;
 import org.patientview.radar.model.user.PatientUser;
+import org.patientview.radar.service.PatientManager;
 import org.patientview.radar.service.UserManager;
 import org.patientview.radar.util.RadarUtility;
 import org.patientview.radar.web.RadarSecuredSession;
 import org.patientview.radar.web.components.RadarRequiredPasswordTextField;
 import org.patientview.radar.web.components.RadarRequiredTextField;
 import org.patientview.radar.web.pages.BasePage;
+import org.patientview.radar.web.pages.patient.GenericPatientPageReadOnly;
+import org.patientview.radar.web.pages.patient.alport.AlportPatientPageReadOnly;
+import org.patientview.radar.web.pages.patient.hnf1b.HNF1BPatientPageReadOnly;
 import org.patientview.radar.web.pages.patient.srns.SrnsPatientPageReadOnly;
 
 import java.util.ArrayList;
@@ -51,6 +57,8 @@ public class PatientsLoginPage extends BasePage {
     public static final String LOGIN_FAILED_MESSAGE = "Login failed";
     @SpringBean
     private UserManager userManager;
+    @SpringBean
+    private PatientManager patientManager;
 
     public PatientsLoginPage() {
         // Patients log in form
@@ -73,9 +81,24 @@ public class PatientsLoginPage extends BasePage {
                         session.setUser(patientUser);
                         // If we haven't been diverted here from a page request (i.e. we clicked login),
                         // redirect to logged in page
-                        setResponsePage(SrnsPatientPageReadOnly.class, SrnsPatientPageReadOnly.getParameters(
-                                patientUser.getRadarNumber()));
 
+                        Patient patient = patientManager.getPatientByRadarNumber(patientUser.getRadarNumber());
+
+                        if (patient.getDiseaseGroup() != null && (patient.getDiseaseGroup().getId().equals(
+                                DiseaseGroup.SRNS_DISEASE_GROUP_ID) || patient.getDiseaseGroup().getId().
+                                equals(DiseaseGroup.MPGN_DISEASEGROUP_ID))) {
+                            setResponsePage(SrnsPatientPageReadOnly.class, SrnsPatientPageReadOnly.getParameters(
+                                patientUser.getRadarNumber()));
+                        } else if (patient.getDiseaseGroup() != null && patient.getDiseaseGroup().getId().equals(
+                                DiseaseGroup.ALPORT_DISEASEGROUP_ID)) {setResponsePage(AlportPatientPageReadOnly.class
+                                , AlportPatientPageReadOnly.getPageParameters(patient));
+                        } else if (patient.getDiseaseGroup() != null && patient.getDiseaseGroup().getId().equals(
+                                DiseaseGroup.HNF1B_DISEASEGROUP_ID)) {setResponsePage(HNF1BPatientPageReadOnly.class
+                                , HNF1BPatientPageReadOnly.getPageParameters(patient));
+                        } else {
+                            setResponsePage(GenericPatientPageReadOnly.class
+                                , GenericPatientPageReadOnly.getPageParameters(patient));
+                        }
                     } else {
                         loginFailed = true;
                     }
