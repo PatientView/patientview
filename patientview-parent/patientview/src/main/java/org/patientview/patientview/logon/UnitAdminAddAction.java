@@ -45,13 +45,18 @@ import java.util.List;
 
 public class UnitAdminAddAction extends ActionSupport {
 
+    private UserManager userManager;
+    private PatientManager patientManager;
+    private SecurityUserManager securityUserManager;
+    private UnitManager unitManager;
+
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
                                  HttpServletResponse response) throws Exception {
 
-        UserManager userManager = getWebApplicationContext().getBean(UserManager.class);
-        PatientManager patientManager = getWebApplicationContext().getBean(PatientManager.class);
-        SecurityUserManager securityUserManager = getWebApplicationContext().getBean(SecurityUserManager.class);
-        UnitManager unitManager = getWebApplicationContext().getBean(UnitManager.class);
+        userManager = getWebApplicationContext().getBean(UserManager.class);
+        patientManager = getWebApplicationContext().getBean(PatientManager.class);
+        securityUserManager = getWebApplicationContext().getBean(SecurityUserManager.class);
+        unitManager = getWebApplicationContext().getBean(UnitManager.class);
 
         // get properties from form elements
         String username = BeanUtils.getProperty(form, "username");
@@ -82,11 +87,7 @@ public class UnitAdminAddAction extends ActionSupport {
             // check if user exists has mapping in currently specialty
             if (!usermappingsThisSpecialty.isEmpty()) {
                 // user has mappings in this specialty
-                List<UserMapping> userMappingsThisUnit = userManager.getUserMappings(username, unitcode);
-                UserMapping userMappingThisUnit = null;
-                if (!CollectionUtils.isEmpty(userMappingsThisUnit)) {
-                    userMappingThisUnit = userMappingsThisUnit.get(0);
-                }
+                UserMapping userMappingThisUnit = getUserMappingThisUnit(username, unitcode);
 
                 // check if user has mapping for current unit
                 if (userMappingThisUnit != null) {
@@ -122,11 +123,7 @@ public class UnitAdminAddAction extends ActionSupport {
                 // check if found user (by email) has mapping in currently specialty
                 if (!usermappingsThisSpecialty.isEmpty()) {
                     // found user (by email) has mappings in this specialty
-                    List<UserMapping> userMappingsThisUnit = userManager.getUserMappings(existingUsername, unitcode);
-                    UserMapping userMappingThisUnit = null;
-                    if (!CollectionUtils.isEmpty(userMappingsThisUnit)) {
-                        userMappingThisUnit = userMappingsThisUnit.get(0);
-                    }
+                    UserMapping userMappingThisUnit = getUserMappingThisUnit(existingUsername, unitcode);
 
                     // check if user has mapping for current unit
                     if (userMappingThisUnit != null) {
@@ -195,6 +192,21 @@ public class UnitAdminAddAction extends ActionSupport {
             request.setAttribute("adminuser", unitAdmin);
             return mapping.findForward("success");
         }
+    }
+
+    /**
+     * Gets a single UserMapping based on a user's username and a unitcode
+     * @param username The user's username
+     * @param unitcode The unitcode of the Unit to search for
+     * @return UserMapping if exists, otherwise null
+     */
+    private UserMapping getUserMappingThisUnit(String username, String unitcode) {
+        List<UserMapping> userMappingsThisUnit = userManager.getUserMappings(username, unitcode);
+        UserMapping userMappingThisUnit = null;
+        if (!CollectionUtils.isEmpty(userMappingsThisUnit)) {
+            userMappingThisUnit = userMappingsThisUnit.get(0);
+        }
+        return userMappingThisUnit;
     }
 
     /**
