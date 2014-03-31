@@ -207,7 +207,10 @@ public class UnitAdminAddAction extends ActionSupport {
         StringBuilder unitCodes = new StringBuilder();
         for (UserMapping userMap : userMappings) {
             if (userMap.getUnitcode().length() > 0) {
-                unitCodes.append(userMap.getUnitcode() + " (" + userMap.getSpecialty().getName() + "), ");
+                unitCodes.append(userMap.getUnitcode());
+                unitCodes.append(" (");
+                unitCodes.append(userMap.getSpecialty().getName());
+                unitCodes.append("), ");
             }
         }
 
