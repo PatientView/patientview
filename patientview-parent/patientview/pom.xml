@@ -349,6 +349,13 @@
             <version>1.2-SNAPSHOT</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>1.9.5</version>
+        </dependency>
+
+
         <!-- POI - USED FOR EXCEL API -->
         <dependency>
             <groupId>org.apache.poi</groupId>
