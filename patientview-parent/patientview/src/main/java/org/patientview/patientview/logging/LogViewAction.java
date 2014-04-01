@@ -23,6 +23,7 @@
 
 package org.patientview.patientview.logging;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.patientview.actionutils.ActionUtils;
 import org.patientview.patientview.logon.LogonUtils;
@@ -48,13 +49,14 @@ public class LogViewAction extends Action {
                                  HttpServletResponse response) throws Exception {
         Calendar startdate = determineStartDate(form, request);
         Calendar enddate = determineEndDate(form, request);
-        String nhsno = ActionUtils.retrieveStringPropertyValue("nhsno", form, request);
+
+        String nhsno = BeanUtils.getProperty(form, "nhsno");
         nhsno = CommonUtils.cleanNhsNumber(nhsno);
-        String user = ActionUtils.retrieveStringPropertyValue("user", form, request);
-        String actor = ActionUtils.retrieveStringPropertyValue("actor", form, request);
-        String action = ActionUtils.retrieveStringPropertyValue("action", form, request);
-        String unitcode = ActionUtils.retrieveStringPropertyValue("unitcode", form, request);
-        String order = ActionUtils.retrieveStringPropertyValue("order", form, request);
+        String user = BeanUtils.getProperty(form, "user");
+        String actor = BeanUtils.getProperty(form, "actor");
+        String action = BeanUtils.getProperty(form, "action");
+        String unitcode = BeanUtils.getProperty(form, "unitcode");
+        String order = BeanUtils.getProperty(form, "order");
         Boolean orderByAsc = null;
 
         // get order mark, false: order by date desc, true : order by date asc
