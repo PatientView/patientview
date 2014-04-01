@@ -25,7 +25,6 @@ package org.patientview.patientview.logging;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.patientview.actionutils.ActionUtils;
 import org.patientview.patientview.logon.LogonUtils;
 import org.patientview.patientview.unit.UnitUtils;
 import org.patientview.patientview.utils.TimestampUtils;
@@ -91,7 +90,7 @@ public class LogViewAction extends Action {
 
     private Calendar determineStartDate(ActionForm form, HttpServletRequest request)
             throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-        String startDateString = ActionUtils.retrieveStringPropertyValue("startdate", form, request);
+        String startDateString = BeanUtils.getProperty(form, "startdate");
         Calendar startDate;
 
         if (StringUtils.isEmpty(startDateString)) {
@@ -105,7 +104,7 @@ public class LogViewAction extends Action {
 
     private Calendar determineEndDate(ActionForm form, HttpServletRequest request)
             throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-        String endDateString = ActionUtils.retrieveStringPropertyValue("enddate", form, request);
+        String endDateString = BeanUtils.getProperty(form, "enddate");
         Calendar endDate;
 
         if (StringUtils.isEmpty(endDateString)) {
