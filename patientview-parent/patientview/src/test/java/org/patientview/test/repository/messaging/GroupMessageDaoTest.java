@@ -23,17 +23,19 @@
 
 package org.patientview.test.repository.messaging;
 
+import org.junit.Test;
 import org.patientview.patientview.model.Conversation;
 import org.patientview.patientview.model.GroupMessage;
 import org.patientview.patientview.model.User;
 import org.patientview.repository.messaging.GroupMessageDao;
 import org.patientview.test.helpers.RepositoryHelpers;
 import org.patientview.test.repository.BaseDaoTest;
-import org.junit.Test;
 
 import javax.inject.Inject;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class GroupMessageDaoTest extends BaseDaoTest {
 

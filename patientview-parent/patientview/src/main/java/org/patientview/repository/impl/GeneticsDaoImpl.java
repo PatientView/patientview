@@ -28,12 +28,13 @@ import org.patientview.patientview.model.Genetics_;
 import org.patientview.repository.AbstractHibernateDAO;
 import org.patientview.repository.GeneticsDao;
 import org.springframework.stereotype.Repository;
+
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 @Repository(value = "geneticsDao")
 public class GeneticsDaoImpl extends AbstractHibernateDAO<Genetics> implements GeneticsDao {

@@ -33,8 +33,16 @@
 
     <html:errors />
 
+    <logic:present name="patientAlreadyExists" >
+        <p><font color="red">The username <b><bean:write name="patientAlreadyExists" /></b> you entered is already being used by a patient. Please pick another.</font></p>
+    </logic:present>
+
     <logic:present name="userAlreadyExists" >
         <p><font color="red">The username <b><bean:write name="userAlreadyExists" /></b> you have entered is already being used by another user. Please pick another.</font></p>
+    </logic:present>
+
+    <logic:present name="userAlreadyExistsWithEmail" >
+        <p><font color="red">The email address you have entered is already being used by another user in this unit. Please pick another.</font></p>
     </logic:present>
 
     <logic:present name="roleInRadargroup" >

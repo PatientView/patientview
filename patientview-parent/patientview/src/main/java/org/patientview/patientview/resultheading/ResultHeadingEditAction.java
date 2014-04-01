@@ -25,24 +25,22 @@ package org.patientview.patientview.resultheading;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.patientview.patientview.model.ResultHeading;
-import org.patientview.utils.LegacySpringUtils;
-import org.apache.struts.action.Action;
+import org.patientview.service.ResultHeadingManager;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.patientview.patientview.logon.LogonUtils;
+import org.springframework.web.struts.ActionSupport;
 
-public class ResultHeadingEditAction extends Action {
+public class ResultHeadingEditAction extends ActionSupport {
 
     public ActionForward execute(
         ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
-        ResultHeading resultHeading
-                = LegacySpringUtils.getResultHeadingManager().get(request.getParameter("headingcode"));
-
+        ResultHeadingManager resultHeadingManager = getWebApplicationContext().getBean(ResultHeadingManager.class);
+        ResultHeading resultHeading = resultHeadingManager.get(request.getParameter("headingcode"));
         request.getSession().setAttribute("resultHeading", resultHeading);
 
         return LogonUtils.logonChecks(mapping, request);

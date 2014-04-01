@@ -48,7 +48,7 @@ import java.util.Calendar;
  * Date: 17/12/13
  * Time: 11:49
  */
-@Transactional(propagation = Propagation.REQUIRES_NEW)
+@Transactional(propagation = Propagation.REQUIRED)
 @Component
 public class ErrorHandlerImpl implements ErrorHandler {
 

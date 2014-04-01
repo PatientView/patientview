@@ -23,12 +23,6 @@
 
 package org.patientview.radar.web.panels;
 
-import org.patientview.model.Patient;
-import org.patientview.radar.model.Genetics;
-import org.patientview.radar.service.alport.GeneticsManager;
-import org.patientview.radar.web.RadarApplication;
-import org.patientview.radar.web.components.ComponentHelper;
-import org.patientview.radar.web.components.RadarComponentFactory;
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
@@ -45,6 +39,12 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.patientview.model.Patient;
+import org.patientview.radar.model.Genetics;
+import org.patientview.radar.service.alport.GeneticsManager;
+import org.patientview.radar.web.RadarApplication;
+import org.patientview.radar.web.components.ComponentHelper;
+import org.patientview.radar.web.components.RadarComponentFactory;
 
 import java.util.ArrayList;
 import java.util.List;

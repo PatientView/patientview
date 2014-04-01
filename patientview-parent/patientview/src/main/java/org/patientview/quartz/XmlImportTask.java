@@ -40,6 +40,10 @@ import java.io.File;
  */
 public class XmlImportTask {
 
+    private static final String LINE_SEPARATOR = System.getProperty("file.separator");
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(XmlImportTask.class);
+
     @Inject
     private ImportManager importManager;
 
@@ -54,10 +58,11 @@ public class XmlImportTask {
 
     private String[] fileEndings = {".xml", };
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(XmlImportTask.class);
+
 
     @PostConstruct
     public void init() {
+        LOGGER.debug("Using {} as a line separator", LINE_SEPARATOR);
         LOGGER.info("Processing from directory {}.", xmlDirectory);
         LOGGER.info("Data loading from directory {}.", xmlDirectory);
     }
@@ -100,9 +105,18 @@ public class XmlImportTask {
 
     public void archiveFile(File xmlFile) {
 
-        String directory = xmlPatientDataLoadDirectory;
+        String unitDirectoryName = xmlPatientDataLoadDirectory + LINE_SEPARATOR + getUnitCode(xmlFile.getName());
 
-        if (!xmlFile.renameTo(new File(directory, xmlFile.getName()))) {
+        File unitDirectory = new File(unitDirectoryName);
+
+        if (!unitDirectory.exists()) {
+            LOGGER.info("Creating subdirectory " + unitDirectoryName);
+            if (!unitDirectory.mkdir()) {
+                LOGGER.error("Failed to create subdirectory" + unitDirectoryName);
+            }
+        }
+
+        if (!xmlFile.renameTo(new File(unitDirectoryName, xmlFile.getName()))) {
             LOGGER.error("Unable to archive file after import, deleting instead: {}", xmlFile.getName());
 
             if (!xmlFile.delete()) {
@@ -110,6 +124,18 @@ public class XmlImportTask {
             }
 
         }
+    }
+
+    private String getUnitCode(String filename) {
+
+        String[] filenameParts = filename.split("_");
+        if (filenameParts.length > 1) {
+            return filenameParts[0];
+        } else {
+            LOGGER.error("Cannot define unit code from filename so using the 'unknown' folder");
+            return "unknown";
+        }
+
     }
 
 
@@ -131,5 +157,9 @@ public class XmlImportTask {
 
     public void setXmlDirectory(String xmlDirectory) {
         this.xmlDirectory = xmlDirectory;
+    }
+
+    public void setXmlPatientDataLoadDirectory(final String xmlPatientDataLoadDirectory) {
+        this.xmlPatientDataLoadDirectory = xmlPatientDataLoadDirectory;
     }
 }

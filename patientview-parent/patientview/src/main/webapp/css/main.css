@@ -21,6 +21,10 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+tr.accounthidden {
+    opacity:0.5;
+}
+
 h1, h2{
 	color: #0066cc;
 }
@@ -498,4 +502,10 @@ section article.conversation .dull, section article.message .dull, .dull{
 .join-request-span12 {
     width: 1040px;
     margin-left: -20px;
+}
+
+.modal-body-message {
+    max-height: 405px;
+    padding: 15px;
+    overflow-y: auto;
 }

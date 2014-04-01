@@ -23,37 +23,60 @@
 
 package org.patientview.patientview.logon;
 
+import org.patientview.model.Patient;
+import org.patientview.model.enums.SourceType;
 import org.patientview.patientview.logging.AddLog;
 import org.patientview.patientview.model.User;
 import org.patientview.patientview.model.UserMapping;
-import org.patientview.utils.LegacySpringUtils;
+import org.patientview.service.PatientManager;
+import org.patientview.service.SecurityUserManager;
+import org.patientview.service.UserManager;
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.springframework.web.struts.ActionSupport;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class PatientAddToUnitAction extends Action {
+public class PatientAddToUnitAction extends ActionSupport {
 
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
                                  HttpServletResponse response) throws Exception {
+
+        PatientManager patientManager = getWebApplicationContext().getBean(PatientManager.class);
+        UserManager userManager = getWebApplicationContext().getBean(UserManager.class);
+        SecurityUserManager securityUserManager = getWebApplicationContext().getBean(SecurityUserManager.class);
+
         String username = BeanUtils.getProperty(form, "username");
         String nhsno = BeanUtils.getProperty(form, "nhsno");
         String unitcode = BeanUtils.getProperty(form, "unitcode");
 
         UserMapping userMapping = new UserMapping(username, unitcode, nhsno);
-        LegacySpringUtils.getUserManager().save(userMapping);
+        userManager.save(userMapping);
 
         if (thereIsAGpUser(username)) {
             UserMapping userMappingGp = new UserMapping(username + "-GP", unitcode, nhsno);
-            LegacySpringUtils.getUserManager().save(userMappingGp);
+            userManager.save(userMappingGp);
         }
 
-        AddLog.addLog(LegacySpringUtils.getSecurityUserManager().getLoggedInUsername(), AddLog.PATIENT_ADD, username,
-                nhsno, unitcode, "");
+        // add dummy patient row, necessary for "Patients in Unit" screen
+        Patient patient = new Patient();
+        patient.setNhsno(nhsno);
+        patient.setUnitcode(unitcode);
+        patient.setSourceType(SourceType.PATIENT_VIEW.getName());
+
+        // get firstname, lastname from existing user
+        User user = userManager.get(username);
+        if (user != null) {
+            patient.setForename(user.getFirstName());
+            patient.setSurname(user.getLastName());
+        }
+
+        patientManager.save(patient);
+
+        AddLog.addLog(securityUserManager.getLoggedInUsername(), AddLog.PATIENT_ADD, username, nhsno, unitcode, "");
         String mappingToFind = "success";
 
         request.setAttribute("userMapping", userMapping);
@@ -61,8 +84,8 @@ public class PatientAddToUnitAction extends Action {
     }
 
     private boolean thereIsAGpUser(String username) {
-        User user = LegacySpringUtils.getUserManager().get(username + "-GP");
+        UserManager userManager = getWebApplicationContext().getBean(UserManager.class);
+        User user = userManager.get(username + "-GP");
         return null != user;
     }
-
 }

@@ -50,7 +50,7 @@ public final class CommentUtils {
 
                 List<UserMapping> userMappingsForUser = UserUtils.retrieveUserMappings(user);
                 List<UserMapping> userMappingsForComment
-                        = LegacySpringUtils.getUserManager().getUserMappingsForNhsNo(nhsno);
+                        = LegacySpringUtils.getUserManager().getUserMappingsByNhsNo(nhsno);
 
                 for (UserMapping userMappingComment : userMappingsForComment) {
                     if ("patient".equalsIgnoreCase(role)

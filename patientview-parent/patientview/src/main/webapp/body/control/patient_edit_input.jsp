@@ -92,6 +92,14 @@
             </div>
 
             <div class="control-group">
+                <label class="control-label">Account/Password Unlocked</label>
+                <div class="controls">
+                    <logic:equal name="patient" property="accountlocked" value="false"><big><font color="green">&#10004;</font></big></logic:equal>
+                    <logic:equal name="patient" property="accountlocked" value="true"><big><font color="red">&#10008;</font></big></logic:equal>
+                </div>
+            </div>
+
+            <div class="control-group">
                 <label class="control-label">Dummy Patient</label>
                 <div class="controls">
                     <html:checkbox name="patient" property="dummypatient" value="true"/>
@@ -135,11 +143,33 @@
                             <html:submit value="Unlock Password" styleClass="btn formbutton"/>
                         </html:form>
                     </logic:match>
+
+                    <logic:match value="false" name="patient" property="accountlocked">
+                        <html:form action="/control/passwordLock" style="float:left;margin-left:5px;">
+                            <html:hidden name="patient" property="username"/>
+                            <html:hidden property="nhsno" name="nhsnot"/>
+                            <html:hidden property="unitcode" name="nhsnot"/>
+                            <html:submit value="Lock Password" styleClass="btn formbutton"/>
+                        </html:form>
+                    </logic:match>
+
+                    <logic:match value="false" name="patient" property="accounthidden">
+                        <html:form action="/control/patientHide" style="float:left;margin-left:5px;">
+                            <html:hidden name="patient" property="username"/>
+                            <html:submit value="Hide and Lock Patient" styleClass="btn formbutton"/>
+                        </html:form>
+                    </logic:match>
+
+                    <logic:present role="superadmin">
+                        <logic:match value="true" name="patient" property="accounthidden">
+                            <html:form action="/control/patientUnhide" style="float:left;margin-left:5px;">
+                                <html:hidden name="patient" property="username"/>
+                                <html:submit value="Unhide Patient" styleClass="btn formbutton"/>
+                            </html:form>
+                        </logic:match>
+                    </logic:present>
                 </div>
             </div>
-
-
-
     </div>
 </div>
 </div>

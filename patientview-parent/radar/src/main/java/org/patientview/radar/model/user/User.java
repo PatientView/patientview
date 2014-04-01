@@ -23,8 +23,8 @@
 
 package org.patientview.radar.model.user;
 
-import org.patientview.radar.model.BaseModel;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.patientview.radar.model.BaseModel;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
 import org.springframework.security.core.userdetails.UserDetails;

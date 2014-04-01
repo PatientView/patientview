@@ -23,7 +23,6 @@
 
 package org.patientview.radar.web.components;
 
-import org.patientview.radar.web.dataproviders.SortableDataProvider;
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
@@ -31,6 +30,7 @@ import org.apache.wicket.extensions.markup.html.form.DateTextField;
 import org.apache.wicket.extensions.yui.calendar.DatePicker;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.Model;
+import org.patientview.radar.web.dataproviders.SortableDataProvider;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

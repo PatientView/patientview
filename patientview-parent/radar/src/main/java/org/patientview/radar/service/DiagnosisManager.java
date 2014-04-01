@@ -29,7 +29,6 @@ import org.patientview.radar.model.Diagnosis;
 import org.patientview.radar.model.DiagnosisCode;
 import org.patientview.radar.model.Karotype;
 
-
 import java.util.List;
 
 public interface DiagnosisManager {

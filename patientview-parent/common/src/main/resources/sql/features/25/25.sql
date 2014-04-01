@@ -1,10 +1,3 @@
-/**
-    alter the columns in the tables to DATETIME
-     */
-    /**
-        pv_patientjoin_request table.
-     */
-    ALTER TABLE pv_patientjoin_request MODIFY COLUMN dateofbirth DATETIME NOT NULL;
 
      /**
         rdr_alport_deafness table.

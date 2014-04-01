@@ -23,24 +23,24 @@
 
 package org.patientview.test.repository;
 
+import org.junit.Before;
+import org.junit.Test;
 import org.patientview.model.Specialty;
 import org.patientview.model.Unit;
-import org.patientview.patientview.model.UserMapping;
 import org.patientview.patientview.model.User;
+import org.patientview.patientview.model.UserMapping;
 import org.patientview.patientview.unit.UnitUtils;
 import org.patientview.repository.UnitDao;
 import org.patientview.repository.UserDao;
 import org.patientview.repository.UserMappingDao;
 import org.patientview.test.helpers.RepositoryHelpers;
-import org.junit.Before;
-import org.junit.Test;
 
 import javax.inject.Inject;
-
 import java.util.List;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  *      Test UserMappingDao and UserDao
@@ -225,7 +225,7 @@ public class UserDaoTest extends BaseDaoTest {
     @Test
     public void testGetAllForNhsNo() {
 
-        List<UserMapping> userMappings = userMappingDao.getAllForNhsNo("nhsno2", specialty);
+        List<UserMapping> userMappings = userMappingDao.getAllByNhsNo("nhsno2", specialty);
 
         assertEquals("Incorrect number of mappings found", 1, userMappings.size());
     }

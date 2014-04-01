@@ -24,6 +24,7 @@
 package org.patientview.service.impl;
 
 import org.patientview.model.Patient;
+import org.patientview.model.Specialty;
 import org.patientview.model.Unit;
 import org.patientview.patientview.PatientDetails;
 import org.patientview.patientview.logging.AddLog;
@@ -124,6 +125,10 @@ public class PatientManagerImpl implements PatientManager {
         return patientDao.getByNhsNo(nhsNo);
     }
 
+    @Override
+    public List<Patient> getByNhsNo(String nhsNo, Specialty specialty) {
+        return patientDao.getByNhsNo(nhsNo, specialty);
+    }
 
     public Patient getRadarPatient(String nhsNo) {
         return patientDao.getRadarPatient(nhsNo);
@@ -133,18 +138,39 @@ public class PatientManagerImpl implements PatientManager {
     public List getUnitPatientsWithTreatment(String unitcode, String nhsno, String firstname, String lastname,
                                              boolean showgps) {
         return patientDao.getUnitPatientsWithTreatmentDao(unitcode, nhsno, firstname, lastname, showgps,
-                securityUserManager.getLoggedInSpecialty());
+                securityUserManager.getLoggedInSpecialty(), false);
+    }
+
+    @Override
+    public List getUnitPatientsWithTreatmentIncludeHidden(String unitcode, String nhsno, String firstname,
+                                                          String lastname, boolean showgps) {
+        return patientDao.getUnitPatientsWithTreatmentDao(unitcode, nhsno, firstname, lastname, showgps,
+                securityUserManager.getLoggedInSpecialty(), true);
     }
 
     @Override
     public List getAllUnitPatientsWithTreatment(String nhsno, String firstname, String lastname, boolean showgps) {
         return patientDao.getAllUnitPatientsWithTreatmentDao(nhsno, firstname, lastname, showgps,
-                securityUserManager.getLoggedInSpecialty());
+                securityUserManager.getLoggedInSpecialty(), false);
+    }
+
+    @Override
+    public List getAllUnitPatientsWithTreatmentIncludeHidden(String nhsno, String firstname, String lastname,
+                                                             boolean showgps) {
+        return patientDao.getAllUnitPatientsWithTreatmentDao(nhsno, firstname, lastname, showgps,
+                securityUserManager.getLoggedInSpecialty(), true);
     }
 
     @Override
     public List getUnitPatientsAllWithTreatmentDao(String unitcode) {
-        return patientDao.getUnitPatientsAllWithTreatmentDao(unitcode, securityUserManager.getLoggedInSpecialty());
+        return patientDao.getUnitPatientsAllWithTreatmentDao(unitcode, securityUserManager.getLoggedInSpecialty()
+        , false);
+    }
+
+    @Override
+    public List getUnitPatientsAllWithTreatmentDaoIncludeHidden(String unitcode) {
+        return patientDao.getUnitPatientsAllWithTreatmentDao(unitcode, securityUserManager.getLoggedInSpecialty()
+        , true);
     }
 
     @Override
@@ -174,24 +200,14 @@ public class PatientManagerImpl implements PatientManager {
 
         // get a set of patient records for these nhs numbers, including patients added by Radar
         for (String nhsNumber : nhsNumbersAssociatedWithUser) {
-            for (Patient patient : getByNhsNo(nhsNumber)) {
+            for (Patient patient : getByNhsNo(nhsNumber, securityUserManager.getLoggedInSpecialty())) {
                 patientDetails.add(createPatientDetails(patient, unitManager.get(patient.getUnitcode())));
                 AddLog.addLog(LegacySpringUtils.getSecurityUserManager().getLoggedInUsername(),
-                        AddLog.PATIENT_VIEW, "", patient.getNhsno(),
-                        patient.getUnitcode(), "");
+                        AddLog.PATIENT_VIEW, "", patient.getNhsno(), patient.getUnitcode(), "");
             }
         }
 
         return patientDetails;
-    }
-
-    @Override
-    public List<PatientDetails> getPatientDetails(Long id) {
-        Patient patient = get(id);
-        List<PatientDetails> patientDetails = new ArrayList<PatientDetails>();
-        patientDetails.add(createPatientDetails(patient, unitManager.get(patient.getUnitcode())));
-        return patientDetails;
-
     }
 
     private PatientDetails createPatientDetails(Patient patient, Unit unit) {
@@ -210,6 +226,26 @@ public class PatientManagerImpl implements PatientManager {
 
         return patientDetail;
 
+    }
+
+    @Override
+    public List<Patient> getByUsername(String username) {
+        List<UserMapping> userMappings = userManager.getUserMappings(username);
+
+        if (!CollectionUtils.isEmpty(userMappings)) {
+            for (UserMapping userMapping : userMappings) {
+                List<Patient> patients = getByNhsNo(userMapping.getNhsno());
+                if (CollectionUtils.isEmpty(patients)) {
+                    continue;
+                } else {
+                    return patients;
+                }
+            }
+        } else {
+            return null;
+        }
+
+        return null;
     }
 
     @Override

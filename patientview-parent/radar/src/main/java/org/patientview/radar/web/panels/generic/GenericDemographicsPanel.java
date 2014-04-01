@@ -159,11 +159,14 @@ public class GenericDemographicsPanel extends Panel {
 
                 Patient patient = getModel().getObject();
 
-                // make sure diagnosis date is after dob
-                if (patient.getDateOfGenericDiagnosis() != null
-                        && patient.getDateOfGenericDiagnosis().compareTo(patient.getDob()) < 0) {
-                    get("dateOfGenericDiagnosisContainer:dateOfGenericDiagnosis")
-                            .error("Your diagnosis date cannot be before your date of birth");
+                // check dob exists
+                if (patient.getDob() != null) {
+                    // make sure diagnosis date is after dob
+                    if (patient.getDateOfGenericDiagnosis() != null
+                            && patient.getDateOfGenericDiagnosis().compareTo(patient.getDob()) < 0) {
+                        get("dateOfGenericDiagnosisContainer:dateOfGenericDiagnosis")
+                                .error("Your diagnosis date cannot be before your date of birth");
+                    }
                 }
 
                 // Leaving this in, saved to the DB table
@@ -458,7 +461,8 @@ public class GenericDemographicsPanel extends Panel {
         };
         form.add(sourceUnitCodeLabel, sourceUnitCode);
 
-        final DropDownChoice<Centre> renalUnit = new PatientCentreDropDown("renalUnit", user, patient);
+        final DropDownChoice<Centre> renalUnit = new PatientCentreDropDown("renalUnit", user, patient, form,
+                componentsToUpdateList);
 
         renalUnit.add(new AjaxFormComponentUpdatingBehavior("onchange") {
             @Override

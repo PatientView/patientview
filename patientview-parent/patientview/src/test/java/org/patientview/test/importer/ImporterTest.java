@@ -94,8 +94,8 @@ public class ImporterTest extends BaseServiceTest {
     @Inject
     private DiagnosticManager diagnosticManager;
 
-    @Named(value = "importManager")
     @Inject
+    @Named(value = "importManager")
     private ImportManager importManager;
 
     @Inject
@@ -127,28 +127,61 @@ public class ImporterTest extends BaseServiceTest {
 
     @Before
     public void setupSystem() {
-        Unit mockUnit = new Unit();
-        mockUnit.setUnitcode("RM301");
-        mockUnit.setName("RM301: RUNNING MAN TEST UNIT");
-        mockUnit.setShortname("RM301");
-        mockUnit.setRenaladminemail("renaladmin@mailinator.com");
 
-        Specialty mockSpecialty = new Specialty();
-        mockSpecialty.setName("Renal Patient View");
-        mockSpecialty.setContext("renal");
-        mockSpecialty.setDescription("Renal Patient View");
+        // set up specialty
+        Specialty mockSpecialty = serviceHelpers.createSpecialty("Renal Patient View", "renal", "Renal Patient View");
 
-        mockSpecialty = serviceHelpers.createSpecialty("Specialty1", "ten1", "A test specialty");
-        mockUnit.setSpecialty(mockSpecialty);
-
-        User mockUser = serviceHelpers.createUserWithMapping("testname1", "test1@admin.com", "p", "test1", "UNITA",
-                "nhstest1", mockSpecialty);
-
+        // set up patient user 1234567890
+        User mockUser = serviceHelpers.createUserWithMapping("username", "test1@admin.com", "password",
+                "firstname lastname", "A", "1234567890", mockSpecialty);
         serviceHelpers.createSpecialtyUserRole(mockSpecialty, mockUser, "patient");
 
-        securityHelpers.loginAsUser("testname1");
+        securityHelpers.loginAsUser("username");
 
+        // set up patient 1234567890
+        Patient patient = new Patient();
+        patient.setNhsno("1234567890");
+        patient.setSurname("lastname");
+        patient.setForename("firstname");
+        patient.setUnitcode("A");
+        patient.setDob(new Date());
+        patient.setNhsNoType("1");
+        patient.setSourceType(SourceType.PATIENT_VIEW.getName());
+        patientManager.save(patient);
+
+        // set up unit A
+        Unit mockUnit = new Unit("A");
+        mockUnit.setName("A: TEST UNIT");
+        mockUnit.setShortname("A");
+        mockUnit.setRenaladminemail("renaladmin@testunit.com");
+        mockUnit.setSpecialty(mockSpecialty);
         unitManager.save(mockUnit);
+    }
+
+    private void setupDummyPatient(Specialty mockSpecialty) {
+        // set up patient user 9999999995
+        User mockUser2 = serviceHelpers.createUserWithMapping("username2", "test2@admin.com", "password",
+                "Dummy Dum", "DUMMY", "9999999995", mockSpecialty);
+        serviceHelpers.createSpecialtyUserRole(mockSpecialty, mockUser2, "patient");
+
+        // set up patient 9999999995
+        Patient patient2 = new Patient();
+        patient2.setNhsno("9999999995");
+        patient2.setSurname("Dummy");
+        patient2.setForename("Dum");
+        patient2.setUnitcode("DUMMY");
+        patient2.setDob(new Date());
+        patient2.setNhsNoType("1");
+        patient2.setSourceType(SourceType.PATIENT_VIEW.getName());
+        patientManager.save(patient2);
+
+        // set up unit DUMMY
+        Unit mockUnit2 = new Unit("DUMMY");
+        mockUnit2.setName("DUMMY: TEST UNIT");
+        mockUnit2.setShortname("DUMMY");
+        mockUnit2.setRenaladminemail("renaladmin@testunit2.com");
+        mockUnit2.setSpecialty(mockSpecialty);
+        unitManager.save(mockUnit2);
     }
 
     @Test
@@ -177,29 +210,18 @@ public class ImporterTest extends BaseServiceTest {
 
         importManager.process(xmlFileResource.getFile());
 
-        checkLogEntry(xmlImportUtils.getNhsNumber(xmlFileResource.getFile().getName()),
-                        AddLog.PATIENT_DATA_FOLLOWUP);
-
-        List<Centre> centres = centreManager.getAll();
-
-        assertEquals("Incorrect number of centres", 1, centres.size());
-        assertEquals("Incorrect centre", "A", centres.get(0).getCentreCode());
-
+        List<Unit> units = unitManager.getAll(true);
         List<Patient> patients = patientManager.get("A");
-
-        assertEquals("Incorrect number of patients", 1, patients.size());
-        assertEquals("Incorrect patient", "1234567890", patients.get(0).getNhsno());
-
         List<TestResult> results = testResultManager.get("1234567890", "A");
-
-        assertEquals("Incorrect number of results", 316, results.size());
-
         List<Medicine> medicines = medicineManager.getAll();
-
-        assertEquals("Incorrect number of medicines", 8, medicines.size());
-
         List<Letter> letters = letterManager.getAll();
 
+        assertEquals("Incorrect number of units", 1, units.size());
+        assertEquals("Incorrect unit", "A", units.get(0).getUnitcode());
+        assertEquals("Incorrect number of patients", 1, patients.size());
+        assertEquals("Incorrect patient", "1234567890", patients.get(0).getNhsno());
+        assertEquals("Incorrect number of results", 316, results.size());
+        assertEquals("Incorrect number of medicines", 8, medicines.size());
         assertEquals("Incorrect number of letters", 2, letters.size());
     }
 

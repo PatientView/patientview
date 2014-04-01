@@ -26,6 +26,8 @@ google.setOnLoadCallback(drawChart);
 var chart;
 
 function drawChart() {
+
+    if ($('#result_Type1').val() && $('#period').val()) {
     $.ajax({
         url: '/patient/graphic_testresult.do?resultType1=' + $('#result_Type1').val() + "&period=" + $('#period').val(),
         dataType:"json",
@@ -43,19 +45,25 @@ function drawChart() {
                 arrColors = ['blue','red'];
             }
 
+            // convert returned data to Google chart format
             var data = new google.visualization.DataTable(resultData);
             var dataView = new google.visualization.DataView(data);
+
+            // get config options from data and use to set min and max range values on y-axis
+            var config = resultData.config;
 
             var boolScale = true;
             if (dataView.getViewRows().length == 1) {
                 boolScale = false;
             }
 
+            var chartVAxis = {logScale: boolScale, viewWindow: {min: config.minRangeValue, max: config.maxRangeValue}, title: config.units};
+
             var options = {
-                title: 'TestResults',
+                title: config.titleText,
                 colors: arrColors,
                 tooltip: { isHtml: true, trigger: 'selection' },
-                vAxis: { logScale: boolScale },
+                vAxis: chartVAxis,
                 interpolateNulls: true
             };
             chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
@@ -65,6 +73,7 @@ function drawChart() {
             google.visualization.events.addListener(chart, 'onmouseover', mouseOver);
         }
     });
+    }
 }
 
 function mouseOver(e) {

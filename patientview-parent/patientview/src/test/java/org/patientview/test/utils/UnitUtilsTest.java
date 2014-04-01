@@ -33,7 +33,7 @@ import org.patientview.patientview.model.UserMapping;
 import org.patientview.patientview.unit.UnitUtils;
 import org.patientview.repository.UnitDao;
 import org.patientview.repository.UserMappingDao;
-import org.patientview.service.*;
+import org.patientview.service.SecurityUserManager;
 import org.patientview.test.helpers.SecurityHelpers;
 import org.patientview.test.helpers.ServiceHelpers;
 import org.patientview.test.service.BaseServiceTest;
@@ -44,7 +44,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class UnitUtilsTest extends BaseServiceTest {
 

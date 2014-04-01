@@ -23,16 +23,6 @@
 
 package org.patientview.radar.web.panels.tables;
 
-import org.patientview.radar.model.Treatment;
-import org.patientview.radar.model.exception.InvalidModelException;
-import org.patientview.radar.model.user.User;
-import org.patientview.radar.service.TreatmentManager;
-import org.patientview.radar.web.RadarApplication;
-import org.patientview.radar.web.RadarSecuredSession;
-import org.patientview.radar.web.behaviours.RadarBehaviourFactory;
-import org.patientview.radar.web.components.RadarDateTextField;
-import org.patientview.radar.web.components.RadarRequiredDateTextField;
-import org.patientview.radar.web.components.RadarRequiredDropdownChoice;
 import org.apache.wicket.Component;
 import org.apache.wicket.MarkupContainer;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -55,6 +45,16 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.patientview.radar.model.Treatment;
+import org.patientview.radar.model.exception.InvalidModelException;
+import org.patientview.radar.model.user.User;
+import org.patientview.radar.service.TreatmentManager;
+import org.patientview.radar.web.RadarApplication;
+import org.patientview.radar.web.RadarSecuredSession;
+import org.patientview.radar.web.behaviours.RadarBehaviourFactory;
+import org.patientview.radar.web.components.RadarDateTextField;
+import org.patientview.radar.web.components.RadarRequiredDateTextField;
+import org.patientview.radar.web.components.RadarRequiredDropdownChoice;
 
 import java.util.ArrayList;
 import java.util.Collections;

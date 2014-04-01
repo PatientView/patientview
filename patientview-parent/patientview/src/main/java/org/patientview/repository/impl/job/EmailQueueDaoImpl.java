@@ -25,7 +25,6 @@ package org.patientview.repository.impl.job;
 
 import org.patientview.patientview.model.EmailQueue;
 import org.patientview.patientview.model.EmailQueue_;
-
 import org.patientview.patientview.model.enums.SendEmailEnum;
 import org.patientview.repository.AbstractHibernateDAO;
 import org.patientview.repository.job.EmailQueueDao;

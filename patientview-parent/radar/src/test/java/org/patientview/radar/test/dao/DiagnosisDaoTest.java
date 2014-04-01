@@ -24,12 +24,11 @@
 package org.patientview.radar.test.dao;
 
 import org.junit.Before;
-import org.junit.Ignore;
+import org.junit.Test;
 import org.patientview.radar.dao.DiagnosisDao;
 import org.patientview.radar.model.Diagnosis;
 import org.patientview.radar.model.DiagnosisCode;
 import org.patientview.radar.model.Karotype;
-import org.junit.Test;
 import org.patientview.radar.test.TestDataHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 

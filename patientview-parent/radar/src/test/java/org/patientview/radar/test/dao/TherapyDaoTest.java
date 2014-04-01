@@ -23,10 +23,9 @@
 
 package org.patientview.radar.test.dao;
 
-import org.junit.Ignore;
+import org.junit.Test;
 import org.patientview.radar.dao.TherapyDao;
 import org.patientview.radar.model.sequenced.Therapy;
-import org.junit.Test;
 import org.patientview.radar.test.TestDataHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 

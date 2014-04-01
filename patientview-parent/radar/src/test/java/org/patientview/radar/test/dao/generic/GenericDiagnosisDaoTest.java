@@ -23,16 +23,14 @@
 
 package org.patientview.radar.test.dao.generic;
 
+import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
-import org.patientview.model.Centre;
+import org.junit.Test;
 import org.patientview.model.generic.DiseaseGroup;
 import org.patientview.model.generic.GenericDiagnosis;
 import org.patientview.radar.dao.generic.GenericDiagnosisDao;
 import org.patientview.radar.test.TestDataHelper;
 import org.patientview.radar.test.dao.BaseDaoTest;
-import org.junit.Assert;
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.inject.Inject;

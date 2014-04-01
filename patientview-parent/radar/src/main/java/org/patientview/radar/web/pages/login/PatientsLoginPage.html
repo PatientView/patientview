@@ -30,46 +30,12 @@
 <body>
 <wicket:extend>
 
-    <h1 style="display:inline">Patient Log-In</h1>
+    <h1 style="display:inline">Access Unavailable</h1>
 
-    <p>Please enter your username and password</p>
+    <p>Access to RADAR for Patients is currently unavailable.</p>
 
-    <form wicket:id="form">
-        <table cellpadding="5" class="style2">
-            <tr>
+    <p>Disease information can be found on the <a href="http://rarerenal.org/patient-information/">Rare Renal</a> website.</p>
 
-                <td>
-                    <label style="width:120px;">Username</label>
-                </td>
-                <td>
-                    <input type="text" wicket:id="username" autocomplete="off" style="width:250px;"/>
-                    <span wicket:id="usernameFeedbackIndicator"></span>
-                </td>
-            </tr>
-            <tr>
-
-                <td>
-                    <label style="width:120px;">Password</label>
-                </td>
-                <td>
-                    <input type="password" wicket:id="password" autocomplete="off"/>
-                    <span wicket:id="passwordFeedbackIndicator"></span>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="submit" wicket:id="submit" value="Enter"/>
-                </td>
-                <td><span class="feedback" wicket:id="feedback"></span></td>
-            </tr>
-        </table>
-    </form>
-
-    <p><a wicket:id="forgottenPasswordLink">Forgotten your password?</a></p>
-
-    <p>
-        <span id="ctl00_ContentPlaceHolder1_lblOutMsg"></span>
-    </p>
 
 </wicket:extend>
 
