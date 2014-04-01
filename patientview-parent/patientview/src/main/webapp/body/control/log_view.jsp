@@ -70,7 +70,7 @@
       <td><b>Action</b></td>
       <td>
         <html:select property="action" styleId="action">
-          <html:option value=""/>
+          <html:option value="">all actions</html:option>
           <html:option value="password reset"/>
           <html:option value="password reset forgotten"/>
           <html:option value="password change"/>
