@@ -72,7 +72,7 @@ public class UktImportExportScheduler {
         try {
             ukTransplantManager.exportPatientData();
         } catch (Exception e) {
-            LOGGER.error("Failed to exportPatientData: {}", e.getMessage());
+            LOGGER.error("Failed to exportPatientData: {}", e);
             LOGGER.debug(e.getMessage(), e);
         }
 
