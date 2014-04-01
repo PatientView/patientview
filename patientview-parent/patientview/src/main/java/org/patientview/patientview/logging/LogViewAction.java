@@ -23,6 +23,7 @@
 
 package org.patientview.patientview.logging;
 
+import org.apache.commons.lang.StringUtils;
 import org.patientview.actionutils.ActionUtils;
 import org.patientview.patientview.logon.LogonUtils;
 import org.patientview.patientview.unit.UnitUtils;
@@ -57,7 +58,7 @@ public class LogViewAction extends Action {
         Boolean orderByAsc = null;
 
         // get order mark, false: order by date desc, true : order by date asc
-        if (order != null && !"".equals(order)) {
+        if (StringUtils.isNotEmpty(order)) {
             if ("false".equals(order)) {
                 orderByAsc = false;
             } else {
@@ -91,7 +92,7 @@ public class LogViewAction extends Action {
         String startDateString = ActionUtils.retrieveStringPropertyValue("startdate", form, request);
         Calendar startDate;
 
-        if ((startDateString == null) || ("".equals(startDateString))) {
+        if (StringUtils.isEmpty(startDateString)) {
             startDate = LoggingUtils.getDefaultStartDateForLogQuery();
         } else {
             startDate = TimestampUtils.createTimestampStartDay(startDateString);
@@ -105,7 +106,7 @@ public class LogViewAction extends Action {
         String endDateString = ActionUtils.retrieveStringPropertyValue("enddate", form, request);
         Calendar endDate;
 
-        if ((endDateString == null) || ("".equals(endDateString))) {
+        if (StringUtils.isEmpty(endDateString)) {
             endDate = LoggingUtils.getDefaultEndDateForLogQuery();
         } else {
             endDate = TimestampUtils.createTimestampEndDay(endDateString);
