@@ -56,9 +56,9 @@ import static org.mockito.Mockito.when;
  * Created by james@solidstategroup.com  on 31/03/2014.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class ImportMockTest {
+public class ImporterMockTest {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(ImportMockTest.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(ImporterMockTest.class);
 
     private List<UserMapping> userMappings = new ArrayList<UserMapping>();
 
@@ -130,7 +130,7 @@ public class ImportMockTest {
     }
 
     /**
-     * Test: To check a file with an invalid unitcode fails the test
+     * Test: To check a file with an invalid unit code fails the test
      *       The importer does not try and save the patient
      * Fail: The test does not throw a ProcessException
      */
@@ -195,5 +195,10 @@ public class ImportMockTest {
             LOGGER.info(pe.getMessage());
         }
     }
+
+    /**
+     * Test
+     *
+     */
 
 }
