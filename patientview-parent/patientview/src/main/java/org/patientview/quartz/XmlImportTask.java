@@ -40,7 +40,7 @@ import java.io.File;
  */
 public class XmlImportTask {
 
-    private final static String lineSeparator = System.getProperty("file.separator");
+    private static final String LINE_SEPARATOR = System.getProperty("file.separator");
 
     private static final Logger LOGGER = LoggerFactory.getLogger(XmlImportTask.class);
 
@@ -62,7 +62,7 @@ public class XmlImportTask {
 
     @PostConstruct
     public void init() {
-        LOGGER.debug("Using {} as a line separator", lineSeparator);
+        LOGGER.debug("Using {} as a line separator", LINE_SEPARATOR);
         LOGGER.info("Processing from directory {}.", xmlDirectory);
         LOGGER.info("Data loading from directory {}.", xmlDirectory);
     }
@@ -105,7 +105,7 @@ public class XmlImportTask {
 
     public void archiveFile(File xmlFile) {
 
-        String unitDirectoryName = xmlPatientDataLoadDirectory + lineSeparator + getUnitCode(xmlFile.getName());
+        String unitDirectoryName = xmlPatientDataLoadDirectory + LINE_SEPARATOR + getUnitCode(xmlFile.getName());
 
         File unitDirectory = new File(unitDirectoryName);
 
@@ -113,7 +113,7 @@ public class XmlImportTask {
             LOGGER.info("Creating subdirectory " + unitDirectoryName);
             if (!unitDirectory.mkdir()) {
                 LOGGER.error("Failed to create subdirectory" + unitDirectoryName);
-            };
+            }
         }
 
         if (!xmlFile.renameTo(new File(unitDirectoryName, xmlFile.getName()))) {
