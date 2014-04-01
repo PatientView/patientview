@@ -194,7 +194,7 @@ public class UserManagerImpl implements UserManager {
 
         if (isNewUser) {
 
-            UserMapping userMapping = new UserMapping(user.getUsername(), unitcode, "");
+            UserMapping userMapping = new UserMapping(user.getUsername(), unitcode, null);
             save(userMapping);
 
             // create mappings in radar if they don't already exist
