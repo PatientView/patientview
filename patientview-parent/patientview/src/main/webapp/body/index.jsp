@@ -106,7 +106,7 @@
                     <logic:iterate id="news" name="newses">
                         <li>
                             <html:link action="/newsView" paramId="id" paramName="news" paramProperty="id" styleClass="readMoreParagraph">
-                                &raquo; <bean:write name="news" property="headline" />
+                                &raquo; <bean:write name="news" property="headline" /> <span class="newsspecialty specialty-<bean:write name="news" property="specialty.id" />">- <bean:write name="news" property="specialty.name" /></span>
                             </html:link>
                         </li>
                     </logic:iterate>

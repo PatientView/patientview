@@ -21,6 +21,19 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+li a span.newsspecialty, td span.newsspecialty{
+    font-size: 12px;
+    font-weight: normal;
+}
+
+li a span.specialty-1, td span.specialty-1{
+    color: #009C96;
+}
+
+li a span.specialty-2, td span.specialty-2{
+    color: #0065A6;
+}
+
 tr.accounthidden {
     opacity:0.5;
 }
