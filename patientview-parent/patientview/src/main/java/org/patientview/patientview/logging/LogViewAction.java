@@ -27,6 +27,7 @@ import org.patientview.actionutils.ActionUtils;
 import org.patientview.patientview.logon.LogonUtils;
 import org.patientview.patientview.unit.UnitUtils;
 import org.patientview.patientview.utils.TimestampUtils;
+import org.patientview.util.CommonUtils;
 import org.patientview.utils.LegacySpringUtils;
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
@@ -47,6 +48,7 @@ public class LogViewAction extends Action {
         Calendar startdate = determineStartDate(form, request);
         Calendar enddate = determineEndDate(form, request);
         String nhsno = ActionUtils.retrieveStringPropertyValue("nhsno", form, request);
+        nhsno = CommonUtils.cleanNhsNumber(nhsno);
         String user = ActionUtils.retrieveStringPropertyValue("user", form, request);
         String actor = ActionUtils.retrieveStringPropertyValue("actor", form, request);
         String action = ActionUtils.retrieveStringPropertyValue("action", form, request);
