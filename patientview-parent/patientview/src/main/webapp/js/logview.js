@@ -64,6 +64,17 @@ $(document).ready(function(){
         $("#startdate").val(getDateString(-7));
         $("#enddate").val(getDateString(0));
     });
+
+    // reset button click event
+    $("#reset").click(function(){
+        $("#startdate").val(getDateString(-1));
+        $("#enddate").val(getDateString(0));
+        $("#nhsno").val("");
+        $("#user").val("");
+        $("#actor").val("");
+        $("#action").val($("#action option:first").val());
+        $("#unitcode").val($("#unitcode option:first").val());
+    });
 });
 
 

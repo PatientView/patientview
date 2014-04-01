@@ -102,7 +102,7 @@
 
     <tr align="left">
       <td>&nbsp;</td>
-      <td><html:submit value="Search" styleClass="btn"/></td>
+      <td><html:submit value="Search" styleClass="btn"/> <html:button property="reset" value="Reset" styleClass="btn" styleId="reset"/></td>
       <logic:present name="order">
         <input id="order" type="hidden" name="order" value='<bean:write name="order"/>'/>
       </logic:present>
