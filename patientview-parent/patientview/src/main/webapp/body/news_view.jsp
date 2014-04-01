@@ -31,7 +31,7 @@
 
     <table cellpadding="3" width="90%">
       <tr>
-        <td><b><bean:write name="news" property="headline" /></b></td>
+        <td><b><bean:write name="news" property="headline" /></b> <span class="newsspecialty specialty-<bean:write name="news" property="specialty.id" />">- <bean:write name="news" property="specialty.name" /></span></td>
         <td align="right" valign="center"><bean:write name="news" property="formattedDatestamp"/></td>
       </tr>
       <tr>
