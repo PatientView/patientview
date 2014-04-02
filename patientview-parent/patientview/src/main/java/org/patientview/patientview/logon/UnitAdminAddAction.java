@@ -45,13 +45,18 @@ import java.util.List;
 
 public class UnitAdminAddAction extends ActionSupport {
 
+    private UserManager userManager;
+    private PatientManager patientManager;
+    private SecurityUserManager securityUserManager;
+    private UnitManager unitManager;
+
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
                                  HttpServletResponse response) throws Exception {
 
-        UserManager userManager = getWebApplicationContext().getBean(UserManager.class);
-        PatientManager patientManager = getWebApplicationContext().getBean(PatientManager.class);
-        SecurityUserManager securityUserManager = getWebApplicationContext().getBean(SecurityUserManager.class);
-        UnitManager unitManager = getWebApplicationContext().getBean(UnitManager.class);
+        userManager = getWebApplicationContext().getBean(UserManager.class);
+        patientManager = getWebApplicationContext().getBean(PatientManager.class);
+        securityUserManager = getWebApplicationContext().getBean(SecurityUserManager.class);
+        unitManager = getWebApplicationContext().getBean(UnitManager.class);
 
         // get properties from form elements
         String username = BeanUtils.getProperty(form, "username");
@@ -82,11 +87,7 @@ public class UnitAdminAddAction extends ActionSupport {
             // check if user exists has mapping in currently specialty
             if (!usermappingsThisSpecialty.isEmpty()) {
                 // user has mappings in this specialty
-                List<UserMapping> userMappingsThisUnit = userManager.getUserMappings(username, unitcode);
-                UserMapping userMappingThisUnit = null;
-                if (!CollectionUtils.isEmpty(userMappingsThisUnit)) {
-                    userMappingThisUnit = userMappingsThisUnit.get(0);
-                }
+                UserMapping userMappingThisUnit = getUserMappingThisUnit(username, unitcode);
 
                 // check if user has mapping for current unit
                 if (userMappingThisUnit != null) {
@@ -97,6 +98,7 @@ public class UnitAdminAddAction extends ActionSupport {
                     // user exists in another unit
                     request.setAttribute("currentUnitCodes", getUnitCodeDisplay(usermappingsAllSpecialties));
                     request.setAttribute("usermapping", new UserMapping(username, unitcode, null));
+                    request.setAttribute(LogonUtils.USER_ALREADY_EXISTS, username);
                     return mapping.findForward("existinguser");
                 }
 
@@ -105,38 +107,47 @@ public class UnitAdminAddAction extends ActionSupport {
                 request.setAttribute("currentUnitCodes"
                         , "This user does not currently belong to any units in this specialty.");
                 request.setAttribute("usermapping", new UserMapping(username, unitcode, null));
+                request.setAttribute(LogonUtils.USER_ALREADY_EXISTS_OTHER_SPECIALTY, username);
                 return mapping.findForward("existinguser");
             }
         } else {
+            // no users exist with this username
             // check if email already on system, means user already exists but no user mapping
             List<User> existingUsersByEmail = userManager.getByEmailAddress(email);
             if (!CollectionUtils.isEmpty(existingUsersByEmail)) {
                 // users exist with this email
                 User existingUserByEmail = existingUsersByEmail.get(0);
-                List<UserMapping> userMappingsThisUnit = userManager.getUserMappings(existingUserByEmail.getUsername()
-                        , unitcode);
-                UserMapping userMappingThisUnit = null;
-                if (!CollectionUtils.isEmpty(userMappingsThisUnit)) {
-                    userMappingThisUnit = userMappingsThisUnit.get(0);
-                }
+                String existingUsername = existingUserByEmail.getUsername();
+                usermappingsThisSpecialty = userManager.getUserMappings(existingUsername);
 
-                // check if the found user (by email) has mapping for current unit
-                if (userMappingThisUnit != null) {
-                    // found user (by email) already exists in unit requested
-                    request.setAttribute(LogonUtils.USER_ALREADY_EXISTS_WITH_EMAIL, username);
-                    return mapping.findForward("input");
+                // check if found user (by email) has mapping in currently specialty
+                if (!usermappingsThisSpecialty.isEmpty()) {
+                    // found user (by email) has mappings in this specialty
+                    UserMapping userMappingThisUnit = getUserMappingThisUnit(existingUsername, unitcode);
+
+                    // check if user has mapping for current unit
+                    if (userMappingThisUnit != null) {
+                        // found user (by email) already exists in unit requested
+                        request.setAttribute(LogonUtils.USER_ALREADY_EXISTS_WITH_EMAIL, email);
+                        return mapping.findForward("input");
+                    } else {
+                        // found user (by email) exists in another unit in this specialty
+                        request.setAttribute("currentUnitCodes", getUnitCodeDisplay(usermappingsThisSpecialty));
+                        request.setAttribute("usermapping", new UserMapping(existingUsername, unitcode, null));
+                        request.setAttribute(LogonUtils.USER_ALREADY_EXISTS_WITH_EMAIL, email);
+                        return mapping.findForward("existinguser");
+                    }
                 } else {
-                    // found user (by email) exists in another unit
+                    // found user (by email) has mappings in other specialties but not this one
+                    request.setAttribute("usermapping", new UserMapping(existingUsername, unitcode, null));
                     request.setAttribute("currentUnitCodes"
-                            , getUnitCodeDisplay(userManager.getUserMappingsIgnoreSpecialty(
-                            existingUsersByEmail.get(0).getUsername())));
-                    request.setAttribute("usermapping"
-                            , new UserMapping(existingUserByEmail.getUsername(), unitcode, ""));
+                            , "This user does not currently belong to any units in this specialty.");
+                    request.setAttribute(LogonUtils.USER_ALREADY_EXISTS_WITH_EMAIL_OTHER_SPECIALTY, email);
                     return mapping.findForward("existinguser");
                 }
             }
 
-            // get relevant details from form and generate password
+            // user doesn't exist already, get relevant details from form and generate password
             String password = LogonUtils.generateNewPassword();
             String firstName = BeanUtils.getProperty(form, "firstName");
             String lastName = BeanUtils.getProperty(form, "lastName");
@@ -184,6 +195,21 @@ public class UnitAdminAddAction extends ActionSupport {
     }
 
     /**
+     * Gets a single UserMapping based on a user's username and a unitcode
+     * @param username The user's username
+     * @param unitcode The unitcode of the Unit to search for
+     * @return UserMapping if exists, otherwise null
+     */
+    private UserMapping getUserMappingThisUnit(String username, String unitcode) {
+        List<UserMapping> userMappingsThisUnit = userManager.getUserMappings(username, unitcode);
+        UserMapping userMappingThisUnit = null;
+        if (!CollectionUtils.isEmpty(userMappingsThisUnit)) {
+            userMappingThisUnit = userMappingsThisUnit.get(0);
+        }
+        return userMappingThisUnit;
+    }
+
+    /**
      * Gets correctly formatted list of unit codes given a List of UserMapping
      * @param userMappings List of user mappings
      * @return Correctly formatted list of unit codes
@@ -193,7 +219,10 @@ public class UnitAdminAddAction extends ActionSupport {
         StringBuilder unitCodes = new StringBuilder();
         for (UserMapping userMap : userMappings) {
             if (userMap.getUnitcode().length() > 0) {
-                unitCodes.append(userMap.getUnitcode() + " (" + userMap.getSpecialty().getName() + "), ");
+                unitCodes.append(userMap.getUnitcode());
+                unitCodes.append(" (");
+                unitCodes.append(userMap.getSpecialty().getName());
+                unitCodes.append("), ");
             }
         }
 

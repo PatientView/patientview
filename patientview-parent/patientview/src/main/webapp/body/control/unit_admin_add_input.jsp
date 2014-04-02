@@ -42,7 +42,7 @@
     </logic:present>
 
     <logic:present name="userAlreadyExistsWithEmail" >
-        <p><font color="red">The email address you have entered is already being used by another user in this unit. Please pick another.</font></p>
+        <p><font color="red">The email address '<b><bean:write name="userAlreadyExistsWithEmail" /></b>' you have entered is already being used by another user in this unit. Please pick another.</font></p>
     </logic:present>
 
     <logic:present name="roleInRadargroup" >
