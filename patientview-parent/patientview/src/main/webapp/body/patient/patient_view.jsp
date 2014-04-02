@@ -47,7 +47,7 @@
     <logic:present name="patientDetail" property="patient">
     <h2 class="paragraphSizeTopMargin">Patient Details for
           <bean:write name="patientDetail" property="patient.forename"/>
-          <bean:write name="patientDetail" property="patient.surname"/> <small>uploaded by unit: <bean:write name="patientDetail" property="unit.shortname"/></small>
+          <bean:write name="patientDetail" property="patient.surname"/> <small> provided by: <bean:write name="patientDetail" property="unit.name"/></small>
     </h2>
     </logic:present>
     </logic:present>
