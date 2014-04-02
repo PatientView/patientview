@@ -23,6 +23,7 @@
 
 package org.patientview.service.impl;
 
+import org.patientview.model.Unit;
 import org.patientview.patientview.model.EdtaCode;
 import org.patientview.repository.EdtaCodeDao;
 import org.patientview.service.EdtaCodeManager;
@@ -68,5 +69,10 @@ public class EdtaCodeManagerImpl implements EdtaCodeManager {
     @Override
     public List<EdtaCode> get(String linkType) {
         return edtaCodeDao.get(linkType, securityUserManager.getLoggedInSpecialty());
+    }
+
+    @Override
+    public EdtaCode getUnitLinks(Unit unit) {
+        return edtaCodeDao.getUnitLinks(unit);
     }
 }
