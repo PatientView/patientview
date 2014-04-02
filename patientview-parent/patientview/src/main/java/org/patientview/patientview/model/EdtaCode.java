@@ -25,14 +25,16 @@ package org.patientview.patientview.model;
 
 import org.patientview.model.BaseModel;
 import org.patientview.model.Specialty;
+import org.patientview.model.Unit;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Entity
-public class EdtaCode extends BaseModel {
+public class EdtaCode extends BaseModel implements Cloneable {
 
     @Column(nullable = false, unique = true)
     private String edtaCode;
@@ -40,6 +42,10 @@ public class EdtaCode extends BaseModel {
     @ManyToOne(optional = false)
     @JoinColumn(name = "specialty_id")
     private Specialty specialty;
+
+    @OneToOne(optional = true)
+    @JoinColumn(name = "unit_id")
+    private Unit unit;
 
     @Column(nullable = true)
     private String linkType;
@@ -139,6 +145,10 @@ public class EdtaCode extends BaseModel {
     public void setSpecialty(Specialty specialty) {
         this.specialty = specialty;
     }
+
+    public Unit getUnit() { return unit; }
+
+    public void setUnit(Unit unit) { this.unit = unit; }
 
     public String getMedicalLinkText01() {
         return medicalLinkText01;
@@ -354,5 +364,9 @@ public class EdtaCode extends BaseModel {
 
     public void setLinkType(String linkType) {
         this.linkType = linkType;
+    }
+
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

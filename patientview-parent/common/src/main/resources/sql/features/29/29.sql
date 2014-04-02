@@ -42,3 +42,5 @@ ALTER TABLE user ADD COLUMN `accounthidden` tinyint(1) NOT NULL DEFAULT '0';
 ALTER TABLE result_heading ADD COLUMN `minRangeValue` float DEFAULT NULL;
 ALTER TABLE result_heading ADD COLUMN `maxRangeValue` float DEFAULT NULL;
 ALTER TABLE result_heading ADD COLUMN `units` varchar(255) DEFAULT NULL;
+
+ALTER TABLE edtacode ADD COLUMN `unit_id` int(11) DEFAULT NULL;
