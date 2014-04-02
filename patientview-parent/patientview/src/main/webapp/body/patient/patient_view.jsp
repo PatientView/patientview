@@ -47,7 +47,7 @@
     <logic:present name="patientDetail" property="patient">
     <h2 class="paragraphSizeTopMargin">Patient Details for
           <bean:write name="patientDetail" property="patient.forename"/>
-          <bean:write name="patientDetail" property="patient.surname"/> <small>uploaded by unit: <bean:write name="patientDetail" property="unit.shortname"/></small>
+          <bean:write name="patientDetail" property="patient.surname"/> <small> provided by: <bean:write name="patientDetail" property="unit.name"/></small>
     </h2>
     </logic:present>
     </logic:present>
@@ -155,6 +155,52 @@
         </logic:notEmpty>
       </td>
     </tr>
+    </logic:present>
+
+    <logic:present name="unitLinks">
+        <logic:iterate id="unitLink" name="unitLinks">
+        <tr>
+            <th valign="top" class="tablecell">Information from <bean:write name="unitLink" property="description"/></th>
+            <td valign="top" class="tablecell">
+                <logic:notEmpty name="unitLink" property="medicalLink01">
+                    <a href="<bean:write name="unitLink" property="medicalLink01"/>" target="_blank"><bean:write name="unitLink" property="medicalLinkText01"/></a><br />
+                </logic:notEmpty>
+                <logic:notEmpty name="unitLink" property="medicalLink02">
+                    <a href="<bean:write name="unitLink" property="medicalLink02"/>" target="_blank"><bean:write name="unitLink" property="medicalLinkText02"/></a><br />
+                </logic:notEmpty>
+                <logic:notEmpty name="unitLink" property="medicalLink03">
+                    <a href="<bean:write name="unitLink" property="medicalLink03"/>" target="_blank"><bean:write name="unitLink" property="medicalLinkText03"/></a><br />
+                </logic:notEmpty>
+                <logic:notEmpty name="unitLink" property="medicalLink04">
+                    <a href="<bean:write name="unitLink" property="medicalLink04"/>" target="_blank"><bean:write name="unitLink" property="medicalLinkText04"/></a><br />
+                </logic:notEmpty>
+                <logic:notEmpty name="unitLink" property="medicalLink05">
+                    <a href="<bean:write name="unitLink" property="medicalLink05"/>" target="_blank"><bean:write name="unitLink" property="medicalLinkText05"/></a><br />
+                </logic:notEmpty>
+                <logic:notEmpty name="unitLink" property="medicalLink06">
+                    <a href="<bean:write name="unitLink" property="medicalLink06"/>" target="_blank"><bean:write name="unitLink" property="medicalLinkText06"/></a><br />
+                </logic:notEmpty>
+                <logic:notEmpty name="unitLink" property="patientLink01">
+                    <a href="<bean:write name="unitLink" property="patientLink01"/>" target="_blank"><bean:write name="unitLink" property="patientLinkText01"/></a><br />
+                </logic:notEmpty>
+                <logic:notEmpty name="unitLink" property="patientLink02">
+                    <a href="<bean:write name="unitLink" property="patientLink02"/>" target="_blank"><bean:write name="unitLink" property="patientLinkText02"/></a><br />
+                </logic:notEmpty>
+                <logic:notEmpty name="unitLink" property="patientLink03">
+                    <a href="<bean:write name="unitLink" property="patientLink03"/>" target="_blank"><bean:write name="unitLink" property="patientLinkText03"/></a><br />
+                </logic:notEmpty>
+                <logic:notEmpty name="unitLink" property="patientLink04">
+                    <a href="<bean:write name="unitLink" property="patientLink04"/>" target="_blank"><bean:write name="unitLink" property="patientLinkText04"/></a><br />
+                </logic:notEmpty>
+                <logic:notEmpty name="unitLink" property="patientLink05">
+                    <a href="<bean:write name="unitLink" property="patientLink05"/>" target="_blank"><bean:write name="unitLink" property="patientLinkText05"/></a><br />
+                </logic:notEmpty>
+                <logic:notEmpty name="unitLink" property="patientLink06">
+                    <a href="<bean:write name="unitLink" property="patientLink06"/>" target="_blank"><bean:write name="unitLink" property="patientLinkText06"/></a><br />
+                </logic:notEmpty>
+            </td>
+        </tr>
+        </logic:iterate>
     </logic:present>
 
   </table>

@@ -26,6 +26,7 @@ package org.patientview.patientview.edtacode;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.patientview.patientview.model.EdtaCode;
 import org.patientview.utils.LegacySpringUtils;
 import org.apache.commons.beanutils.BeanUtils;
@@ -73,5 +74,95 @@ public final class EdtaCodeUtils {
         edtaCode.setPatientLinkText04(BeanUtils.getProperty(form, "patientLinkText04"));
         edtaCode.setPatientLinkText05(BeanUtils.getProperty(form, "patientLinkText05"));
         edtaCode.setPatientLinkText06(BeanUtils.getProperty(form, "patientLinkText06"));
+    }
+
+    /**
+     * Static method to set EdtaCode properties from request parameters
+     * @param request HttpServletRequest
+     * @param edtaCode EdtaCode to be updated
+     */
+    public static void build(HttpServletRequest request, EdtaCode edtaCode) {
+
+        if (StringUtils.isNotEmpty(request.getParameter("description"))) {
+            edtaCode.setDescription(request.getParameter("description"));
+        }
+        if (StringUtils.isNotEmpty(request.getParameter("edtaCode"))) {
+            edtaCode.setEdtaCode(request.getParameter("edtaCode"));
+        }
+        if (StringUtils.isNotEmpty(request.getParameter("linkType"))) {
+            edtaCode.setLinkType(request.getParameter("linkType"));
+        }
+        if (StringUtils.isNotEmpty(request.getParameter("medicalLink01"))) {
+            edtaCode.setMedicalLink01(request.getParameter("medicalLink01"));
+        }
+        if (StringUtils.isNotEmpty(request.getParameter("medicalLink02"))) {
+            edtaCode.setMedicalLink02(request.getParameter("medicalLink02"));
+        }
+        if (StringUtils.isNotEmpty(request.getParameter("medicalLink03"))) {
+            edtaCode.setMedicalLink03(request.getParameter("medicalLink03"));
+        }
+        if (StringUtils.isNotEmpty(request.getParameter("medicalLink04"))) {
+            edtaCode.setMedicalLink04(request.getParameter("medicalLink04"));
+        }
+        if (StringUtils.isNotEmpty(request.getParameter("medicalLink05"))) {
+            edtaCode.setMedicalLink05(request.getParameter("medicalLink05"));
+        }
+        if (StringUtils.isNotEmpty(request.getParameter("medicalLink06"))) {
+            edtaCode.setMedicalLink06(request.getParameter("medicalLink06"));
+        }
+        if (StringUtils.isNotEmpty(request.getParameter("medicalLinkText01"))) {
+            edtaCode.setMedicalLinkText01(request.getParameter("medicalLinkText01"));
+        }
+        if (StringUtils.isNotEmpty(request.getParameter("medicalLinkText02"))) {
+            edtaCode.setMedicalLinkText02(request.getParameter("medicalLinkText02"));
+        }
+        if (StringUtils.isNotEmpty(request.getParameter("medicalLinkText03"))) {
+            edtaCode.setMedicalLinkText03(request.getParameter("medicalLinkText03"));
+        }
+        if (StringUtils.isNotEmpty(request.getParameter("medicalLinkText04"))) {
+            edtaCode.setMedicalLinkText04(request.getParameter("medicalLinkText04"));
+        }
+        if (StringUtils.isNotEmpty(request.getParameter("medicalLinkText05"))) {
+            edtaCode.setMedicalLinkText05(request.getParameter("medicalLinkText05"));
+        }
+        if (StringUtils.isNotEmpty(request.getParameter("medicalLinkText06"))) {
+            edtaCode.setMedicalLinkText06(request.getParameter("medicalLinkText06"));
+        }
+        if (StringUtils.isNotEmpty(request.getParameter("patientLink01"))) {
+            edtaCode.setPatientLink01(request.getParameter("patientLink01"));
+        }
+        if (StringUtils.isNotEmpty(request.getParameter("patientLink02"))) {
+            edtaCode.setPatientLink02(request.getParameter("patientLink02"));
+        }
+        if (StringUtils.isNotEmpty(request.getParameter("patientLink03"))) {
+            edtaCode.setPatientLink03(request.getParameter("patientLink03"));
+        }
+        if (StringUtils.isNotEmpty(request.getParameter("patientLink04"))) {
+            edtaCode.setPatientLink04(request.getParameter("patientLink04"));
+        }
+        if (StringUtils.isNotEmpty(request.getParameter("patientLink05"))) {
+            edtaCode.setPatientLink05(request.getParameter("patientLink05"));
+        }
+        if (StringUtils.isNotEmpty(request.getParameter("patientLink06"))) {
+            edtaCode.setPatientLink06(request.getParameter("patientLink06"));
+        }
+        if (StringUtils.isNotEmpty(request.getParameter("patientLinkText01"))) {
+            edtaCode.setPatientLinkText01(request.getParameter("patientLinkText01"));
+        }
+        if (StringUtils.isNotEmpty(request.getParameter("patientLinkText02"))) {
+            edtaCode.setPatientLinkText02(request.getParameter("patientLinkText02"));
+        }
+        if (StringUtils.isNotEmpty(request.getParameter("patientLinkText03"))) {
+            edtaCode.setPatientLinkText03(request.getParameter("patientLinkText03"));
+        }
+        if (StringUtils.isNotEmpty(request.getParameter("patientLinkText04"))) {
+            edtaCode.setPatientLinkText04(request.getParameter("patientLinkText04"));
+        }
+        if (StringUtils.isNotEmpty(request.getParameter("patientLinkText05"))) {
+            edtaCode.setPatientLinkText05(request.getParameter("patientLinkText05"));
+        }
+        if (StringUtils.isNotEmpty(request.getParameter("patientLinkText06"))) {
+            edtaCode.setPatientLinkText06(request.getParameter("patientLinkText06"));
+        }
     }
 }
