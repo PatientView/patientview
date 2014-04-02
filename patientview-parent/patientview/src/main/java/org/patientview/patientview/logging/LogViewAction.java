@@ -26,14 +26,15 @@ package org.patientview.patientview.logging;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.patientview.patientview.logon.LogonUtils;
-import org.patientview.patientview.unit.UnitUtils;
+import org.patientview.patientview.model.LogEntry;
 import org.patientview.patientview.utils.TimestampUtils;
+import org.patientview.service.LogEntryManager;
+import org.patientview.service.UnitManager;
 import org.patientview.util.CommonUtils;
-import org.patientview.utils.LegacySpringUtils;
-import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.springframework.web.struts.ActionSupport;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,13 +43,19 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class LogViewAction extends Action {
+public class LogViewAction extends ActionSupport {
+
+    private UnitManager unitManager;
+    private LogEntryManager logEntryManager;
 
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
                                  HttpServletResponse response) throws Exception {
-        Calendar startdate = determineStartDate(form, request);
-        Calendar enddate = determineEndDate(form, request);
 
+        unitManager = getWebApplicationContext().getBean(UnitManager.class);
+        logEntryManager = getWebApplicationContext().getBean(LogEntryManager.class);
+
+        Calendar startdate = determineStartDate(BeanUtils.getProperty(form, "startdate"));
+        Calendar enddate = determineEndDate(BeanUtils.getProperty(form, "enddate"));
         String nhsno = BeanUtils.getProperty(form, "nhsno");
         nhsno = CommonUtils.cleanNhsNumber(nhsno);
         String user = BeanUtils.getProperty(form, "user");
@@ -67,10 +74,11 @@ public class LogViewAction extends Action {
             }
         }
 
-        List log = getLogEntries(nhsno, user, actor, action, unitcode, startdate, enddate, orderByAsc);
-        request.setAttribute("log", log);
+        request.setAttribute("log"
+                , getLogEntries(nhsno, user, actor, action, unitcode, startdate, enddate, orderByAsc));
 
-        UnitUtils.putRelevantUnitsInRequest(request);
+        request.getSession().setAttribute("units", unitManager.getLoggedInUsersUnits(
+                new String[]{"PATIENT"}, new String[]{}));
 
         LoggingUtils.defaultDatesInForm(form, startdate, enddate);
 
@@ -88,40 +96,30 @@ public class LogViewAction extends Action {
         return LogonUtils.logonChecks(mapping, request);
     }
 
-    private Calendar determineStartDate(ActionForm form, HttpServletRequest request)
+    private Calendar determineStartDate(String startDateString)
             throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-        String startDateString = BeanUtils.getProperty(form, "startdate");
-        Calendar startDate;
-
         if (StringUtils.isEmpty(startDateString)) {
-            startDate = LoggingUtils.getDefaultStartDateForLogQuery();
+            return LoggingUtils.getDefaultStartDateForLogQuery();
         } else {
-            startDate = TimestampUtils.createTimestampStartDay(startDateString);
+            return TimestampUtils.createTimestampStartDay(startDateString);
         }
-
-        return startDate;
     }
 
-    private Calendar determineEndDate(ActionForm form, HttpServletRequest request)
+    private Calendar determineEndDate(String endDateString)
             throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-        String endDateString = BeanUtils.getProperty(form, "enddate");
-        Calendar endDate;
-
         if (StringUtils.isEmpty(endDateString)) {
-            endDate = LoggingUtils.getDefaultEndDateForLogQuery();
+            return LoggingUtils.getDefaultEndDateForLogQuery();
         } else {
-            endDate = TimestampUtils.createTimestampEndDay(endDateString);
+            return TimestampUtils.createTimestampEndDay(endDateString);
         }
-
-        return endDate;
     }
 
-    private List getLogEntries(String nhsno, String user, String actor, String action, String unitcode,
+    private List<LogEntry> getLogEntries(String nhsno, String user, String actor, String action, String unitcode,
                                Calendar startdate, Calendar enddate, Boolean orderByAsc) throws Exception {
-        List logEntries = new ArrayList();
+        List<LogEntry> logEntries = new ArrayList();
 
         if (orderByAsc != null) {
-            logEntries = LegacySpringUtils.getLogEntryManager().getWithNhsNo(nhsno, user, actor, action, unitcode,
+            logEntries = logEntryManager.getWithNhsNo(nhsno, user, actor, action, unitcode,
                     startdate, enddate, orderByAsc);
         }
 

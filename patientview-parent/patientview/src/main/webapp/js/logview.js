@@ -67,7 +67,7 @@ $(document).ready(function(){
 
     // reset button click event
     $("#reset").click(function(){
-        $("#startdate").val(getDateString(-1));
+        $("#startdate").val(getDateString(-30));
         $("#enddate").val(getDateString(0));
         $("#nhsno").val("");
         $("#user").val("");
