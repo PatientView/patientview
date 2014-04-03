@@ -66,7 +66,7 @@ public class ResultHeadingDaoImpl extends AbstractHibernateDAO<ResultHeading> im
         hsql.append("FROM     ResultHeading rh ");
         hsql.append("JOIN     rh.specialtyResultHeadings srh ");
         hsql.append("WHERE    srh.specialtyId = ?");
-        hsql.append("AND      rh.headingCode = ?");
+        hsql.append("AND      rh.headingcode = ?");
 
         Query query = getEntityManager().createQuery(hsql.toString(), ResultHeading.class);
         query.setParameter(1, specialty.getId().intValue());

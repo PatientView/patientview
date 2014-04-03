@@ -27,8 +27,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.patientview.patientview.logon.LogonUtils;
+import org.patientview.service.ResultHeadingManager;
 import org.patientview.service.SecurityUserManager;
-import org.patientview.utils.LegacySpringUtils;
 import org.springframework.web.struts.ActionSupport;
 
 import javax.servlet.http.HttpServletRequest;
@@ -41,9 +41,9 @@ public class ResultHeadingDisplayAction extends ActionSupport {
             throws Exception {
 
         SecurityUserManager securityUserManager = getWebApplicationContext().getBean(SecurityUserManager.class);
+        ResultHeadingManager resultHeadingManager = getWebApplicationContext().getBean(ResultHeadingManager.class);
 
-        request.setAttribute("resultHeadings",
-                LegacySpringUtils.getResultHeadingManager().getAll(securityUserManager.getLoggedInSpecialty()));
+        request.setAttribute("resultHeadings", resultHeadingManager.getAll(securityUserManager.getLoggedInSpecialty()));
 
         return LogonUtils.logonChecks(mapping, request);
     }

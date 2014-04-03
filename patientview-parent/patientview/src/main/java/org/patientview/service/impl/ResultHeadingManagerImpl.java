@@ -40,6 +40,8 @@ import java.util.Set;
 
 /**
  *
+ * For now this class is resolving the specialty for the specialty result heading. This mapping needs to be fixed.
+ *
  */
 @Service(value = "resultHeadingManager")
 public class ResultHeadingManagerImpl implements ResultHeadingManager {
@@ -52,17 +54,17 @@ public class ResultHeadingManagerImpl implements ResultHeadingManager {
 
     @Override
     public ResultHeading get(String headingcode, Specialty specialty) {
-        return getSpecialtyResultHeading(resultHeadingDao.get(headingcode, specialty));
+        return getSpecialtyResultHeading(resultHeadingDao.get(headingcode, specialty), specialty);
     }
 
     @Override
     public List<ResultHeading> get(Specialty specialty) {
-        return getSpecialtyResultHeadings(resultHeadingDao.get(specialty));
+        return getSpecialtyResultHeadings(resultHeadingDao.get(specialty), specialty);
     }
 
     @Override
     public List<ResultHeading> getAll(Specialty specialty) {
-        return getSpecialtyResultHeadings(resultHeadingDao.getAll(specialty));
+        return getSpecialtyResultHeadings(resultHeadingDao.getAll(specialty), specialty);
     }
 
     @Override
@@ -90,7 +92,8 @@ public class ResultHeadingManagerImpl implements ResultHeadingManager {
         boolean foundSpecialty = false;
         for (SpecialtyResultHeading specialtyResultHeading : resultHeadingTemp.getSpecialtyResultHeadings()) {
 
-            if (specialtyResultHeading.getSpecialtyId() == (specialty.getId()).intValue()) {
+            if (specialtyResultHeading.getSpecialtyId() == specialty.getId().intValue() &&
+                    specialtyResultHeading.getSpecialtyId() == specialty.getId().intValue()) {
                 foundSpecialty = true;
                 specialtyResultHeading.setRollover(resultHeading.getRollover());
                 specialtyResultHeading.setHeading(resultHeading.getHeading());
@@ -130,9 +133,10 @@ public class ResultHeadingManagerImpl implements ResultHeadingManager {
         return specialtyResultHeading;
     }
 
-    private ResultHeading getSpecialtyResultHeading(ResultHeading resultHeading) {
+    private ResultHeading getSpecialtyResultHeading(ResultHeading resultHeading, Specialty specialty) {
         if (CollectionUtils.isNotEmpty(resultHeading.getSpecialtyResultHeadings())) {
-            SpecialtyResultHeading specResultHeading = resultHeading.getSpecialtyResultHeadings().iterator().next();
+            SpecialtyResultHeading specResultHeading = getSpecialtyResultHeading(
+                    resultHeading.getSpecialtyResultHeadings(), specialty);
             resultHeading.setPanel(specResultHeading.getPanel());
             resultHeading.setPanelorder(specResultHeading.getPanelOrder());
             resultHeading.setRollover(specResultHeading.getRollover());
@@ -149,11 +153,12 @@ public class ResultHeadingManagerImpl implements ResultHeadingManager {
      * @param resultHeadings
      * @return
      */
-    private List<ResultHeading> getSpecialtyResultHeadings(List<ResultHeading> resultHeadings) {
+    private List<ResultHeading> getSpecialtyResultHeadings(List<ResultHeading> resultHeadings, Specialty specialty) {
 
         for (ResultHeading resultHeading : resultHeadings) {
             if (CollectionUtils.isNotEmpty(resultHeading.getSpecialtyResultHeadings())) {
-                SpecialtyResultHeading specResultHeading = resultHeading.getSpecialtyResultHeadings().iterator().next();
+                SpecialtyResultHeading specResultHeading = getSpecialtyResultHeading(
+                        resultHeading.getSpecialtyResultHeadings(), specialty);
                 resultHeading.setPanel(specResultHeading.getPanel());
                 resultHeading.setPanelorder(specResultHeading.getPanelOrder());
                 resultHeading.setRollover(specResultHeading.getRollover());
@@ -165,6 +170,15 @@ public class ResultHeadingManagerImpl implements ResultHeadingManager {
 
     }
 
+    private SpecialtyResultHeading getSpecialtyResultHeading(Set<SpecialtyResultHeading> specialtyResultHeadings,
+                                                             Specialty specialty) {
+        for (SpecialtyResultHeading specialtyResultHeading : specialtyResultHeadings) {
+            if (specialtyResultHeading.getSpecialtyId() == specialty.getId().intValue()) {
+                return specialtyResultHeading;
+            }
+        }
+        return null;
+    }
 
     @Override
     public void delete(String headingCode) {
