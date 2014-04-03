@@ -23,15 +23,20 @@
 
 package org.patientview.service.impl;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.patientview.model.Specialty;
 import org.patientview.patientview.model.Panel;
 import org.patientview.patientview.model.ResultHeading;
+import org.patientview.patientview.model.SpecialtyResultHeading;
 import org.patientview.repository.ResultHeadingDao;
 import org.patientview.service.ResultHeadingManager;
 import org.patientview.service.SecurityUserManager;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -46,35 +51,117 @@ public class ResultHeadingManagerImpl implements ResultHeadingManager {
     private SecurityUserManager securityUserManager;
 
     @Override
-    public ResultHeading get(String headingcode) {
-        return resultHeadingDao.get(headingcode, securityUserManager.getLoggedInSpecialty());
+    public ResultHeading get(String headingcode, Specialty specialty) {
+        return getSpecialtyResultHeading(resultHeadingDao.get(headingcode, specialty));
     }
 
     @Override
-    public List<ResultHeading> getAll() {
-        return resultHeadingDao.getAll(securityUserManager.getLoggedInSpecialty());
+    public List<ResultHeading> get(Specialty specialty) {
+        return getSpecialtyResultHeadings(resultHeadingDao.get(specialty));
     }
 
     @Override
-    public List<ResultHeading> getAll(String username) {
-        return resultHeadingDao.getAll(securityUserManager.getLoggedInSpecialty(), username);
+    public List<ResultHeading> getAll(Specialty specialty) {
+        return getSpecialtyResultHeadings(resultHeadingDao.getAll(specialty));
     }
 
     @Override
-    public List<ResultHeading> get(int panel) {
-        return resultHeadingDao.get(panel, securityUserManager.getLoggedInSpecialty());
+    public List<ResultHeading> get(int panel, Specialty specialty) {
+        return resultHeadingDao.get(panel, specialty);
     }
 
-    @Override
-    public void save(ResultHeading resultHeading) {
 
-        // set the Specialty against the heading if not already set
-        if (resultHeading.getSpecialty() == null) {
-            resultHeading.setSpecialty(securityUserManager.getLoggedInSpecialty());
+
+    /**
+     * The result heading with the context of the specialty becomes a specialty test heading and linked to the
+     * result heading.
+     *
+     * @param resultHeading
+     * @param specialty
+     */
+    @Override
+    public void save(final ResultHeading resultHeading, final Specialty specialty) {
+
+        ResultHeading resultHeadingTemp = resultHeadingDao.get(resultHeading.getId());
+
+        boolean foundSpecialty = false;
+        for (SpecialtyResultHeading specialtyResultHeading : resultHeadingTemp.getSpecialtyResultHeadings()) {
+
+            if (specialtyResultHeading.getSpecialtyId() == (specialty.getId()).intValue()) {
+                foundSpecialty = true;
+                specialtyResultHeading.setRollover(resultHeading.getRollover());
+                specialtyResultHeading.setHeading(resultHeading.getHeading());
+                specialtyResultHeading.setPanel(resultHeading.getPanel());
+                specialtyResultHeading.setPanelOrder(resultHeading.getPanelorder());
+
+            }
         }
 
-        resultHeadingDao.save(resultHeading);
+        if (!foundSpecialty) {
+
+            SpecialtyResultHeading specialtyResultHeading = createSpecialtyResultHeading(resultHeading, specialty);
+
+            if (resultHeadingTemp.getSpecialtyResultHeadings() == null) {
+                resultHeadingTemp.getSpecialtyResultHeadings().add(specialtyResultHeading);
+            } else {
+                Set<SpecialtyResultHeading> specialtyResultHeadings = new HashSet<SpecialtyResultHeading>();
+                specialtyResultHeadings.add(specialtyResultHeading);
+                resultHeadingTemp.setSpecialtyResultHeadings(specialtyResultHeadings);
+            }
+
+        }
+
+        resultHeadingDao.save(resultHeadingTemp);
     }
+
+    private SpecialtyResultHeading createSpecialtyResultHeading(ResultHeading resultHeading, Specialty specialty) {
+
+        SpecialtyResultHeading specialtyResultHeading = new SpecialtyResultHeading();
+        specialtyResultHeading.setResultHeading(resultHeading);
+        specialtyResultHeading.setHeading(resultHeading.getHeading());
+        specialtyResultHeading.setRollover(resultHeading.getRollover());
+        specialtyResultHeading.setPanel(resultHeading.getPanel());
+        specialtyResultHeading.setPanelOrder(resultHeading.getPanelorder());
+        specialtyResultHeading.setSpecialtyId(specialty.getId().intValue());
+
+        return specialtyResultHeading;
+    }
+
+    private ResultHeading getSpecialtyResultHeading(ResultHeading resultHeading) {
+        if (CollectionUtils.isNotEmpty(resultHeading.getSpecialtyResultHeadings())) {
+            SpecialtyResultHeading specResultHeading = resultHeading.getSpecialtyResultHeadings().iterator().next();
+            resultHeading.setPanel(specResultHeading.getPanel());
+            resultHeading.setPanelorder(specResultHeading.getPanelOrder());
+            resultHeading.setRollover(specResultHeading.getRollover());
+            resultHeading.setHeading(specResultHeading.getHeading());
+        }
+
+        return  resultHeading;
+
+    }
+
+    /**
+     * Override the TestResult setting with the specialty settings.
+     *
+     * @param resultHeadings
+     * @return
+     */
+    private List<ResultHeading> getSpecialtyResultHeadings(List<ResultHeading> resultHeadings) {
+
+        for (ResultHeading resultHeading : resultHeadings) {
+            if (CollectionUtils.isNotEmpty(resultHeading.getSpecialtyResultHeadings())) {
+                SpecialtyResultHeading specResultHeading = resultHeading.getSpecialtyResultHeadings().iterator().next();
+                resultHeading.setPanel(specResultHeading.getPanel());
+                resultHeading.setPanelorder(specResultHeading.getPanelOrder());
+                resultHeading.setRollover(specResultHeading.getRollover());
+                resultHeading.setHeading(specResultHeading.getHeading());
+            }
+        }
+
+        return resultHeadings;
+
+    }
+
 
     @Override
     public void delete(String headingCode) {

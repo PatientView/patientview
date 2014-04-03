@@ -23,16 +23,18 @@
 
 package org.patientview.patientview.resultheading;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import org.patientview.patientview.model.ResultHeading;
-import org.patientview.service.ResultHeadingManager;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.patientview.patientview.logon.LogonUtils;
+import org.patientview.patientview.model.ResultHeading;
+import org.patientview.service.ResultHeadingManager;
+import org.patientview.service.SecurityUserManager;
 import org.springframework.web.struts.ActionSupport;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class ResultHeadingAddAction extends ActionSupport {
 
@@ -41,6 +43,7 @@ public class ResultHeadingAddAction extends ActionSupport {
             throws Exception {
 
         ResultHeadingManager resultHeadingManager = getWebApplicationContext().getBean(ResultHeadingManager.class);
+        SecurityUserManager securityUserManager = getWebApplicationContext().getBean(SecurityUserManager.class);
         ResultHeading resultHeading = new ResultHeading();
 
         BeanUtils.setProperty(resultHeading, "headingcode", BeanUtils.getProperty(form, "headingcode"));
@@ -53,7 +56,7 @@ public class ResultHeadingAddAction extends ActionSupport {
         BeanUtils.setProperty(resultHeading, "maxRangeValue", BeanUtils.getProperty(form, "maxRangeValue"));
         BeanUtils.setProperty(resultHeading, "units", BeanUtils.getProperty(form, "units"));
 
-        resultHeadingManager.save(resultHeading);
+        resultHeadingManager.save(resultHeading, securityUserManager.getLoggedInSpecialty());
         request.setAttribute("resultHeading", resultHeading);
 
         return LogonUtils.logonChecks(mapping, request);

@@ -68,10 +68,11 @@
             <form-property name="patientLinkText06" type="java.lang.String"/>
         </form-bean>
         <form-bean name="resultHeadingForm" type="org.apache.struts.validator.DynaValidatorActionForm">
+            <form-property name="id" type="java.lang.Long"/>
             <form-property name="headingcode" type="java.lang.String"/>
             <form-property name="heading" type="java.lang.String"/>
             <form-property name="rollover" type="java.lang.String"/>
-            <form-property name="link" type="java.lang.String"/>
+            <form-property name="link" type="java.lang.String"/>lo
             <form-property name="panel" type="java.lang.String"/>
             <form-property name="panelorder" type="java.lang.String"/>
             <form-property name="minRangeValue" type="java.lang.String"/>

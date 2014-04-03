@@ -46,3 +46,31 @@ ALTER TABLE result_heading ADD COLUMN 'units' varchar(255) DEFAULT NULL;
 INSERT INTO unit(unitcode, name, shortname, unituser, address1, address2, postcode, renaladminname, renaladminphone, renaladminemail,             unitenquiriesemail, sourceTYpe, specialty_id)
 VALUES ('SALIBD', 'Salford Royal Foundation Trust', 'Salford Royal', 'A_sdfsdf','Stott Lane', 'Salford', 'M6 8HD', 'C Calvert', '0161 206423', 'myibdportal@srft.nhs.uk', 'myibdportal@srft.nhs.uk', 'ibdunit', 2);
 
+CREATE TABLE result_heading_bak AS
+SELECT  *
+FROM    result_heading;
+
+CREATE TABLE specialty_result_heading (id INT(20) PRIMARY KEY AUTO_INCREMENT,
+                                       result_heading_id BIGINT(20),
+                                       heading VARCHAR(30),
+                                       rollover VARCHAR(50),
+                                       panel int(11),
+                                       panelorder int(11),
+                                       specialty_id int(20));
+
+INSERT INTO specialty_result_heading(result_heading_id, heading, rollover, panel, panelorder, specialty_id)
+SELECT  id
+,       heading
+,       rollover
+,       panel
+,       panelorder
+,       1
+FROM    result_heading;
+
+
+ALTER TABLE result_heading DROP COLUMN panel;
+
+ALTER TABLE result_heading DROP COLUMN panelorder;
+
+ALTER TABLE result_heading DROP COLUMN specialty_id;
+

@@ -28,6 +28,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.patientview.actionutils.ActionUtils;
+import org.patientview.model.Specialty;
 import org.patientview.patientview.logon.LogonUtils;
 import org.patientview.patientview.model.ResultHeading;
 import org.patientview.patientview.model.TestResultWithUnitShortname;
@@ -117,11 +118,13 @@ public class ResultsAction extends ActionSupport {
     private String convertToJsonData(Collection<Result> resultData, String resultType1, String resultType2) {
 
         ResultHeadingManager resultHeadingManager = getWebApplicationContext().getBean(ResultHeadingManager.class);
+        SecurityUserManager securityUserManager = getWebApplicationContext().getBean(SecurityUserManager.class);
         String resultValue1 = "";
         String resultValue2 = "";
 
-        ResultHeading heading1 = resultHeadingManager.get(resultType1);
-        ResultHeading heading2 = resultHeadingManager.get(resultType2);
+        Specialty specialty = securityUserManager.getLoggedInSpecialty();
+        ResultHeading heading1 = resultHeadingManager.get(resultType1, specialty);
+        ResultHeading heading2 = resultHeadingManager.get(resultType2, specialty);
 
         StringBuffer sb = new StringBuffer();
         // cols header

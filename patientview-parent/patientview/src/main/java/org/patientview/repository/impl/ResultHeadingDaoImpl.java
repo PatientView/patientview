@@ -48,6 +48,10 @@ import java.util.ArrayList;
 import java.util.List;
 /**
  *
+ * An investment into a framework to execute hibernate queries for this project would probably be worthwhile
+ * eg #get(Specialty specialty) and #getAll(Specialty specialty) are the name method with a different word between
+ * the two.
+ *
  */
 @Repository(value = "resultHeadingDao")
 public class ResultHeadingDaoImpl extends AbstractHibernateDAO<ResultHeading> implements ResultHeadingDao {
@@ -78,59 +82,68 @@ public class ResultHeadingDaoImpl extends AbstractHibernateDAO<ResultHeading> im
         }
     }
 
+    /**
+     * This will return the specialties setup for your specialty
+     *
+     * @param specialty
+     * @return
+     */
+    public List<ResultHeading> get(Specialty specialty) {
+
+        StringBuilder hsql = new StringBuilder();
+
+        hsql.append("SELECT   rh ");
+        hsql.append("FROM     ResultHeading rh ");
+        hsql.append("JOIN     rh.specialtyResultHeadings srh ");
+        hsql.append("WHERE    srh.specialtyId = ?");
+
+        Query query = getEntityManager().createQuery(hsql.toString(), ResultHeading.class);
+        query.setParameter(1, specialty.getId().intValue());
+
+        return query.getResultList();
+    }
+
+
+    /**
+     * This will be all the result heading and the specialty settings
+     *
+     * @param specialty
+     * @return
+     */
     @Override
     public List<ResultHeading> getAll(Specialty specialty) {
 
-        CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<ResultHeading> criteria = builder.createQuery(ResultHeading.class);
-        Root<ResultHeading> root = criteria.from(ResultHeading.class);
-        List<Predicate> wherePredicates = new ArrayList<Predicate>();
+        StringBuilder hsql = new StringBuilder();
 
-        wherePredicates.add(builder.equal(root.get(ResultHeading_.specialty), specialty));
+        hsql.append("SELECT   rh ");
+        hsql.append("FROM     ResultHeading rh ");
+        hsql.append("lEFT JOIN     rh.specialtyResultHeadings srh ");
+        hsql.append("WHERE    srh.specialtyId = ? ");
+        hsql.append("OR       srh.specialtyId IS NULL");
 
-        buildWhereClause(criteria, wherePredicates);
+        Query query = getEntityManager().createQuery(hsql.toString(), ResultHeading.class);
+        query.setParameter(1, specialty.getId().intValue());
 
-        return getEntityManager().createQuery(criteria).getResultList();
-    }
-
-    @Override
-    public List<ResultHeading> getAll(Specialty specialty, String username) {
-
-        List<Object> params = new ArrayList<Object>();
-
-        String sql = " SELECT DISTINCT result_heading.* "
-                + " FROM testresult "
-                + " LEFT JOIN unit ON unit.unitcode = testresult.unitcode "
-                + " JOIN user, usermapping, result_heading "
-                + " WHERE user.username = ? "
-                + " AND result_heading.specialty_id = ? "
-                + " AND user.username = usermapping.username "
-                + " AND usermapping.nhsno = testresult.nhsno "
-                + " AND testresult.testcode = result_heading.headingcode ";
-
-        params.add(username);
-        params.add(specialty.getId());
-
-        return jdbcTemplate.query(sql, params.toArray(), new ResultHeadingMapper());
+        return query.getResultList();
     }
 
 
     @Override
     public List<ResultHeading> get(int panel, Specialty specialty) {
 
-        CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<ResultHeading> criteria = builder.createQuery(ResultHeading.class);
-        Root<ResultHeading> root = criteria.from(ResultHeading.class);
-        List<Predicate> wherePredicates = new ArrayList<Predicate>();
+        StringBuilder hsql = new StringBuilder();
 
-        wherePredicates.add(builder.equal(root.get(ResultHeading_.panel), panel));
-        wherePredicates.add(builder.equal(root.get(ResultHeading_.specialty), specialty));
+        hsql.append("SELECT   rh ");
+        hsql.append("FROM     ResultHeading rh ");
+        hsql.append("JOIN     rh.specialtyResultHeadings srh ");
+        hsql.append("WHERE    srh.specialtyId = ?");
+        hsql.append("WHERE    srh.panel = ?");
 
-        buildWhereClause(criteria, wherePredicates);
+        Query query = getEntityManager().createQuery(hsql.toString(), ResultHeading.class);
+        query.setParameter(1, specialty.getId().intValue());
+        query.setParameter(2, panel);
 
-        criteria.orderBy(builder.asc(root.get(ResultHeading_.panelorder)));
-
-        return getEntityManager().createQuery(criteria).getResultList();
+        return query.getResultList();
     }
 
     @Override

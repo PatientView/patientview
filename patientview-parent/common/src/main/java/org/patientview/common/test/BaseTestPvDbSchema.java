@@ -70,7 +70,8 @@ public class BaseTestPvDbSchema {
 
     @PostConstruct
     public void init() {
-        isLocalTestEnvironment = configEnvironment != null && configEnvironment.equals("localhost-org.patientview.test");
+        isLocalTestEnvironment = configEnvironment != null
+                && configEnvironment.equals("localhost-org.patientview.test");
     }
 
     @Before
