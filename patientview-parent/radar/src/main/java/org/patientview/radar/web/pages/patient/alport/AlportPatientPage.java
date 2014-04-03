@@ -199,19 +199,17 @@ public class AlportPatientPage extends BasePage {
 
         @Override
         public void onClick(AjaxRequestTarget target) {
-            if (patient != null && patient.hasValidId()) {
-                currentTab = tab;
-                // Add the links container to update hover class
-                target.add(linksContainer);
+            currentTab = tab;
+            // Add the links container to update hover class
+            target.add(linksContainer);
 
-                // add each panel to the response
-                target.add(genericDemographicsPanel, medicalResultsPanel, geneticsPanel, deafnessPanel, medicinePanel);
+            // add each panel to the response
+            target.add(genericDemographicsPanel, medicalResultsPanel, geneticsPanel, deafnessPanel, medicinePanel);
 
-                Component pageNumber = getPage().get("pageNumber");
-                IModel pageNumberModel = pageNumber.getDefaultModel();
-                pageNumberModel.setObject(AlportPatientPage.this.currentTab.getPageNumber());
-                target.add(pageNumber);
-            }
+            Component pageNumber = getPage().get("pageNumber");
+            IModel pageNumberModel = pageNumber.getDefaultModel();
+            pageNumberModel.setObject(AlportPatientPage.this.currentTab.getPageNumber());
+            target.add(pageNumber);
         }
 
         @Override
