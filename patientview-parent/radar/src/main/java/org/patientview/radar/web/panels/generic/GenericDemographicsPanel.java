@@ -193,9 +193,7 @@ public class GenericDemographicsPanel extends Panel {
                         LOGGER.error("Unknown error", e);
                         error(message);
                     }
-                } else {
-
-                }
+                } 
             }
         };
 
