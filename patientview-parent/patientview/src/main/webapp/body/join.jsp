@@ -26,6 +26,17 @@
 
 <html:xhtml/>
 
+<script>
+// warning for today's date
+$(document).ready(function(){
+    $("input[name='dateOfBirth']").change(function() {
+        if ($(this).val() == new Date().toISOString().slice(0, 10).split("-").reverse().join("-")) {
+            alert("Please enter your date of birth, not today's date.");
+        }
+    });
+});
+</script>
+
 <div class="page-header">
     <h1>Join Patient View</h1>
 </div>
