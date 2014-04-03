@@ -82,6 +82,9 @@ public class ResultHeadingManagerImpl implements ResultHeadingManager {
     @Override
     public void save(final ResultHeading resultHeading, final Specialty specialty) {
 
+        if (!resultHeading.hasValidId()) {
+            resultHeadingDao.save(resultHeading);
+        }
         ResultHeading resultHeadingTemp = resultHeadingDao.get(resultHeading.getId());
 
         boolean foundSpecialty = false;

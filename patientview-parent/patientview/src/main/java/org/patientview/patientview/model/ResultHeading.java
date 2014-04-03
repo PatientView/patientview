@@ -32,6 +32,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.util.Set;
 
 @Entity
@@ -50,8 +51,10 @@ public class ResultHeading extends BaseModel {
     @Column(nullable = false)
     private String link;
 
+    @Transient
     private int panel;
 
+    @Transient
     private int panelorder;
 
     @Column(nullable = true)
