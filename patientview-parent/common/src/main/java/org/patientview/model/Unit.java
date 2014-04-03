@@ -27,11 +27,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
+@Table(name = "unit")
 public class Unit extends BaseModel {
 
     @Transient

@@ -92,8 +92,8 @@ public class ResultHeadingManagerImpl implements ResultHeadingManager {
         boolean foundSpecialty = false;
         for (SpecialtyResultHeading specialtyResultHeading : resultHeadingTemp.getSpecialtyResultHeadings()) {
 
-            if (specialtyResultHeading.getSpecialtyId() == specialty.getId().intValue() &&
-                    specialtyResultHeading.getSpecialtyId() == specialty.getId().intValue()) {
+            if (specialtyResultHeading.getSpecialtyId() == specialty.getId().intValue()
+                    && specialtyResultHeading.getSpecialtyId() == specialty.getId().intValue()) {
                 foundSpecialty = true;
                 specialtyResultHeading.setRollover(resultHeading.getRollover());
                 specialtyResultHeading.setHeading(resultHeading.getHeading());

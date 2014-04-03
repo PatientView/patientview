@@ -23,6 +23,7 @@
 
 package org.patientview.repository.impl;
 
+import org.patientview.model.Specialty;
 import org.patientview.model.Unit;
 import org.patientview.patientview.model.Panel;
 import org.patientview.patientview.model.TestResult;
@@ -62,31 +63,45 @@ public class TestResultDaoImpl extends AbstractHibernateDAO<TestResult> implemen
     }
 
     @Override
-    public List<TestResultWithUnitShortname> getTestResultForPatient(String username, Panel panel, List<Unit> units) {
-        return getTestResultForPatient(username, panel, units, false);
+    public List<TestResultWithUnitShortname> getTestResultForPatient(String username, Panel panel, List<Unit> units,
+                                                                     Specialty specialty) {
+        return getTestResultForPatient(username, panel, units, false, specialty);
     }
 
     @Override
     public List<TestResultWithUnitShortname> getTestResultForPatient(String username, Panel panel, List<Unit> units,
-                                                                     boolean isRadarGroup) {
+                                                                     boolean isRadarGroup, Specialty specialty) {
 
-        String sql = " SELECT DISTINCT testresult.*, unit.shortname "
-                + " FROM testresult "
-                + " LEFT JOIN unit ON unit.unitcode = testresult.unitcode "
-                + (isRadarGroup ? "unit.sourceType = 'radargroup'" : "")
-                + " JOIN user, usermapping, result_heading "
-                + " WHERE user.username = ? "
-                + " AND user.username = usermapping.username "
-                + " AND usermapping.nhsno = testresult.nhsno "
-                + " AND testresult.testcode = result_heading.headingcode "
-                + " AND result_heading.panel = ? "
-                + " ORDER BY testresult.datestamp desc ";
+        StringBuilder sql = new StringBuilder();
+
+        sql.append("SELECT   DISTINCT trt.* ");
+        sql.append(",        unt.shortname ");
+        sql.append("FROM     testresult trt ");
+        sql.append("LEFT     JOIN unit unt ON unt.unitcode = trt.unitcode ");
+        sql.append("JOIN     user usr ");
+        sql.append(",        usermapping usm ");
+        sql.append(",        result_heading  rhg ");
+        sql.append(",        specialty_result_heading srh ");
+        sql.append("WHERE    usr.username = ? ");
+        sql.append("AND      srh.result_heading_id = rhg.id ");
+        sql.append("AND      usr.username = usm.username ");
+        sql.append("AND      usm.nhsno = trt.nhsno ");
+
+        if (!isRadarGroup) {
+            sql.append("AND      unt.sourceType = 'radargroup' ");
+        }
+
+        sql.append("AND      trt.testcode = rhg.headingcode ");
+        sql.append("AND      srh.specialty_id = ? ");
+        sql.append("AND      srh.panel = ? ");
+        sql.append("ORDER BY trt.datestamp DESC;");
 
         List<Object> params = new ArrayList<Object>();
         params.add(username);
+        params.add(specialty.getId());
         params.add(panel.getPanel());
 
-        return jdbcTemplate.query(sql, params.toArray(), new TestResultWithUnitShortnameMapper());
+        return jdbcTemplate.query(sql.toString(), params.toArray(), new TestResultWithUnitShortnameMapper());
     }
 
     @Override

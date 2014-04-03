@@ -26,6 +26,7 @@ package org.patientview.repository.impl;
 import org.patientview.model.Specialty;
 import org.patientview.patientview.model.Panel;
 import org.patientview.patientview.model.ResultHeading;
+import org.patientview.patientview.model.SpecialtyResultHeading;
 import org.patientview.repository.AbstractHibernateDAO;
 import org.patientview.repository.ResultHeadingDao;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -129,8 +130,8 @@ public class ResultHeadingDaoImpl extends AbstractHibernateDAO<ResultHeading> im
         hsql.append("SELECT   rh ");
         hsql.append("FROM     ResultHeading rh ");
         hsql.append("JOIN     rh.specialtyResultHeadings srh ");
-        hsql.append("WHERE    srh.specialtyId = ?");
-        hsql.append("WHERE    srh.panel = ?");
+        hsql.append("WHERE    srh.specialtyId = ? ");
+        hsql.append("AND      srh.panel = ?");
 
         Query query = getEntityManager().createQuery(hsql.toString(), ResultHeading.class);
         query.setParameter(1, specialty.getId().intValue());
@@ -149,19 +150,19 @@ public class ResultHeadingDaoImpl extends AbstractHibernateDAO<ResultHeading> im
 
         StringBuilder hsql = new StringBuilder();
 
-        hsql.append("SELECT   DISTINCT srh.panel ");
-        hsql.append("FROM     specialtyResultHeading srh.");
+        hsql.append("SELECT   srh ");
+        hsql.append("FROM     SpecialtyResultHeading srh ");
         hsql.append("WHERE    srh.panel != 0 ");
-        hsql.append("AND      srh.specialtyId = ?");
+        hsql.append("AND      srh.specialtyId = ? ");
         hsql.append("ORDER BY srh.panel ASC ");
 
-        Query query = getEntityManager().createQuery(hsql.toString());
+        Query query = getEntityManager().createQuery(hsql.toString(), SpecialtyResultHeading.class);
         query.setParameter(1, specialty.getId().intValue());
 
-        List resultsObjs = query.getResultList();
+        List<SpecialtyResultHeading> specialtyResultHeadings = query.getResultList();
         List<Panel> results = new ArrayList<Panel>();
-        for (Object object : resultsObjs) {
-            results.add(new Panel((Integer) object));
+        for (SpecialtyResultHeading specialtyResultHeading : specialtyResultHeadings) {
+            results.add(new Panel((specialtyResultHeading.getPanel())));
         }
 
         return results;

@@ -23,6 +23,7 @@
 
 package org.patientview.repository;
 
+import org.patientview.model.Specialty;
 import org.patientview.model.Unit;
 import org.patientview.patientview.model.Panel;
 import org.patientview.patientview.model.TestResult;
@@ -45,10 +46,11 @@ public interface TestResultDao {
      *
      * @param units not mandatory
      */
-    List<TestResultWithUnitShortname> getTestResultForPatient(String username, Panel panel, List<Unit> units);
+    List<TestResultWithUnitShortname> getTestResultForPatient(String username, Panel panel, List<Unit> units,
+                                                              Specialty specialty);
 
     List<TestResultWithUnitShortname> getTestResultForPatient(String username, Panel panel, List<Unit> units,
-                                                              boolean isRadarGroup);
+                                                              boolean isRadarGroup, Specialty specialty);
 
     /**
      * Get the org.patientview.test results for the patient for the units they belong to.

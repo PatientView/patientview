@@ -28,12 +28,14 @@ import org.patientview.patientview.utils.TimestampUtils;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-@Entity(name = "testresult")
+@Entity
+@Table(name = "testresult")
 public class TestResult extends BaseModel {
 
     @Column(nullable = false)
