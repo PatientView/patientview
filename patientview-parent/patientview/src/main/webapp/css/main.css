@@ -27,11 +27,15 @@ li a span.newsspecialty, td span.newsspecialty{
 }
 
 li a span.specialty-1, td span.specialty-1{
-    color: #009C96;
+    color: #189c41;
 }
 
 li a span.specialty-2, td span.specialty-2{
-    color: #0065A6;
+    color: #a61c4a;
+}
+
+li a span.specialty-2, td span.specialty-2{
+    color: #c94c29;
 }
 
 tr.accounthidden {
