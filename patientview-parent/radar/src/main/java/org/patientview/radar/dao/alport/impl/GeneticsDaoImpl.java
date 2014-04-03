@@ -42,7 +42,7 @@ public class GeneticsDaoImpl extends BaseDaoImpl implements GeneticsDao {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GeneticsDaoImpl.class);
 
-    private static final String TABLE_NAME = "rdc_genetic_test";
+    private static final String TABLE_NAME = "rdr_genetic_test";
     private static final String ID_FIELD_NAME = "id";
     private static final String RADAR_NO_FIELD_NAME = "radar_no";
     private static final String TESTS_DONE_FIELD_NAME = "testsDone";
