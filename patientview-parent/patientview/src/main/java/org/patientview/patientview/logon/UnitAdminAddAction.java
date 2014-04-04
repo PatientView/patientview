@@ -166,6 +166,8 @@ public class UnitAdminAddAction extends ActionSupport {
             unitAdmin.setFirstlogon(true);
             unitAdmin.setIsrecipient(isRecipient);
             unitAdmin.setIsclinician(isClinician);
+            unitAdmin.setAccounthidden(false);
+            unitAdmin.setAccountlocked(false);
 
             // create the new user
             UnitAdmin hashedUnitAdmin = (UnitAdmin) unitAdmin.clone();
