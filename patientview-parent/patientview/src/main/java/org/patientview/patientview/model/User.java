@@ -70,11 +70,11 @@ public class User extends BaseModel {
     @Column(nullable = true)
     private int failedlogons;
 
-    @Column(nullable = true)
-    private boolean accountlocked;
+    @Column(nullable = false)
+    private boolean accountlocked = false;
 
-    @Column(nullable = true)
-    private boolean accounthidden;
+    @Column(nullable = false)
+    private boolean accounthidden = false;
 
     @Column(nullable = true)
     private boolean isrecipient;
