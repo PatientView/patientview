@@ -151,7 +151,9 @@ public class ResultsAction extends ActionSupport {
                     dataMinValue = Double.parseDouble(resultValue);
                 }
             } catch (NumberFormatException e) {
+                LOGGER.trace("NumberFormatException: " + e.toString());
             } catch (NullPointerException e) {
+                LOGGER.trace("NullPointerException: " + e.toString());
             }
 
             try {
@@ -159,7 +161,9 @@ public class ResultsAction extends ActionSupport {
                     dataMaxValue = Double.parseDouble(resultValue);
                 }
             } catch (NumberFormatException e) {
+                LOGGER.trace("NumberFormatException: " + e.toString());
             } catch (NullPointerException e) {
+                LOGGER.trace("NullPointerException: " + e.toString());
             }
 
             sb.append("{\"c\":[");
