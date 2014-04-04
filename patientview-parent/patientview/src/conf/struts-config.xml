@@ -290,8 +290,7 @@
 
         <form-bean name="resultForm"
                    type="org.apache.struts.action.DynaActionForm">
-            <form-property name="resultType1" type="java.lang.String"/>
-            <form-property name="resultType2" type="java.lang.String"/>
+            <form-property name="resultType" type="java.lang.String"/>
             <form-property name="period" type="java.lang.String"/>
         </form-bean>
     </form-beans>
