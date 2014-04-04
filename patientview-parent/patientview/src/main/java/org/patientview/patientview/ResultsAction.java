@@ -217,13 +217,18 @@ public class ResultsAction extends ActionSupport {
             sb.append(dataMaxValue);
         }
 
-        // title text (first result heading)
+        // title text (result heading)
         if (heading.getHeading() != null) {
             sb.append("\", \"titleText\" : \"");
             sb.append(heading.getHeading());
         }
 
         // units (y-axis label)
+        if (heading.getUnits() != null) {
+            sb.append("\", \"units\" : \"");
+            sb.append(heading.getUnits());
+        }
+
         if (heading.getUnits() != null) {
             sb.append("\", \"units\" : \"");
             sb.append(heading.getUnits());

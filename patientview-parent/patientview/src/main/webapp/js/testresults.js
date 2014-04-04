@@ -41,7 +41,7 @@ function drawChart() {
                 }
 
                 var arrColors = ['red','blue'];
-                if ($('#heading1').text() == "") {
+                if ($('#heading').text() == "") {
                     arrColors = ['blue','red'];
                 }
 
@@ -57,7 +57,7 @@ function drawChart() {
                     boolScale = false;
                 }
 
-                var chartVAxis = {logScale: boolScale, viewWindow: {min: config.minRangeValue, max: config.maxRangeValue}, title: config.units};
+                var chartVAxis = {baseline: config.minRangeValue, logScale: boolScale, viewWindow: {min: config.minRangeValue, max: config.maxRangeValue}, title: config.units};
 
                 var options = {
                     title: config.titleText,
@@ -66,6 +66,7 @@ function drawChart() {
                     vAxis: chartVAxis,
                     interpolateNulls: true
                 };
+                console.log(options);
                 chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
                 chart.draw(dataView, options);
 
