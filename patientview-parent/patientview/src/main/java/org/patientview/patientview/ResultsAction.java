@@ -229,11 +229,6 @@ public class ResultsAction extends ActionSupport {
             sb.append(heading.getUnits());
         }
 
-        if (heading.getUnits() != null) {
-            sb.append("\", \"units\" : \"");
-            sb.append(heading.getUnits());
-        }
-
         sb.append("\"}}");
 
         return sb.toString();
