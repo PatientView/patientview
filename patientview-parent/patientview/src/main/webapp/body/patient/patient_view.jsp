@@ -160,7 +160,7 @@
     <logic:present name="unitLinks">
         <logic:iterate id="unitLink" name="unitLinks">
         <tr>
-            <th valign="top" class="tablecell">Information from <bean:write name="unitLink" property="description"/></th>
+            <th valign="top" class="tablecell">Information about <bean:write name="unitLink" property="description"/></th>
             <td valign="top" class="tablecell">
                 <logic:notEmpty name="unitLink" property="medicalLink01">
                     <a href="<bean:write name="unitLink" property="medicalLink01"/>" target="_blank"><bean:write name="unitLink" property="medicalLinkText01"/></a><br />
