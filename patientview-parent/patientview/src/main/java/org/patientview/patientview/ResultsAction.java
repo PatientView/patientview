@@ -132,8 +132,7 @@ public class ResultsAction extends ActionSupport {
         if (StringUtils.isNotEmpty(resultType1)) {
             // result type 1
             sb.append("{\"id\":\"").append(heading1.getHeading()).append("\",");
-            sb.append("\"label\":\"").append(heading1.getHeading()).append("\",");
-            sb.append("\"type\":\"number\"},");
+            sb.append("\"label\":\"").append(heading1.getHeading()).append("\",").append("\"type\":\"number\"},");
             // tooltip for result type 1
             sb.append("{\"id\":\"\",").append("\"role\":\"tooltip\",").append("\"type\":\"string\",");
             sb.append("\"p\":{\"role\":\"tooltip\",\"html\":\"true\"}}");
@@ -149,8 +148,7 @@ public class ResultsAction extends ActionSupport {
 
             // result type 2
             sb.append("{\"id\":\"").append(heading2.getHeading()).append("\",");
-            sb.append("\"label\":\"").append(heading2.getHeading()).append("\",");
-            sb.append("\"type\":\"number\"},");
+            sb.append("\"label\":\"").append(heading2.getHeading()).append("\",").append("\"type\":\"number\"},");
             // tooltip result type 2
             sb.append("{\"id\":\"\",").append("\"role\":\"tooltip\",").append("\"type\":\"string\",");
             sb.append("\"p\":{\"role\":\"tooltip\",\"html\":\"true\"}}],");
@@ -175,6 +173,8 @@ public class ResultsAction extends ActionSupport {
                 }
             } catch (NumberFormatException e) {
                 dataMinValue = null;
+            } catch (NullPointerException e) {
+                dataMinValue = null;
             }
 
             try {
@@ -182,6 +182,8 @@ public class ResultsAction extends ActionSupport {
                     dataMaxValue = Double.parseDouble(resultValue1);
                 }
             } catch (NumberFormatException e) {
+                dataMaxValue = null;
+            } catch (NullPointerException e) {
                 dataMaxValue = null;
             }
 
@@ -260,7 +262,6 @@ public class ResultsAction extends ActionSupport {
         }
 
         sb.append("\"}}");
-
         return sb.toString();
     }
 
