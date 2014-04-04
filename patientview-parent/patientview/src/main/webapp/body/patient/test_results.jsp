@@ -39,38 +39,37 @@
 </div>
 
 <logic:notEmpty name="resultsHeadings">
-<h3>Select test result to graph</h3>
-<div class="btn-toolbar">
-    <div class="btn-group">
-        <button class="btn btn-danger dropdown-toggle" data-toggle="dropdown"><span id="heading1"><bean:write name="resultTypeHeading" property="heading"/></span><span id="d1" class="caret"></span></button>
-        <ul class="dropdown dropdown-menu">
-            <li><a id="btn_1_none" href="#" onclick='changeChart(this, "","")'>&nbsp;</a></li>
-            <logic:iterate name="resultsHeadings" id="heading" type="org.patientview.patientview.model.ResultHeading" >
-                <li><a id="btn_1" href="#" onclick='changeChart(this, "<bean:write name="heading" property="headingcode"/>","<bean:write name="heading" property="heading"/>")'><bean:write name="heading" property="heading"/> </a></li>
-            </logic:iterate>
-        </ul>
+    <h3>Select test result to graph</h3>
+    <div class="btn-toolbar">
+        <div class="btn-group">
+            <button class="btn btn-danger dropdown-toggle" data-toggle="dropdown"><span id="heading"><bean:write name="resultTypeHeading" property="heading"/></span><span id="d1" class="caret"></span></button>
+            <ul class="dropdown dropdown-menu">
+                <li><a id="btn_1_none" href="#" onclick='changeChart(this, "","")'>&nbsp;</a></li>
+                <logic:iterate name="resultsHeadings" id="heading" type="org.patientview.patientview.model.ResultHeading" >
+                    <li><a id="btn_1" href="#" onclick='changeChart(this, "<bean:write name="heading" property="headingcode"/>","<bean:write name="heading" property="heading"/>")'><bean:write name="heading" property="heading"/> </a></li>
+                </logic:iterate>
+            </ul>
+        </div>
     </div>
-</div>
 
-<div class="alert alert-error" id="errorMsg" style="display: none">Test result doesn't exist.</div>
+    <div class="alert alert-error" id="errorMsg" style="display: none">Test result doesn't exist.</div>
 
-<input type="hidden" name="resultCode1" value="<bean:write name='resultTypeHeading' property="headingcode"/>" id="result_Type1"/>
-<input type="hidden" name="resultCode2" value="" id="result_Type2"/>
-<input type="hidden" name="period" value="<bean:write name='period'/>" id="period"/>
+    <input type="hidden" name="resultCode" value="<bean:write name='resultTypeHeading' property="headingcode"/>" id="result_Type"/>
+    <input type="hidden" name="period" value="<bean:write name='period'/>" id="period"/>
 
-<div id="chart_div" style="height:500px;" ></div>
-<div id="time_period">
-    <div><h3>Change time period </h3></div>
-    <div class="btn-group" style="margin-top: 5px;" id="button_group">
-        <button type="button" class="btn btn-default" id="1_Month" onclick="changePeriod(this,1)">1M</button>
-        <button type="button" class="btn btn-default" id="3_Months" onclick="changePeriod(this,3)">3M</button>
-        <button type="button" class="btn btn-default" id="6_Months" onclick="changePeriod(this,6)">6M</button>
-        <button type="button" class="btn btn-default" id="1_Year" onclick="changePeriod(this,12)">1Y</button>
-        <button type="button" class="btn btn-default" id="3_Year" onclick="changePeriod(this,36)">3Y</button>
-        <button type="button" class="btn btn-default" id="5_Year" onclick="changePeriod(this,60)">5Y</button>
-        <button type="button" class="btn btn-default" id="ALL" onclick="changePeriod(this,0)">All</button>
+    <div id="chart_div" style="height:500px;" ></div>
+    <div id="time_period">
+        <div><h3>Change time period </h3></div>
+        <div class="btn-group" style="margin-top: 5px;" id="button_group">
+            <button type="button" class="btn btn-default" id="1_Month" onclick="changePeriod(this,1)">1M</button>
+            <button type="button" class="btn btn-default" id="3_Months" onclick="changePeriod(this,3)">3M</button>
+            <button type="button" class="btn btn-default" id="6_Months" onclick="changePeriod(this,6)">6M</button>
+            <button type="button" class="btn btn-default" id="1_Year" onclick="changePeriod(this,12)">1Y</button>
+            <button type="button" class="btn btn-default" id="3_Year" onclick="changePeriod(this,36)">3Y</button>
+            <button type="button" class="btn btn-default" id="5_Year" onclick="changePeriod(this,60)">5Y</button>
+            <button type="button" class="btn btn-default" id="ALL" onclick="changePeriod(this,0)">All</button>
+        </div>
     </div>
-</div>
 </logic:notEmpty>
 <logic:empty name="resultsHeadings">
     <div class="alert alert-error" id="errorMsg">No test results available.</div>
