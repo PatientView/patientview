@@ -135,9 +135,7 @@ public class ResultsAction extends ActionSupport {
             sb.append("\"label\":\"").append(heading1.getHeading()).append("\",");
             sb.append("\"type\":\"number\"},");
             // tooltip for result type 1
-            sb.append("{\"id\":\"\",");
-            sb.append("\"role\":\"tooltip\",");
-            sb.append("\"type\":\"string\",");
+            sb.append("{\"id\":\"\",").append("\"role\":\"tooltip\",").append("\"type\":\"string\",");
             sb.append("\"p\":{\"role\":\"tooltip\",\"html\":\"true\"}}");
 
             if (StringUtils.isEmpty(resultType2)) {
@@ -154,9 +152,7 @@ public class ResultsAction extends ActionSupport {
             sb.append("\"label\":\"").append(heading2.getHeading()).append("\",");
             sb.append("\"type\":\"number\"},");
             // tooltip result type 2
-            sb.append("{\"id\":\"\",");
-            sb.append("\"role\":\"tooltip\",");
-            sb.append("\"type\":\"string\",");
+            sb.append("{\"id\":\"\",").append("\"role\":\"tooltip\",").append("\"type\":\"string\",");
             sb.append("\"p\":{\"role\":\"tooltip\",\"html\":\"true\"}}],");
         }
 
