@@ -151,9 +151,7 @@ public class ResultsAction extends ActionSupport {
                     dataMinValue = Double.parseDouble(resultValue);
                 }
             } catch (NumberFormatException e) {
-                dataMinValue = null;
             } catch (NullPointerException e) {
-                dataMinValue = null;
             }
 
             try {
@@ -161,9 +159,7 @@ public class ResultsAction extends ActionSupport {
                     dataMaxValue = Double.parseDouble(resultValue);
                 }
             } catch (NumberFormatException e) {
-                dataMaxValue = null;
             } catch (NullPointerException e) {
-                dataMaxValue = null;
             }
 
             sb.append("{\"c\":[");
