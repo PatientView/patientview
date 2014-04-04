@@ -114,7 +114,7 @@ public class ResultsAction extends ActionSupport {
     private String convertToJsonData(Collection<Result> resultData, String resultType) {
 
         ResultHeadingManager resultHeadingManager = getWebApplicationContext().getBean(ResultHeadingManager.class);
-        String resultValue = "";
+        String resultValue = null;
 
         ResultHeading heading = resultHeadingManager.get(resultType);
 
