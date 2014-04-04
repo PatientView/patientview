@@ -173,12 +173,20 @@ public class ResultsAction extends ActionSupport {
             resultValue1 = result.getValue(resultType1);
             resultValue2 = result.getValue(resultType2);
 
-            if (Double.parseDouble(resultValue1) < dataMinValue) {
-                dataMinValue = Double.parseDouble(resultValue1);
+            try {
+                if (Double.parseDouble(resultValue1) < dataMinValue) {
+                    dataMinValue = Double.parseDouble(resultValue1);
+                }
+            } catch (NumberFormatException e) {
+                dataMinValue = null;
             }
 
-            if (Double.parseDouble(resultValue1) > dataMaxValue) {
-                dataMaxValue = Double.parseDouble(resultValue1);
+            try {
+                if (Double.parseDouble(resultValue1) > dataMaxValue) {
+                    dataMaxValue = Double.parseDouble(resultValue1);
+                }
+            } catch (NumberFormatException e) {
+                dataMaxValue = null;
             }
 
             sb.append("{\"c\":[");
