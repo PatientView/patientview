@@ -45,6 +45,7 @@ import org.patientview.patientview.utils.TimestampUtils;
 import org.patientview.quartz.exception.ProcessException;
 import org.patientview.quartz.exception.ResultParserException;
 import org.patientview.quartz.handler.ErrorHandler;
+import org.patientview.repository.UnitDao;
 import org.patientview.repository.UserMappingDao;
 import org.patientview.service.DiagnosisManager;
 import org.patientview.service.DiagnosticManager;
@@ -53,7 +54,6 @@ import org.patientview.service.LetterManager;
 import org.patientview.service.MedicineManager;
 import org.patientview.service.PatientManager;
 import org.patientview.service.TestResultManager;
-import org.patientview.service.UnitManager;
 import org.patientview.service.ibd.IbdManager;
 import org.patientview.util.CommonUtils;
 import org.slf4j.Logger;
@@ -83,7 +83,7 @@ public class ImportManagerImpl implements ImportManager {
     private XmlImportUtils xmlImportUtils;
 
     @Inject
-    private UnitManager unitManager;
+    private UnitDao unitDao;
 
     @Inject
     private PatientManager patientManager;
@@ -116,7 +116,7 @@ public class ImportManagerImpl implements ImportManager {
     @Override
     public Unit retrieveUnit(String unitCode) {
         unitCode = unitCode.toUpperCase();
-        return unitManager.get(unitCode, null);
+        return unitDao.get(unitCode, null);
     }
 
     public void process(File xmlFile) throws ProcessException {
@@ -206,7 +206,7 @@ public class ImportManagerImpl implements ImportManager {
         Unit unit = retrieveUnit(centre.getCentreCode());
         if (unit != null) {
             unit.setLastImportDate(new Date());
-            unitManager.save(unit);
+            unitDao.save(unit);
         }
     }
 
@@ -332,7 +332,7 @@ public class ImportManagerImpl implements ImportManager {
 
     private void validateUnitCode(Centre centre) throws ProcessException {
 
-        if (unitManager.get(centre.getCentreCode(), null) == null) {
+        if (unitDao.get(centre.getCentreCode(), null) == null) {
             throw new ProcessException("The unit code supplied by the file does not exist in the database");
         }
 
