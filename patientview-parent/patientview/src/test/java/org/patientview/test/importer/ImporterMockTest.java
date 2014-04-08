@@ -47,6 +47,7 @@ import java.util.List;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -143,7 +144,7 @@ public class ImporterMockTest {
     public void testProcessWithInvalidUnitCode() {
         File testXml = new File(this.getClass().getClassLoader().getResource("A_00794_1234567890-InvalidUnitCode.gpg.xml").getFile());
 
-        when(unitDao.get(anyString(), any(Specialty.class))).thenReturn(null);
+        when(unitDao.get(eq("XXXX"), any(Specialty.class))).thenReturn(null);
         when(userMappingDao.getAllByNhsNo(anyString(), anyString())).thenReturn(userMappings);
 
         try {
