@@ -163,26 +163,44 @@ public class ImportManagerImpl implements ImportManager {
             removePatientFromSystem(resultParser);
             return AddLog.PATIENT_DATA_REMOVE;
         } else {
+            String nhsNo = resultParser.getData("nhsno");
+            String unitCode = resultParser.getData("centrecode");
+
             validateNhsNumber(resultParser.getPatient());
             validateUnitCode(resultParser.getCentre());
             validatePatientExistsInUnit(resultParser.getPatient(), resultParser.getCentre());
+
             updatePatientDetails(resultParser.getPatient(), resultParser.getDateRanges());
+
             deleteDateRanges(resultParser.getDateRanges());
             insertResults(resultParser.getTestResults());
+
             deleteLetters(resultParser.getLetters());
             insertLetters(resultParser.getLetters());
-            deleteOtherDiagnoses(resultParser.getData("nhsno"), resultParser.getData("centrecode"));
+
+            deleteOtherDiagnoses(nhsNo, unitCode);
             insertOtherDiagnoses(resultParser.getOtherDiagnoses());
-            deleteMedicines(resultParser.getData("nhsno"), resultParser.getData("centrecode"));
+
+            deleteMedicines(nhsNo, unitCode);
             insertMedicines(resultParser.getMedicines());
-            deleteMyIbd(resultParser.getData("nhsno"), resultParser.getData("centrecode"));
+
+            deleteMyIbd(nhsNo, unitCode);
             insertMyIbd(resultParser.getMyIbd());
-            deleteDiagnostics(resultParser.getData("nhsno"), resultParser.getData("centrecode"));
+
+            deleteDiagnostics(nhsNo, unitCode);
             insertDiagnostics(resultParser.getDiagnostics());
-            deleteProcedures(resultParser.getData("nhsno"), resultParser.getData("centrecode"));
+
+            deleteProcedures(nhsNo, unitCode);
             insertProcedures(resultParser.getProcedures());
-            deleteAllergies(resultParser.getData("nhsno"), resultParser.getData("centrecode"));
+
+            deleteAllergies(nhsNo, unitCode);
             insertAllergies(resultParser.getAllergies());
+
+            deleteEyeCheckup(nhsNo, unitCode);
+            insertEyeCheckup(resultParser.getEyeCheckupses());
+
+            deleteFootCheckup(nhsNo, unitCode);
+            insertFootCheckup(resultParser.getFootCheckupses());
             // todo improvement: we should build a set of all units updated, then mark them at the end of the job
             markLastImportDateOnUnit(resultParser.getCentre());
 
