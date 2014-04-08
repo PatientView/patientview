@@ -8,7 +8,7 @@ import org.patientview.utils.LegacySpringUtils;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-public class SharingThoughts {
+public final class SharingThoughts {
 
     public static final String ID = "id";
     public static final String UNIT_ID = "unitId";
@@ -52,4 +52,7 @@ public class SharingThoughts {
         request.setAttribute(attributeName, usersSharedThoughtsDrafts);
     }
 
+    private SharingThoughts() {
+
+    }
 }

@@ -106,62 +106,6 @@ public class SharedThought extends BaseModel {
     public SharedThought() {
     }
 
-    public SharedThought(User user, Unit unit, int positiveNegative, Boolean isPatient, Boolean isPrincipalCarer,
-                         Boolean isRelative,
-                         Boolean isFriend, Boolean isAboutMe, Boolean isAboutOther, Boolean isAnonymous,
-                         Date startDate, Date endDate, Boolean isOngoing, String location, String suggestedAction,
-                         String concernDescription, String concernReason, int likelihoodOfRecurrence, int howSerious,
-                         boolean isSubmitted) {
-        this.user = user;
-        this.unit = unit;
-        this.positiveNegative = positiveNegative;
-        this.isPatient = isPatient;
-        this.isPrincipalCarer = isPrincipalCarer;
-        this.isRelative = isRelative;
-        this.isFriend = isFriend;
-        this.isAboutMe = isAboutMe;
-        this.isAboutOther = isAboutOther;
-        this.isAnonymous = isAnonymous;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.isOngoing = isOngoing;
-        this.location = location;
-        this.suggestedAction = suggestedAction;
-        this.description = concernDescription;
-        this.concernReason = concernReason;
-        this.likelihoodOfRecurrence = likelihoodOfRecurrence;
-        this.howSerious = howSerious;
-        this.isSubmitted = isSubmitted;
-    }
-    public SharedThought(long id, User user, Unit unit, int positiveNegative, Boolean isPatient,
-                         Boolean isPrincipalCarer, Boolean isRelative,
-                         Boolean isFriend, Boolean isAboutMe, Boolean isAboutOther, Boolean isAnonymous,
-                         Date startDate, Date endDate, Boolean isOngoing, String location, String suggestedAction,
-                         String description, String concernReason, int likelihoodOfRecurrence, int howSerious,
-                         boolean isSubmitted) {
-        setId(id);
-        this.user = user;
-        this.unit = unit;
-        this.positiveNegative = positiveNegative;
-        this.isPatient = isPatient;
-        this.isPrincipalCarer = isPrincipalCarer;
-        this.isRelative = isRelative;
-        this.isFriend = isFriend;
-        this.isAboutMe = isAboutMe;
-        this.isAboutOther = isAboutOther;
-        this.isAnonymous = isAnonymous;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.isOngoing = isOngoing;
-        this.location = location;
-        this.suggestedAction = suggestedAction;
-        this.description = description;
-        this.concernReason = concernReason;
-        this.likelihoodOfRecurrence = likelihoodOfRecurrence;
-        this.howSerious = howSerious;
-        this.isSubmitted = isSubmitted;
-    }
-
     public User getUser() {
         return user;
     }
@@ -426,7 +370,7 @@ public class SharedThought extends BaseModel {
         return "";
     }
 
-    public String getDescriptionBeginning() {
+    /*public String getDescriptionBeginning() {
         return (description.length() >= 49) ? description.substring(0, 48) : description;
-    }
+    }*/
 }

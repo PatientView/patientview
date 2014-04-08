@@ -54,105 +54,105 @@ public class SharingThoughtsSaveAction extends BaseAction {
         Long thoughtId = null;
         try {
             thoughtId = (Long) dynaForm.get(SharingThoughts.ID);
-        } catch (Exception ignored) { ignored = null;
-        }
+        } catch (Exception ignored) { ignored = null; }
 
         Boolean isPatient = null;
         try {
             isPatient = (Boolean) dynaForm.get(SharingThoughts.IS_PATIENT);
-        } catch (Exception ignored) { ignored = null;
-        }
+        } catch (Exception ignored) { ignored = null; }
 
         Boolean isPrincipalCarer = null;
         try {
             isPrincipalCarer = (Boolean) dynaForm.get(SharingThoughts.IS_PRINCIPAL_CARER);
-        } catch (Exception ignored) { ignored = null;
-        }
+        } catch (Exception ignored) { ignored = null; }
 
         Boolean isRelative = null;
         try {
             isRelative = (Boolean) dynaForm.get(SharingThoughts.IS_RELATIVE);
-        } catch (Exception ignored) { ignored = null;
-        }
+        } catch (Exception ignored) { ignored = null; }
 
         Boolean isFriend = null;
         try {
             isFriend = (Boolean) dynaForm.get(SharingThoughts.IS_FRIEND);
-        } catch (Exception ignored) { ignored = null;
-        }
+        } catch (Exception ignored) { ignored = null; }
 
         Boolean isAboutMe = null;
         try {
             isAboutMe = (Boolean) dynaForm.get(SharingThoughts.IS_ABOUT_ME);
-        } catch (Exception ignored) { ignored = null;
-        }
+        } catch (Exception ignored) { ignored = null; }
 
         Boolean isAboutOther = null;
         try {
             isAboutOther = (Boolean) dynaForm.get(SharingThoughts.IS_ABOUT_OTHER);
-        } catch (Exception ignored) { ignored = null;
-        }
+        } catch (Exception ignored) { ignored = null; }
 
         Boolean isAnonymous = null;
         try {
             isAnonymous = (Boolean) dynaForm.get(SharingThoughts.IS_ANONYMOUS);
-        } catch (Exception ignored) { ignored = null;
-        }
+        } catch (Exception ignored) { ignored = null; }
         Date startDate = null;
         try {
             startDate = convertFormDateString(SharingThoughts.START_DATE, dynaForm);
-        } catch (Exception ignored) { ignored = null;
-        }
+        } catch (Exception ignored) { ignored = null; }
         Date endDate = null;
         try {
             endDate = convertFormDateString(SharingThoughts.END_DATE, dynaForm);
-        } catch (Exception ignored) { ignored = null;
-        }
+        } catch (Exception ignored) { ignored = null; }
         Boolean isOngoing = null;
         try {
             isOngoing = (Boolean) dynaForm.get(SharingThoughts.IS_ONGOING);
-        } catch (Exception ignored) { ignored = null;
-        }
+        } catch (Exception ignored) { ignored = null; }
         String location = null;
         try {
             location = (String) dynaForm.get(SharingThoughts.LOCATION);
-        } catch (Exception ignored) { ignored = null;
-        }
+        } catch (Exception ignored) { ignored = null; }
         Unit unit = null;
         try {
             Long unitId = (Long) dynaForm.get(SharingThoughts.UNIT_ID);
             unit = LegacySpringUtils.getUnitManager().get(unitId);
-        } catch (Exception ignored) { ignored = null;
-        }
+        } catch (Exception ignored) { ignored = null; }
         String description = null;
         try {
             description = (String) dynaForm.get(SharingThoughts.DESCRIPTION);
-        } catch (Exception ignored) { ignored = null;
-        }
+        } catch (Exception ignored) { ignored = null; }
         String suggestedAction = null;
         try {
             suggestedAction = (String) dynaForm.get(SharingThoughts.SUGGESTED_ACTION);
-        } catch (Exception ignored) { ignored = null;
-        }
+        } catch (Exception ignored) { ignored = null; }
         String concernReason = null;
         try {
             concernReason = (String) dynaForm.get(SharingThoughts.CONCERN_REASON);
-        } catch (Exception ignored) { ignored = null;
-        }
+        } catch (Exception ignored) { ignored = null; }
         int likelihoodOfRecurrence = 0;
         try {
             likelihoodOfRecurrence = (Integer) dynaForm.get(SharingThoughts.LIKELIHOOD_0F_RECURRENCE);
-        } catch (Exception ignored) { ignored = null;
-        }
+        } catch (Exception ignored) { ignored = null; }
         int howSerious = 0;
         try {
             howSerious = (Integer) dynaForm.get(SharingThoughts.HOW_SERIOUS);
-        } catch (Exception ignored) { ignored = null;
-        }
+        } catch (Exception ignored) { ignored = null; }
 
-        SharedThought thought = new SharedThought(user, unit, positiveNegative, isPatient, isPrincipalCarer, isRelative,
-                isFriend, isAboutMe, isAboutOther, isAnonymous, startDate, endDate, isOngoing, location,
-                suggestedAction, description, concernReason, likelihoodOfRecurrence, howSerious, isSubmitted);
+        SharedThought thought = new SharedThought();
+        thought.setUser(user);
+        thought.setUnit(unit);
+        thought.setPositiveNegative(positiveNegative);
+        thought.setPatient(isPatient);
+        thought.setPrincipalCarer(isPrincipalCarer);
+        thought.setRelative(isRelative);
+        thought.setFriend(isFriend);
+        thought.setAboutMe(isAboutMe);
+        thought.setAboutOther(isAboutOther);
+        thought.setAnonymous(isAnonymous);
+        thought.setStartDate(startDate);
+        thought.setEndDate(endDate);
+        thought.setOngoing(isOngoing);
+        thought.setLocation(location);
+        thought.setSuggestedAction(suggestedAction);
+        thought.setDescription(description);
+        thought.setConcernReason(concernReason);
+        thought.setLikelihoodOfRecurrence(likelihoodOfRecurrence);
+        thought.setHowSerious(howSerious);
+        thought.setSubmitted(isSubmitted);
 
         if (thoughtId != null) {
             thought.setId(thoughtId);
