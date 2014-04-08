@@ -73,7 +73,6 @@ public class PatientEditAction extends Action {
         String failedlogonsstring = BeanUtils.getProperty(form, "failedlogons");
         int failedlogons = Integer.decode(failedlogonsstring);
         boolean accountlocked = "true".equals(BeanUtils.getProperty(form, "accountlocked"));
-        boolean accounthidden = "true".equals(BeanUtils.getProperty(form, "accounthidden"));
         String mappingToFind = "";
 
         List duplicateUsers = findDuplicateUsers(nhsno, username);

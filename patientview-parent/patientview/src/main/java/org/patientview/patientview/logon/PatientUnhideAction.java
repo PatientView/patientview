@@ -24,40 +24,49 @@
 package org.patientview.patientview.logon;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.patientview.model.Unit;
 import org.patientview.patientview.logging.AddLog;
 import org.patientview.patientview.model.User;
-import org.patientview.patientview.model.UserMapping;
-import org.patientview.utils.LegacySpringUtils;
+import org.patientview.service.SecurityUserManager;
+import org.patientview.service.UnitManager;
+import org.patientview.service.UserManager;
+import org.springframework.web.struts.ActionSupport;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
-public class UnitAdminAddToUnitAction extends Action {
+public class PatientUnhideAction extends ActionSupport {
 
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
                                  HttpServletResponse response) throws Exception {
 
+        UnitManager unitManager = getWebApplicationContext().getBean(UnitManager.class);
+        UserManager userManager = getWebApplicationContext().getBean(UserManager.class);
+        SecurityUserManager securityUserManager = getWebApplicationContext().getBean(SecurityUserManager.class);
+
         String username = BeanUtils.getProperty(form, "username");
-        String unitcode = BeanUtils.getProperty(form, "unitcode");
+        User user = userManager.get(username);
 
-        UserMapping userMapping = new UserMapping(username, unitcode, null);
-        LegacySpringUtils.getUserManager().save(userMapping);
+        String mappingToFind = "";
 
-        AddLog.addLog(LegacySpringUtils.getSecurityUserManager().getLoggedInUsername(), AddLog.ADMIN_ADD, username, "",
-                unitcode, "");
-        String mappingToFind = "success";
+        if (user != null) {
+            user.setAccounthidden(false);
+            userManager.save(user);
 
-        User user = LegacySpringUtils.getUserManager().get(username);
+            AddLog.addLog(securityUserManager.getLoggedInUsername(), AddLog.PATIENT_UNHIDE,
+                    user.getUsername(), "", userManager.getUsersRealUnitcodeBestGuess(username), "");
 
-        user.setPassword("");
+            mappingToFind = "success";
+        }
 
-        request.setAttribute("adminuser", user);
+        List<Unit> units = unitManager.getAll(false);
+        request.setAttribute("units", units);
+        request.setAttribute("user", user);
 
         return mapping.findForward(mappingToFind);
     }
-
 }

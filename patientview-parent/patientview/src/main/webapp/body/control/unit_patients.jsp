@@ -94,7 +94,12 @@
                     request.setAttribute("patientKeyParams", patientKeyParams);
                 %>
 
-                <tr>
+                <logic:equal name="patient" property="accounthidden" value="true">
+                    <tr class="accounthidden">
+                </logic:equal>
+                <logic:notEqual name="patient" property="accounthidden" value="true">
+                    <tr>
+                </logic:notEqual>
                     <td class="tablecell">
                         <logic:present role="superadmin,unitadmin">
                             <html:link action="/control/patientEditInput" name="patientKeyParams">

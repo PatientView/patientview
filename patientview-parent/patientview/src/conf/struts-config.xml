@@ -74,6 +74,9 @@
             <form-property name="link" type="java.lang.String"/>
             <form-property name="panel" type="java.lang.String"/>
             <form-property name="panelorder" type="java.lang.String"/>
+            <form-property name="minRangeValue" type="java.lang.String"/>
+            <form-property name="maxRangeValue" type="java.lang.String"/>
+            <form-property name="units" type="java.lang.String"/>
         </form-bean>
         <form-bean name="patientForm" type="org.apache.struts.validator.DynaValidatorActionForm">
             <form-property name="username" type="java.lang.String"/>
@@ -206,6 +209,7 @@
             <form-property name="unitcode" type="java.lang.String"/>
             <form-property name="startdate" type="java.lang.String"/>
             <form-property name="enddate" type="java.lang.String"/>
+            <form-property name="order" type="java.lang.String"/>
         </form-bean>
         <form-bean name="newsForm" type="org.apache.struts.validator.DynaValidatorActionForm">
             <form-property name="id" type="java.lang.String"/>
@@ -286,8 +290,7 @@
 
         <form-bean name="resultForm"
                    type="org.apache.struts.action.DynaActionForm">
-            <form-property name="resultType1" type="java.lang.String"/>
-            <form-property name="resultType2" type="java.lang.String"/>
+            <form-property name="resultType" type="java.lang.String"/>
             <form-property name="period" type="java.lang.String"/>
         </form-bean>
     </form-beans>
@@ -1013,6 +1016,13 @@
                 name="patientForm"
                 scope="request">
             <forward name="success" path="/control/patient_hide_confirm.jsp"/>
+        </action>
+
+        <action path="/control/patientUnhide"
+                type="org.patientview.patientview.logon.PatientUnhideAction"
+                name="patientForm"
+                scope="request">
+            <forward name="success" path="/control/patient_unhide_confirm.jsp"/>
         </action>
 
         <action path="/control/unitAddInput"

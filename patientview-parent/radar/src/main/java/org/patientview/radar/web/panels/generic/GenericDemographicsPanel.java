@@ -129,7 +129,7 @@ public class GenericDemographicsPanel extends Panel {
         final IModel<Patient> model = new Model(patient);
 
         //Error Message
-        String message = "Please complete all mandatory fields";
+        String message = "Please correct any errors and complete all mandatory fields";
         final LabelMessage labelMessage = new LabelMessage();
         labelMessage.setMessage(message);
         final PropertyModel<LabelMessage> messageModel = new PropertyModel<LabelMessage>(labelMessage, "message");
@@ -158,35 +158,42 @@ public class GenericDemographicsPanel extends Panel {
             protected void onSubmit() {
 
                 Patient patient = getModel().getObject();
+                Boolean error = false;
 
-                // make sure diagnosis date is after dob
-                if (patient.getDateOfGenericDiagnosis() != null
-                        && patient.getDateOfGenericDiagnosis().compareTo(patient.getDob()) < 0) {
-                    get("dateOfGenericDiagnosisContainer:dateOfGenericDiagnosis")
-                            .error("Your diagnosis date cannot be before your date of birth");
+                // check dob exists
+                if (patient.getDob() != null) {
+                    // make sure diagnosis date is after dob
+                    if (patient.getDateOfGenericDiagnosis() != null
+                            && patient.getDateOfGenericDiagnosis().compareTo(patient.getDob()) < 0) {
+                        get("dateOfGenericDiagnosisContainer:dateOfGenericDiagnosis")
+                                .error("Your diagnosis date cannot be before your date of birth");
+                        error = true;
+                    }
                 }
 
                 // Leaving this in, saved to the DB table
                 patient.setGeneric(true);
 
-                try {
-                     /** At this point we either have
-                      1) A new patient we would like to register
-                      2) A link patient we would like to register
-                      3) An existing linked patient we would like to update changes to the Patient table
-                      4) An existing patient we would like to update changes to the Patient table **/
-                     userManager.addPatientUserOrUpdatePatient(patient);
+                if (!error) {
+                    try {
+                         /** At this point we either have
+                          1) A new patient we would like to register
+                          2) A link patient we would like to register
+                          3) An existing linked patient we would like to update changes to the Patient table
+                          4) An existing patient we would like to update changes to the Patient table **/
+                         userManager.addPatientUserOrUpdatePatient(patient);
 
-                } catch (RegisterException re) {
-                    LOGGER.error("Registration Exception", re);
-                    String message = "Failed to register patient: " + re.getMessage();
-                    labelMessage.setMessage(message);
-                    error(message);
-                } catch (Exception e) {
-                    String message = "Error registering new patient to accompany this demographic";
-                    LOGGER.error("Unknown error", e);
-                    error(message);
-                }
+                    } catch (RegisterException re) {
+                        LOGGER.error("Registration Exception", re);
+                        String message = "Failed to register patient: " + re.getMessage();
+                        labelMessage.setMessage(message);
+                        error(message);
+                    } catch (Exception e) {
+                        String message = "Error registering new patient to accompany this demographic";
+                        LOGGER.error("Unknown error", e);
+                        error(message);
+                    }
+                } 
             }
         };
 

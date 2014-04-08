@@ -34,7 +34,7 @@
 </div>
 
 On <dt:format
-        pattern="d MMM yyyy"><dt:currentTime/></dt:format> you successfully added a new admin user with the following details:
+        pattern="d MMM yyyy"><dt:currentTime/></dt:format> you successfully added a new unit user with the following details:
 <br/><br/>
 
 <table cellpadding="3">

@@ -78,7 +78,7 @@ public class MedicineDisplayAction extends Action {
             for (Medicine med : medicines) {
                 Unit unit = UnitUtils.retrieveUnit(med.getUnitcode());
                 if (unit != null) {
-                    if (isRadarGroup && "radargroup".equalsIgnoreCase(unit.getShortname())) {
+                    if (!isRadarGroup && "radargroup".equalsIgnoreCase(unit.getSourceType())) {
                         continue;
                     }
                     medicinesWithShortName.add(new MedicineWithShortName(med, unit.getShortname()));

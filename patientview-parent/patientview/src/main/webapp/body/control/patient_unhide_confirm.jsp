@@ -1,6 +1,7 @@
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
+<%@ taglib uri="http://jakarta.apache.org/taglibs/datetime-1.0" prefix="dt" %>
 
 <%--
   ~ PatientView
@@ -25,26 +26,30 @@
   ~ @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
   --%>
 
-<div class="span4 seperatingBorders pull-right">
-        <h3 class="mediumBlueTitle titleSeperator">News</h3>
+<html:xhtml/>
 
-        <logic:present name="newses">
-            <logic:empty name="newses">
-                <p>
-                    <i>There are currently no news items.</i>
-                </p>
-            </logic:empty>
-            <logic:notEmpty name="newses">
-                <ul class="linkList">
-                    <logic:iterate id="news" name="newses">
-                        <li>
-                            <html:link action="/newsView" paramId="id" paramName="news" paramProperty="id" styleClass="readMoreParagraph">
-                                &raquo; <bean:write name="news" property="headline" /> <span class="newsspecialty specialty-<bean:write name="news" property="specialty.id" />">- <bean:write name="news" property="specialty.name" /></span>
-                            </html:link>
-                        </li>
-                    </logic:iterate>
-                </ul>
-            </logic:notEmpty>
-
-        </logic:present>
+<span class="span9">
+    <div class="page-header">
+        <h1>Patient is No Longer Hidden</h1>
     </div>
+
+    On <dt:format pattern="d MMM yyyy"><dt:currentTime/></dt:format> you successfully revealed the user:
+    <br/><br/>
+
+    <table cellpadding="3">
+        <tr>
+            <td><b>User Name</b></td>
+            <td><bean:write name="user" property="username"/></td>
+        </tr>
+        <tr>
+            <td><b>Name</b></td>
+            <td><bean:write name="user" property="name"/></td>
+        </tr>
+        <tr>
+            <td><b>Email Address</b></td>
+            <td><bean:write name="user" property="email"/></td>
+        </tr>
+    </table>
+    <br/><br/>
+    The account is still locked but they will now appear in patient lists.
+</span>

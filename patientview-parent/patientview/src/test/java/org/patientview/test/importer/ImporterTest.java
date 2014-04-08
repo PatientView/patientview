@@ -94,8 +94,8 @@ public class ImporterTest extends BaseServiceTest {
     @Inject
     private DiagnosticManager diagnosticManager;
 
-    @Named(value = "importManager")
     @Inject
+    @Named(value = "importManager")
     private ImportManager importManager;
 
     @Inject

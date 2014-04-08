@@ -23,6 +23,7 @@
 
 package org.patientview.service.impl;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.patientview.ibd.model.Allergy;
 import org.patientview.ibd.model.MyIbd;
 import org.patientview.ibd.model.Procedure;
@@ -38,22 +39,25 @@ import org.patientview.patientview.model.Diagnostic;
 import org.patientview.patientview.model.Letter;
 import org.patientview.patientview.model.Medicine;
 import org.patientview.patientview.model.TestResult;
+import org.patientview.patientview.model.UserMapping;
 import org.patientview.patientview.parser.ResultParser;
-import org.patientview.patientview.user.UserUtils;
 import org.patientview.patientview.utils.TimestampUtils;
 import org.patientview.quartz.exception.ProcessException;
 import org.patientview.quartz.exception.ResultParserException;
 import org.patientview.quartz.handler.ErrorHandler;
-import org.patientview.repository.PatientDao;
 import org.patientview.repository.UnitDao;
 import org.patientview.repository.UserMappingDao;
+import org.patientview.service.DiagnosisManager;
+import org.patientview.service.DiagnosticManager;
 import org.patientview.service.ImportManager;
-import org.patientview.service.LogEntryManager;
+import org.patientview.service.LetterManager;
+import org.patientview.service.MedicineManager;
+import org.patientview.service.PatientManager;
+import org.patientview.service.TestResultManager;
+import org.patientview.service.ibd.IbdManager;
 import org.patientview.util.CommonUtils;
-import org.patientview.utils.LegacySpringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -82,16 +86,29 @@ public class ImportManagerImpl implements ImportManager {
     private UnitDao unitDao;
 
     @Inject
-    private PatientDao patientDao;
+    private PatientManager patientManager;
 
+    //Manager will be introduced with IBD or Diabetes
     @Inject
     private UserMappingDao userMappingDao;
 
     @Inject
-    private ApplicationContext applicationContext;
+    private TestResultManager testResultManager;
 
     @Inject
-    private LogEntryManager logEntryManager;
+    private LetterManager letterManager;
+
+    @Inject
+    private DiagnosisManager diagnosisManager;
+
+    @Inject
+    private MedicineManager medicineManager;
+
+    @Inject
+    private IbdManager ibdManager;
+
+    @Inject
+    private DiagnosticManager diagnosticManager;
 
     @Inject
     private ErrorHandler errorHandler;
@@ -150,7 +167,7 @@ public class ImportManagerImpl implements ImportManager {
     }
 
     private void removePatientFromSystem(ResultParser parser) {
-        UserUtils.removePatientFromSystem(parser.getData("nhsno"), parser.getData("centrecode"));
+        patientManager.removePatientFromSystem(parser.getData("nhsno"), parser.getData("centrecode"));
     }
 
     private String processPatientData(ResultParser resultParser) throws ProcessException {
@@ -186,7 +203,7 @@ public class ImportManagerImpl implements ImportManager {
     }
 
     private void markLastImportDateOnUnit(Centre centre) {
-        Unit unit = LegacySpringUtils.getImportManager().retrieveUnit(centre.getCentreCode());
+        Unit unit = retrieveUnit(centre.getCentreCode());
         if (unit != null) {
             unit.setLastImportDate(new Date());
             unitDao.save(unit);
@@ -194,45 +211,45 @@ public class ImportManagerImpl implements ImportManager {
     }
 
     private void deleteDiagnostics(String nhsno, String unitcode) {
-        LegacySpringUtils.getDiagnosticManager().delete(nhsno, unitcode);
+        diagnosticManager.delete(nhsno, unitcode);
     }
 
     private void insertDiagnostics(Collection<Diagnostic> diagnostics) {
         for (Iterator iterator = diagnostics.iterator(); iterator.hasNext();) {
             Diagnostic diagnostic = (Diagnostic) iterator.next();
-            LegacySpringUtils.getDiagnosticManager().save(diagnostic);
+            diagnosticManager.save(diagnostic);
         }
     }
 
     private void deleteProcedures(String nhsno, String unitcode) {
-        LegacySpringUtils.getIbdManager().deleteProcedure(nhsno, unitcode);
+        ibdManager.deleteProcedure(nhsno, unitcode);
     }
 
     private void insertProcedures(Collection<Procedure> procedures) {
         for (Iterator iterator = procedures.iterator(); iterator.hasNext();) {
             Procedure procedure = (Procedure) iterator.next();
-            LegacySpringUtils.getIbdManager().saveProcedure(procedure);
+            ibdManager.saveProcedure(procedure);
         }
     }
 
     private void deleteAllergies(String nhsno, String unitcode) {
-        LegacySpringUtils.getIbdManager().deleteAllergy(nhsno, unitcode);
+        ibdManager.deleteAllergy(nhsno, unitcode);
     }
 
     private void insertAllergies(Collection<Allergy> allergies) {
         for (Iterator iterator = allergies.iterator(); iterator.hasNext();) {
             Allergy allergy = (Allergy) iterator.next();
-            LegacySpringUtils.getIbdManager().saveAllergy(allergy);
+            ibdManager.saveAllergy(allergy);
         }
     }
 
     private void deleteMyIbd(String nhsno, String unitcode) {
-        LegacySpringUtils.getIbdManager().deleteMyIbd(nhsno, unitcode);
+        ibdManager.deleteMyIbd(nhsno, unitcode);
     }
 
     private void insertMyIbd(MyIbd myIbd) {
         if (myIbd != null) {
-            LegacySpringUtils.getIbdManager().saveMyIbd(myIbd);
+            ibdManager.saveMyIbd(myIbd);
         }
     }
 
@@ -250,7 +267,7 @@ public class ImportManagerImpl implements ImportManager {
     private void updatePatientDetails(Patient patient, List<TestResultDateRange> dateRanges) throws ProcessException {
 
         Patient existingPatientRecord
-                = LegacySpringUtils.getPatientManager().get(patient.getNhsno(), patient.getUnitcode());
+                = patientManager.get(patient.getNhsno(), patient.getUnitcode());
 
         // This field should be not nullable.
         if (existingPatientRecord != null && existingPatientRecord.getSourceType() != null
@@ -271,9 +288,9 @@ public class ImportManagerImpl implements ImportManager {
         patient.setSourceType(SourceType.PATIENT_VIEW.getName());
 
         if (existingPatientRecord != null) {
-            LegacySpringUtils.getPatientManager().save(XmlImportUtils.copyObject(existingPatientRecord, patient));
+            patientManager.save(XmlImportUtils.copyObject(existingPatientRecord, patient));
         } else {
-            LegacySpringUtils.getPatientManager().save(patient);
+            patientManager.save(patient);
         }
     }
 
@@ -305,7 +322,10 @@ public class ImportManagerImpl implements ImportManager {
      * @throws ProcessException
      */
     private void validatePatientExistsInUnit(Patient patient, Centre centre) throws ProcessException {
-        if (userMappingDao.getAllForNhsNo(patient.getNhsno(), centre.getCentreCode()) == null) {
+
+        List<UserMapping> userMappings = userMappingDao.getAllByNhsNo(patient.getNhsno(), centre.getCentreCode());
+
+        if (CollectionUtils.isEmpty(userMappings)) {
             throw new ProcessException("Patient does not exist in unit");
         }
     }
@@ -325,7 +345,8 @@ public class ImportManagerImpl implements ImportManager {
             Calendar startDate = TimestampUtils.createTimestampStartDay(testResultDateRange.getStartDate());
             Calendar stopDate = TimestampUtils.createTimestampEndDay(testResultDateRange.getStopDate());
 
-            LegacySpringUtils.getTestResultManager().deleteTestResultsWithinTimeRange(testResultDateRange.getNhsNo(),
+            // This method call needs refactoring, too many values being passed. Principal is wrong.
+            testResultManager.deleteTestResultsWithinTimeRange(testResultDateRange.getNhsNo(),
                     testResultDateRange.getUnitcode(), testResultDateRange.getTestCode(), startDate.getTime(),
                     stopDate.getTime());
         }
@@ -334,7 +355,7 @@ public class ImportManagerImpl implements ImportManager {
     private void insertResults(Collection testResults) {
         for (Iterator iterator = testResults.iterator(); iterator.hasNext();) {
             TestResult testResult = (TestResult) iterator.next();
-            LegacySpringUtils.getTestResultManager().save(testResult);
+            testResultManager.save(testResult);
         }
     }
 
@@ -346,7 +367,7 @@ public class ImportManagerImpl implements ImportManager {
 
             // Avoiding NPE in RPV-126. Although this will leave the letter in the DB.
             if (letter.getDate() != null) {
-            LegacySpringUtils.getLetterManager().delete(letter.getNhsno(), letter.getUnitcode(),
+            letterManager.delete(letter.getNhsno(), letter.getUnitcode(),
                     letter.getDate().getTime());
             } else {
                 LOGGER.warn("The letter does not come with a date so skipping deletion");
@@ -357,29 +378,29 @@ public class ImportManagerImpl implements ImportManager {
     private void insertLetters(Collection letters) {
         for (Iterator iterator = letters.iterator(); iterator.hasNext();) {
             Letter letter = (Letter) iterator.next();
-            LegacySpringUtils.getLetterManager().save(letter);
+            letterManager.save(letter);
         }
     }
 
     private void deleteOtherDiagnoses(String nhsno, String unitcode) {
-        LegacySpringUtils.getDiagnosisManager().deleteOtherDiagnoses(nhsno, unitcode);
+        diagnosisManager.deleteOtherDiagnoses(nhsno, unitcode);
     }
 
     private void insertOtherDiagnoses(Collection diagnoses) {
         for (Iterator iterator = diagnoses.iterator(); iterator.hasNext();) {
             Diagnosis diagnosis = (Diagnosis) iterator.next();
-            LegacySpringUtils.getDiagnosisManager().save(diagnosis);
+            diagnosisManager.save(diagnosis);
         }
     }
 
     private void deleteMedicines(String nhsno, String unitcode) {
-        LegacySpringUtils.getMedicineManager().delete(nhsno, unitcode);
+        medicineManager.delete(nhsno, unitcode);
     }
 
     private void insertMedicines(Collection medicines) {
         for (Iterator iterator = medicines.iterator(); iterator.hasNext();) {
             Medicine medicine = (Medicine) iterator.next();
-            LegacySpringUtils.getMedicineManager().save(medicine);
+            medicineManager.save(medicine);
         }
     }
 

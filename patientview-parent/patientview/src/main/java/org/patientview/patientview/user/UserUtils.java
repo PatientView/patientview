@@ -30,6 +30,7 @@ import org.patientview.utils.LegacySpringUtils;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+//Class needs deleting
 public final class UserUtils {
 
     private static final int NHSNO_LENGTH = 10;

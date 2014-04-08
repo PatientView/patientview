@@ -376,8 +376,11 @@ public class UnitDaoImpl extends AbstractHibernateDAO<Unit> implements UnitDao {
         params.add(unitcode);
 
         if (name != null && !"".equals(name)) {
-            sql += " AND u.name LIKE '%" + name + "%' ";
+            sql += " AND    CONCAT(u.firstname, ' ', u.lastname) LIKE '%" + name + "%' ";
+
         }
+
+        sql += " GROUP BY u.username";
 
         return jdbcTemplate.query(sql, params.toArray(), new UserMapper());
     }

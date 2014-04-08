@@ -61,6 +61,9 @@ public interface UnitManager {
      */
     boolean checkDuplicateUnitCode(String unitCode);
 
+    // This bypasses #get(String unitCode) one refactor for the future.
+    Unit get(String unitcode, Specialty specialty);
+
     void save(Unit unit);
 
     List<Unit> getAllDisregardingSpeciality(boolean sortByName);

@@ -194,7 +194,7 @@ public class UserManagerImpl implements UserManager {
 
         if (isNewUser) {
 
-            UserMapping userMapping = new UserMapping(user.getUsername(), unitcode, "");
+            UserMapping userMapping = new UserMapping(user.getUsername(), unitcode, null);
             save(userMapping);
 
             // create mappings in radar if they don't already exist
@@ -365,13 +365,13 @@ public class UserManagerImpl implements UserManager {
     }
 
     @Override
-    public List<UserMapping> getUserMappingsForNhsNo(String nhsNo) {
-        return userMappingDao.getAllForNhsNo(nhsNo, securityUserManager.getLoggedInSpecialty());
+    public List<UserMapping> getUserMappingsByNhsNo(String nhsNo) {
+        return userMappingDao.getAllByNhsNo(nhsNo, securityUserManager.getLoggedInSpecialty());
     }
 
     @Override
-    public List<UserMapping> getUserMappingsForNhsNoAllSpecialties(String nhsNo) {
-        return userMappingDao.getAllForNhsNo(nhsNo);
+    public List<UserMapping> getUserMappingsByNhsNoAllSpecialties(String nhsNo) {
+        return userMappingDao.getAllByNhsNo(nhsNo);
     }
 
     @Override

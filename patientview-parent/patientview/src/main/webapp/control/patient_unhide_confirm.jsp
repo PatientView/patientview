@@ -1,4 +1,6 @@
-<!--
+<%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles" %>
+
+<%--
   ~ PatientView
   ~
   ~ Copyright (c) Worth Solutions Limited 2004-2013
@@ -19,25 +21,11 @@
   ~ @author PatientView <info@patientview.org>
   ~ @copyright Copyright (c) 2004-2013, Worth Solutions Limited
   ~ @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
-  -->
+  --%>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-        "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-    <title></title>
-</head>
-<body>
-<wicket:extend>
+<tiles:insert definition="control.layout" flush="true">
 
-    <h1 style="display:inline">Access Unavailable</h1>
+  <tiles:put name="info_strip" value="/common/control/info_strip_no_login.jsp"/>
+  <tiles:put name="body" value="/body/control/patient_unhide_confirm.jsp"/>
 
-    <p>Access to RADAR for Patients is currently unavailable.</p>
-
-    <p>Disease information can be found on the <a href="http://rarerenal.org/patient-information/">Rare Renal</a> website.</p>
-
-
-</wicket:extend>
-
-</body>
-</html>
+</tiles:insert>
