@@ -11,7 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.util.Date;
 
-@Entity(name = "pv_st_shared_thought")
+@Entity(name = "sharedthought")
 public class SharedThought extends BaseModel {
 
     @ManyToOne(optional = false)
@@ -55,10 +55,10 @@ public class SharedThought extends BaseModel {
     @Column(name = "is_ongoing")
     private Boolean isOngoing;
 
-    @Column
+    @Column(name = "location")
     private String location;
 
-    @Column
+    @Column(name = "description")
     private String description;
 
     @Column(name = "suggested_action")
