@@ -67,7 +67,7 @@ public class ResultHeadingDaoImpl extends AbstractHibernateDAO<ResultHeading> im
 
         hsql.append("SELECT   rh ");
         hsql.append("FROM     ResultHeading rh ");
-        hsql.append("LEFT JOIN     rh.specialtyResultHeadings srh ");
+        hsql.append("JOIN FETCH     rh.specialtyResultHeadings srh ");
         hsql.append("WHERE    srh.specialtyId = ?");
         hsql.append("AND      rh.headingcode = ?");
 
@@ -135,9 +135,9 @@ public class ResultHeadingDaoImpl extends AbstractHibernateDAO<ResultHeading> im
 
         StringBuilder hsql = new StringBuilder();
 
-        hsql.append("SELECT   rh ");
+        hsql.append("SELECT DISTINCT  rh ");
         hsql.append("FROM     ResultHeading rh ");
-        hsql.append("lEFT JOIN FETCH     rh.specialtyResultHeadings srh ");
+        hsql.append("lEFT OUTER JOIN FETCH   rh.specialtyResultHeadings srh ");
 
         Query query = getEntityManager().createQuery(hsql.toString(), ResultHeading.class);
 
@@ -152,7 +152,7 @@ public class ResultHeadingDaoImpl extends AbstractHibernateDAO<ResultHeading> im
 
         hsql.append("SELECT   rh ");
         hsql.append("FROM     ResultHeading rh ");
-        hsql.append("FETCH JOIN     rh.specialtyResultHeadings srh ");
+        hsql.append("JOIN FETCH    rh.specialtyResultHeadings srh ");
         hsql.append("WHERE    srh.specialtyId = ? ");
         hsql.append("AND      srh.panel = ?");
 

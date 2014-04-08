@@ -40,12 +40,13 @@ public class ResultHeadingManagerTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        specialty = createSpecialty();
+        specialty = createSpecialty(1);
         when(securityUserManager.getLoggedInSpecialty()).thenReturn(specialty);
     }
 
+
     @Test
-    public void getAllBySpecialtyTest() {
+    public void getAllBySpecialtyTestSingleResult() {
 
         final String specialtyRollover = "specialtyRollover";
         final String specialtyHeading = "testHeading";
@@ -67,6 +68,39 @@ public class ResultHeadingManagerTest {
         resultHeadings = resultHeadingDao.getAll(specialty);
 
         Assert.assertTrue(CollectionUtils.isNotEmpty(resultHeadings));
+        Assert.assertTrue(resultHeadings.size() == 1);
+        resultHeading = resultHeadings.get(0);
+        Assert.assertTrue(CollectionUtils.isNotEmpty(resultHeading.getSpecialtyResultHeadings()));
+
+    }
+
+    @Test
+    public void getAllBySpecialtyTestSingleMultipleResults() {
+
+        final String specialtyRollover = "specialtyRollover";
+        final String specialtyHeading = "testHeading";
+        final String globalHeading = "globalHeading";
+        final String globalRollover = "globalRollover";
+
+        //Create the list of heading for the DAO
+        List<ResultHeading> resultHeadings = new ArrayList<ResultHeading>();
+        ResultHeading resultHeading = createGlobalResultHeading(globalHeading, globalRollover);
+
+        Set<SpecialtyResultHeading> specialtyResultHeadings = new HashSet<SpecialtyResultHeading>();
+        specialtyResultHeadings.add(createSpecialtyResultHeading(specialty, specialtyHeading, specialtyRollover));
+
+        // Add another heading setting from another specialty
+        specialtyResultHeadings.add(createSpecialtyResultHeading(createSpecialty(2), specialtyHeading, specialtyRollover));
+        resultHeading.setSpecialtyResultHeadings(specialtyResultHeadings);
+        resultHeadings.add(resultHeading);
+
+
+        when(resultHeadingDao.getAll(any(Specialty.class))).thenReturn(resultHeadings);
+
+        resultHeadings = resultHeadingDao.getAll(specialty);
+
+        Assert.assertTrue(CollectionUtils.isNotEmpty(resultHeadings));
+        Assert.assertTrue(resultHeadings.size() == 1);
         resultHeading = resultHeadings.get(0);
         Assert.assertTrue(CollectionUtils.isNotEmpty(resultHeading.getSpecialtyResultHeadings()));
 
@@ -88,12 +122,14 @@ public class ResultHeadingManagerTest {
         return specialtyResultHeading;
     }
 
-    private Specialty createSpecialty() {
+    private Specialty createSpecialty(long id) {
         Specialty specialty = new Specialty();
         specialty.setName("Test Speciality");
-        specialty.setId(1L);
+        specialty.setId(id);
         return specialty;
 
     }
+
+
 
 }
