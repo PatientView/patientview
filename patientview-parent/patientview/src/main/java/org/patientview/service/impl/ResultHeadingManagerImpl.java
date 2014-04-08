@@ -52,9 +52,22 @@ public class ResultHeadingManagerImpl implements ResultHeadingManager {
     @Inject
     private SecurityUserManager securityUserManager;
 
+    /**
+     * Get the heading code with the specialty settings. If the specialty settings don't exist just return the
+     * heading code/
+     *
+      * @param headingcode
+     * @param specialty
+     * @return
+     */
     @Override
     public ResultHeading get(String headingcode, Specialty specialty) {
-        return getSpecialtyResultHeading(resultHeadingDao.get(headingcode, specialty), specialty);
+        ResultHeading resultHeading = resultHeadingDao.get(headingcode, specialty);
+        if (resultHeading == null) {
+            return resultHeadingDao.get(headingcode);
+        } else {
+            return getSpecialtyResultHeading(resultHeading, specialty);
+        }
     }
 
     @Override
@@ -159,10 +172,12 @@ public class ResultHeadingManagerImpl implements ResultHeadingManager {
             if (CollectionUtils.isNotEmpty(resultHeading.getSpecialtyResultHeadings())) {
                 SpecialtyResultHeading specResultHeading = getSpecialtyResultHeading(
                         resultHeading.getSpecialtyResultHeadings(), specialty);
-                resultHeading.setPanel(specResultHeading.getPanel());
-                resultHeading.setPanelorder(specResultHeading.getPanelOrder());
-                resultHeading.setRollover(specResultHeading.getRollover());
-                resultHeading.setHeading(specResultHeading.getHeading());
+                if (specResultHeading != null) {
+                    resultHeading.setPanel(specResultHeading.getPanel());
+                    resultHeading.setPanelorder(specResultHeading.getPanelOrder());
+                    resultHeading.setRollover(specResultHeading.getRollover());
+                    resultHeading.setHeading(specResultHeading.getHeading());
+                }
             }
         }
 

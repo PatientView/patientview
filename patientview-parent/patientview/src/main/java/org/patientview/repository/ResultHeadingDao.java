@@ -39,6 +39,8 @@ public interface ResultHeadingDao {
 
     ResultHeading get(Long id);
 
+    ResultHeading get(String headingcode);
+
     ResultHeading get(String headingcode, Specialty specialty);
 
     List<ResultHeading> get(Specialty specialty);

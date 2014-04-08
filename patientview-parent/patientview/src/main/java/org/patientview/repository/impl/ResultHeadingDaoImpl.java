@@ -29,11 +29,13 @@ import org.patientview.patientview.model.ResultHeading;
 import org.patientview.patientview.model.SpecialtyResultHeading;
 import org.patientview.repository.AbstractHibernateDAO;
 import org.patientview.repository.ResultHeadingDao;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.sql.DataSource;
 import java.util.ArrayList;
@@ -65,7 +67,7 @@ public class ResultHeadingDaoImpl extends AbstractHibernateDAO<ResultHeading> im
 
         hsql.append("SELECT   rh ");
         hsql.append("FROM     ResultHeading rh ");
-        hsql.append("JOIN     rh.specialtyResultHeadings srh ");
+        hsql.append("LEFT JOIN     rh.specialtyResultHeadings srh ");
         hsql.append("WHERE    srh.specialtyId = ?");
         hsql.append("AND      rh.headingcode = ?");
 
@@ -73,7 +75,30 @@ public class ResultHeadingDaoImpl extends AbstractHibernateDAO<ResultHeading> im
         query.setParameter(1, specialty.getId().intValue());
         query.setParameter(2, headingcode);
 
-        return (ResultHeading) query.getSingleResult();
+        try {
+            return (ResultHeading) query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public ResultHeading get(String headingcode) {
+
+        StringBuilder hsql = new StringBuilder();
+
+        hsql.append("SELECT   rh ");
+        hsql.append("FROM     ResultHeading rh ");
+        hsql.append("WHERE    rh.headingcode = ?");
+
+        Query query = getEntityManager().createQuery(hsql.toString(), ResultHeading.class);
+        query.setParameter(1, headingcode);
+
+        try {
+            return (ResultHeading) query.getSingleResult();
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     /**
@@ -99,7 +124,8 @@ public class ResultHeadingDaoImpl extends AbstractHibernateDAO<ResultHeading> im
 
 
     /**
-     * This will be all the result heading and the specialty settings
+     * This will be all the result heading and the specialty settings.
+     * TODO Get the specialty result headings by specialty. Hibernate/Model fix
      *
      * @param specialty
      * @return
@@ -111,12 +137,9 @@ public class ResultHeadingDaoImpl extends AbstractHibernateDAO<ResultHeading> im
 
         hsql.append("SELECT   rh ");
         hsql.append("FROM     ResultHeading rh ");
-        hsql.append("lEFT JOIN     rh.specialtyResultHeadings srh ");
-        hsql.append("WHERE    srh.specialtyId = ? ");
-        hsql.append("OR       srh.specialtyId IS NULL");
+        hsql.append("lEFT JOIN FETCH     rh.specialtyResultHeadings srh ");
 
         Query query = getEntityManager().createQuery(hsql.toString(), ResultHeading.class);
-        query.setParameter(1, specialty.getId().intValue());
 
         return query.getResultList();
     }
@@ -129,7 +152,7 @@ public class ResultHeadingDaoImpl extends AbstractHibernateDAO<ResultHeading> im
 
         hsql.append("SELECT   rh ");
         hsql.append("FROM     ResultHeading rh ");
-        hsql.append("JOIN     rh.specialtyResultHeadings srh ");
+        hsql.append("FETCH JOIN     rh.specialtyResultHeadings srh ");
         hsql.append("WHERE    srh.specialtyId = ? ");
         hsql.append("AND      srh.panel = ?");
 
