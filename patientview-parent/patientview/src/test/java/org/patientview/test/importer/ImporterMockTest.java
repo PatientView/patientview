@@ -16,7 +16,9 @@ import org.patientview.patientview.model.UserMapping;
 import org.patientview.quartz.exception.ProcessException;
 import org.patientview.quartz.handler.ErrorHandler;
 import org.patientview.quartz.handler.impl.ErrorHandlerImpl;
+import org.patientview.repository.UnitDao;
 import org.patientview.repository.UserMappingDao;
+import org.patientview.repository.impl.UnitDaoImpl;
 import org.patientview.repository.impl.UserMappingDaoImpl;
 import org.patientview.service.DiagnosisManager;
 import org.patientview.service.DiagnosticManager;
@@ -69,6 +71,9 @@ public class ImporterMockTest {
     private UnitManager unitManager = new UnitManagerImpl();
 
     @Mock
+    private UnitDao unitDao = new UnitDaoImpl();
+
+    @Mock
     private PatientManager patientManager = new PatientManagerImpl();
 
     @Mock
@@ -115,7 +120,7 @@ public class ImporterMockTest {
 
         File testXml = new File(this.getClass().getClassLoader().getResource("A_00794_1234567890.gpg.xml").getFile());
 
-        when(unitManager.get(anyString(), any(Specialty.class))).thenReturn(new Unit());
+        when(unitDao.get(anyString(), any(Specialty.class))).thenReturn(new Unit());
         when(userMappingDao.getAllByNhsNo(anyString(), anyString())).thenReturn(userMappings);
 
         try {
@@ -136,9 +141,9 @@ public class ImporterMockTest {
      */
     @Test
     public void testProcessWithInvalidUnitCode() {
-        File testXml = new File(this.getClass().getClassLoader().getResource("A_00794_1234567890.gpg.xml").getFile());
+        File testXml = new File(this.getClass().getClassLoader().getResource("A_00794_1234567890-InvalidUnitCode.gpg.xml").getFile());
 
-        when(unitManager.get(anyString(), any(Specialty.class))).thenReturn(null);
+        when(unitDao.get(anyString(), any(Specialty.class))).thenThrow(new RuntimeException());
         when(userMappingDao.getAllByNhsNo(anyString(), anyString())).thenReturn(userMappings);
 
         try {
@@ -159,9 +164,9 @@ public class ImporterMockTest {
      */
     @Test
     public void testProcessWithInvalidNhsNumber() {
-
         File testXml = new File(this.getClass().getClassLoader().getResource("A_00794_1234567890-InvalidNHSNumber.gpg.xml").getFile());
-        when(unitManager.get(anyString(), any(Specialty.class))).thenReturn(new Unit());
+
+        when(unitDao.get(anyString(), any(Specialty.class))).thenReturn(new Unit());
         when(userMappingDao.getAllByNhsNo(anyString(), anyString())).thenReturn(userMappings);
 
         try {
@@ -184,7 +189,7 @@ public class ImporterMockTest {
 
         File testXml = new File(this.getClass().getClassLoader().getResource("A_00794_1234567890.gpg.xml").getFile());
 
-        when(unitManager.get(anyString(), any(Specialty.class))).thenReturn(new Unit());
+        when(unitDao.get(anyString(), any(Specialty.class))).thenReturn(new Unit());
         when(userMappingDao.getAllByNhsNo(anyString(), anyString())).thenReturn(null);
 
         try {
