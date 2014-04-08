@@ -280,6 +280,29 @@
 
         <form-bean name="aboutmeImageUploadForm" type="org.patientview.patientview.aboutme.AboutmeImageUploadForm"/>
 
+        <form-bean name="sharingThoughtsForm" type="org.apache.struts.action.DynaActionForm">
+            <form-property name="id"                      type="java.lang.Long"/>
+            <form-property name="unitId"                  type="java.lang.Long"/>
+            <form-property name="positiveNegative"        type="java.lang.Integer"/>
+            <form-property name="patient"                 type="java.lang.Boolean"/>
+            <form-property name="principalCarer"          type="java.lang.Boolean"/>
+            <form-property name="relative"                type="java.lang.Boolean"/>
+            <form-property name="friend"                  type="java.lang.Boolean"/>
+            <form-property name="aboutMe"                 type="java.lang.Boolean"/>
+            <form-property name="aboutOther"              type="java.lang.Boolean"/>
+            <form-property name="anonymous"               type="java.lang.Boolean"/>
+            <form-property name="startDate"               type="java.lang.String"/>
+            <form-property name="endDate"                 type="java.lang.String"/>
+            <form-property name="ongoing"                 type="java.lang.Boolean"/>
+            <form-property name="location"                type="java.lang.String"/>
+            <form-property name="description"             type="java.lang.String"/>
+            <form-property name="suggestedAction"         type="java.lang.String"/>
+            <form-property name="concernReason"           type="java.lang.String"/>
+            <form-property name="likelihoodOfRecurrence"  type="java.lang.Integer"/>
+            <form-property name="howSerious"              type="java.lang.Integer"/>
+            <form-property name="isSubmitted"             type="java.lang.Boolean"/>
+        </form-bean>
+
         <form-bean name="sendMessageForm" type="org.apache.struts.action.DynaActionForm">
             <form-property name="content" type="java.lang.String"/>
             <form-property name="subject" type="java.lang.String"/>
