@@ -674,6 +674,10 @@
             <forward name="success" path="/patient/sharingthoughts/sharing_thoughts_thought_list.jsp"/>
         </action>
 
+        <action path="/control/sharingThoughts" type="org.patientview.patientview.sharingthoughts.SharingThoughtsAdminHomeAction" parameter="sharing_thoughts">
+            <forward name="success" path="/control/sharingthoughts/sharing_thoughts_home.jsp"/>
+        </action>
+
         <action path="/joinSubmit"
                 type="org.patientview.patientview.join.JoinRequestSubmitAction"
                 name="joinForm"
