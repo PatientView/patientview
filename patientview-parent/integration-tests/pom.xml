@@ -37,6 +37,26 @@
         </profile>
     </profiles>
 
+    <build>
+        <resources>
+            <!-- resource files with filtering to output to target/classes -->
+            <resource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+        </resources>
+
+        <filters>
+            <!--Uses e.g. filters/<env>-filters.properties to overlay cms.properties, other property files -->
+            <filter>src/main/filters/test-filters.properties</filter>
+        </filters>
+
+
+    </build>
+
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
