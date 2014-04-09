@@ -705,6 +705,11 @@
             <forward name="success" path="/control/sharingthoughts/sharing_thoughts_home.jsp"/>
         </action>
 
+        <action path="/control/sharingThoughtsViewThought" type="org.patientview.patientview.sharingthoughts.SharingThoughtsAdminViewThoughtAction" parameter="sharing_thoughts"
+                name="sharingThoughtsForm">
+            <forward name="success" path="/control/sharingthoughts/sharing_thoughts_view_thought.jsp"/>
+        </action>
+
         <action path="/joinSubmit"
                 type="org.patientview.patientview.join.JoinRequestSubmitAction"
                 name="joinForm"

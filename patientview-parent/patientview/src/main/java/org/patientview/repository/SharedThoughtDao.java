@@ -9,6 +9,8 @@ import java.util.List;
 @Transactional(propagation = Propagation.MANDATORY)
 public interface SharedThoughtDao {
 
+    List<SharedThought> getAll();
+
     SharedThought get(Long id);
 
     List<SharedThought> getUsersThoughts(Long userId, boolean isSubmitted);

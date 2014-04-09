@@ -19,6 +19,11 @@ public class SharedThoughtManagerImpl implements SharedThoughtManager {
     private SharedThoughtDao sharedThoughtDao;
 
     @Override
+    public List<SharedThought> getAll() {
+        return sharedThoughtDao.getAll();
+    }
+
+    @Override
     public SharedThought getSharedThought(Long sharedThoughtId) {
         return sharedThoughtDao.get(sharedThoughtId);
     }

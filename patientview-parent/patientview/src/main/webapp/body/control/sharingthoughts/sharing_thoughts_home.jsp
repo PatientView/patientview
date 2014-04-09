@@ -10,7 +10,45 @@
 
 
 
-    <p>Under Development</p>
+<logic:empty name="sharedThoughts">
+    <div class="alert">No Shared Thoughts</div>
+</logic:empty>
 
-
-</div> <%--Close row from top_nav.jsp--%>
+<logic:notEmpty name="sharedThoughts">
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>Date Updated</th>
+            <th>Positive/Negative</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Location</th>
+            <th>Description</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <logic:iterate name="sharedThoughts" id="thought">
+        <tr>
+            <td class="tablecell"><bean:write name="thought" property="dateLastSavedFormattedDate"/></td>
+            <td class="tablecell">
+                <logic:equal value="1" name="thought" property="positiveNegative">
+                    Positive
+                </logic:equal>
+                <logic:notEqual value="1" name="thought" property="positiveNegative">
+                    Negative
+                </logic:notEqual>
+            </td>
+            <td class="tablecell"><bean:write name="thought" property="startDateFormattedDate"/></td>
+            <td class="tablecell"><bean:write name="thought" property="endDateFormattedDate"/></td>
+            <td class="tablecell"><bean:write name="thought" property="location"/></td>
+            <td class="tablecell"><bean:write name="thought" property="location"/></td>
+            <logic:present role="unitadmin,superadmin">
+                <td class="tablecell"><html:form action="/control/sharingThoughtsViewThought"><html:hidden name="thought" property="id"/><html:submit value="View/Respond" styleClass="btn" /></html:form>&nbsp;</td>
+            </logic:present>
+        </tr>
+        </logic:iterate>
+        </tbody>
+    </table>
+</logic:notEmpty>
+</div>
