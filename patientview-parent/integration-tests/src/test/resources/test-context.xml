@@ -25,6 +25,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:beans="http://www.springframework.org/schema/beans"
        xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
@@ -45,13 +46,10 @@
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
     <!--Imports-->
-    <import resource="context-legacy.xml"/>
+    <import resource="classpath:context-legacy.xml"/>
     <import resource="test-context-repository.xml"/>
-    <import resource="context-security.xml"/>
-    <import resource="context-service.xml"/>
-    <import resource="context-controller.xml"/>
-    <import resource="quartz.xml"/>
-    <import resource="batch.xml"/>
+    <import resource="classpath:context-controller.xml"/>
+    <import resource="classpath:batch.xml"/>
 
     <!--Properties Placeholder-->
     <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -59,6 +57,7 @@
     </bean>
 
     <util:properties id="contextProperties" >
+        <prop key="noreply.email">none@patientview.org</prop>
         <prop key="config.site.url">${config.site.url}</prop>
         <prop key="xml.archive.directory">${xml.archive.directory}</prop>
         <prop key="xml.directory">${xml.directory}</prop>
@@ -80,5 +79,22 @@
         <prop key="email.verification.best.before.days">${email.verification.best.before.days}</prop>
     </util:properties>
 
+    <bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="${smtp.host}"/>
+        <property name="protocol" value="smtps"/>
+        <property name="username" value="${smtp.username}"/>
+        <property name="password" value="${smtp.password}"/>
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.debug">false</prop>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.ssl.enable">true</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+                <prop key="mail.smtp.port">465</prop>
+            </props>
+        </property>
+    </bean>
+
+    <beans:bean id="userDetailsService" class="org.patientview.security.impl.PatientViewUserDetailsService"/>
 
 </beans>
