@@ -56,7 +56,7 @@ public class ResultHeadingManagerImpl implements ResultHeadingManager {
      * Get the heading code with the specialty settings. If the specialty settings don't exist just return the
      * heading code/
      *
-      * @param headingcode
+     * @param headingcode
      * @param specialty
      * @return
      */
@@ -104,17 +104,20 @@ public class ResultHeadingManagerImpl implements ResultHeadingManager {
         ResultHeading resultHeadingTemp = resultHeadingDao.get(resultHeading.getId());
 
         boolean foundSpecialty = false;
-        for (SpecialtyResultHeading specialtyResultHeading : resultHeadingTemp.getSpecialtyResultHeadings()) {
 
-            // Update the existing specialty result heading
-            if (specialtyResultHeading.getSpecialtyId() == specialty.getId().intValue()
-                    && specialtyResultHeading.getSpecialtyId() == specialty.getId().intValue()) {
-                foundSpecialty = true;
-                specialtyResultHeading.setRollover(resultHeading.getRollover());
-                specialtyResultHeading.setHeading(resultHeading.getHeading());
-                specialtyResultHeading.setPanel(resultHeading.getPanel());
-                specialtyResultHeading.setPanelOrder(resultHeading.getPanelorder());
+        if (CollectionUtils.isNotEmpty(resultHeadingTemp.getSpecialtyResultHeadings())) {
+            for (SpecialtyResultHeading specialtyResultHeading : resultHeadingTemp.getSpecialtyResultHeadings()) {
 
+                // Update the existing specialty result heading
+                if (specialtyResultHeading.getSpecialtyId() == specialty.getId().intValue()
+                        && specialtyResultHeading.getSpecialtyId() == specialty.getId().intValue()) {
+                    foundSpecialty = true;
+                    specialtyResultHeading.setRollover(resultHeading.getRollover());
+                    specialtyResultHeading.setHeading(resultHeading.getHeading());
+                    specialtyResultHeading.setPanel(resultHeading.getPanel());
+                    specialtyResultHeading.setPanelOrder(resultHeading.getPanelorder());
+
+                }
             }
         }
 
@@ -123,7 +126,7 @@ public class ResultHeadingManagerImpl implements ResultHeadingManager {
 
             SpecialtyResultHeading specialtyResultHeading = createSpecialtyResultHeading(resultHeading, specialty);
 
-            if (resultHeadingTemp.getSpecialtyResultHeadings() == null) {
+            if (CollectionUtils.isNotEmpty(resultHeadingTemp.getSpecialtyResultHeadings())) {
                 resultHeadingTemp.getSpecialtyResultHeadings().add(specialtyResultHeading);
             } else {
                 Set<SpecialtyResultHeading> specialtyResultHeadings = new HashSet<SpecialtyResultHeading>();

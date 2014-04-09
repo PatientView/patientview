@@ -72,7 +72,7 @@
             <form-property name="headingcode" type="java.lang.String"/>
             <form-property name="heading" type="java.lang.String"/>
             <form-property name="rollover" type="java.lang.String"/>
-            <form-property name="link" type="java.lang.String"/>lo
+            <form-property name="link" type="java.lang.String"/>
             <form-property name="panel" type="java.lang.String"/>
             <form-property name="panelorder" type="java.lang.String"/>
             <form-property name="minRangeValue" type="java.lang.String"/>
