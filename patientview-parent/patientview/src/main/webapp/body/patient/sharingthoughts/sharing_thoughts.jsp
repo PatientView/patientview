@@ -28,5 +28,5 @@
 <p align="center">
     <html:link action="/patient/sharingThoughtsUserList"><html:submit value="Your saved comments" styleClass="btn formbutton" /></html:link>
     &nbsp;&nbsp;&nbsp;
-    <html:link action="/patient/sharingThoughtsUserList"><html:submit value="Monthly feedback summary" styleClass="btn formbutton" /></html:link>
+    <html:link action="/patient/sharingThoughtsSummary"><html:submit value="Monthly feedback summary" styleClass="btn formbutton" /></html:link>
 </p>

@@ -85,9 +85,8 @@
         </table>
     </logic:notEmpty>
 </logic:present>
-
-<p align="right"><html:link action="/patient/sharingThoughtsPositiveNegative">Add New Comment >></html:link></p>
-
-<p align="right"><a href="summary_1a.html">Feedback Summary</a></p>
-
-<p align="right"><a href="already_done_7.html">Action Taken</a></p>
+<br/>
+<p align="left">
+    <html:link action="/patient/sharingThoughtsPositiveNegative"><html:submit value="Share a thought" styleClass="btn btn-primary formbutton" /></html:link>
+    &nbsp;&nbsp;<html:link action="/patient/sharingThoughts"><html:submit value="Home" styleClass="btn formbutton" /></html:link>
+</p>

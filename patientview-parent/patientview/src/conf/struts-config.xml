@@ -697,6 +697,10 @@
             <forward name="success" path="/patient/sharingthoughts/sharing_thoughts_thought_list.jsp"/>
         </action>
 
+        <action path="/patient/sharingThoughtsSummary" type="org.patientview.patientview.sharingthoughts.SharingThoughtsSummaryAction" parameter="sharing_thoughts">
+            <forward name="success" path="/patient/sharingthoughts/sharing_thoughts_summary.jsp"/>
+        </action>
+
         <action path="/control/sharingThoughts" type="org.patientview.patientview.sharingthoughts.SharingThoughtsAdminHomeAction" parameter="sharing_thoughts">
             <forward name="success" path="/control/sharingthoughts/sharing_thoughts_home.jsp"/>
         </action>
