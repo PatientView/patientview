@@ -89,7 +89,8 @@ public class ResultHeadingManagerImpl implements ResultHeadingManager {
 
     /**
      * The result heading with the context of the specialty becomes a specialty test heading and linked to the
-     * result heading.
+     * result heading. So if a result heading is saved with a specialty result heading, we have to create one
+     * otherwise update the existing one
      *
      * @param resultHeading
      * @param specialty
@@ -105,6 +106,7 @@ public class ResultHeadingManagerImpl implements ResultHeadingManager {
         boolean foundSpecialty = false;
         for (SpecialtyResultHeading specialtyResultHeading : resultHeadingTemp.getSpecialtyResultHeadings()) {
 
+            // Update the existing specialty result heading
             if (specialtyResultHeading.getSpecialtyId() == specialty.getId().intValue()
                     && specialtyResultHeading.getSpecialtyId() == specialty.getId().intValue()) {
                 foundSpecialty = true;
@@ -116,6 +118,7 @@ public class ResultHeadingManagerImpl implements ResultHeadingManager {
             }
         }
 
+        // Create a new specialty result heading
         if (!foundSpecialty) {
 
             SpecialtyResultHeading specialtyResultHeading = createSpecialtyResultHeading(resultHeading, specialty);

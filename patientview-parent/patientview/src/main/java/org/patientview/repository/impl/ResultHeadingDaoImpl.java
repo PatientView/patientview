@@ -133,7 +133,7 @@ public class ResultHeadingDaoImpl extends AbstractHibernateDAO<ResultHeading> im
 
         StringBuilder hsql = new StringBuilder();
 
-        hsql.append("SELECT DISTINCT  rh ");
+        hsql.append("SELECT   DISTINCT  rh ");
         hsql.append("FROM     ResultHeading rh ");
         hsql.append("lEFT OUTER JOIN FETCH   rh.specialtyResultHeadings srh ");
 

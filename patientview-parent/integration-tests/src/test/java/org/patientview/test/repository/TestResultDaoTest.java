@@ -132,7 +132,7 @@ public class TestResultDaoTest extends BaseDaoTest {
         repositoryHelpers.createSpecialtyUserRole(specialty, user, "patient");
 
         ResultHeading resultHeading = new ResultHeading();
-        resultHeading.setSpecialty(specialty);
+        //resultHeading.setSpecialty(specialty);
         resultHeading.setHeading("headingA");
         resultHeading.setHeadingcode("HEADA");
         resultHeading.setLink("http://www.google.com/");
@@ -142,7 +142,7 @@ public class TestResultDaoTest extends BaseDaoTest {
         resultHeadingDao.save(resultHeading);
 
         resultHeading = new ResultHeading();
-        resultHeading.setSpecialty(specialty);
+        //resultHeading.setSpecialty(specialty);
         resultHeading.setHeading("headingB");
         resultHeading.setHeadingcode("HEADB");
         resultHeading.setLink("http://www.org.patientview.test.com/");
