@@ -35,7 +35,7 @@ import java.util.Date;
 @Entity(name = "sharedthought")
 public class SharedThought extends BaseModel {
 
-    public static final int shortDescriptionLength = 49;
+    public static final int SHORT_DESCRIPTION_LENGTH = 49;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id")
@@ -394,7 +394,7 @@ public class SharedThought extends BaseModel {
     }
 
     public String getDescriptionBeginning() {
-        return (description.length() >= shortDescriptionLength) ? description.substring(0, shortDescriptionLength)
+        return (description.length() >= SHORT_DESCRIPTION_LENGTH) ? description.substring(0, SHORT_DESCRIPTION_LENGTH)
                 : description;
     }
 }
