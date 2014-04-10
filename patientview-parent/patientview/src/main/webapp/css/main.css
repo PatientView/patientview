@@ -538,4 +538,17 @@ section article.conversation .dull, section article.message .dull, .dull{
 #feedbackModal form {
     background-color: white;
     padding: 20px;
+    margin: 0px;
+}
+
+.js-feedback-message {
+    height: 150px;
+    width: 248px;
+}
+
+.js-feedback-subject {
+    width: 252px;
+}
+.js-feedback-recipients {
+    width: 257px;
 }

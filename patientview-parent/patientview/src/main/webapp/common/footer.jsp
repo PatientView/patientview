@@ -43,7 +43,7 @@
         <form action="/web/feedbackSubmit" class="js-feedback-form" styleClass="form-horizontal">
 
             <h2>Submit Feedback</h2>
-            <p>Your feedback will be sent with details of what you are currently looking at in Patient View.</p>
+            <p>Your feedback will be sent with details of what you are currently looking at.</p>
             <div class="control-group">
                 <label class="control-label">Recipient</label>
                 <div class="controls">
