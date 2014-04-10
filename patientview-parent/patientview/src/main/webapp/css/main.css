@@ -526,3 +526,16 @@ section article.conversation .dull, section article.message .dull, .dull{
     padding: 15px;
     overflow-y: auto;
 }
+
+.ui-dialog-titlebar {
+    display:none;
+}
+
+#feedbackModal {
+    border: 1px solid #000;
+}
+
+#feedbackModal form {
+    background-color: white;
+    padding: 20px;
+}

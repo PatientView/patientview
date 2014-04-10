@@ -32,9 +32,9 @@
         <link href="/css/ie.css" rel="stylesheet">
     <![endif]-->
     <script type="text/javascript" src="/js/jquery-1.10.1.min.js"></script>
-    <script type="text/javascript" src="/js/jquery-ui-1.10.4.min.js"></script>
     <script type="text/javascript" src="/js/jquery-migrate-1.2.1.min.js"></script>
     <script type="text/javascript" src="/js/jquery.tools.min.js"></script>
+    <script type="text/javascript" src="/js/jquery-ui-1.10.4.min.js"></script>
 
 </head>
 
