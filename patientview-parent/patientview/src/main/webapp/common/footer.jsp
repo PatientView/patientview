@@ -65,8 +65,8 @@
 
             <div class="control-group">
                 <div class="controls">
-                    <input type="submit" value="Send Feedback" class="js-message-submit-btn btn"/>&nbsp;
-                    <input type="submit" value="Cancel" class="js-message-cancel-btn btn"/>
+                    <input type="submit" value="Send Feedback" class="js-feedback-submit-btn btn"/>&nbsp;
+                    <input type="submit" value="Cancel" class="js-feedback-cancel-btn btn"/>
                 </div>
             </div>
 

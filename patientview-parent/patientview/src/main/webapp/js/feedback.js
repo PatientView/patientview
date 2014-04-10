@@ -24,6 +24,8 @@
 feedback = {};
 feedback.feedbackModal = $('#feedbackModal');
 feedback.imageData = null;
+feedback.submitButton = $(".js-feedback-submit-btn");
+feedback.cancelButton = $(".js-feedback-cancel-btn");
 
 feedback.init = function() {
 
@@ -34,10 +36,10 @@ feedback.init = function() {
         feedback.showDialog();
     });
 
-    /*$(".feedbackCancel").click(function(e) {
+    feedback.cancelButton.click(function(e) {
         e.preventDefault();
         feedback.hideDialog();
-    });*/
+    });
 };
 
 feedback.showDialog = function() {
@@ -61,7 +63,7 @@ feedback.showDialog = function() {
      */
     var feedbackForm = $('.js-feedback-form');
 
-    feedbackForm.click(function(event) {
+    feedback.submitButton.click(function(event) {
         event.preventDefault();
         feedback.sendFeedback(feedbackForm);
     });
