@@ -43,6 +43,7 @@ public final class CommonUtils {
     public static final String UK_DATE_FORMAT = "dd-MM-yyyy";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CommonUtils.class);
+    private static final String LINE_SEPARATOR = System.getProperty("file.separator");
 
     private static final int NHS_NUMBER_LENGTH = 10;
     private static final int NHS_NUMBER_MODULUS = 11;
@@ -233,5 +234,23 @@ public final class CommonUtils {
         } catch (NumberFormatException e) {
             return false; // nhsNumber contains letters
         }
+    }
+
+    /**
+     * Get the unit code from a filename. This is mainly used in the importer functionality.
+     *
+     * @param filename
+     * @return
+     */
+    public static String getUnitCode(String filename) {
+
+        String[] filenameParts = filename.split("_");
+        if (filenameParts.length > 1) {
+            return LINE_SEPARATOR + filenameParts[0];
+        } else {
+            LOGGER.error("Cannot define unit code from filename so using the 'unknown' folder");
+            return LINE_SEPARATOR + "unknown";
+        }
+
     }
 }
