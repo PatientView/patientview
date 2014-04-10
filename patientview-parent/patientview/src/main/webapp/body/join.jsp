@@ -32,6 +32,7 @@ $(document).ready(function(){
     $("input[name='dateOfBirth']").change(function() {
         if ($(this).val() == new Date().toISOString().slice(0, 10).split("-").reverse().join("-")) {
             alert("Please enter your date of birth, not today's date.");
+            $(this).val("");
         }
     });
 });
@@ -66,7 +67,7 @@ $(document).ready(function(){
         <label class="control-label">Date of birth</label>
 
         <div class="date datePicker controls" data-date="<bean:write name="joinForm" property="dateOfBirth"/>">
-            <input name="dateOfBirth" class="span2" size="16" type="text"
+            <input name="dateOfBirth" readonly="readonly" style="background:white;" class="span2" size="16" type="text"
                    value="<bean:write name="joinForm" property="dateOfBirth"/>">
             <span class="add-on"><i class="icon-th"></i></span>
             <span class="help-inline">dd-mm-yyyy</span>
