@@ -38,7 +38,7 @@
     }
 %>
 <div class="row">
-    <div class="<%= (actionPrefix.equals("patient") ? "span12" : "span9") %>">
+    <div class='<%= (actionPrefix.equals("patient") ? "span12" : "span9") %>'>
 
         <logic:present name="noEmailSet">
             <div class="page-header">
@@ -168,7 +168,10 @@
 
                                         <label class="control-label">To</label>
                                         <input type="text" class="search-query" placeholder="Filter" id="search" name="search" size="8" style="display: none"/>
-                                        <button class="js-filter-button control-group">...</button>
+
+                                        <logic:present name='<%=Messaging.IS_UNIT_ADMIN_PARAM%>'>
+                                            <button class="js-filter-button control-group">...</button>
+                                        </logic:present>
 
                                         <div class="controls">
                                             <select name="recipientId" class="js-message-recipient-id">
