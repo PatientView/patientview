@@ -24,13 +24,13 @@
 feedback = {};
 feedback.feedbackModal = $('#feedbackModal');
 feedback.imageData = null;
-feedback.submitButton = $(".js-feedback-submit-btn");
-feedback.cancelButton = $(".js-feedback-cancel-btn");
+feedback.submitButton = $("#js-feedback-submit-btn");
+feedback.cancelButton = $("#js-feedback-cancel-btn");
 
+/**
+ * Set up buttons
+ */
 feedback.init = function() {
-
-    feedback.feedbackModal.hide();
-
     $(".feedbackButton").click(function(e) {
         e.preventDefault();
         feedback.showDialog();
@@ -40,72 +40,74 @@ feedback.init = function() {
         e.preventDefault();
         feedback.hideDialog();
     });
-};
-
-feedback.showDialog = function() {
-
-    $('.container').css({opacity:0.2});
-    //feedback.feedbackModal.css({opacity:1});
-
-    $('.screenshot').html($(".container").clone());
-    $('.screenshot').children(".container").css({opacity:1});
-
-    console.log(html2canvas($('.screenshot'), {
-        onrendered: function(canvas) {
-            //feedback.imageData = canvas.toDataURL("image/png");
-            //console.log(canvas.toDataURL("image/png"));
-            var screenshotData = canvas.toDataURL("image/png");
-            $('.dialogScreenshot').html("<img src='" + screenshotData + "'/>");
-        }
-    }));
-
-
-    feedback.feedbackModal.dialog({
-        close: function () {
-            $('.container').css({opacity:1});
-        },
-        open: function () {
-            //$('.container').css({opacity:0.2});
-            //$('.screenshot').html("");
-        }
-    });
-
-    /*
-     $.getJSON('/web/listFeedbackRecipients', function(data) {
-     var recipients = $('.js-feedback-recipients');
-
-     $.each(data, function(i, result) {
-     recipients.append('<option value=' + result.id + '>' + result.name + '</option>');
-     });
-     */
-    var feedbackForm = $('.js-feedback-form');
 
     feedback.submitButton.click(function(event) {
         event.preventDefault();
-        feedback.sendFeedback(feedbackForm);
+        feedback.sendFeedback();
+        feedback.hideDialog();
     });
-    // });
+};
+
+/**
+ * Fade background, take screenshot with html2canvas, show dialog
+ */
+feedback.showDialog = function() {
+    $('.container').css({opacity:0.2});
+    $('#screenshot').html($(".container").clone());
+    $('#screenshot').children(".container").css({opacity:1});
+
+    html2canvas($('#screenshot'), {
+        onrendered: function(canvas) {
+            //$('#dialogScreenshot').html("<img width=300 src='" + canvas.toDataURL("image/png") + "'/>");
+            feedback.imageData = canvas.toDataURL("image/png");
+            $('#screenshot').html("");
+        }
+    });
+
+    // todo: get list of recipients
+    /*
+    $.getJSON('/web/listFeedbackRecipients', function(data) {
+    var recipients = $('.js-feedback-recipients');
+
+    $.each(data, function(i, result) {
+    recipients.append('<option value=' + result.id + '>' + result.name + '</option>');
+    });
+
+    });
+    */
+
+    feedback.feedbackModal.show();
 }
 
+/**
+ * Hide dialog, clear the form of user entered data
+ */
 feedback.hideDialog = function() {
-
     $('.container').css({opacity:1});
-    feedback.feedbackModal.dialog('close');
+    feedback.feedbackModal.hide();
+
+    // clear form
+    $('#js-feedback-subject').val("");
+    $('#js-feedback-message').val("");
+    $("#js-feedback-recipient").val($("#js-feedback-recipient option:first").val());
 }
 
-feedback.sendFeedback = function(form) {
-    var $form = $(form),
-        subject = $form.find('.js-feedback-subject'),
-        message = $form.find('.js-feedback-message'),
-        recipient = $form.find('.js-feedback-recipient');
+/**
+ * Get user data from form, send to server with html2canvas screenshot
+ */
+feedback.sendFeedback = function() {
 
-    console.log(feedback.imageData);
-    $('.container').css({opacity:1});
-    feedback.feedbackModal.dialog('close');
+    var feedbackData = {};
+    feedbackData.imageData = feedback.imageData;
+    feedbackData.subject = $('#js-feedback-subject').val();
+    feedbackData.message = $('#js-feedback-message').val();
+    feedbackData.recipient = $('#js-feedback-recipient :selected').val();
+    console.log(feedbackData);
+
+    // todo: send to server
 }
 
 // add in a dom ready to fire init
 $(function() {
     feedback.init();
 });
-

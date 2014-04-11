@@ -37,61 +37,45 @@
 </div>
 
 <logic:present specialty="renal">
-    <!-- Feedback dialog -->
-    <div id="feedbackModal" style="display:none;">
-
-        <form action="/web/feedbackSubmit" class="js-feedback-form" styleClass="form-horizontal">
-
+    <div id="feedbackModal">
+        <form class="js-feedback-form">
             <h2>Submit Feedback</h2>
             <p>Your feedback will be sent with details of what you are currently looking at.</p>
-
-            <div class="dialogScreenshot"></div>
-
+            <div id="dialogScreenshot"></div>
             <div class="control-group">
                 <label class="control-label">Recipient</label>
                 <div class="controls">
-                    <select id="unitcode" class="js-feedback-recipients">
+                    <select id="js-feedback-recipient">
                         <option value="-1" selected="selected">-- Select a recipient --</option>
                     </select>
                 </div>
             </div>
-
             <div class="control-group">
                 <label class="control-label">Subject</label>
-                <div class="controls"><input name="subject" class="js-feedback-subject"/></div>
+                <div class="controls"><input name="subject" id="js-feedback-subject"/></div>
             </div>
-
             <div class="control-group">
                 <label class="control-label">Message</label>
-                <div class="controls"><textarea name="message" class="js-feedback-message"></textarea></div>
+                <div class="controls"><textarea name="message" id="js-feedback-message"></textarea></div>
             </div>
-
             <div class="control-group">
                 <div class="controls">
-                    <input type="submit" value="Send Feedback" class="js-feedback-submit-btn btn"/>&nbsp;
-                    <input type="submit" value="Cancel" class="js-feedback-cancel-btn btn"/>
+                    <input type="submit" value="Send Feedback" id="js-feedback-submit-btn" class="btn"/>&nbsp;
+                    <input type="submit" value="Cancel" id="js-feedback-cancel-btn" class="btn"/>
                 </div>
             </div>
-
         </form>
     </div>
-
-    <div class="screenshot"></div>
-
+    <div class="hider"><div id="screenshot"></div></div>
+    <script type="text/javascript" src="/js/feedback.js"></script>
+    <script type="text/javascript" src="/js/html2canvas.js"></script>
 </logic:present>
-
-
 
 <script type="text/javascript" src="/js/bootstrap.js"></script>
 <script type="text/javascript" src="/js/bootstrap-datepicker.js"></script>
-
 <script type="text/javascript" src="/ibd/js/ico.min.js"></script>
 <script type="text/javascript" src="/ibd/js/ibd.js"></script>
 <script type="text/javascript" src="/js/pwdmeter.js"></script>
-
-<script type="text/javascript" src="/js/feedback.js"></script>
-<script type="text/javascript" src="/js/html2canvas.js"></script>
-<script src="/js/messages.js" type="text/javascript"></script>
 <%
     // todo tracking code should only be present on live...
 %>
