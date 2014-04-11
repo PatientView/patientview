@@ -44,6 +44,9 @@
 
             <h2>Submit Feedback</h2>
             <p>Your feedback will be sent with details of what you are currently looking at.</p>
+
+            <div class="dialogScreenshot"></div>
+
             <div class="control-group">
                 <label class="control-label">Recipient</label>
                 <div class="controls">
@@ -72,6 +75,9 @@
 
         </form>
     </div>
+
+    <div class="screenshot"></div>
+
 </logic:present>
 
 

@@ -46,13 +46,30 @@ feedback.showDialog = function() {
 
     $('.container').css({opacity:0.2});
     //feedback.feedbackModal.css({opacity:1});
-    feedback.feedbackModal.dialog();
 
-    html2canvas($('body'), {
+    $('.screenshot').html($(".container").clone());
+    $('.screenshot').children(".container").css({opacity:1});
+
+    console.log(html2canvas($('.screenshot'), {
         onrendered: function(canvas) {
-            feedback.imageData = canvas.toDataURL("image/png");
+            //feedback.imageData = canvas.toDataURL("image/png");
+            //console.log(canvas.toDataURL("image/png"));
+            var screenshotData = canvas.toDataURL("image/png");
+            $('.dialogScreenshot').html("<img src='" + screenshotData + "'/>");
+        }
+    }));
+
+
+    feedback.feedbackModal.dialog({
+        close: function () {
+            $('.container').css({opacity:1});
+        },
+        open: function () {
+            //$('.container').css({opacity:0.2});
+            //$('.screenshot').html("");
         }
     });
+
     /*
      $.getJSON('/web/listFeedbackRecipients', function(data) {
      var recipients = $('.js-feedback-recipients');
