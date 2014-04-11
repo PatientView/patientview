@@ -34,7 +34,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -84,9 +83,17 @@ public class FeedbackController extends BaseController {
      */
     @RequestMapping(value = Routes.SUBMIT_FEEDBACK, method = RequestMethod.POST)
     @ResponseBody
-    public String sendFeedback(FeedbackData feedbackData) {
+    public String sendFeedback(HttpServletRequest request, FeedbackData feedbackData) {
 
-        //System.out.println(feedbackData.getMessage());
-        return "{\"success\": \"success\", \"errors\": \"\"}";
+        User user = userManager.getLoggedInUser();
+        User staff = userManager.get(Long.parseLong(feedbackData.getRecipient()));
+
+        try {
+            messageManager.createMessage(request.getSession().getServletContext()
+                , "Feedback: " + feedbackData.getSubject(), feedbackData.getMessage(), user, staff);
+            return "{\"success\": \"success\", \"errors\": \"\"}";
+        } catch (Exception ex) {
+            return "{\"success\": \"failure\", \"errors\": \"Error creating message\"}";
+        }
     }
 }
