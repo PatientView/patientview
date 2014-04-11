@@ -544,16 +544,16 @@ section article.conversation .dull, section article.message .dull, .dull{
 
 #js-feedback-message {
     height: 150px;
-    width: 250px;
+    width: 300px;
     margin-bottom: 0px;
 }
 
 #js-feedback-subject {
-    width: 254px;
+    width: 304px;
 }
 
 #js-feedback-recipient {
-    width: 260px;
+    width: 310px;
     margin-bottom: 0px;
 }
 
@@ -566,8 +566,8 @@ section article.conversation .dull, section article.message .dull, .dull{
     position: absolute;
     top: 20px;
     left: 50%;
-    margin-left:-150px;
-    width: 300px;
+    margin-left:-175px;
+    width: 350px;
     z-index: 10;
 }
 

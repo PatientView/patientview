@@ -93,8 +93,9 @@ feedback.showDialog = function() {
         var recipients = $('#js-feedback-recipient');
         recipients.empty();
         recipients.append("<option value='-1' selected='selected'>-- Select a recipient --</option>");
-        $.each(data, function(i, result) {
-            recipients.append('<option value=' + result.id + '>' + result.name + '</option>');
+        $.each(data, function(id, name) {
+            //recipients.append('<option value=' + result.id + '>' + result.name + '</option>');
+            recipients.append("<option value='" + id + "'>" + name + "</option>");
         });
     }).fail(function(error) {
         //console.log(error);

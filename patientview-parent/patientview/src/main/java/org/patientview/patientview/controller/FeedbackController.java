@@ -23,13 +23,22 @@
 
 package org.patientview.patientview.controller;
 
+import org.patientview.model.Unit;
 import org.patientview.patientview.model.FeedbackData;
+import org.patientview.patientview.model.MessageRecipient;
+import org.patientview.patientview.model.User;
+import org.patientview.service.MessageManager;
+import org.patientview.service.UnitManager;
+import org.patientview.service.UserManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  *  Feedback controller, deals with recipient retrieval and sending feedback
@@ -37,15 +46,36 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class FeedbackController extends BaseController {
 
+    @Inject
+    private UserManager userManager;
+    @Inject
+    private UnitManager unitManager;
+    @Inject
+    private MessageManager messageManager;
+
     /**
      * Deal with the URIs "/feedback/getFeedbackRecipients"
      * get the available recipients based on logged in user
      */
     @RequestMapping(value = Routes.GET_FEEDBACK_RECIPIENTS, method = RequestMethod.GET)
     @ResponseBody
-    public String getFeedbackRecipients(HttpServletRequest request) {
+    public HashMap<Long, String> getFeedbackRecipients(HttpServletRequest request) {
 
-        return "[{\"id\":\"2\" , \"name\": \"Dr John Smith\"}, {\"id\":\"3\" , \"name\": \"Dr Joan Wilson\"}]";
+        User user = userManager.getLoggedInUser();
+        List<Unit> units = unitManager.getUsersUnits(user);
+        List<MessageRecipient> unitAdminRecipients = messageManager.getUnitAdminRecipients(units, user);
+        List<MessageRecipient> unitStaffRecipients = messageManager.getUnitStaffRecipients(units, user);
+        unitAdminRecipients.addAll(unitStaffRecipients);
+        HashMap<Long, String> recipients = new HashMap<Long, String>();
+
+        for (MessageRecipient recipient : unitAdminRecipients) {
+            User staff = recipient.getUser();
+            Unit staffUnit = recipient.getUnit();
+            recipients.put(staff.getId(), staff.getName() + " ("
+                    + staff.getRole() + ", " + staffUnit.getShortname() + ")");
+        }
+
+        return recipients;
     }
 
     /**
