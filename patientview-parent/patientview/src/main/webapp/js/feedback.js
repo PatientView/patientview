@@ -90,12 +90,12 @@ feedback.showDialog = function() {
 
     // todo: get list of recipients from server
     $.getJSON('/web/feedback/getFeedbackRecipients', function(data) {
-        var recipients = $('.js-feedback-recipients');
+        var recipients = $('#js-feedback-recipient');
         $.each(data, function(i, result) {
             recipients.append('<option value=' + result.id + '>' + result.name + '</option>');
         });
-    }).fail(function() {
-
+    }).fail(function(error) {
+        //console.log(error);
     });
 
     // show dialog
@@ -146,11 +146,11 @@ feedback.sendFeedback = function() {
 
     var errors = false;
 
-    /*if (feedbackData.recipient == "-1") {
+    if (feedbackData.recipient == "-1") {
         $('#js-feedback-recipient-error').text("Please choose a recipient");
         $('#js-feedback-recipient-error').show();
         errors = true;
-    }*/
+    }
 
     if (!feedbackData.subject.length > 0) {
         $('#js-feedback-subject-error').text("Please enter a subject");

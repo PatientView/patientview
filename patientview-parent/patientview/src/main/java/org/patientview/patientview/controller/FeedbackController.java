@@ -45,7 +45,7 @@ public class FeedbackController extends BaseController {
     @ResponseBody
     public String getFeedbackRecipients(HttpServletRequest request) {
 
-        return "{id:2 , name: \"Dr John Smith\"}";
+        return "[{\"id\":\"2\" , \"name\": \"Dr John Smith\"}, {\"id\":\"3\" , \"name\": \"Dr Joan Wilson\"}]";
     }
 
     /**
