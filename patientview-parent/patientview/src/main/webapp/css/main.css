@@ -545,13 +545,20 @@ section article.conversation .dull, section article.message .dull, .dull{
 #js-feedback-message {
     height: 150px;
     width: 248px;
+    margin-bottom: 0px;
 }
 
 #js-feedback-subject {
     width: 252px;
 }
+
 #js-feedback-recipient {
     width: 257px;
+    margin-bottom: 0px;
+}
+
+#js-feedback-recipient-error, #js-feedback-subject-error, #js-feedback-message-error, #js-feedback-error-found {
+    display:none;
 }
 
 #feedbackModal {

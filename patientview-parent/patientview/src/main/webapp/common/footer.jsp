@@ -42,21 +42,25 @@
             <h2>Report Issue</h2>
             <p>Your feedback will be sent with details of what you are currently looking at.</p><br/>
             <div id="dialogScreenshot"></div>
+            <div class="alert alert-error" id="js-feedback-error-found"></div>
             <div class="control-group">
                 <label class="control-label">Recipient</label>
                 <div class="controls">
                     <select id="js-feedback-recipient">
                         <option value="-1" selected="selected">-- Select a recipient --</option>
                     </select>
+                    <div class="alert alert-error" id="js-feedback-recipient-error"></div>
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label">Subject</label>
                 <div class="controls"><input name="subject" id="js-feedback-subject"/></div>
+                <div class="alert alert-error" id="js-feedback-subject-error"></div>
             </div>
             <div class="control-group">
                 <label class="control-label">Message</label>
                 <div class="controls"><textarea name="message" id="js-feedback-message"></textarea></div>
+                <div class="alert alert-error" id="js-feedback-message-error"></div>
             </div>
             <div class="control-group">
                 <div class="controls">

@@ -24,14 +24,15 @@
 feedback = {};
 feedback.feedbackModal = $('#feedbackModal');
 feedback.imageData = null;
-feedback.submitButton = $("#js-feedback-submit-btn");
-feedback.cancelButton = $("#js-feedback-cancel-btn");
+feedback.submitButton = $('#js-feedback-submit-btn');
+feedback.cancelButton = $('#js-feedback-cancel-btn');
+feedback.showScreenshot = false;
 
 /**
  * Set up buttons
  */
 feedback.init = function() {
-    $(".feedbackButton").click(function(e) {
+    $('.feedbackButton').click(function(e) {
         e.preventDefault();
         feedback.showDialog();
     });
@@ -43,8 +44,9 @@ feedback.init = function() {
 
     feedback.submitButton.click(function(event) {
         event.preventDefault();
-        feedback.sendFeedback();
-        feedback.hideDialog();
+        if (feedback.sendFeedback()) {
+            feedback.hideDialog();
+        }
     });
 };
 
@@ -56,14 +58,16 @@ feedback.showDialog = function() {
     $('.container').css({opacity:0.2});
 
     // clone page and take screenshot of cloned page
-    $('#screenshot').html($(".container").clone());
-    $('#screenshot').find("a.btn-navbar").remove();
-    $('#screenshot').find("a.brand").remove();
+    $('#screenshot').html($('.container').clone());
+    $('#screenshot').find('a.btn-navbar').remove();
+    $('#screenshot').find('a.brand').remove();
 
-    $('#screenshot').children(".container").css({opacity:1});
+    $('#screenshot').children('.container').css({opacity:1});
     html2canvas($('#screenshot'), {
         onrendered: function(canvas) {
-            $('#dialogScreenshot').html("<img width=300 src='" + canvas.toDataURL("image/png") + "'/>");
+            if (feedback.showScreenshot) {
+                $('#dialogScreenshot').html("<img width=300 src='" + canvas.toDataURL("image/png") + "'/>");
+            }
             feedback.imageData = canvas.toDataURL("image/png");
             $('#screenshot').html("");
         }
@@ -96,18 +100,64 @@ feedback.hideDialog = function() {
     $('#js-feedback-subject').val("");
     $('#js-feedback-message').val("");
     $("#js-feedback-recipient").val($("#js-feedback-recipient option:first").val());
+    feedback.clearErrorMessages();
 }
 
 /**
- * Get user data from form, send to server with html2canvas screenshot
+ * clear error messages, hide alerts
+ */
+feedback.clearErrorMessages = function() {
+    $("#js-feedback-recipient-error").text("");
+    $("#js-feedback-recipient-error").hide();
+    $('#js-feedback-subject-error').text("");
+    $('#js-feedback-subject-error').hide();
+    $('#js-feedback-message-error').text("");
+    $('#js-feedback-message-error').hide();
+    $('#js-feedback-error-found').text("");
+    $('#js-feedback-error-found').hide();
+}
+
+/**
+ * Get user data from form, check for errors, send to server with html2canvas screenshot
  */
 feedback.sendFeedback = function() {
+
+    feedback.clearErrorMessages();
+
     var feedbackData = {};
     feedbackData.imageData = feedback.imageData;
+    feedbackData.recipient = $('#js-feedback-recipient :selected').val();
     feedbackData.subject = $('#js-feedback-subject').val();
     feedbackData.message = $('#js-feedback-message').val();
-    feedbackData.recipient = $('#js-feedback-recipient :selected').val();
-    // todo: send to server
+
+    var errors = false;
+
+    if (feedbackData.recipient == "-1") {
+        $('#js-feedback-recipient-error').text("Please choose a recipient");
+        $('#js-feedback-recipient-error').show();
+        errors = true;
+    }
+
+    if (!feedbackData.subject.length > 0) {
+        $('#js-feedback-subject-error').text("Please enter a subject");
+        $('#js-feedback-subject-error').show();
+        errors = true;
+    }
+
+    if (!feedbackData.message.length > 0) {
+        $('#js-feedback-message-error').text("Please enter a message");
+        $('#js-feedback-message-error').show();
+        errors = true;
+    }
+
+    if (errors) {
+        //$('#js-feedback-error-found').text("Please check you have entered all required data");
+        //$('#js-feedback-error-found').show();
+        return false;
+    } else {
+        // todo: send to server
+        return true;
+    }
 }
 
 // add in a dom ready to fire init
