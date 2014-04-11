@@ -57,10 +57,13 @@ feedback.showDialog = function() {
 
     // clone page and take screenshot of cloned page
     $('#screenshot').html($(".container").clone());
+    $('#screenshot').find("a.btn-navbar").remove();
+    $('#screenshot').find("a.brand").remove();
+
     $('#screenshot').children(".container").css({opacity:1});
     html2canvas($('#screenshot'), {
         onrendered: function(canvas) {
-            //$('#dialogScreenshot').html("<img width=300 src='" + canvas.toDataURL("image/png") + "'/>");
+            $('#dialogScreenshot').html("<img width=300 src='" + canvas.toDataURL("image/png") + "'/>");
             feedback.imageData = canvas.toDataURL("image/png");
             $('#screenshot').html("");
         }

@@ -555,7 +555,7 @@ section article.conversation .dull, section article.message .dull, .dull{
 }
 
 #feedbackModal {
-    position: fixed;
+    position: absolute;
     top: 20px;
     left: 50%;
     margin-left:-150px;
