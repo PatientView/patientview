@@ -52,10 +52,12 @@ feedback.init = function() {
  * Fade background, take screenshot with html2canvas, show dialog
  */
 feedback.showDialog = function() {
+    // fade background
     $('.container').css({opacity:0.2});
+
+    // clone page and take screenshot of cloned page
     $('#screenshot').html($(".container").clone());
     $('#screenshot').children(".container").css({opacity:1});
-
     html2canvas($('#screenshot'), {
         onrendered: function(canvas) {
             //$('#dialogScreenshot').html("<img width=300 src='" + canvas.toDataURL("image/png") + "'/>");
@@ -83,6 +85,7 @@ feedback.showDialog = function() {
  * Hide dialog, clear the form of user entered data
  */
 feedback.hideDialog = function() {
+    // hide dialog
     $('.container').css({opacity:1});
     feedback.feedbackModal.hide();
 
@@ -96,14 +99,11 @@ feedback.hideDialog = function() {
  * Get user data from form, send to server with html2canvas screenshot
  */
 feedback.sendFeedback = function() {
-
     var feedbackData = {};
     feedbackData.imageData = feedback.imageData;
     feedbackData.subject = $('#js-feedback-subject').val();
     feedbackData.message = $('#js-feedback-message').val();
     feedbackData.recipient = $('#js-feedback-recipient :selected').val();
-    console.log(feedbackData);
-
     // todo: send to server
 }
 

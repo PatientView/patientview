@@ -39,8 +39,8 @@
 <logic:present specialty="renal">
     <div id="feedbackModal">
         <form class="js-feedback-form">
-            <h2>Submit Feedback</h2>
-            <p>Your feedback will be sent with details of what you are currently looking at.</p>
+            <h2>Report Issue</h2>
+            <p>Your feedback will be sent with details of what you are currently looking at.</p><br/>
             <div id="dialogScreenshot"></div>
             <div class="control-group">
                 <label class="control-label">Recipient</label>
