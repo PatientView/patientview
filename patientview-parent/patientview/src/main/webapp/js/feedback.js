@@ -23,22 +23,26 @@
 
 feedback = {};
 feedback.feedbackModal = $('#feedbackModal');
+feedback.feedbackForm = $('#js-feedback-form');
+feedback.feedbackSuccessDiv = $('#js-feedback-success');
+feedback.feedbackLoadingDiv = $('#js-feedback-loading');
 feedback.imageData = null;
 feedback.submitButton = $('#js-feedback-submit-btn');
 feedback.cancelButton = $('#js-feedback-cancel-btn');
+feedback.closeButton = $('#js-feedback-close-btn');
 feedback.showScreenshot = false;
 
 /**
  * Set up buttons
  */
 feedback.init = function() {
-    $('.feedbackButton').click(function(e) {
-        e.preventDefault();
+    $('.feedbackButton').click(function(event) {
+        event.preventDefault();
         feedback.showDialog();
     });
 
-    feedback.cancelButton.click(function(e) {
-        e.preventDefault();
+    feedback.cancelButton.click(function(event) {
+        event.preventDefault();
         feedback.hideDialog();
     });
 
@@ -48,12 +52,23 @@ feedback.init = function() {
             feedback.hideDialog();
         }
     });
+
+    feedback.closeButton.click(function(event) {
+        event.preventDefault();
+        feedback.hideDialog();
+        feedback.feedbackForm.show();
+        feedback.feedbackSuccessDiv.hide();
+    });
 };
 
 /**
  * Fade background, take screenshot with html2canvas, show dialog
  */
 feedback.showDialog = function() {
+
+    // hide recipients error if present
+    $('#js-feedback-recipient-error').hide();
+
     // fade background
     $('.container').css({opacity:0.2});
 
@@ -73,18 +88,17 @@ feedback.showDialog = function() {
         }
     });
 
-    // todo: get list of recipients
-    /*
-    $.getJSON('/web/listFeedbackRecipients', function(data) {
-    var recipients = $('.js-feedback-recipients');
+    // todo: get list of recipients from server
+    $.getJSON('/web/feedback/getFeedbackRecipients', function(data) {
+        var recipients = $('.js-feedback-recipients');
+        $.each(data, function(i, result) {
+            recipients.append('<option value=' + result.id + '>' + result.name + '</option>');
+        });
+    }).fail(function() {
 
-    $.each(data, function(i, result) {
-    recipients.append('<option value=' + result.id + '>' + result.name + '</option>');
     });
 
-    });
-    */
-
+    // show dialog
     feedback.feedbackModal.show();
 }
 
@@ -132,11 +146,11 @@ feedback.sendFeedback = function() {
 
     var errors = false;
 
-    if (feedbackData.recipient == "-1") {
+    /*if (feedbackData.recipient == "-1") {
         $('#js-feedback-recipient-error').text("Please choose a recipient");
         $('#js-feedback-recipient-error').show();
         errors = true;
-    }
+    }*/
 
     if (!feedbackData.subject.length > 0) {
         $('#js-feedback-subject-error').text("Please enter a subject");
@@ -155,8 +169,37 @@ feedback.sendFeedback = function() {
         //$('#js-feedback-error-found').show();
         return false;
     } else {
+
+        feedback.feedbackForm.hide();
+        feedback.feedbackLoadingDiv.show();
+
         // todo: send to server
-        return true;
+        $.ajax({
+            type: "POST",
+            url: "/web/feedback/submitFeedback",
+            data: feedbackData,
+            success: function(data) {
+                if (data.errors.length > 0) {
+                    $('#js-feedback-error-found').text("Sorry, there was an error sending your feedback");
+                    $('#js-feedback-error-found').show();
+                    feedback.feedbackLoadingDiv.hide();
+                    feedback.feedbackForm.show();
+                } else {
+
+                    feedback.feedbackLoadingDiv.hide();
+                    feedback.feedbackSuccessDiv.show();
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                $('#js-feedback-error-found').text("Sorry, there was a network error sending your feedback");
+                $('#js-feedback-error-found').show();
+                feedback.feedbackLoadingDiv.hide();
+                feedback.feedbackForm.show();
+                console.log(errorThrown);
+            },
+            dataType: 'json'
+        });
+
     }
 }
 

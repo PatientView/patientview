@@ -54,5 +54,8 @@ public final class Routes {
 
     public static final String EMAIL_VERIFICATION_URL = "/control/emailverification";
 
+    public static final String GET_FEEDBACK_RECIPIENTS = "/feedback/getFeedbackRecipients";
+    public static final String SUBMIT_FEEDBACK = "/feedback/submitFeedback";
+
     private Routes() { }
 }

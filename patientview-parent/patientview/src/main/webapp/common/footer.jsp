@@ -38,9 +38,9 @@
 
 <logic:present specialty="renal">
     <div id="feedbackModal">
-        <form class="js-feedback-form">
+        <form id="js-feedback-form">
             <h2>Report Issue</h2>
-            <p>Your feedback will be sent with details of what you are currently looking at.</p><br/>
+            <p>Your feedback will be sent with details of what you are currently looking at</p><br/>
             <div id="dialogScreenshot"></div>
             <div class="alert alert-error" id="js-feedback-error-found"></div>
             <div class="control-group">
@@ -69,6 +69,15 @@
                 </div>
             </div>
         </form>
+        <div id="js-feedback-loading">
+            <h2>Sending Feedback</h2>
+            <p>Please wait for your feedback to be sent</p>
+        </div>
+        <div id="js-feedback-success">
+            <h2>Feedback Sent</h2>
+            <p>Your feedback has been sent to the relevant recipients</p>
+            <input type="submit" value="Close" id="js-feedback-close-btn" class="btn"/>
+        </div>
     </div>
     <div class="hider"><div id="screenshot"></div></div>
     <script type="text/javascript" src="/js/feedback.js"></script>

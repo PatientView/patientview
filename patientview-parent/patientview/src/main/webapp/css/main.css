@@ -536,7 +536,7 @@ section article.conversation .dull, section article.message .dull, .dull{
     display: none;
 }
 
-#feedbackModal form {
+#feedbackModal form, #js-feedback-success, #js-feedback-loading{
     background-color: white;
     padding: 20px;
     margin: 0px;
@@ -557,7 +557,8 @@ section article.conversation .dull, section article.message .dull, .dull{
     margin-bottom: 0px;
 }
 
-#js-feedback-recipient-error, #js-feedback-subject-error, #js-feedback-message-error, #js-feedback-error-found {
+#js-feedback-recipient-error, #js-feedback-subject-error, #js-feedback-message-error,
+#js-feedback-error-found, #js-feedback-success, #js-feedback-loading{
     display:none;
 }
 
