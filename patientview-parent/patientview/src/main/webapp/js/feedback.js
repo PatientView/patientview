@@ -91,6 +91,8 @@ feedback.showDialog = function() {
     // todo: get list of recipients from server
     $.getJSON('/web/feedback/getFeedbackRecipients', function(data) {
         var recipients = $('#js-feedback-recipient');
+        recipients.empty();
+        recipients.append("<option value='-1' selected='selected'>-- Select a recipient --</option>");
         $.each(data, function(i, result) {
             recipients.append('<option value=' + result.id + '>' + result.name + '</option>');
         });

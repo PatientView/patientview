@@ -46,9 +46,7 @@
             <div class="control-group">
                 <label class="control-label">Recipient</label>
                 <div class="controls">
-                    <select id="js-feedback-recipient">
-                        <option value="-1" selected="selected">-- Select a recipient --</option>
-                    </select>
+                    <select id="js-feedback-recipient"></select>
                     <div class="alert alert-error" id="js-feedback-recipient-error"></div>
                 </div>
             </div>
