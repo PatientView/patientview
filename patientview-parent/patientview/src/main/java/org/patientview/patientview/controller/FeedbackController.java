@@ -23,6 +23,7 @@
 
 package org.patientview.patientview.controller;
 
+import org.apache.commons.codec.binary.Base64;
 import org.patientview.model.Unit;
 import org.patientview.patientview.model.Conversation;
 import org.patientview.patientview.model.FeedbackData;
@@ -32,9 +33,11 @@ import org.patientview.patientview.model.User;
 import org.patientview.service.MessageManager;
 import org.patientview.service.UnitManager;
 import org.patientview.service.UserManager;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -60,8 +63,7 @@ public class FeedbackController extends BaseController {
      */
     @RequestMapping(value = Routes.GET_FEEDBACK_RECIPIENTS, method = RequestMethod.GET)
     @ResponseBody
-    public HashMap<Long, String> getFeedbackRecipients(HttpServletRequest request) {
-
+    public HashMap<Long, String> getFeedbackRecipients() {
         User user = userManager.getLoggedInUser();
         List<Unit> units = unitManager.getUsersUnits(user);
         List<MessageRecipient> unitAdminRecipients = messageManager.getUnitAdminRecipients(units, user);
@@ -86,7 +88,6 @@ public class FeedbackController extends BaseController {
     @RequestMapping(value = Routes.SUBMIT_FEEDBACK, method = RequestMethod.POST)
     @ResponseBody
     public String sendFeedback(HttpServletRequest request, FeedbackData feedbackData) {
-
         User user = userManager.getLoggedInUser();
         User staff = userManager.get(Long.parseLong(feedbackData.getRecipient()));
 
@@ -106,7 +107,7 @@ public class FeedbackController extends BaseController {
      */
     @RequestMapping(value = Routes.RATE_CONVERSATION, method = RequestMethod.POST)
     @ResponseBody
-    public String rateConversation(HttpServletRequest request, Rating rating) {
+    public String rateConversation(Rating rating) {
         User user = userManager.getLoggedInUser();
 
         try {
@@ -120,6 +121,29 @@ public class FeedbackController extends BaseController {
             }
         } catch (Exception ex) {
             return "{\"success\": \"failure\", \"errors\": \"Error saving conversation\"}";
+        }
+    }
+
+    /**
+     * Deal with the URIs "/feedback/downloadImage"
+     * download image data by uri, avoiding issues with datauri not being supported, return null on all errors
+     */
+    @RequestMapping(value = Routes.DOWNLOAD_IMAGE, method = RequestMethod.GET, produces = MediaType.IMAGE_PNG_VALUE)
+    @ResponseBody
+    public byte[] downloadImage(@RequestParam(value = "conversationId", required = true) String conversationId) {
+        try {
+            User user = userManager.getLoggedInUser();
+            Conversation conversation = messageManager.getConversation(Long.parseLong(conversationId));
+            if (conversation != null) {
+                if (user.equals(conversation.getParticipant1()) || user.equals(conversation.getParticipant2())) {
+                    if (conversation.getImageData() != null) {
+                        String imageData = conversation.getImageData().split(",")[1];
+                        return Base64.decodeBase64(imageData.getBytes());
+                    } else { return null; }
+                } else { return null; }
+            } else { return null; }
+        } catch (Exception ex) {
+            return null;
         }
     }
 }

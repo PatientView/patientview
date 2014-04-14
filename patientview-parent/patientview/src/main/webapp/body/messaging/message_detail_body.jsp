@@ -69,6 +69,7 @@
                 </logic:present>
                 <logic:present name="conversation" property="imageData">
                     <img class="imageData boxShadow1" src="<bean:write name="conversation" property="imageData" />"/>
+                    <a href="../web/feedback/downloadImage?conversationId=<bean:write name="conversation" property="id"/>" target="_blank">Download Screenshot</a>
                 </logic:present>
             </div>
 
