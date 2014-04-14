@@ -37,7 +37,7 @@
 </div>
 
 <logic:present specialty="renal">
-    <div id="feedbackModal">
+    <div id="feedbackModal" class="boxShadow1">
         <form id="js-feedback-form">
             <h2>Report Issue</h2>
             <p>Your feedback will be sent with details of what you are currently looking at</p><br/>

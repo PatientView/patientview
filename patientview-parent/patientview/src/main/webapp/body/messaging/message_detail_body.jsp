@@ -51,7 +51,7 @@
         <logic:present name="conversation">
             <div class="page-header">
                 <div>
-                    <a href="/<%=actionPrefix%>/conversations.do" class="btn">< back to Messages</a>
+                    <a href="/<%=actionPrefix%>/conversations.do" class="btn">Back to Messages</a>
                 </div>
 
                 <h1>
@@ -62,6 +62,9 @@
                 <h4 class="author">
                     <bean:write name="conversation" property="otherUser.name" />
                 </h4>
+                <logic:present name="conversation" property="imageData">
+                    <img class="imageData boxShadow1" src="<bean:write name="conversation" property="imageData" />"/>
+                </logic:present>
             </div>
 
             <section class="js-messages">

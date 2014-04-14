@@ -534,9 +534,6 @@ section article.conversation .dull, section article.message .dull, .dull{
 #feedbackModal {
     border: 1px solid #999;
     display: none;
-    -webkit-box-shadow: 0px 0px 28px 0px rgba(50, 50, 50, 0.47);
-    -moz-box-shadow:    0px 0px 28px 0px rgba(50, 50, 50, 0.47);
-    box-shadow:         0px 0px 28px 0px rgba(50, 50, 50, 0.47);
 }
 
 #feedbackModal form, #js-feedback-success, #js-feedback-loading{
@@ -579,4 +576,16 @@ section article.conversation .dull, section article.message .dull, .dull{
     position:absolute;
     top:0px;
     left:0px;
+}
+
+.imageData {
+    border: 1px solid #999;
+    width:100%;
+    margin: 40px 0px 20px 0px;
+}
+
+.boxShadow1 {
+    -webkit-box-shadow: 0px 0px 28px 0px rgba(50, 50, 50, 0.47);
+    -moz-box-shadow:    0px 0px 28px 0px rgba(50, 50, 50, 0.47);
+    box-shadow:         0px 0px 28px 0px rgba(50, 50, 50, 0.47);
 }
