@@ -83,6 +83,9 @@ public class Conversation extends BaseModel {
     @Column(nullable = true)
     private String imageData;
 
+    @Column(nullable = true)
+    private Long rating;
+
     public boolean isDeleted() {
         return deleted;
     }
@@ -182,4 +185,8 @@ public class Conversation extends BaseModel {
     public String getImageData() { return imageData; }
 
     public void setImageData(String imageData) { this.imageData = imageData; }
+
+    public Long getRating() { return rating; }
+
+    public void setRating(Long rating) { this.rating = rating; }
 }

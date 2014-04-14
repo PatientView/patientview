@@ -47,6 +47,8 @@ public interface MessageManager {
 
     List<Conversation> getConversations(Long participantId);
 
+    void saveConversation(Conversation conversation);
+
     void deleteConversation(Long conversationId);
 
     void deleteConversation(Conversation conversation);

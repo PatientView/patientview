@@ -87,6 +87,7 @@
 <script type="text/javascript" src="/ibd/js/ico.min.js"></script>
 <script type="text/javascript" src="/ibd/js/ibd.js"></script>
 <script type="text/javascript" src="/js/pwdmeter.js"></script>
+<script type="text/javascript" src="/js/jquery.rateit.min.js"></script>
 <%
     // todo tracking code should only be present on live...
 %>

@@ -88,7 +88,6 @@ feedback.showDialog = function() {
         }
     });
 
-    // todo: get list of recipients from server
     $.getJSON('/web/feedback/getFeedbackRecipients', function(data) {
         var recipients = $('#js-feedback-recipient');
         recipients.empty();
@@ -173,7 +172,6 @@ feedback.sendFeedback = function() {
         feedback.feedbackForm.hide();
         feedback.feedbackLoadingDiv.show();
 
-        // todo: send to server
         $.ajax({
             type: "POST",
             url: "/web/feedback/submitFeedback",
@@ -194,11 +192,10 @@ feedback.sendFeedback = function() {
                 $('#js-feedback-error-found').show();
                 feedback.feedbackLoadingDiv.hide();
                 feedback.feedbackForm.show();
-                console.log(errorThrown);
+                //console.log(errorThrown);
             },
             dataType: 'json'
         });
-
     }
 }
 

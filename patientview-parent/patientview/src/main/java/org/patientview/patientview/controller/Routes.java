@@ -56,6 +56,7 @@ public final class Routes {
 
     public static final String GET_FEEDBACK_RECIPIENTS = "/feedback/getFeedbackRecipients";
     public static final String SUBMIT_FEEDBACK = "/feedback/submitFeedback";
+    public static final String RATE_CONVERSATION = "/feedback/rateConversation";
 
     private Routes() { }
 }

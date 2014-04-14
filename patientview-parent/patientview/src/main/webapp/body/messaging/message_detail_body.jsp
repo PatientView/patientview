@@ -63,6 +63,11 @@
                     <bean:write name="conversation" property="otherUser.name" />
                 </h4>
                 <logic:present name="conversation" property="imageData">
+                <div id="messageRating">
+                    How would you rate this conversation? <div class="rateit" data-rateit-step="1" data-rateit-value="<bean:write name="conversation" property="rating" />"></div> <span id="messageRatingInfo"></span>
+                </div>
+                </logic:present>
+                <logic:present name="conversation" property="imageData">
                     <img class="imageData boxShadow1" src="<bean:write name="conversation" property="imageData" />"/>
                 </logic:present>
             </div>

@@ -140,6 +140,11 @@ public class MessageManagerImpl implements MessageManager {
         return conversations;
     }
 
+    @Override
+    public void saveConversation(Conversation conversation) {
+        conversationDao.save(conversation);
+    }
+
     public List<Conversation> canIncludeInConversations(List<Conversation> conversations, Long participantId) {
         List<Conversation> conversationList = new ArrayList<Conversation>();
         List<Message> messages;

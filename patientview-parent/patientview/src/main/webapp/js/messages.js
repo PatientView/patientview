@@ -63,6 +63,46 @@ messages.init = function() {
                 errorsEl.html('').hide();
             });
     }
+
+    // set up rating
+    $('#messageRatingInfo').text("");
+
+    $('.rateit').on('beforerated', function (e, value) {
+
+        //if (!confirm('Are you sure you want to rate this conversation: ' +  value + ' stars?')) {
+            e.preventDefault();
+            $('#messageRatingInfo').text("");
+
+            var ratingData = {};
+            ratingData.conversationId = $(".js-message-conversation-id").val();
+            ratingData.rating = value;
+
+            $.ajax({
+                type: "POST",
+                url: "/web/feedback/rateConversation",
+                data: ratingData,
+                success: function(data) {
+                    //console.log(data);
+                    if (data.errors.length > 0) {
+                        $('#messageRatingInfo').text("Sorry, there was an error rating this conversation");
+                    } else {
+                        $('#messageRatingInfo').text("Thank you for your feedback!");
+                        $('#messageRating .rateit').rateit('value', value);
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    $('#messageRatingInfo').text("Sorry, there was a network error rating this conversation");
+                    console.log(errorThrown);
+                },
+                dataType: 'json'
+            });
+        //}
+    });
+    $('.rateit').on('beforereset', function (e) {
+        if (!confirm('Are you sure you want to reset the rating?')) {
+            e.preventDefault();
+        }
+    });
 };
 
 messages.getMessageHtml = function(message) {

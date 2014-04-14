@@ -24,8 +24,10 @@
 package org.patientview.patientview.controller;
 
 import org.patientview.model.Unit;
+import org.patientview.patientview.model.Conversation;
 import org.patientview.patientview.model.FeedbackData;
 import org.patientview.patientview.model.MessageRecipient;
+import org.patientview.patientview.model.Rating;
 import org.patientview.patientview.model.User;
 import org.patientview.service.MessageManager;
 import org.patientview.service.UnitManager;
@@ -90,11 +92,34 @@ public class FeedbackController extends BaseController {
 
         try {
             messageManager.createMessage(request.getSession().getServletContext()
-                , "Feedback: " + feedbackData.getSubject(), feedbackData.getMessage()
-                , user, staff, feedbackData.getImageData());
+                    , "Feedback: " + feedbackData.getSubject(), feedbackData.getMessage()
+                    , user, staff, feedbackData.getImageData());
             return "{\"success\": \"success\", \"errors\": \"\"}";
         } catch (Exception ex) {
             return "{\"success\": \"failure\", \"errors\": \"Error creating message\"}";
+        }
+    }
+
+    /**
+     * Deal with the URIs "/feedback/rateConversation"
+     * send feedback, including image data
+     */
+    @RequestMapping(value = Routes.RATE_CONVERSATION, method = RequestMethod.POST)
+    @ResponseBody
+    public String rateConversation(HttpServletRequest request, Rating rating) {
+        User user = userManager.getLoggedInUser();
+
+        try {
+            Conversation conversation = messageManager.getConversation(rating.getConversationId());
+            if (user.equals(conversation.getParticipant1()) || user.equals(conversation.getParticipant2())) {
+                conversation.setRating(rating.getRating());
+                messageManager.saveConversation(conversation);
+                return "{\"success\": \"success\", \"errors\": \"\"}";
+            } else {
+                return "{\"success\": \"failure\", \"errors\": \"Error saving conversation\"}";
+            }
+        } catch (Exception ex) {
+            return "{\"success\": \"failure\", \"errors\": \"Error saving conversation\"}";
         }
     }
 }
