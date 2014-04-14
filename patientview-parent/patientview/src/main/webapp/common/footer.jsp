@@ -62,7 +62,7 @@
             </div>
             <div class="control-group">
                 <div class="controls">
-                    <input type="submit" value="Send Feedback" id="js-feedback-submit-btn" class="btn"/>&nbsp;
+                    <input type="submit" value="Send Feedback" id="js-feedback-submit-btn" class="btn btn-primary"/>&nbsp;
                     <input type="submit" value="Cancel" id="js-feedback-cancel-btn" class="btn"/>
                 </div>
             </div>

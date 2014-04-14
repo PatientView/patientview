@@ -67,7 +67,8 @@ public interface MessageManager {
             throws Exception;
 
     /**
-     * Create a new conversation between two participants, including image data and creates first message
+     * Create a new conversation with type "IMAGE" between two participants, including image data
+     * and creates first message
      * @param context The current session servlet context
      * @param subject Subject of the conversation
      * @param content Content of the first message in the conversation

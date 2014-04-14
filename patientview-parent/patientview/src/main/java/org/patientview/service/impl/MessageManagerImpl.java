@@ -248,6 +248,7 @@ public class MessageManagerImpl implements MessageManager {
         conversation.setParticipant2(recipient);
         conversation.setSubject(subject);
         conversation.setImageData(imageData);
+        conversation.setType("IMAGE");
         conversationDao.save(conversation);
 
         return sendMessage(context, conversation, sender, recipient, content);
