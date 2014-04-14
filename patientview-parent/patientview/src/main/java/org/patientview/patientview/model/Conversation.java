@@ -86,6 +86,10 @@ public class Conversation extends BaseModel {
     @Column(nullable = true)
     private Long rating;
 
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "status")
+    private ConversationStatus conversationStatus;
+
     public boolean isDeleted() {
         return deleted;
     }
@@ -189,4 +193,10 @@ public class Conversation extends BaseModel {
     public Long getRating() { return rating; }
 
     public void setRating(Long rating) { this.rating = rating; }
+
+    public ConversationStatus getConversationStatus() { return conversationStatus; }
+
+    public void setConversationStatus(ConversationStatus conversationStatus) {
+        this.conversationStatus = conversationStatus;
+    }
 }
