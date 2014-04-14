@@ -90,8 +90,6 @@
     outline: none;
     border:none;
     padding: 0;
-    /* hidden */
-    display: none;
 }
 
 .rateit button.rateit-reset:hover, .rateit button.rateit-reset:focus
