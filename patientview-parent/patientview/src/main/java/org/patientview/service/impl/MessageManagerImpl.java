@@ -107,7 +107,6 @@ public class MessageManagerImpl implements MessageManager {
             }
         }
 
-
         populateConversation(conversation, participantId);
         return conversation;
     }
@@ -154,7 +153,7 @@ public class MessageManagerImpl implements MessageManager {
         if (conversations != null) {
             for (Conversation conversation : conversations) {
 
-                if (StringUtils.hasLength(conversation.getType())) {
+                if (conversation.getType() == "BULK") {
                     messages = getMessages(conversation.getId());
 
                     if (messages != null && !messages.isEmpty()) {
@@ -598,7 +597,7 @@ public class MessageManagerImpl implements MessageManager {
     private void populateConversation(Conversation conversation, Long participantId) {
         if (conversation != null) {
             // type is not null indicate the group message
-            if (conversation.getType() != null) {
+            if (conversation.getType() == "BULK") {
                 // the bulk message is not new for unitadmin who send it
                 if (!securityUserManager.isRolePresent("superadmin")
                         && !(securityUserManager.isRolePresent("unitadmin")

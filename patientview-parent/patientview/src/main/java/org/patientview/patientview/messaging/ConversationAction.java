@@ -70,7 +70,7 @@ public class ConversationAction extends BaseAction {
         request.setAttribute(Messaging.MESSAGES_PARAM, getMessageManager().getMessages(conversation.getId()));
 
         // single message the type is null
-        if (conversation.getType() == null) {
+        if (conversation.getType() != "BULK") {
             getMessageManager().markMessagesAsReadForConversation(loggedInUser.getId(), conversation.getId());
 
         } else {
