@@ -94,7 +94,6 @@ feedback.showDialog = function() {
         recipients.empty();
         recipients.append("<option value='-1' selected='selected'>-- Select a recipient --</option>");
         $.each(data, function(id, name) {
-            //recipients.append('<option value=' + result.id + '>' + result.name + '</option>');
             recipients.append("<option value='" + id + "'>" + name + "</option>");
         });
     }).fail(function(error) {
@@ -168,8 +167,6 @@ feedback.sendFeedback = function() {
     }
 
     if (errors) {
-        //$('#js-feedback-error-found').text("Please check you have entered all required data");
-        //$('#js-feedback-error-found').show();
         return false;
     } else {
 
@@ -188,7 +185,6 @@ feedback.sendFeedback = function() {
                     feedback.feedbackLoadingDiv.hide();
                     feedback.feedbackForm.show();
                 } else {
-
                     feedback.feedbackLoadingDiv.hide();
                     feedback.feedbackSuccessDiv.show();
                 }
