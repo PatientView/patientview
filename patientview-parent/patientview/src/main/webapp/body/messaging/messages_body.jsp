@@ -116,6 +116,10 @@
                                                 </span>
                                             </logic:greaterThan>
                                             <span class="pull-right conversation-date label label-inverse"><bean:write name="conversation" property="friendlyLatestMessageDate" /></span>
+                                            <logic:equal value="IMAGE" name="conversation" property="type">
+                                                <!-- show Feedback label -->
+                                                <span class="pull-right conversation-date label">Feedback</span>
+                                            </logic:equal>
                                             <span class="action-test dull">Click to open conversation</span>
                                         </h2>
 

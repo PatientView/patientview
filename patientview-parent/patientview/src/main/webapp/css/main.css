@@ -594,3 +594,7 @@ section article.conversation .dull, section article.message .dull, .dull{
     box-shadow:         0px 0px 28px 0px rgba(50, 50, 50, 0.47);
 }
 
+.label {
+    margin-left: 2px;
+}
+
