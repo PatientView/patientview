@@ -90,6 +90,9 @@ public class Conversation extends BaseModel {
     @JoinColumn(name = "status")
     private ConversationStatus conversationStatus;
 
+    @Column(nullable = false)
+    private boolean clinicianClosed = false;
+
     public boolean isDeleted() {
         return deleted;
     }
@@ -199,4 +202,8 @@ public class Conversation extends BaseModel {
     public void setConversationStatus(ConversationStatus conversationStatus) {
         this.conversationStatus = conversationStatus;
     }
+
+    public boolean isClinicianClosed() { return clinicianClosed; }
+
+    public void setClinicianClosed(boolean clinicianClosed) { this.clinicianClosed = clinicianClosed; }
 }

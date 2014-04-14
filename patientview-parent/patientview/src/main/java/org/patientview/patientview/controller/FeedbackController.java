@@ -94,7 +94,7 @@ public class FeedbackController extends BaseController {
         try {
             messageManager.createMessage(request.getSession().getServletContext()
                     , "Feedback: " + feedbackData.getSubject(), feedbackData.getMessage()
-                    , user, staff, feedbackData.getImageData());
+                    , user, staff, feedbackData.getImageData(), true);
             return "{\"success\": \"success\", \"errors\": \"\"}";
         } catch (Exception ex) {
             return "{\"success\": \"failure\", \"errors\": \"Error creating message\"}";

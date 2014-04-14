@@ -1,5 +1,6 @@
 <%@ page import="org.patientview.patientview.model.User" %>
 <%@ page import="org.patientview.utils.LegacySpringUtils" %>
+<%@ page import="org.patientview.patientview.messaging.Messaging" %>
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
@@ -62,8 +63,8 @@
                 <h4 class="author">
                     <bean:write name="conversation" property="otherUser.name" />
                 </h4>
-                <logic:equal value="IMAGE" name="conversation" property="type">
-                    <!-- only shown for conversations with type IMAGE -->
+                <logic:equal value="<%=Messaging.FEEDBACK%>" name="conversation" property="type">
+                    <!-- only shown for conversations with type Messaging.FEEDBACK -->
                     <div id="messageRating">
                         How would you rate this conversation? <div class="rateit" data-rateit-resetable="false" data-rateit-step="1" data-rateit-value="<bean:write name="conversation" property="rating" />"></div> <span id="messageRatingInfo"></span>
                     </div>
@@ -77,9 +78,11 @@
                             Status: Open
                         </div>
                     </logic:notPresent>
-                    <logic:present name="conversation" property="imageData">
-                        <img class="imageData boxShadow1" src="<bean:write name="conversation" property="imageData" />"/>
-                        <a href="../web/feedback/downloadImage?conversationId=<bean:write name="conversation" property="id"/>" target="_blank">Download Screenshot</a>
+                    <logic:present role="superadmin, unitadmin, unitstaff">
+                        <logic:present name="conversation" property="imageData">
+                            <img class="imageData boxShadow1" src="<bean:write name="conversation" property="imageData" />"/>
+                            <a href="../web/feedback/downloadImage?conversationId=<bean:write name="conversation" property="id"/>" target="_blank">Download Screenshot</a>
+                        </logic:present>
                     </logic:present>
                 </logic:equal>
             </div>

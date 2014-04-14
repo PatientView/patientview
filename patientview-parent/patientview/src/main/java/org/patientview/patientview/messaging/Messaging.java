@@ -51,4 +51,6 @@ public final class Messaging {
     public static final String RECIPIENT_UNIT_PARAM = "recipient_unit";
     public static final String UNIT_NAME_PARAM = "unit_name";
 
+    public static final String FEEDBACK = "FEEDBACK";
+
 }

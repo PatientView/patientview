@@ -230,7 +230,7 @@ public class MessageManagerImpl implements MessageManager {
 
     @Override
     public Message createMessage(ServletContext context, String subject, String content, User sender
-            , User recipient, String imageData) {
+            , User recipient, String imageData, Boolean isFeedback) {
         if (!StringUtils.hasText(subject)) {
             throw new IllegalArgumentException("Invalid required parameter subject");
         }
@@ -252,7 +252,9 @@ public class MessageManagerImpl implements MessageManager {
         conversation.setParticipant2(recipient);
         conversation.setSubject(subject);
         conversation.setImageData(imageData);
-        conversation.setType("IMAGE");
+        if (isFeedback) {
+            conversation.setType("FEEDBACK");
+        }
         conversationDao.save(conversation);
 
         return sendMessage(context, conversation, sender, recipient, content);
