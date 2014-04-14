@@ -49,7 +49,7 @@
                 <div style="color: rgb(0, 136, 204)">
                     IMPORTANT: We are still testing messaging. Do not send urgent information or questions this way yet! Click on messages
                     to see the full conversation. To send a new message, click on "Create Message" above right. When you send a message,
-                    the recipient will receive and email asking them to log in to read it, if they have an email address in the system.
+                    the recipient will receive an email asking them to log in to read it, if they have an email address in the system.
                 </div>
             </div>
 
@@ -69,7 +69,7 @@
                 <div style="color: rgb(0, 136, 204)">
                     IMPORTANT: We are still testing messaging. Do not send urgent information or questions this way yet! Click on messages
                     to see the full conversation. To send a new message, click on "Create Message" above right. When you send a message,
-                    the recipient will receive and email asking them to log in to read it, if they have an email address in the system.
+                    the recipient will receive an email asking them to log in to read it, if they have an email address in the system.
                 </div>
             </div>
 
@@ -94,7 +94,7 @@
                     <div style="color: rgb(0, 136, 204)">
                         IMPORTANT: We are still testing messaging. Do not send urgent information or questions this way yet! Click on messages
                         to see the full conversation. To send a new message, click on "Create Message" above right. When you send a message,
-                        the recipient will receive and email asking them to log in to read it, if they have an email address in the system.
+                        the recipient will receive an email asking them to log in to read it, if they have an email address in the system.
                     </div>
                 </div>
 
