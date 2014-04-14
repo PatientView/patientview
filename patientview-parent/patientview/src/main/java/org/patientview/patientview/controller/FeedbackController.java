@@ -90,7 +90,8 @@ public class FeedbackController extends BaseController {
 
         try {
             messageManager.createMessage(request.getSession().getServletContext()
-                , "Feedback: " + feedbackData.getSubject(), feedbackData.getMessage(), user, staff);
+                , "Feedback: " + feedbackData.getSubject(), feedbackData.getMessage()
+                , user, staff, feedbackData.getImageData());
             return "{\"success\": \"success\", \"errors\": \"\"}";
         } catch (Exception ex) {
             return "{\"success\": \"failure\", \"errors\": \"Error creating message\"}";

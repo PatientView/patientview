@@ -1,3 +1,3 @@
 
 
-ALTER TABLE conversations ADD COLUMN `imgdata` mediumtext;
+ALTER TABLE conversations ADD COLUMN `imageData` mediumtext;

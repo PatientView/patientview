@@ -225,6 +225,35 @@ public class MessageManagerImpl implements MessageManager {
     }
 
     @Override
+    public Message createMessage(ServletContext context, String subject, String content, User sender
+            , User recipient, String imageData) {
+        if (!StringUtils.hasText(subject)) {
+            throw new IllegalArgumentException("Invalid required parameter subject");
+        }
+
+        if (!StringUtils.hasText(content)) {
+            throw new IllegalArgumentException("Invalid required parameter content");
+        }
+
+        if (sender == null || !sender.hasValidId()) {
+            throw new IllegalArgumentException("Invalid required parameter sender");
+        }
+
+        if (recipient == null || !recipient.hasValidId()) {
+            throw new IllegalArgumentException("Invalid required parameter recipient");
+        }
+
+        Conversation conversation = new Conversation();
+        conversation.setParticipant1(sender);
+        conversation.setParticipant2(recipient);
+        conversation.setSubject(subject);
+        conversation.setImageData(imageData);
+        conversationDao.save(conversation);
+
+        return sendMessage(context, conversation, sender, recipient, content);
+    }
+
+    @Override
     public Message createGroupMessage(ServletContext context, String subject, String content, User sender,
                                       String groupName, String type, Unit unit) throws Exception {
         if (!StringUtils.hasText(subject)) {

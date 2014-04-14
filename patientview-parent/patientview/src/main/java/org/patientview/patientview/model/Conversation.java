@@ -80,6 +80,9 @@ public class Conversation extends BaseModel {
     @Column(nullable = true)
     private String type;
 
+    @Column(nullable = true)
+    private String imageData;
+
     public boolean isDeleted() {
         return deleted;
     }
@@ -175,4 +178,8 @@ public class Conversation extends BaseModel {
     public void setType(String type) {
         this.type = type;
     }
+
+    public String getImageData() { return imageData; }
+
+    public void setImageData(String imageData) { this.imageData = imageData; }
 }

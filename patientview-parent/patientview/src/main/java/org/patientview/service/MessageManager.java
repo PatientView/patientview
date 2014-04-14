@@ -53,12 +53,35 @@ public interface MessageManager {
 
     List<Message> getMessages(Long conversationId);
 
+    /**
+     * Create a new conversation between two participants and creates first message
+     * @param context The current session servlet context
+     * @param subject Subject of the conversation
+     * @param content Content of the first message in the conversation
+     * @param sender Sending user
+     * @param recipient User the message is being sent to
+     * @return
+     * @throws Exception
+     */
     Message createMessage(ServletContext context, String subject, String content, User sender, User recipient)
             throws Exception;
 
+    /**
+     * Create a new conversation between two participants, including image data and creates first message
+     * @param context The current session servlet context
+     * @param subject Subject of the conversation
+     * @param content Content of the first message in the conversation
+     * @param sender Sending user
+     * @param recipient User the message is being sent to
+     * @param imageData Image data, usually a screenshot
+     * @return
+     * @throws Exception
+     */
+    Message createMessage(ServletContext context, String subject, String content, User sender, User recipient
+            , String imageData) throws Exception;
+
     Message createGroupMessage(ServletContext context, String subject, String content, User sender,
-                               String groupName, String type, Unit unit)
-            throws Exception;
+                               String groupName, String type, Unit unit) throws Exception;
 
     Message replyToMessage(ServletContext context, String content, Long conversationId, User sender) throws Exception;
 
