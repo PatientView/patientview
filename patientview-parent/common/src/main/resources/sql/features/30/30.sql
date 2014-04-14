@@ -10,4 +10,4 @@ CREATE TABLE `conversation_status` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
-INSERT INTO conversation_status (id, status) VALUES (1, 'Open'), (2, 'Closed'), (3, 'Resolved');
+INSERT INTO conversation_status (id, status) VALUES (1, 'Ongoing'), (2, 'Closed'), (3, 'Resolved');

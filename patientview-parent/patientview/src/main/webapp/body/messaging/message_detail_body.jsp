@@ -62,20 +62,26 @@
                 <h4 class="author">
                     <bean:write name="conversation" property="otherUser.name" />
                 </h4>
-                <logic:present name="conversation" property="imageData">
+                <logic:equal value="IMAGE" name="conversation" property="type">
+                    <!-- only shown for conversations with type IMAGE -->
                     <div id="messageRating">
                         How would you rate this conversation? <div class="rateit" data-rateit-resetable="false" data-rateit-step="1" data-rateit-value="<bean:write name="conversation" property="rating" />"></div> <span id="messageRatingInfo"></span>
                     </div>
-                </logic:present>
-                <logic:present name="conversation" property="conversationStatus">
-                    <div id="messageStatus">
-                        Status: <bean:write name="conversation" property="conversationStatus.status" />
-                    </div>
-                </logic:present>
-                <logic:present name="conversation" property="imageData">
-                    <img class="imageData boxShadow1" src="<bean:write name="conversation" property="imageData" />"/>
-                    <a href="../web/feedback/downloadImage?conversationId=<bean:write name="conversation" property="id"/>" target="_blank">Download Screenshot</a>
-                </logic:present>
+                    <logic:present name="conversation" property="conversationStatus">
+                        <div id="messageStatus">
+                            Status: <bean:write name="conversation" property="conversationStatus.status" />
+                        </div>
+                    </logic:present>
+                    <logic:notPresent name="conversation" property="conversationStatus">
+                        <div id="messageStatus">
+                            Status: Open
+                        </div>
+                    </logic:notPresent>
+                    <logic:present name="conversation" property="imageData">
+                        <img class="imageData boxShadow1" src="<bean:write name="conversation" property="imageData" />"/>
+                        <a href="../web/feedback/downloadImage?conversationId=<bean:write name="conversation" property="id"/>" target="_blank">Download Screenshot</a>
+                    </logic:present>
+                </logic:equal>
             </div>
 
             <section class="js-messages">
