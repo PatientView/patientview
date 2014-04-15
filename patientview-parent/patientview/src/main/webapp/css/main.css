@@ -46,6 +46,10 @@ h1, h2{
 	color: #0066cc;
 }
 
+h2.title {
+    font-size: 20px;
+}
+
 h3{
     font-size: 15px;
     line-height: 20px;
@@ -443,7 +447,8 @@ h3{
 
 
 section article.conversation, section article.message{
-    padding:18px 18px;
+    /*padding:18px 18px;*/
+    padding: 0 0 10px 10px;
     border-bottom: 1px dotted #eeeeee;
 }
 
