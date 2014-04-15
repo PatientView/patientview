@@ -92,4 +92,4 @@
     </div><!-- /navbar-inner -->
 </div>
 
-<div class="container">
+<div class="container maincontainer">

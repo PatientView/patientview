@@ -26,7 +26,9 @@ package org.patientview.service.impl;
 import org.joda.time.DateTime;
 import org.patientview.model.Unit;
 import org.patientview.patientview.logon.UnitAdmin;
+import org.patientview.patientview.messaging.Messaging;
 import org.patientview.patientview.model.Conversation;
+import org.patientview.patientview.model.ConversationStatus;
 import org.patientview.patientview.model.Job;
 import org.patientview.patientview.model.Message;
 import org.patientview.patientview.model.MessageRecipient;
@@ -35,6 +37,7 @@ import org.patientview.patientview.model.enums.GroupEnum;
 import org.patientview.patientview.model.enums.SendEmailEnum;
 import org.patientview.repository.job.JobDao;
 import org.patientview.repository.messaging.ConversationDao;
+import org.patientview.repository.messaging.ConversationStatusDao;
 import org.patientview.repository.messaging.MessageDao;
 import org.patientview.service.EmailManager;
 import org.patientview.service.FeatureManager;
@@ -67,6 +70,9 @@ public class MessageManagerImpl implements MessageManager {
 
     @Inject
     private ConversationDao conversationDao;
+
+    @Inject
+    private ConversationStatusDao conversationStatusDao;
 
     @Inject
     private FeatureManager featureManager;
@@ -107,7 +113,6 @@ public class MessageManagerImpl implements MessageManager {
             }
         }
 
-
         populateConversation(conversation, participantId);
         return conversation;
     }
@@ -140,6 +145,11 @@ public class MessageManagerImpl implements MessageManager {
         return conversations;
     }
 
+    @Override
+    public void saveConversation(Conversation conversation) {
+        conversationDao.save(conversation);
+    }
+
     public List<Conversation> canIncludeInConversations(List<Conversation> conversations, Long participantId) {
         List<Conversation> conversationList = new ArrayList<Conversation>();
         List<Message> messages;
@@ -149,7 +159,7 @@ public class MessageManagerImpl implements MessageManager {
         if (conversations != null) {
             for (Conversation conversation : conversations) {
 
-                if (StringUtils.hasLength(conversation.getType())) {
+                if (conversation.getType().equals(Messaging.BULK)) {
                     messages = getMessages(conversation.getId());
 
                     if (messages != null && !messages.isEmpty()) {
@@ -186,6 +196,16 @@ public class MessageManagerImpl implements MessageManager {
     }
 
     @Override
+    public List<ConversationStatus> getConversationStatus() {
+        return conversationStatusDao.getAll();
+    }
+
+    @Override
+    public ConversationStatus getConversationStatus(Long id) {
+        return conversationStatusDao.get(id);
+    }
+
+    @Override
     public List<Message> getMessages(Long conversationId) {
         List<Message> messages = messageDao.getMessages(conversationId);
 
@@ -219,6 +239,38 @@ public class MessageManagerImpl implements MessageManager {
         conversation.setParticipant1(sender);
         conversation.setParticipant2(recipient);
         conversation.setSubject(subject);
+        conversationDao.save(conversation);
+
+        return sendMessage(context, conversation, sender, recipient, content);
+    }
+
+    @Override
+    public Message createMessage(ServletContext context, String subject, String content, User sender
+            , User recipient, String imageData, Boolean isFeedback) {
+        if (!StringUtils.hasText(subject)) {
+            throw new IllegalArgumentException("Invalid required parameter subject");
+        }
+
+        if (!StringUtils.hasText(content)) {
+            throw new IllegalArgumentException("Invalid required parameter content");
+        }
+
+        if (sender == null || !sender.hasValidId()) {
+            throw new IllegalArgumentException("Invalid required parameter sender");
+        }
+
+        if (recipient == null || !recipient.hasValidId()) {
+            throw new IllegalArgumentException("Invalid required parameter recipient");
+        }
+
+        Conversation conversation = new Conversation();
+        conversation.setParticipant1(sender);
+        conversation.setParticipant2(recipient);
+        conversation.setSubject(subject);
+        conversation.setImageData(imageData);
+        if (isFeedback) {
+            conversation.setType("FEEDBACK");
+        }
         conversationDao.save(conversation);
 
         return sendMessage(context, conversation, sender, recipient, content);
@@ -513,6 +565,26 @@ public class MessageManagerImpl implements MessageManager {
         return unitAdminRecipients;
     }
 
+    private List<User> getUnitRecipientsIgnoreRecipientStatus(String role, Unit unit, User requestingUser) {
+        List<User> unitAdminRecipients = new ArrayList<User>();
+
+        if (unit != null) {
+            if (!unit.getUnitcode().equalsIgnoreCase("patient")) {
+                List<UnitAdmin> unitAdmins = unitManager.getUnitUsers(unit.getUnitcode());
+                for (UnitAdmin unitAdmin : unitAdmins) {
+                    User unitUser = userManager.get(unitAdmin.getUsername());
+                    if (!unitUser.equals(requestingUser)) {
+                        if (unitAdmin.getRole().equals(role)) {
+                            unitAdminRecipients.add(unitUser);
+                        }
+                    }
+                }
+            }
+        }
+
+        return unitAdminRecipients;
+    }
+
     /**
      * exclude patients that have no got an email set
      * exlude patients with '-gp' or 'dummy' in the name
@@ -563,7 +635,7 @@ public class MessageManagerImpl implements MessageManager {
     private void populateConversation(Conversation conversation, Long participantId) {
         if (conversation != null) {
             // type is not null indicate the group message
-            if (conversation.getType() != null) {
+            if (conversation.getType().equals(Messaging.BULK)) {
                 // the bulk message is not new for unitadmin who send it
                 if (!securityUserManager.isRolePresent("superadmin")
                         && !(securityUserManager.isRolePresent("unitadmin")
@@ -620,5 +692,34 @@ public class MessageManagerImpl implements MessageManager {
         public int compare(User o1, User o2) {
             return o1.getName().compareTo(o2.getName());
         }
+    }
+
+    @Override
+    public List<MessageRecipient> getFeedbackRecipients(User requestingUser) {
+        List<MessageRecipient> unitStaffRecipients = new ArrayList<MessageRecipient>();
+        List<MessageRecipient> unitAdminRecipients = new ArrayList<MessageRecipient>();
+        List<Unit> units = unitManager.getUsersUnits(requestingUser);
+
+        if (units != null) {
+            for (Unit unit : units) {
+                if (unit.isFeedbackEnabled()) {
+                    // unit staff
+                    List<User> staffUsers = getUnitRecipientsIgnoreRecipientStatus("unitstaff", unit, requestingUser);
+                    Collections.sort(staffUsers, new UserComparator());
+                    for (User user : staffUsers) {
+                        unitStaffRecipients.add(new MessageRecipient(user, unit));
+                    }
+                    //unit admins
+                    List<User> adminUsers = getUnitRecipientsIgnoreRecipientStatus("unitadmin", unit, requestingUser);
+                    Collections.sort(adminUsers, new UserComparator());
+                    for (User user : adminUsers) {
+                        unitAdminRecipients.add(new MessageRecipient(user, unit));
+                    }
+                }
+            }
+        }
+
+        unitAdminRecipients.addAll(unitStaffRecipients);
+        return unitAdminRecipients;
     }
 }

@@ -413,8 +413,13 @@
     </tr>
 
     <tr>
-      <td><b>Visible for user to join</b></td>
-      <td><html:checkbox name="unit" property="visible" /></td>
+        <td><b>Visible for user to join</b></td>
+        <td><html:checkbox name="unit" property="visible" value="true"/></td>
+    </tr>
+
+    <tr>
+        <td><b>Feedback enabled</b></td>
+        <td><html:checkbox name="unit" property="feedbackEnabled" value="true"/></td>
     </tr>
   </table>
   <br/><br/>

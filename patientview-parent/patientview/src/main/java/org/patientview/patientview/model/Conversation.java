@@ -80,6 +80,19 @@ public class Conversation extends BaseModel {
     @Column(nullable = true)
     private String type;
 
+    @Column(nullable = true)
+    private String imageData;
+
+    @Column(nullable = true)
+    private Long rating;
+
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "status")
+    private ConversationStatus conversationStatus;
+
+    @Column(nullable = false)
+    private boolean clinicianClosed = false;
+
     public boolean isDeleted() {
         return deleted;
     }
@@ -175,4 +188,22 @@ public class Conversation extends BaseModel {
     public void setType(String type) {
         this.type = type;
     }
+
+    public String getImageData() { return imageData; }
+
+    public void setImageData(String imageData) { this.imageData = imageData; }
+
+    public Long getRating() { return rating; }
+
+    public void setRating(Long rating) { this.rating = rating; }
+
+    public ConversationStatus getConversationStatus() { return conversationStatus; }
+
+    public void setConversationStatus(ConversationStatus conversationStatus) {
+        this.conversationStatus = conversationStatus;
+    }
+
+    public boolean isClinicianClosed() { return clinicianClosed; }
+
+    public void setClinicianClosed(boolean clinicianClosed) { this.clinicianClosed = clinicianClosed; }
 }
