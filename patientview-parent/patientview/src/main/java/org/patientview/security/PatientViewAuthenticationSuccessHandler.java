@@ -86,8 +86,7 @@ public class PatientViewAuthenticationSuccessHandler extends SavedRequestAwareAu
             securityUser.setSpecialty(specialty);
 
             // find if user is member of any units with feedback ability (show/hide "Report Issue" or equivalent)
-            List<MessageRecipient> recipients = messageManager.getFeedbackRecipients(user);
-            if (!recipients.isEmpty()) {
+            if (!messageManager.getFeedbackRecipients(user).isEmpty()) {
                 request.getSession().setAttribute(Messaging.FEEDBACK_ENABLED, true);
             }
 

@@ -570,10 +570,8 @@ public class MessageManagerImpl implements MessageManager {
         if (unit != null) {
             if (!unit.getUnitcode().equalsIgnoreCase("patient")) {
                 List<UnitAdmin> unitAdmins = unitManager.getUnitUsers(unit.getUnitcode());
-
                 for (UnitAdmin unitAdmin : unitAdmins) {
                     User unitUser = userManager.get(unitAdmin.getUsername());
-
                     if (!unitUser.equals(requestingUser)) {
                         if (unitAdmin.getRole().equals(adminOrStaff)) {
                             unitAdminRecipients.add(unitUser);
