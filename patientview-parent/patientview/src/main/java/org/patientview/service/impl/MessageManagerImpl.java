@@ -158,21 +158,25 @@ public class MessageManagerImpl implements MessageManager {
 
         if (conversations != null) {
             for (Conversation conversation : conversations) {
+                if (conversation.getType() != null) {
+                    if (conversation.getType().equals(Messaging.BULK)) {
+                        messages = getMessages(conversation.getId());
 
-                if (conversation.getType().equals(Messaging.BULK)) {
-                    messages = getMessages(conversation.getId());
-
-                    if (messages != null && !messages.isEmpty()) {
-                        for (Unit unit : units) {
-                            Unit messageUnit = messages.get(0).getUnit();
-                            if (unit != null && messageUnit != null && unit.getId().equals(messageUnit.getId())) {
-                                if (user.getCreated() != null && !user.getCreated().equals(conversation.getStarted())
-                                        && conversation.getStarted().after(user.getCreated())) {
-                                    conversationList.add(conversation);
-                                    break;
+                        if (messages != null && !messages.isEmpty()) {
+                            for (Unit unit : units) {
+                                Unit messageUnit = messages.get(0).getUnit();
+                                if (unit != null && messageUnit != null && unit.getId().equals(messageUnit.getId())) {
+                                    if (user.getCreated() != null
+                                            && !user.getCreated().equals(conversation.getStarted())
+                                            && conversation.getStarted().after(user.getCreated())) {
+                                        conversationList.add(conversation);
+                                        break;
+                                    }
                                 }
                             }
                         }
+                    } else {
+                        conversationList.add(conversation);
                     }
                 } else {
                     conversationList.add(conversation);
@@ -635,18 +639,23 @@ public class MessageManagerImpl implements MessageManager {
     private void populateConversation(Conversation conversation, Long participantId) {
         if (conversation != null) {
             // type is not null indicate the group message
-            if (conversation.getType().equals(Messaging.BULK)) {
-                // the bulk message is not new for unitadmin who send it
-                if (!securityUserManager.isRolePresent("superadmin")
-                        && !(securityUserManager.isRolePresent("unitadmin")
-                        && participantId.equals(conversation.getParticipant1().getId()))) {
-                    if (groupMessageManager.get(participantId, conversation) ==  null) {
-                        conversation.setNumberUnread(1);
+            if (conversation.getType() != null) {
+                if (conversation.getType().equals(Messaging.BULK)) {
+                    // the bulk message is not new for unitadmin who send it
+                    if (!securityUserManager.isRolePresent("superadmin")
+                            && !(securityUserManager.isRolePresent("unitadmin")
+                            && participantId.equals(conversation.getParticipant1().getId()))) {
+                        if (groupMessageManager.get(participantId, conversation) ==  null) {
+                            conversation.setNumberUnread(1);
+                        }
                     }
+                } else {
+                    conversation.setNumberUnread(messageDao.getNumberOfUnreadMessages(
+                        participantId, conversation.getId()).intValue());
                 }
             } else {
                 conversation.setNumberUnread(messageDao.getNumberOfUnreadMessages(
-                    participantId, conversation.getId()).intValue());
+                        participantId, conversation.getId()).intValue());
             }
 
 
