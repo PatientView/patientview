@@ -55,30 +55,58 @@
                     <a href="/<%=actionPrefix%>/conversations.do" class="btn">Back to Messages</a>
                 </div>
 
-                <h1>
-                    <br />
-                    <bean:write name="conversation" property="subject" />
-                </h1>
+                <h1><br /><bean:write name="conversation" property="subject" /></h1>
+                <h4 class="author"><bean:write name="conversation" property="otherUser.name" /></h4>
 
-                <h4 class="author">
-                    <bean:write name="conversation" property="otherUser.name" />
-                </h4>
                 <logic:equal value="<%=Messaging.FEEDBACK%>" name="conversation" property="type">
                     <!-- only shown for conversations with type Messaging.FEEDBACK -->
-                    <div id="messageRating">
-                        How would you rate this conversation? <div class="rateit" data-rateit-resetable="false" data-rateit-step="1" data-rateit-value="<bean:write name="conversation" property="rating" />"></div> <span id="messageRatingInfo"></span>
-                    </div>
-                    <logic:present name="conversation" property="conversationStatus">
-                        <div id="messageStatus">
-                            Status: <bean:write name="conversation" property="conversationStatus.status" />
+                    <logic:present role="patient">
+                        <div id="conversationRating">
+                            How would you rate this conversation? <div class="rateit" data-rateit-resetable="false" data-rateit-step="1" data-rateit-value="<bean:write name="conversation" property="rating" />"></div>
+                            <span id="conversationRatingInfo"></span>
                         </div>
+                        <logic:present name="conversation" property="conversationStatus">
+                            <div id="conversationStatusText">
+                                Status: <bean:write name="conversation" property="conversationStatus.status" />
+                            </div>
+                        </logic:present>
+                        <logic:notPresent name="conversation" property="conversationStatus">
+                            <div id="conversationStatusText">
+                                Status: Open
+                            </div>
+                        </logic:notPresent>
                     </logic:present>
-                    <logic:notPresent name="conversation" property="conversationStatus">
-                        <div id="messageStatus">
-                            Status: Open
+
+                    <logic:notEmpty name="conversationStatusOptions">
+                        <logic:present name="conversation" property="conversationStatus">
+                            <input type="hidden" id="conversationStatusHidden" value="<bean:write name="conversation" property="conversationStatus.id" />"/>
+                        </logic:present>
+                        <div id="conversationStatus">
+                        Status:
+                        <select id="selectConversationStatus">
+                            <option value="-1">Open</option>
+                            <logic:iterate name="conversationStatusOptions" id="statusOption">
+                                <option value="<bean:write name="statusOption" property="id" />"><bean:write name="statusOption" property="status"/></option>
+                            </logic:iterate>
+                        </select>
+                        <a href="#" class="btn" id="btnSetConversationStatus">Set Status</a>
+                        <span id="conversationStatusInfo"></span>
                         </div>
-                    </logic:notPresent>
-                    <logic:present role="superadmin, unitadmin, unitstaff">
+                    </logic:notEmpty>
+
+                    <logic:present role="superadmin">
+                        <logic:present name="conversation" property="imageData">
+                            <img class="imageData boxShadow1" src="<bean:write name="conversation" property="imageData" />"/>
+                            <a href="../web/feedback/downloadImage?conversationId=<bean:write name="conversation" property="id"/>" target="_blank">Download Screenshot</a>
+                        </logic:present>
+                    </logic:present>
+                    <logic:present role="unitadmin">
+                        <logic:present name="conversation" property="imageData">
+                            <img class="imageData boxShadow1" src="<bean:write name="conversation" property="imageData" />"/>
+                            <a href="../web/feedback/downloadImage?conversationId=<bean:write name="conversation" property="id"/>" target="_blank">Download Screenshot</a>
+                        </logic:present>
+                    </logic:present>
+                    <logic:present role="unitstaff">
                         <logic:present name="conversation" property="imageData">
                             <img class="imageData boxShadow1" src="<bean:write name="conversation" property="imageData" />"/>
                             <a href="../web/feedback/downloadImage?conversationId=<bean:write name="conversation" property="id"/>" target="_blank">Download Screenshot</a>

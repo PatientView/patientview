@@ -65,13 +65,11 @@ messages.init = function() {
     }
 
     // set up rating
-    $('#messageRatingInfo').text("");
+    $('#conversationRatingInfo').text("");
 
     $('.rateit').on('beforerated', function (e, value) {
-
-        //if (!confirm('Are you sure you want to rate this conversation: ' +  value + ' stars?')) {
             e.preventDefault();
-            $('#messageRatingInfo').text("");
+            $('#conversationRatingInfo').text("");
 
             var ratingData = {};
             ratingData.conversationId = $(".js-message-conversation-id").val();
@@ -84,24 +82,48 @@ messages.init = function() {
                 success: function(data) {
                     //console.log(data);
                     if (data.errors.length > 0) {
-                        $('#messageRatingInfo').text("Sorry, there was an error rating this conversation");
+                        $('#conversationRatingInfo').text("Sorry, there was an error rating this conversation");
                     } else {
-                        $('#messageRatingInfo').text("Thank you for your feedback!");
-                        $('#messageRating .rateit').rateit('value', value);
+                        $('#conversationRatingInfo').text("Thank you for your feedback!");
+                        $('#conversationRating .rateit').rateit('value', value);
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
-                    $('#messageRatingInfo').text("Sorry, there was a network error rating this conversation");
-                    console.log(errorThrown);
+                    $('#conversationRatingInfo').text("Sorry, there was a network error rating this conversation");
                 },
                 dataType: 'json'
             });
-        //}
     });
-    $('.rateit').on('beforereset', function (e) {
-        if (!confirm('Are you sure you want to reset the rating?')) {
-            e.preventDefault();
-        }
+
+    // set up conversation status
+    $('#conversationStatusInfo').text("");
+    $('#selectConversationStatus').val($('#conversationStatusHidden').val());
+
+    $('#btnSetConversationStatus').on('click', function (e) {
+        e.preventDefault();
+        $('#conversationStatusInfo').text("");
+
+        var conversation = {};
+        conversation.conversationId = $(".js-message-conversation-id").val();
+        conversation.status = $('#selectConversationStatus').val();
+
+        $.ajax({
+            type: "POST",
+            url: "/web/feedback/setConversationStatus",
+            data: conversation,
+            success: function(data) {
+                if (data.errors.length > 0) {
+                    $('#conversationStatusInfo').text("Sorry, there was an error setting the conversation status");
+                } else {
+                    $('#conversationStatusInfo').text("Status updated");
+                    $('#conversationStatusText').text($('#selectConversationStatus :selected').text());
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                $('#conversationStatusInfo').text("Sorry, there was a network error setting the conversation status");
+            },
+            dataType: 'json'
+        });
     });
 };
 

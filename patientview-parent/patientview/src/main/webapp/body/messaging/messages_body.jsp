@@ -118,7 +118,13 @@
                                             <span class="pull-right conversation-date label label-inverse"><bean:write name="conversation" property="friendlyLatestMessageDate" /></span>
                                             <logic:equal value="<%=Messaging.FEEDBACK%>" name="conversation" property="type">
                                                 <!-- show Feedback label -->
-                                                <span class="pull-right conversation-date label">Feedback</span>
+                                                <span class="pull-right label">Feedback</span>
+                                                <logic:equal value="false" name="conversation" property="clinicianClosed">
+                                                    <span class="pull-right label-conversationStatus-open label">Open</span>
+                                                </logic:equal>
+                                                <logic:equal value="true" name="conversation" property="clinicianClosed">
+                                                    <span class="pull-right label-conversationStatus-closed label">Closed</span>
+                                                </logic:equal>
                                             </logic:equal>
                                             <span class="action-test dull">Click to open conversation</span>
                                         </h2>

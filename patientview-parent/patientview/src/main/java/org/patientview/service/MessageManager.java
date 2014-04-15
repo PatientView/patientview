@@ -25,6 +25,7 @@ package org.patientview.service;
 
 import org.patientview.model.Unit;
 import org.patientview.patientview.model.Conversation;
+import org.patientview.patientview.model.ConversationStatus;
 import org.patientview.patientview.model.Message;
 import org.patientview.patientview.model.MessageRecipient;
 import org.patientview.patientview.model.User;
@@ -52,6 +53,10 @@ public interface MessageManager {
     void deleteConversation(Long conversationId);
 
     void deleteConversation(Conversation conversation);
+
+    List<ConversationStatus> getConversationStatus();
+
+    ConversationStatus getConversationStatus(Long id);
 
     List<Message> getMessages(Long conversationId);
 

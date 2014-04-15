@@ -27,6 +27,7 @@ import org.joda.time.DateTime;
 import org.patientview.model.Unit;
 import org.patientview.patientview.logon.UnitAdmin;
 import org.patientview.patientview.model.Conversation;
+import org.patientview.patientview.model.ConversationStatus;
 import org.patientview.patientview.model.Job;
 import org.patientview.patientview.model.Message;
 import org.patientview.patientview.model.MessageRecipient;
@@ -35,6 +36,7 @@ import org.patientview.patientview.model.enums.GroupEnum;
 import org.patientview.patientview.model.enums.SendEmailEnum;
 import org.patientview.repository.job.JobDao;
 import org.patientview.repository.messaging.ConversationDao;
+import org.patientview.repository.messaging.ConversationStatusDao;
 import org.patientview.repository.messaging.MessageDao;
 import org.patientview.service.EmailManager;
 import org.patientview.service.FeatureManager;
@@ -67,6 +69,9 @@ public class MessageManagerImpl implements MessageManager {
 
     @Inject
     private ConversationDao conversationDao;
+
+    @Inject
+    private ConversationStatusDao conversationStatusDao;
 
     @Inject
     private FeatureManager featureManager;
@@ -187,6 +192,16 @@ public class MessageManagerImpl implements MessageManager {
         if (conversation != null) {
             conversationDao.delete(conversation);
         }
+    }
+
+    @Override
+    public List<ConversationStatus> getConversationStatus() {
+        return conversationStatusDao.getAll();
+    }
+
+    @Override
+    public ConversationStatus getConversationStatus(Long id) {
+        return conversationStatusDao.get(id);
     }
 
     @Override

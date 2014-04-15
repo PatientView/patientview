@@ -68,8 +68,9 @@ public class ConversationAction extends BaseAction {
 
         request.setAttribute(Messaging.CONVERSATION_PARAM, conversation);
         request.setAttribute(Messaging.MESSAGES_PARAM, getMessageManager().getMessages(conversation.getId()));
+        request.setAttribute(Messaging.CONVERSATION_STATUS_PARAM, getMessageManager().getConversationStatus());
 
-        // single message the type is null
+        // single message
         if (conversation.getType() != "BULK") {
             getMessageManager().markMessagesAsReadForConversation(loggedInUser.getId(), conversation.getId());
 

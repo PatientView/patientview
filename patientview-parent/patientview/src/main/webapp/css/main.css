@@ -598,3 +598,15 @@ section article.conversation .dull, section article.message .dull, .dull{
     margin-left: 2px;
 }
 
+.label-conversationStatus-open {
+    background-color: #c94c29;
+}
+
+.label-conversationStatus-closed {
+    background-color: #189c41;
+}
+
+#selectConversationStatus {
+    position: relative;
+    top: 5px;
+}

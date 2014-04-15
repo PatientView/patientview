@@ -21,28 +21,13 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
-package org.patientview.patientview.model;
+package org.patientview.repository.messaging;
 
-import org.patientview.model.BaseModel;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import org.patientview.patientview.model.ConversationStatus;
+import java.util.List;
 
-@Entity
-@Table(name = "conversation_status")
-public class ConversationStatus extends BaseModel {
+public interface ConversationStatusDao {
 
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String status;
-
-    @Column(nullable = false)
-    private Boolean closedStatus;
-
-    public ConversationStatus() {
-    }
-
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
-    public Boolean getClosedStatus() { return closedStatus; }
-    public void setClosedStatus(Boolean closedStatus) { this.closedStatus = closedStatus; }
+    List<ConversationStatus> getAll();
+    ConversationStatus get(Long id);
 }

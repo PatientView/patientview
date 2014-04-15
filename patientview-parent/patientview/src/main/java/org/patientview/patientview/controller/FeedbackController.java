@@ -26,6 +26,7 @@ package org.patientview.patientview.controller;
 import org.apache.commons.codec.binary.Base64;
 import org.patientview.model.Unit;
 import org.patientview.patientview.model.Conversation;
+import org.patientview.patientview.model.ConversationStatus;
 import org.patientview.patientview.model.FeedbackData;
 import org.patientview.patientview.model.MessageRecipient;
 import org.patientview.patientview.model.Rating;
@@ -121,6 +122,61 @@ public class FeedbackController extends BaseController {
             }
         } catch (Exception ex) {
             return "{\"success\": \"failure\", \"errors\": \"Error saving conversation\"}";
+        }
+    }
+
+    /**
+     * Deal with the URIs "/feedback/setConversationStatus"
+     * send feedback, including image data
+     */
+    /*@RequestMapping(value = Routes.SET_CONVERSATION_STATUS, method = RequestMethod.POST)
+    @ResponseBody
+    public String setConversationStatus(Conversation inputConversation) {
+        User user = userManager.getLoggedInUser();
+
+        try {
+            Conversation conversation = messageManager.getConversation(inputConversation.getId());
+            ConversationStatus conversationStatus = messageManager.getConversationStatus(  );
+
+            if (user.equals(conversation.getParticipant1()) || user.equals(conversation.getParticipant2())) {
+                conversation.setConversationStatus(conversationStatus);
+                messageManager.saveConversation(conversation);
+                return "{\"success\": \"success\", \"errors\": \"\"}";
+            } else {
+                return "{\"success\": \"failure\", \"errors\": \"Error setting conversation status\"}";
+            }
+        } catch (Exception ex) {
+            return "{\"success\": \"failure\", \"errors\": \"Error setting conversation status\"}";
+        }
+    }*/
+    /**
+     * Deal with the URIs "/feedback/setConversationStatus"
+     * send feedback, including image data
+     */
+    @RequestMapping(value = Routes.SET_CONVERSATION_STATUS, method = RequestMethod.POST)
+    @ResponseBody
+    public String setConversationStatus(@RequestParam("status") String status,
+                                        @RequestParam("conversationId") String conversationId) {
+        User user = userManager.getLoggedInUser();
+
+        try {
+            Conversation conversation = messageManager.getConversation(Long.parseLong(conversationId));
+            ConversationStatus conversationStatus = messageManager.getConversationStatus(Long.parseLong(status));
+
+            if (user.equals(conversation.getParticipant1()) || user.equals(conversation.getParticipant2())) {
+                conversation.setConversationStatus(conversationStatus);
+                if (conversationStatus != null) {
+                    conversation.setClinicianClosed(conversationStatus.getClosedStatus());
+                } else {
+                    conversation.setClinicianClosed(false);
+                }
+                messageManager.saveConversation(conversation);
+                return "{\"success\": \"success\", \"errors\": \"\"}";
+            } else {
+                return "{\"success\": \"failure\", \"errors\": \"Error setting conversation status\"}";
+            }
+        } catch (Exception ex) {
+            return "{\"success\": \"failure\", \"errors\": \"Error setting conversation status\"}";
         }
     }
 
