@@ -84,6 +84,7 @@
                             <logic:present name="conversation" property="conversationStatus">
                                 <input type="hidden" id="conversationStatusHidden" value="<bean:write name="conversation" property="conversationStatus.id" />"/>
                             </logic:present>
+                            <div id="conversationRating">Rating: &nbsp;&nbsp;<bean:write name="conversation" property="rating" /> out of 5</div>
                             <div id="conversationStatus">Status: &nbsp;
                                 <select id="selectConversationStatus">
                                     <option value="-1">Open</option>
