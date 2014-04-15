@@ -1,5 +1,5 @@
 
-ALTER TABLE unit ADD COLUMN `feedback` tinyint(1) DEFAULT '0';
+ALTER TABLE unit ADD COLUMN `feedbackEnabled` tinyint(1) DEFAULT '0';
 
 ALTER TABLE conversation ADD COLUMN `imageData` mediumtext;
 ALTER TABLE conversation ADD COLUMN `rating` float DEFAULT NULL;
