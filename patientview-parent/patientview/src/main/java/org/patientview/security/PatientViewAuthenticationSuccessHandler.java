@@ -24,9 +24,12 @@
 package org.patientview.security;
 
 import org.patientview.model.Specialty;
+import org.patientview.patientview.messaging.Messaging;
+import org.patientview.patientview.model.MessageRecipient;
 import org.patientview.patientview.model.SpecialtyUserRole;
 import org.patientview.patientview.model.User;
 import org.patientview.security.model.SecurityUser;
+import org.patientview.service.MessageManager;
 import org.patientview.service.SecurityUserManager;
 import org.patientview.service.UserManager;
 import org.patientview.utils.LegacySpringUtils;
@@ -47,6 +50,9 @@ public class PatientViewAuthenticationSuccessHandler extends SavedRequestAwareAu
 
     @Inject
     private UserManager userManager;
+
+    @Inject
+    private MessageManager messageManager;
 
     @Inject
     private SecurityUserManager securityUserManager;
@@ -78,6 +84,12 @@ public class PatientViewAuthenticationSuccessHandler extends SavedRequestAwareAu
             // set the users specialty session
             Specialty specialty = specialtyUserRoles.get(0).getSpecialty();
             securityUser.setSpecialty(specialty);
+
+            // find if user is member of any units with feedback ability (show/hide "Report Issue" or equivalent)
+            List<MessageRecipient> recipients = messageManager.getFeedbackRecipients(user);
+            if (!recipients.isEmpty()) {
+                request.getSession().setAttribute(Messaging.FEEDBACK_ENABLED, true);
+            }
 
             // if this user has only a single specialty route to the home page : /<specialty-context>/logged_in.do
             response.sendRedirect("/" + specialty.getContext() + "/logged_in.do");

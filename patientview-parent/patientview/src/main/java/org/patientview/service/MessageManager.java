@@ -114,4 +114,11 @@ public interface MessageManager {
     List<User> getUnitPatientRecipients(Unit unit, String name, User requestingUser);
 
     List<Unit> getMessagingEnabledUnitsForLoggedInUser();
+
+    /**
+     * Get list of suitable recipients for feedback based on current user
+     * @param user
+     * @return
+     */
+    List<MessageRecipient> getFeedbackRecipients(User user);
 }

@@ -32,7 +32,6 @@ import org.patientview.patientview.model.MessageRecipient;
 import org.patientview.patientview.model.Rating;
 import org.patientview.patientview.model.User;
 import org.patientview.service.MessageManager;
-import org.patientview.service.UnitManager;
 import org.patientview.service.UserManager;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -54,8 +53,6 @@ public class FeedbackController extends BaseController {
     @Inject
     private UserManager userManager;
     @Inject
-    private UnitManager unitManager;
-    @Inject
     private MessageManager messageManager;
 
     /**
@@ -65,21 +62,21 @@ public class FeedbackController extends BaseController {
     @RequestMapping(value = Routes.GET_FEEDBACK_RECIPIENTS, method = RequestMethod.GET)
     @ResponseBody
     public HashMap<Long, String> getFeedbackRecipients() {
-        User user = userManager.getLoggedInUser();
-        List<Unit> units = unitManager.getUsersUnits(user);
-        List<MessageRecipient> unitAdminRecipients = messageManager.getUnitAdminRecipients(units, user);
-        List<MessageRecipient> unitStaffRecipients = messageManager.getUnitStaffRecipients(units, user);
-        unitAdminRecipients.addAll(unitStaffRecipients);
-        HashMap<Long, String> recipients = new HashMap<Long, String>();
+        List<MessageRecipient> recipients = messageManager.getFeedbackRecipients(userManager.getLoggedInUser());
 
-        for (MessageRecipient recipient : unitAdminRecipients) {
-            User staff = recipient.getUser();
-            Unit staffUnit = recipient.getUnit();
-            recipients.put(staff.getId(), staff.getName() + " ("
-                    + staff.getRole() + ", " + staffUnit.getShortname() + ")");
-        }
+        if (!recipients.isEmpty()) {
+            HashMap<Long, String> recipientsSimple = new HashMap<Long, String>();
 
-        return recipients;
+            for (MessageRecipient recipient : recipients) {
+                User staff = recipient.getUser();
+                Unit staffUnit = recipient.getUnit();
+                recipientsSimple.put(staff.getId(), staff.getName() + " ("
+                        + (staff.getRole().equals("unitadmin") ? "Admin" : "Staff") + ", "
+                        + staffUnit.getShortname() + ")");
+            }
+
+            return recipientsSimple;
+        } else { return null; }
     }
 
     /**
@@ -125,30 +122,6 @@ public class FeedbackController extends BaseController {
         }
     }
 
-    /**
-     * Deal with the URIs "/feedback/setConversationStatus"
-     * send feedback, including image data
-     */
-    /*@RequestMapping(value = Routes.SET_CONVERSATION_STATUS, method = RequestMethod.POST)
-    @ResponseBody
-    public String setConversationStatus(Conversation inputConversation) {
-        User user = userManager.getLoggedInUser();
-
-        try {
-            Conversation conversation = messageManager.getConversation(inputConversation.getId());
-            ConversationStatus conversationStatus = messageManager.getConversationStatus(  );
-
-            if (user.equals(conversation.getParticipant1()) || user.equals(conversation.getParticipant2())) {
-                conversation.setConversationStatus(conversationStatus);
-                messageManager.saveConversation(conversation);
-                return "{\"success\": \"success\", \"errors\": \"\"}";
-            } else {
-                return "{\"success\": \"failure\", \"errors\": \"Error setting conversation status\"}";
-            }
-        } catch (Exception ex) {
-            return "{\"success\": \"failure\", \"errors\": \"Error setting conversation status\"}";
-        }
-    }*/
     /**
      * Deal with the URIs "/feedback/setConversationStatus"
      * send feedback, including image data
