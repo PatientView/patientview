@@ -26,6 +26,7 @@ package org.patientview.service.impl;
 import org.joda.time.DateTime;
 import org.patientview.model.Unit;
 import org.patientview.patientview.logon.UnitAdmin;
+import org.patientview.patientview.messaging.Messaging;
 import org.patientview.patientview.model.Conversation;
 import org.patientview.patientview.model.ConversationStatus;
 import org.patientview.patientview.model.Job;
@@ -158,7 +159,7 @@ public class MessageManagerImpl implements MessageManager {
         if (conversations != null) {
             for (Conversation conversation : conversations) {
 
-                if (conversation.getType() == "BULK") {
+                if (conversation.getType().equals(Messaging.BULK)) {
                     messages = getMessages(conversation.getId());
 
                     if (messages != null && !messages.isEmpty()) {
@@ -634,7 +635,7 @@ public class MessageManagerImpl implements MessageManager {
     private void populateConversation(Conversation conversation, Long participantId) {
         if (conversation != null) {
             // type is not null indicate the group message
-            if (conversation.getType() == "BULK") {
+            if (conversation.getType().equals(Messaging.BULK)) {
                 // the bulk message is not new for unitadmin who send it
                 if (!securityUserManager.isRolePresent("superadmin")
                         && !(securityUserManager.isRolePresent("unitadmin")

@@ -71,7 +71,7 @@ public class ConversationAction extends BaseAction {
         request.setAttribute(Messaging.CONVERSATION_STATUS_PARAM, getMessageManager().getConversationStatus());
 
         // single message
-        if (conversation.getType() != "BULK") {
+        if (!conversation.getType().equals(Messaging.BULK)) {
             getMessageManager().markMessagesAsReadForConversation(loggedInUser.getId(), conversation.getId());
 
         } else {
