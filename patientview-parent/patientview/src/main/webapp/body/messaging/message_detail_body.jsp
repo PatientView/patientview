@@ -62,14 +62,15 @@
                     <!-- only shown for conversations with type Messaging.FEEDBACK -->
                     <logic:present role="patient">
                         <logic:present name="conversation" property="conversationStatus">
-                            <div id="conversationStatusText">
-                                Status: <bean:write name="conversation" property="conversationStatus.status" />
-                            </div>
+                            <logic:equal value="true" name="conversation" property="clinicianClosed">
+                                <div id="conversationStatusText">Status: Closed</div>
+                            </logic:equal>
+                            <logic:equal value="false" name="conversation" property="clinicianClosed">
+                                <div id="conversationStatusText">Status: Open</div>
+                            </logic:equal>
                         </logic:present>
                         <logic:notPresent name="conversation" property="conversationStatus">
-                            <div id="conversationStatusText">
-                                Status: Open
-                            </div>
+                            <div id="conversationStatusText">Status: Open</div>
                         </logic:notPresent>
                         <logic:equal value="true" name="conversation" property="clinicianClosed">
                             <div id="conversationRating">
@@ -84,12 +85,6 @@
                             <logic:present name="conversation" property="conversationStatus">
                                 <input type="hidden" id="conversationStatusHidden" value="<bean:write name="conversation" property="conversationStatus.id" />"/>
                             </logic:present>
-                            <logic:present name="conversation" property="rating">
-                                <div id="conversationRating">Rating: &nbsp;&nbsp;<bean:write name="conversation" property="rating" /> out of 5</div>
-                            </logic:present>
-                            <logic:notPresent name="conversation" property="rating">
-                                <div id="conversationRating">Rating: &nbsp;&nbsp;Not yet rated by patient</div>
-                            </logic:notPresent>
                             <div id="conversationStatus">Status: &nbsp;
                                 <select id="selectConversationStatus">
                                     <option value="-1">Open</option>
