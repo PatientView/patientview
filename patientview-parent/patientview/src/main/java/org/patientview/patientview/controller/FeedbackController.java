@@ -171,11 +171,13 @@ public class FeedbackController extends BaseController {
                     if (conversation.getImageData() != null) {
                         String imageData = conversation.getImageData().split(",")[1];
                         return Base64.decodeBase64(imageData.getBytes());
-                    } else { return null; }
-                } else { return null; }
-            } else { return null; }
+                    }
+                }
+            }
         } catch (Exception ex) {
             return null;
         }
+
+        return null;
     }
 }

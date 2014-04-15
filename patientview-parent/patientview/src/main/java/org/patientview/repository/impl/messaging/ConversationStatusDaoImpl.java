@@ -24,39 +24,14 @@
 package org.patientview.repository.impl.messaging;
 
 import org.patientview.patientview.model.ConversationStatus;
-import org.patientview.patientview.model.ConversationStatus_;
 import org.patientview.repository.AbstractHibernateDAO;
 import org.patientview.repository.messaging.ConversationStatusDao;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.NoResultException;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-import java.util.ArrayList;
-import java.util.List;
-
 @Transactional(propagation = Propagation.MANDATORY)
 @Repository(value = "conversationStatusDao")
 public class ConversationStatusDaoImpl extends AbstractHibernateDAO<ConversationStatus>
         implements ConversationStatusDao {
-
-    @Override
-    public ConversationStatus get(Long id) {
-        CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<ConversationStatus> criteria = builder.createQuery(ConversationStatus.class);
-        Root<ConversationStatus> root = criteria.from(ConversationStatus.class);
-        List<Predicate> wherePredicates = new ArrayList<Predicate>();
-        wherePredicates.add(builder.equal(root.get(ConversationStatus_.id), id));
-        buildWhereClause(criteria, wherePredicates);
-
-        try {
-            return getEntityManager().createQuery(criteria).getSingleResult();
-        } catch (NoResultException e) {
-            return null;
-        }
-    }
 }

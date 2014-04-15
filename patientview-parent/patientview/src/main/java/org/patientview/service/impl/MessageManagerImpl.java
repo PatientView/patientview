@@ -564,7 +564,7 @@ public class MessageManagerImpl implements MessageManager {
         return unitAdminRecipients;
     }
 
-    private List<User> getUnitRecipientsIgnoreRecipientStatus(String adminOrStaff, Unit unit, User requestingUser) {
+    private List<User> getUnitRecipientsIgnoreRecipientStatus(String role, Unit unit, User requestingUser) {
         List<User> unitAdminRecipients = new ArrayList<User>();
 
         if (unit != null) {
@@ -573,7 +573,7 @@ public class MessageManagerImpl implements MessageManager {
                 for (UnitAdmin unitAdmin : unitAdmins) {
                     User unitUser = userManager.get(unitAdmin.getUsername());
                     if (!unitUser.equals(requestingUser)) {
-                        if (unitAdmin.getRole().equals(adminOrStaff)) {
+                        if (unitAdmin.getRole().equals(role)) {
                             unitAdminRecipients.add(unitUser);
                         }
                     }
