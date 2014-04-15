@@ -80,16 +80,11 @@ messages.init = function() {
                 url: "/web/feedback/rateConversation",
                 data: ratingData,
                 success: function(data) {
-                    //console.log(data);
-                    if (data.errors.length > 0) {
-                        $('#conversationRatingInfo').text("Sorry, there was an error rating this conversation");
-                    } else {
-                        $('#conversationRatingInfo').text("Thank you for your feedback!");
-                        $('#conversationRating .rateit').rateit('value', value);
-                    }
+                    $('#conversationRatingInfo').text("Thank you for your feedback!");
+                    $('#conversationRating .rateit').rateit('value', value);
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
-                    $('#conversationRatingInfo').text("Sorry, there was a network error rating this conversation");
+                    $('#conversationRatingInfo').text("Sorry, there was an error rating this conversation");
                 },
                 dataType: 'json'
             });
@@ -112,15 +107,12 @@ messages.init = function() {
             url: "/web/feedback/setConversationStatus",
             data: conversation,
             success: function(data) {
-                if (data.errors.length > 0) {
-                    $('#conversationStatusInfo').text("Sorry, there was an error setting the conversation status");
-                } else {
-                    $('#conversationStatusInfo').text("Status updated");
-                    $('#conversationStatusText').text($('#selectConversationStatus :selected').text());
-                }
+                $('#conversationStatusInfo').text("Status updated");
+                $('#conversationStatusText').text($('#selectConversationStatus :selected').text());
+
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                $('#conversationStatusInfo').text("Sorry, there was a network error setting the conversation status");
+                $('#conversationStatusInfo').text("Sorry, there was an error setting the conversation status");
             },
             dataType: 'json'
         });

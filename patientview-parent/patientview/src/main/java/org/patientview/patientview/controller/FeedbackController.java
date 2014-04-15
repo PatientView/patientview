@@ -33,7 +33,9 @@ import org.patientview.patientview.model.Rating;
 import org.patientview.patientview.model.User;
 import org.patientview.service.MessageManager;
 import org.patientview.service.UserManager;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -85,7 +87,7 @@ public class FeedbackController extends BaseController {
      */
     @RequestMapping(value = Routes.SUBMIT_FEEDBACK, method = RequestMethod.POST)
     @ResponseBody
-    public String sendFeedback(HttpServletRequest request, FeedbackData feedbackData) {
+    public ResponseEntity<String> sendFeedback(HttpServletRequest request, FeedbackData feedbackData) {
         User user = userManager.getLoggedInUser();
         User staff = userManager.get(Long.parseLong(feedbackData.getRecipient()));
 
@@ -93,9 +95,9 @@ public class FeedbackController extends BaseController {
             messageManager.createMessage(request.getSession().getServletContext()
                     , "Feedback: " + feedbackData.getSubject(), feedbackData.getMessage()
                     , user, staff, feedbackData.getImageData(), true);
-            return "{\"success\": \"success\", \"errors\": \"\"}";
+            return new ResponseEntity<String>(HttpStatus.OK);
         } catch (Exception ex) {
-            return "{\"success\": \"failure\", \"errors\": \"Error creating message\"}";
+            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -105,7 +107,7 @@ public class FeedbackController extends BaseController {
      */
     @RequestMapping(value = Routes.RATE_CONVERSATION, method = RequestMethod.POST)
     @ResponseBody
-    public String rateConversation(Rating rating) {
+    public ResponseEntity<String> rateConversation(Rating rating) {
         User user = userManager.getLoggedInUser();
 
         try {
@@ -113,12 +115,13 @@ public class FeedbackController extends BaseController {
             if (user.equals(conversation.getParticipant1()) || user.equals(conversation.getParticipant2())) {
                 conversation.setRating(rating.getRating());
                 messageManager.saveConversation(conversation);
-                return "{\"success\": \"success\", \"errors\": \"\"}";
+                return new ResponseEntity<String>(HttpStatus.OK);
+
             } else {
-                return "{\"success\": \"failure\", \"errors\": \"Error saving conversation\"}";
+                return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
             }
         } catch (Exception ex) {
-            return "{\"success\": \"failure\", \"errors\": \"Error saving conversation\"}";
+            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -128,7 +131,7 @@ public class FeedbackController extends BaseController {
      */
     @RequestMapping(value = Routes.SET_CONVERSATION_STATUS, method = RequestMethod.POST)
     @ResponseBody
-    public String setConversationStatus(@RequestParam("status") String status,
+    public ResponseEntity<String> setConversationStatus(@RequestParam("status") String status,
                                         @RequestParam("conversationId") String conversationId) {
         User user = userManager.getLoggedInUser();
 
@@ -144,12 +147,12 @@ public class FeedbackController extends BaseController {
                     conversation.setClinicianClosed(false);
                 }
                 messageManager.saveConversation(conversation);
-                return "{\"success\": \"success\", \"errors\": \"\"}";
+                return new ResponseEntity<String>(HttpStatus.OK);
             } else {
-                return "{\"success\": \"failure\", \"errors\": \"Error setting conversation status\"}";
+                return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
             }
         } catch (Exception ex) {
-            return "{\"success\": \"failure\", \"errors\": \"Error setting conversation status\"}";
+            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
         }
     }
 

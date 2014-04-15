@@ -96,7 +96,7 @@ feedback.showDialog = function() {
             recipients.append("<option value='" + id + "'>" + name + "</option>");
         });
     }).fail(function(error) {
-        //console.log(error);
+
     });
 
     // show dialog
@@ -177,22 +177,14 @@ feedback.sendFeedback = function() {
             url: "/web/feedback/submitFeedback",
             data: feedbackData,
             success: function(data) {
-                if (data.errors.length > 0) {
-                    $('#js-feedback-error-found').text("Sorry, there was an error sending your feedback");
-                    $('#js-feedback-error-found').show();
-                    feedback.feedbackLoadingDiv.hide();
-                    feedback.feedbackForm.show();
-                } else {
-                    feedback.feedbackLoadingDiv.hide();
-                    feedback.feedbackSuccessDiv.show();
-                }
+                feedback.feedbackLoadingDiv.hide();
+                feedback.feedbackSuccessDiv.show();
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                $('#js-feedback-error-found').text("Sorry, there was a network error sending your feedback");
+                $('#js-feedback-error-found').text("Sorry, there was an error sending your feedback");
                 $('#js-feedback-error-found').show();
                 feedback.feedbackLoadingDiv.hide();
                 feedback.feedbackForm.show();
-                //console.log(errorThrown);
             },
             dataType: 'json'
         });
