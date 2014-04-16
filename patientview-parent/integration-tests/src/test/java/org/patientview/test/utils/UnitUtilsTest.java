@@ -65,7 +65,7 @@ public class UnitUtilsTest extends BaseServiceTest {
     private UserMappingDao userMappingDao;
 
     // Test suite wide references
-    private User unitadmin, superadmin,radaradmin,comboAdmin;
+    private User  unitadmin, superadmin,radaradmin,comboAdmin;
     private Specialty specialty1;
 
     /**

@@ -54,7 +54,7 @@
 </logic:present>
 
 
-<form action="/web/patient/add" class="js-patient-form" styleClass="form-horizontal">
+<form action="/web/patient/add" name="patientInput" class="js-patient-form" styleClass="form-horizontal">
 
     <div class="alert alert-error js-message-errors" style="display: none">
         <strong>You do not have any messages.</strong>
@@ -105,6 +105,9 @@
 
     <logic:present specialty="ibd">
         <tr>
+            &NonBreakingSpace;
+        </tr>
+        <tr>
             <td>
                 <b>IBD Details</b>
             </td>
@@ -115,20 +118,24 @@
                 <b>Primary Diagnosis</b>
             </td>
             <td>
-                <input name="primaryDiagnosis" class="js-ibd-primary-diagnosios"/>
+                <select name="primaryDiagnosis" class="js-ibd-primary-diagnosis">
+                    <option value="-1" selected="selected">Please select</option>
+                </select>
             </td>
         </tr>
         <tr>
             <td>
-                <b>Disease Extent</b>
+                <b>Disease Extend</b>
             </td>
             <td>
-                <input name="diseaseExtent" class="js-ibd-disease-extent"/>
+                <select name="diseaseExtent" class="js-ibd-disease-extent">
+                    <option value="-1" selected="selected">Please select</option>
+                </select>
             </td>
         </tr>
         <tr>
             <td>
-                <b>Year of Diagnosis</b>
+                <b>Date of Diagnosis</b>
             </td>
             <td>
                 <div class="date datePicker controls">
@@ -138,56 +145,22 @@
                 </div>
             </td>
         </tr>
+
         <tr>
             <td>
                 <b>Complications</b>
             </td>
             <td>
-                <input name="complications" class="js-ibd-complications">
+                <select name="complications" class="js-ibd-complications"  multiple="18">
+                </select>
             </td>
         </tr>
         <tr>
             <td>
-                <b>Other parts affected</b>
+                <b>Extra-intestinal manifestations</b>
             </td>
             <td>
-                <input name="otherPartsAffected" class="js-ibd-parts-affected">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <b>Family History</b>
-            </td>
-            <td>
-                <input name="familyHistory" class="js-ibd-family-history">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <b>Surgical History</b>
-            </td>
-            <td>
-                <select name="surgicalHistory" class="js-ibd-surgical-history">
-                    <option value="-1" selected="selected">Please select</option>
-                    <option value="0">None/option>
-                    <option value="1">Right hemicolectomy</option>
-                    <option value="2">Total proctocolectomy</option>
-                    <option value="3">Ileoanal pouch</option>
-                    <option value="4">Total proctocolectomy</option>
-                    <option value="5">Permanent ileostomy</option>
-                    <option value="6">Colectomy ileostomy with retained rectal stump</option>
-                    <option value="7">Colectomy colostomy with retained rectal stump</option>
-                    <option value="8">Partial colectomy</option>
-                    <option value="9">Small bowel resection</option>
-                    <option value="10">Insertion of seton</option>
-                    <option value="11">Drainage of perianal sepsis</option>
-                    <option value="12">Gastric surgery</option>
-                    <option value="13">Stricturoplasty</option>
-                    <option value="14">Apendicectomy</option>
-                    <option value="15">Cholecystectomy</option>
-                    <option value="16">Radiological drainage of abscess</option>
-                    <option value="17">Other procedure</option>
-
+                <select name="manifestations" class="js-ibd-manifestations"  multiple="18">
                 </select>
             </td>
         </tr>
@@ -198,12 +171,18 @@
             <td>
                 <select name="smokingHistory" class="js-ibd-smoking-history">
                     <option value="-1" selected="selected">Please select</option>
-                    <option value="0">Never</option>
-                    <option value="1">Current</option>
-                    <option value="2">Ex smoker</option>
-                 </select>
+                </select>
 
             </td>
+        </tr>
+        <tr>
+            <td>
+                <b>Other parts affected</b>
+            </td>
+            <td>
+                <input name="otherPartsAffected" class="js-ibd-parts-affected">
+            </td>
+        </tr>
         </tr>
         <tr>
             <td>
@@ -215,7 +194,7 @@
         </tr>
         <tr>
             <td>
-                <b>Year of surveillance colonoscopy</b>
+                <b>Colonoscopy surveillance</b>
             </td>
             <td>
                 <input name="surveilanceColonoscopy" class="js-ibd-surveillance-colonoscopy">
@@ -223,21 +202,111 @@
         </tr>
         <tr>
             <td>
-                <b>Named Consultant</b>
+                <b>Current Medications</b>
+            </td>
+            <td>
+                <select name="currentMedications" class="js-ibd-current-medications">
+                    <option value="-1" selected="selected">None</option>
+                </select>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>IBD Nurses</b>
             </td>
             <td>
                 <input name="namedConsultant" class="js-ibd-named-consultant">
             </td>
         </tr>
-    </logic:present>
+        <tr>
+            <td>
+                <b>IBD Consultant</b>
+            </td>
+            <td>
+                <input name="namedConsultant" class="js-ibd-named-consultant">
+            </td>
+        </tr>
+</form>
 
-    <tr align="right">
-      <td><html:submit value="Add" styleClass="btn" /></td>
+<form action="/" class="js-ibd-surgical-history-input" styleClass="form-horizontal">
+
+<tr>
+    <td>
+        <b>Surgical History</b>
+    </td>
+</tr>
+<tr>
+    <td colspan="2">
+        <table class="table table-bordered table-striped js-ibd-surgical-history-display">
+            <thead>
+            <tr>
+                <th class="tableheader">Surgery</th>
+                <th class="tableheader">Date</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="tablecell">OUch</td>
+                <td class="tablecell">08/09/080</td>
+                <td><button type="submit" styleClass="btn">Delete</button></td>
+            </tr>
+            </tbody>
+        </table>
+    </td>
+</tr>
+
+    <tr>
+        <td>
+            <b>Surgery</b>
+        </td>
+        <td>
+            <select name="surgicalHistory" class="js-ibd-surgical-history">
+                <option value="-1" selected="selected">Please select</option>
+            </select>
+        </td>
     </tr>
- </table>
+    <tr>
+        <td>
+            <b>Surgery Date</b>
+        </td>
+        <td>
+            <input name="surgicalDate" class="js-ibd-surgical-history-date" size="16" type="text">
+            <span class="add-on"><i class="icon-th"></i></span>
+            <span class="help-inline">dd-mm-yyyy</span>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <button type="submit" styleClass="btn" class="js-ibd-surgical-history-add">Add Surgery</button>
+        </td>
+    </tr>
 
 </form>
+
+    </logic:present>
+
+
+ </table>
+
+
+
+<div>
+    <form styleClass="form-horizontal">
+    <table>
+
+    </table>
+    </form>
+
+    <table>
+        <tr align="right">
+            <td><html:submit value="Add" styleClass="btn" /></td>
+        </tr>
+    </table>
 </div>
-</div>
+
+
+
 <script src="/js/patient.js" type="text/javascript"></script>
 

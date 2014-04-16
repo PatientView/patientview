@@ -87,6 +87,8 @@ http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
         <intercept-url pattern="/ibd/posts/**" access="ROLE_IBD_DEMO"/>
         <intercept-url pattern="/ibd/**" access="ROLE_IBD_DEMO"/>
 
+        <intercept-url pattern="/web/lookup/component" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+
         <!-- DIABETES specialty config -->
         <intercept-url pattern="/diabetes/logged_in.do" access="ROLE_DIABETES_DEMO"/>
         <intercept-url pattern="/diabetes/control/**" access="ROLE_DIABETES_UNITSTAFF"/>

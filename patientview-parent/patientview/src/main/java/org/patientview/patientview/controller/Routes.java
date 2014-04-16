@@ -53,6 +53,9 @@ public final class Routes {
     public static final String ADD_PATIENT = "/add";
     public static final String UPDATE_PATIENT = "/update";
 
+    public static final String LOOKUP_CONTROLLER = "/lookup";
+    public static final String GET_LOOKUP = "/component";
+
 
     public static final String JOIN_REQUEST_LIST_PAGE = "/control/join_request_list";
     public static final String JOIN_REQUEST_EDIT_INPUT_PAGE = "/control/join_requests_edit_input";

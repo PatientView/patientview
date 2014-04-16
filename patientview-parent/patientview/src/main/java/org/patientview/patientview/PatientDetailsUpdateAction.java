@@ -23,6 +23,7 @@
 
 package org.patientview.patientview;
 
+import org.apache.commons.lang.StringUtils;
 import org.patientview.ibd.action.BaseAction;
 import org.patientview.model.Patient;
 import org.patientview.patientview.model.User;
@@ -65,7 +66,7 @@ public class PatientDetailsUpdateAction extends BaseAction {
             LegacySpringUtils.getUserManager().save(user);
         }
 
-        if (otherConditions != null && patientId != null) {
+        if (StringUtils.isNotEmpty(otherConditions) && patientId != null) {
             Patient patient = LegacySpringUtils.getPatientManager().get(patientId);
             patient.setOtherConditions(otherConditions);
             LegacySpringUtils.getPatientManager().save(patient);
