@@ -98,7 +98,7 @@ public class User extends BaseModel {
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<UserMapping> userMappings;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Set<SpecialtyUserRole> specialtyUserRoles;
 
     public User() {

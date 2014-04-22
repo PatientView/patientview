@@ -129,8 +129,8 @@ public class UnitUserEditAction extends ActionSupport {
             for (SpecialtyUserRole specialtyUserRole : user.getSpecialtyUserRoles()) {
 
                 if (specialtyUserRole.getSpecialty()
-                        == userManager.getCurrentSpecialty(userManager.getLoggedInUser())) {
-                    if (role.equalsIgnoreCase(specialtyUserRole.getRole())) {
+                        .equals(userManager.getCurrentSpecialty(userManager.getLoggedInUser()))) {
+                    if (!role.equalsIgnoreCase(specialtyUserRole.getRole())) {
                         specialtyUserRole.setRole(role);
                     }
 
