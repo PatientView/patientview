@@ -24,6 +24,7 @@
 package org.patientview.service;
 
 import org.patientview.model.Specialty;
+import org.patientview.patientview.exception.UsernameExistsException;
 import org.patientview.patientview.logon.PatientLogon;
 import org.patientview.patientview.logon.UnitAdmin;
 import org.patientview.patientview.model.SpecialtyUserRole;
@@ -66,11 +67,11 @@ public interface UserManager {
 
     List<SpecialtyUserRole> getSpecialtyUserRoles(User user);
 
-    void save(User user);
+    void save(User user) throws UsernameExistsException;
 
-    User saveUserFromUnitAdmin(UnitAdmin unitAdmin, String unitcode);
+    User saveUserFromUnitAdmin(UnitAdmin unitAdmin, String unitcode)  throws UsernameExistsException;
 
-    User saveUserFromPatient(PatientLogon patientLogon);
+    User saveUserFromPatient(PatientLogon patientLogon)  throws UsernameExistsException;
 
     void delete(String username, String unitcode);
 

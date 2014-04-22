@@ -76,20 +76,11 @@ public class PatientEditAction extends ActionSupport {
         String unitcode = BeanUtils.getProperty(form, "unitcode");
         String overrideDuplicateNhsno = BeanUtils.getProperty(form, "overrideDuplicateNhsno");
 
-        String mappingToFind = "";
+        String mappingToFind;
 
-        User user = null;
+        User user = createUser(form);
 
-        try {
-            user = createUser(form);
-        } catch (UsernameExistsException uee) {
-            LOGGER.info("Trying to update a user with an existing username");
-            request.setAttribute(LogonUtils.USER_ALREADY_EXISTS,BeanUtils.getProperty(form, "username"));
-            return mapping.findForward("input");
-        }
-
-
-
+        // Does another user have the same NHS Number
         List<User> users = userManager.get(nhsno, BeanUtils.getProperty(form, "username"));
 
         if (!doesAnotherUserExist(users, user) && !overrideDuplicateNhsno.equals("on")) {
@@ -97,7 +88,13 @@ public class PatientEditAction extends ActionSupport {
             mappingToFind = "input";
         } else {
 
-            userManager.save(user);
+            try {
+                userManager.save(user);
+            } catch (UsernameExistsException uee) {
+                LOGGER.info("Tried to allocate a user with an existing username, please choose another one");
+                request.setAttribute(LogonUtils.USER_ALREADY_EXISTS, BeanUtils.getProperty(form, "username"));
+                return mapping.findForward("input");
+            }
 
             Unit unit = unitManager.get(unitcode);
 
@@ -128,7 +125,6 @@ public class PatientEditAction extends ActionSupport {
         return true;
     }
 
-
     private User createUser(ActionForm form) throws UsernameExistsException {
         UserManager userManager = getWebApplicationContext().getBean(UserManager.class);
         User user = null;
@@ -137,12 +133,6 @@ public class PatientEditAction extends ActionSupport {
 
             if (user == null) {
                 throw new UsernameNotFoundException("User is not found to edit");
-            }
-
-            if (!user.getUsername().equals(BeanUtils.getProperty(form, "username"))) {
-                if (userManager.get(BeanUtils.getProperty(form, "username")) != null) {
-                    throw new UsernameExistsException("Username already allocated");
-                }
             }
 
             user.setUsername(BeanUtils.getProperty(form, "username"));
@@ -174,6 +164,8 @@ public class PatientEditAction extends ActionSupport {
         return user;
     }
 
+    // Not sure the business case for this so leaving it.
+    // Guessing the Calendar roll functionality wasn't there for them.
     private static Calendar createDatestamp(String dateTimeString) {
         Calendar datestamp = null;
 
