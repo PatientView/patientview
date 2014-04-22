@@ -24,7 +24,6 @@
 package org.patientview.patientview.logon;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -83,7 +82,7 @@ public class PatientEditAction extends ActionSupport {
         // Does another user have the same NHS Number
         List<User> users = userManager.get(nhsno, BeanUtils.getProperty(form, "username"));
 
-        if (!doesAnotherUserExist(users, user) && !overrideDuplicateNhsno.equals("on")) {
+        if (!users.contains(user) && !overrideDuplicateNhsno.equals("on")) {
             request.setAttribute(LogonUtils.NHSNO_ALREADY_EXISTS, nhsno);
             mappingToFind = "input";
         } else {
@@ -109,20 +108,6 @@ public class PatientEditAction extends ActionSupport {
         }
 
         return mapping.findForward(mappingToFind);
-    }
-
-    private boolean doesAnotherUserExist(List<User> matches, User user) {
-
-        if (CollectionUtils.isNotEmpty(matches)) {
-            for (User match : matches) {
-                if (match.equals(user)) {
-                    continue;
-                } else {
-                    return true;
-                }
-            }
-        }
-        return true;
     }
 
     private User createUser(ActionForm form) throws UsernameExistsException {
