@@ -33,11 +33,16 @@
         <h1>Unit User Edit</h1>
     </div>
     <html:errors/>
+    <logic:present name="userAlreadyExists">
+        <p><font color="red">The Username <b><bean:write name="userAlreadyExists"/></b> you entered is already allocated to
+            another user.</font></p>
+    </logic:present>
+
     <div class="form-horizontal">
         <html:form action="/control/unitUserEdit">
             <div class="control-group">
                 <label class="control-label">User Name</label>
-                <div class="controls"><html:hidden name="unitUser" property="username" write="true"/></div>
+                <div class="controls"><html:text name="unitUser" property="username"/></div>
             </div>
             <div class="control-group">
                 <label class="control-label">First Name</label>
@@ -98,6 +103,7 @@
             </div>
             <html:hidden name="unitcodeThing" property="unitcode"/>
             <html:hidden name="unitUser" property="emailverified"/>
+            <html:hidden name="unitUser" property="id"/>
             <html:hidden name="unitUser" property="firstlogon"/>
             <html:hidden name="unitUser" property="password"/>
             <html:hidden name="unitUser" property="lastlogon"/>

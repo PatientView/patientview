@@ -39,12 +39,17 @@
             another user. <br/> You may override this using the checkbox below. But please use this with care!!</font></p>
     </logic:present>
 
+    <logic:present name="userAlreadyExists">
+        <p><font color="red">The Username <b><bean:write name="userAlreadyExists"/></b> you entered is already allocated to
+            another user.</font></p>
+    </logic:present>
+
     <div class="form-horizontal">
         <html:form action="/control/patientEditX">
             <div class="control-group">
                 <label class="control-label">User Name</label>
                 <div class="controls">
-                    <html:hidden name="patient" property="username" write="true"/>
+                    <html:text name="patient" property="username"/>
                 </div>
             </div>
             <div class="control-group">
@@ -106,6 +111,7 @@
                 </div>
             </div>
 
+            <html:hidden name="patient" property="id"/>
             <html:hidden name="patient" property="emailverified"/>
             <html:hidden name="patient" property="firstlogon"/>
             <html:hidden name="patient" property="password"/>

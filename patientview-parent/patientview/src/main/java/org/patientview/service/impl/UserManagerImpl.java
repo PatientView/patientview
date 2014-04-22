@@ -25,6 +25,7 @@ package org.patientview.service.impl;
 
 import org.patientview.model.Specialty;
 import org.patientview.model.Unit;
+import org.patientview.patientview.exception.UsernameExistsException;
 import org.patientview.patientview.logon.PatientLogon;
 import org.patientview.patientview.logon.UnitAdmin;
 import org.patientview.patientview.model.PatientUser;
@@ -84,6 +85,11 @@ public class UserManagerImpl implements UserManager {
     @Override
     public User get(Long id) {
         return userDao.get(id);
+    }
+
+    @Override
+    public List<User> get(String nhsno, String unitcode) {
+        return userDao.get(nhsno, unitcode);
     }
 
     @Override
@@ -148,12 +154,28 @@ public class UserManagerImpl implements UserManager {
     }
 
     @Override
-    public void save(User user) {
+    public void save(User user) throws UsernameExistsException {
+
+        // If the username has changed we need to update the UserMapping as well
+        // Foreign key so a native call is required.
+        User oldUser = userDao.get(user.getId());
+        if (!oldUser.getUsername().equalsIgnoreCase(user.getUsername())) {
+
+            if (userDao.get(user.getUsername()) != null) {
+                throw new UsernameExistsException("Username already allocated");
+            }
+
+            userMappingDao.updateUsername(user.getUsername(), oldUser.getUsername());
+
+        }
+
+        user.setUpdated(new Date());
+
         userDao.save(user);
     }
 
     @Override
-    public User saveUserFromUnitAdmin(UnitAdmin unitAdmin, String unitcode) {
+    public User saveUserFromUnitAdmin(UnitAdmin unitAdmin, String unitcode) throws UsernameExistsException {
 
         // check for an existing user
         User user = get(unitAdmin.getUsername());
@@ -209,7 +231,7 @@ public class UserManagerImpl implements UserManager {
 
 
     @Override
-    public User saveUserFromPatient(PatientLogon patientLogon) {
+    public User saveUserFromPatient(PatientLogon patientLogon)  throws UsernameExistsException  {
 
         // check for an existing user
         User user = get(patientLogon.getUsername());
