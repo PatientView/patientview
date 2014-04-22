@@ -326,8 +326,8 @@ public class ImportManagerImpl implements ImportManager {
         List<UserMapping> userMappings = userMappingDao.getAllByNhsNo(patient.getNhsno(), centre.getCentreCode());
 
         if (CollectionUtils.isEmpty(userMappings)) {
-            throw new ProcessException("This patient does not have a PatientView login account, "
-                    + "please register patient in PatientView using 'Add Patient'");
+            throw new ProcessException("This patient has not been added to your unit,"
+                    + " please register patient in PatientView using 'Add Patient'");
         }
     }
 
