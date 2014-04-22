@@ -37,9 +37,13 @@ import java.util.List;
 @Transactional(propagation = Propagation.MANDATORY)
 public interface UserMappingDao {
 
+    void delete(UserMapping userMapping);
+
     UserMapping get(Long id);
 
     void save(UserMapping userMapping);
+
+    void updateUsername(String newUsername, String oldUsername);
 
     void deleteUserMappings(String username, String unitcode, Specialty specialty);
 

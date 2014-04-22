@@ -87,6 +87,11 @@ public class UserManagerImpl implements UserManager {
     }
 
     @Override
+    public List<User> get(String nhsno, String unitcode) {
+        return userDao.get(nhsno, unitcode);
+    }
+
+    @Override
     public User get(String username) {
         return userDao.get(username);
     }
@@ -149,6 +154,14 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     public void save(User user) {
+
+        // If the username has changed we need to update the UserMapping as well
+        // Foreign key so a native call is required.
+        User oldUser = userDao.get(user.getId());
+        if (!oldUser.getUsername().equalsIgnoreCase(user.getUsername())) {
+            userMappingDao.updateUsername(user.getUsername(), oldUser.getUsername());
+        }
+
         userDao.save(user);
     }
 

@@ -30,10 +30,13 @@ import org.slf4j.LoggerFactory;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 public class User extends BaseModel {
@@ -90,6 +93,9 @@ public class User extends BaseModel {
 
     @Transient
     private Date dateofbirth;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private Set<UserMapping> userMappings;
 
     public User() {
     }
@@ -237,6 +243,7 @@ public class User extends BaseModel {
         this.updated = updated;
     }
 
+
     public String getDateofbirthFormatted() {
         if (dateofbirth != null) {
             try {
@@ -261,5 +268,13 @@ public class User extends BaseModel {
                 }
             }
         }
+    }
+
+    public Set<UserMapping> getUserMappings() {
+        return userMappings;
+    }
+
+    public void setUserMappings(final Set<UserMapping> userMappings) {
+        this.userMappings = userMappings;
     }
 }

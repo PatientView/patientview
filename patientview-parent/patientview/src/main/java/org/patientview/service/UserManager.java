@@ -46,6 +46,8 @@ public interface UserManager {
 
     User get(Long id);
 
+    List<User> get(String nhsno, String unitcode);
+
     /**
      * It is planned to have this method secured so that only users with mappings to one of the requested users
      * units, using: @UnitSecured(value = "UNIT_ACCESS")
@@ -75,6 +77,7 @@ public interface UserManager {
     List<User> getAllUsers();
 
     List<User> getByEmailAddress(String emailAddress);
+
 
     void save(UserMapping userMapping);
 

@@ -24,23 +24,33 @@
 package org.patientview.patientview.logon;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.struts.action.Action;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.patientview.model.Patient;
 import org.patientview.model.Unit;
-import org.patientview.patientview.model.UserMapping;
-import org.patientview.patientview.user.NhsnoUnitcode;
-import org.patientview.utils.LegacySpringUtils;
+import org.patientview.patientview.exception.UsernameExistsException;
+import org.patientview.patientview.model.User;
+import org.patientview.service.PatientManager;
+import org.patientview.service.UnitManager;
+import org.patientview.service.UserManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.support.PagedListHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.struts.ActionSupport;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
-public class PatientEditAction extends Action {
+public class PatientEditAction extends ActionSupport {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(PatientEditAction.class);
 
     private static final int YEAR_START = 0;
     private static final int YEAR_END = 4;
@@ -57,51 +67,45 @@ public class PatientEditAction extends Action {
 
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
                                  HttpServletResponse response) throws Exception {
-        String username = BeanUtils.getProperty(form, "username");
-        String password = BeanUtils.getProperty(form, "password");
-        String firstName = BeanUtils.getProperty(form, "firstName");
-        String lastName = BeanUtils.getProperty(form, "lastName");
-        String email = BeanUtils.getProperty(form, "email");
-        boolean emailverified = "true".equals(BeanUtils.getProperty(form, "emailverified"));
+
+        UserManager userManager = getWebApplicationContext().getBean(UserManager.class);
+        UnitManager unitManager = getWebApplicationContext().getBean(UnitManager.class);
+        PatientManager patientManager = getWebApplicationContext().getBean(PatientManager.class);
+
         String nhsno = BeanUtils.getProperty(form, "nhsno");
         String unitcode = BeanUtils.getProperty(form, "unitcode");
         String overrideDuplicateNhsno = BeanUtils.getProperty(form, "overrideDuplicateNhsno");
-        boolean firstlogon = "true".equals(BeanUtils.getProperty(form, "firstlogon"));
-        boolean dummypatient = "true".equals(BeanUtils.getProperty(form, "dummypatient"));
-        Calendar lastlogoncal = createDatestamp(BeanUtils.getProperty(form, "lastlogon"));
-        Date lastlogon = lastlogoncal == null ? null : lastlogoncal.getTime();
-        String failedlogonsstring = BeanUtils.getProperty(form, "failedlogons");
-        int failedlogons = Integer.decode(failedlogonsstring);
-        boolean accountlocked = "true".equals(BeanUtils.getProperty(form, "accountlocked"));
+
         String mappingToFind = "";
 
-        List duplicateUsers = findDuplicateUsers(nhsno, username);
+        User user = null;
 
-        if (!duplicateUsers.isEmpty() && !overrideDuplicateNhsno.equals("on")) {
+        try {
+            user = createUser(form);
+        } catch (UsernameExistsException uee) {
+            LOGGER.info("Trying to update a user with an existing username");
+            request.setAttribute(LogonUtils.USER_ALREADY_EXISTS,BeanUtils.getProperty(form, "username"));
+            return mapping.findForward("input");
+        }
+
+
+
+        List<User> users = userManager.get(nhsno, BeanUtils.getProperty(form, "username"));
+
+        if (!doesAnotherUserExist(users, user) && !overrideDuplicateNhsno.equals("on")) {
             request.setAttribute(LogonUtils.NHSNO_ALREADY_EXISTS, nhsno);
             mappingToFind = "input";
-            NhsnoUnitcode nhsnoThing = new NhsnoUnitcode(nhsno, unitcode);
-            request.setAttribute("nhsnot", nhsnoThing);
         } else {
 
-            PatientLogon patient = new PatientLogon(username, password, firstName, lastName, email, emailverified,
-                    firstlogon, dummypatient, lastlogon, failedlogons, accountlocked);
-            LegacySpringUtils.getUserManager().saveUserFromPatient(patient);
+            userManager.save(user);
 
-            List<UserMapping> userMappings = findUsersSiblings(username, unitcode);
-
-            for (UserMapping userMapping : userMappings) {
-                userMapping.setNhsno(nhsno);
-                LegacySpringUtils.getUserManager().save(userMapping);
-            }
-
-            Unit unit = LegacySpringUtils.getUnitManager().get(unitcode);
+            Unit unit = unitManager.get(unitcode);
 
             if (unit != null) {
                 request.setAttribute("unit", unit);
             }
 
-            List patients = LegacySpringUtils.getPatientManager().getUnitPatientsAllWithTreatmentDao(unitcode);
+            List<Patient> patients = patientManager.getUnitPatientsAllWithTreatmentDao(unitcode);
             PagedListHolder pagedListHolder = new PagedListHolder(patients);
             request.getSession().setAttribute("patients", pagedListHolder);
             mappingToFind = "success";
@@ -110,12 +114,64 @@ public class PatientEditAction extends Action {
         return mapping.findForward(mappingToFind);
     }
 
-    private List<UserMapping> findUsersSiblings(String username, String unitcode) throws Exception {
-        return LegacySpringUtils.getUserManager().getUsersSiblings(username, unitcode);
+    private boolean doesAnotherUserExist(List<User> matches, User user) {
+
+        if (CollectionUtils.isNotEmpty(matches)) {
+            for (User match : matches) {
+                if (match.equals(user)) {
+                    continue;
+                } else {
+                    return true;
+                }
+            }
+        }
+        return true;
     }
 
-    private List findDuplicateUsers(String nhsno, String username) throws Exception {
-        return LegacySpringUtils.getUserManager().getDuplicateUsers(nhsno, username);
+
+    private User createUser(ActionForm form) throws UsernameExistsException {
+        UserManager userManager = getWebApplicationContext().getBean(UserManager.class);
+        User user = null;
+        try {
+            user = userManager.get(Long.parseLong(BeanUtils.getProperty(form, "id")));
+
+            if (user == null) {
+                throw new UsernameNotFoundException("User is not found to edit");
+            }
+
+            if (!user.getUsername().equals(BeanUtils.getProperty(form, "username"))) {
+                if (userManager.get(BeanUtils.getProperty(form, "username")) != null) {
+                    throw new UsernameExistsException("Username already allocated");
+                }
+            }
+
+            user.setUsername(BeanUtils.getProperty(form, "username"));
+            user.setPassword(BeanUtils.getProperty(form, "password"));
+            user.setFirstName(BeanUtils.getProperty(form, "firstName"));
+            user.setLastName(BeanUtils.getProperty(form, "lastName"));
+            user.setEmail(BeanUtils.getProperty(form, "email"));
+            user.setEmailverified("true".equals(BeanUtils.getProperty(form, "emailverified")));
+            user.setAccountlocked("true".equals(BeanUtils.getProperty(form, "accountlocked")));
+
+            if (StringUtils.isNotEmpty(BeanUtils.getProperty(form, "failedlogons"))) {
+                user.setFailedlogons(Integer.decode(BeanUtils.getProperty(form, "failedlogons")));
+            }
+
+            if (StringUtils.isNotEmpty(BeanUtils.getProperty(form, "lastlogon"))) {
+                user.setLastlogon(createDatestamp(BeanUtils.getProperty(form, "lastlogon")).getTime());
+            }
+            user.setDummypatient("true".equals(BeanUtils.getProperty(form, "dummypatient")));
+            user.setFirstlogon("true".equals(BeanUtils.getProperty(form, "firstlogon")));
+
+        } catch (IllegalAccessException iae) {
+            LOGGER.debug("BeanUtil failed", iae);
+        } catch (NoSuchMethodException nsm) {
+            LOGGER.debug("BeanUtil failed", nsm);
+        } catch (InvocationTargetException ite) {
+            LOGGER.debug("BeanUtil failed", ite);
+        }
+
+        return user;
     }
 
     private static Calendar createDatestamp(String dateTimeString) {
@@ -140,4 +196,6 @@ public class PatientEditAction extends Action {
         }
         return datestamp;
     }
+
+
 }
