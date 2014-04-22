@@ -23,161 +23,38 @@
 
 package org.patientview.patientview.logon;
 
-import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.patientview.model.Patient;
-import org.patientview.model.Unit;
-import org.patientview.model.enums.SourceType;
-import org.patientview.patientview.logging.AddLog;
-import org.patientview.patientview.model.User;
-import org.patientview.patientview.model.UserMapping;
-import org.patientview.patientview.unit.UnitUtils;
+import org.patientview.model.Specialty;
 import org.patientview.service.PatientManager;
 import org.patientview.service.SecurityUserManager;
 import org.patientview.service.UnitManager;
 import org.patientview.service.UserManager;
-import org.patientview.util.CommonUtils;
 import org.springframework.web.struts.ActionSupport;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 
 public class PatientAddAction extends ActionSupport {
 
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
                                  HttpServletResponse response) throws Exception {
 
+
+
         UnitManager unitManager = getWebApplicationContext().getBean(UnitManager.class);
         UserManager userManager = getWebApplicationContext().getBean(UserManager.class);
         SecurityUserManager securityUserManager = getWebApplicationContext().getBean(SecurityUserManager.class);
         PatientManager patientManager = getWebApplicationContext().getBean(PatientManager.class);
 
-        // get patient details from form fields
-        String username = BeanUtils.getProperty(form, "username");
-        String password = LogonUtils.generateNewPassword();
-        String gppassword = LogonUtils.generateNewPassword();
-        String firstName = BeanUtils.getProperty(form, "firstName");
-        String lastName = BeanUtils.getProperty(form, "lastName");
-        String email = BeanUtils.getProperty(form, "email");
-        String nhsno = BeanUtils.getProperty(form, "nhsno").trim();
-        nhsno = CommonUtils.cleanNhsNumber(nhsno);
-        String unitcode = BeanUtils.getProperty(form, "unitcode");
-        String overrideInvalidNhsno = BeanUtils.getProperty(form, "overrideInvalidNhsno");
-        boolean dummypatient = "true".equals(BeanUtils.getProperty(form, "dummypatient"));
 
-        // get Unit selected by user
-        Unit unit = unitManager.get(unitcode);
-
-        // check if user is attempting to add patient to RADAR unit
-        if ("radargroup".equalsIgnoreCase(unit.getSourceType())) {
-            request.setAttribute("radarGroupPatient", unit.getName());
-            return mapping.findForward("input");
+        Specialty specialty = userManager.getCurrentSpecialty(userManager.getLoggedInUser());
+        if (specialty != null && specialty.getName().equals("ibd")) {
+            mapping.findForward("success");
         }
 
-        // create new PatientLogon object and set fields
-        PatientLogon patientLogon = new PatientLogon(username, password, firstName, lastName,
-                email, false, true, dummypatient, null, 0, false);
 
-        // create 2 new UserMapping objects, one with selected details and another
-        // with generic PATIENT_ENTERS_UNITCODE unit code (currently user code "PATIENT")
-        UserMapping userMapping = new UserMapping(username, unitcode, nhsno);
-        UserMapping userMappingPatientEnters = new UserMapping(username, UnitUtils.PATIENT_ENTERS_UNITCODE, nhsno);
-
-        // add username-GP user for GP to log in and associated UserMapping
-        PatientLogon gpPatientLogon = new PatientLogon(username + "-GP", gppassword, firstName,
-                lastName + "-GP", null, false, true, dummypatient, null, 0, false);
-        UserMapping userMappingGp = new UserMapping(username + "-GP", unitcode, nhsno);
-
-        // get User object, used to check if user already exists
-        User existingUser = userManager.get(username);
-
-        List<Unit> units = unitManager.getAll(false);
-        request.setAttribute("units", units);
-
-        // check if NHS number is valid, if not then check again allowing pseudo NHS numbers and prompt user
-        // to allow pseudo NHS number in UI
-        if (!CommonUtils.isNhsNumberValid(nhsno) && !"on".equals(overrideInvalidNhsno)) {
-            request.setAttribute(LogonUtils.INVALID_NHSNO, nhsno);
-
-            if (CommonUtils.isNhsNumberValidWhenUppercaseLettersAreAllowed(nhsno)) {
-                request.setAttribute(LogonUtils.OFFER_TO_ALLOW_INVALID_NHSNO, nhsno);
-            }
-            request.setAttribute("patient", patientLogon);
-            return mapping.findForward("input");
-        }
-
-        // get list of patients with same NHS number across specialties and within unit
-        List<UserMapping> userMappingsAllSpecialties = userManager.getUserMappingsByNhsNoAllSpecialties(nhsno);
-        List<UserMapping> userMappingsThisSpecialty = userManager.getUserMappingsByNhsNo(nhsno);
-
-        // check other patients exist with same NHS no.
-        if (!CollectionUtils.isEmpty(userMappingsAllSpecialties)) {
-
-            // patients exist across all specialties
-            if (!CollectionUtils.isEmpty(userMappingsThisSpecialty)) {
-                // patients exist in this specialty
-                for (UserMapping userMappingWithSameNhsno : userMappingsThisSpecialty) {
-                    if (userMappingWithSameNhsno.getUnitcode().equalsIgnoreCase(unitcode)) {
-                        // patient with NHS no. found in current unit
-                        request.setAttribute(LogonUtils.PATIENT_ALREADY_IN_UNIT, nhsno);
-                        request.setAttribute("patient", patientLogon);
-                        return mapping.findForward("input");
-                    }
-                }
-            }
-
-            // patient with same NHS no. found in another unit, forwards to action asking to add this existing
-            // patient to current unit, ignoring all user entered details, firstname/lastname/username etc
-            request.setAttribute(LogonUtils.PATIENTS_WITH_SAME_NHSNO, userMappingsAllSpecialties.get(0));
-            request.setAttribute("userMapping", userMapping);
-            request.setAttribute("patient", patientLogon);
-            return mapping.findForward("samenhsno");
-        }
-
-        // check if user already exists
-        if (existingUser != null) {
-            request.setAttribute(LogonUtils.USER_ALREADY_EXISTS, username);
-            patientLogon.setUsername("");
-            request.setAttribute("patient", patientLogon);
-            return mapping.findForward("input");
-        }
-
-        // patient with NHS no. not already in database, user does not exist, create new user
-        PatientLogon hashedPatient = (PatientLogon) patientLogon.clone();
-        PatientLogon hashedGp = (PatientLogon) gpPatientLogon.clone();
-
-        hashedPatient.setPassword(LogonUtils.hashPassword(hashedPatient.getPassword()));
-        hashedGp.setPassword(LogonUtils.hashPassword(hashedGp.getPassword()));
-
-        userManager.saveUserFromPatient(hashedPatient);
-        userManager.saveUserFromPatient(hashedGp);
-
-        userManager.save(userMapping);
-        userManager.save(userMappingPatientEnters);
-        userManager.save(userMappingGp);
-
-        if (patientManager.get(nhsno, unitcode) == null) {
-            Patient patient = new Patient();
-            patient.setNhsno(nhsno);
-            patient.setUnitcode(unitcode);
-            patient.setEmailAddress(email);
-            patient.setForename(firstName);
-            patient.setSurname(lastName);
-            patient.setSourceType(SourceType.PATIENT_VIEW.getName());
-            patientManager.save(patient);
-        }
-
-        AddLog.addLog(securityUserManager.getLoggedInUsername(), AddLog.PATIENT_ADD,
-                patientLogon.getUsername(), userMapping.getNhsno(), userMapping.getUnitcode(), "");
-
-        request.setAttribute("patient", patientLogon);
-        request.setAttribute("userMapping", userMapping);
-        request.getSession().setAttribute("gp", gpPatientLogon);
-        request.getSession().setAttribute("userMappingGp", userMappingGp);
         return mapping.findForward("success");
     }
 }

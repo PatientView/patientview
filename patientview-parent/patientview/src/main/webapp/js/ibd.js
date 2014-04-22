@@ -1,36 +1,22 @@
 /**
- * Created by james@solidstategroup.com on 21/03/2014.
+ * Created by jameseaton@solidstategroup.com on 22/04/2014.
  */
-patient = {};
 
-patient.init = function() {
+ibd = {};
 
-    var specialtyId = $('.js-user-specialty-id').val();
+ibd.init = function() {
 
-    var units = $('.js-patient-units');
-    var unitsUrl =  '/web/unitBySpecialty?specialtyId=' + specialtyId;
-
-    units.empty();
-
-    $.getJSON(unitsUrl, function(data) {
-        $.each(data, function(i, result) {
-            units.append('<option value=' + result.id + '>' + result.name + '</option>');
-        });
-    });
+    ibd.populateDropdown($('.js-ibd-manifestations'), '/web/lookup/component?name=js-ibd-manifestations');
+    ibd.populateDropdown($('.js-ibd-complications'), '/web/lookup/component?name=js-ibd-complications');
+    ibd.populateDropdown($('.js-ibd-smoking-history'), '/web/lookup/component?name=js-ibd-smoking-history');
+    ibd.populateDropdown($('.js-ibd-primary-diagnosis'), '/web/lookup/component?name=js-ibd-primary-diagnosis');
+    ibd.populateDropdown($('.js-ibd-disease-extent'), '/web/lookup/component?name=js-ibd-disease-extent');
+    ibd.populateDropdown($('.js-ibd-surgical-history'), '/web/lookup/component?name=js-ibd-surgical-history');
 
 
-    var patientForm = $('.js-patient-form');
+}
 
-    patientForm.submit(function(event) {
-        event.preventDefault();
-        patient.add(patientForm);
-    });
-
-
-
-};
-
-patient.populateDropdown = function(dropdown, url) {
+ibd.populateDropdown = function(dropdown, url) {
     $.getJSON(url, function(data) {
         $.each(data, function(i, result) {
             dropdown.append('<option value=' + result.value + ' type="checkbox">' + result.text + '</option>');
@@ -39,8 +25,7 @@ patient.populateDropdown = function(dropdown, url) {
 
 }
 
-
-patient.add = function(form) {
+ibd.add = function(form) {
 
     var $form = $(form),
         username = $form.find('.js-patient-username'),
@@ -57,8 +42,6 @@ patient.add = function(form) {
     onError = function(errorSt) {
         errorsEl.html(errorSt).show();
     };
-
-    errorsEl.html('').hide();
 
     data.username = username.val();
     data.firstName = firstName.val();
@@ -82,7 +65,7 @@ patient.add = function(form) {
             url: $form.attr('action'),
             data: JSON.stringify(data),
             success: function(data) {
-                location.replace("/control/patientAdd.do");
+                alert('Success');
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 onError(textStatus);
@@ -98,7 +81,35 @@ patient.validateString = function(s) {
 };
 
 
+ibd.refreshSurgicalHistory = function(form, surgeries) {
+
+    var surgeryDisplay = form.find('.js-ibd-surgical-history-display');
+    surgeryDisplay.children("tbody").empty();
+
+    surgeryDisplay.append('<tr><td> ' + $('.js-ibd-surgical-history-date').val + '</td><td>' + $('.js-ibd-surgical-history-date').val + '</td><td></td></tb></tr>');
+
+
+}
+
+ibd.addSurgicalHistory = function(form) {
+
+    var surgeryHistory = $('.js-ibd-surgical-history-text');
+    var surgeryDate = $('.js-ibd-surgical-history-date');
+
+
+    var surgeries = [];
+    var surgery = {};
+    surgery.surgeryHistory = surgeryHistory.val();
+    surgery.surgeryDate = surgeryDate.val();
+
+    surgeries.push(surgery);
+
+    ibd.refreshSurgicalHistory(form, surgeries);
+
+}
+
 
 $(function() {
-    patient.init();
+    ibd.init();
 });
+
