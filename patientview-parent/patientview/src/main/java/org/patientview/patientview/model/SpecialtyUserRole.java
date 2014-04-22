@@ -45,7 +45,7 @@ public class SpecialtyUserRole extends BaseModel {
     private Specialty specialty;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn
     private User user;
 
     @Column(nullable = false)
@@ -74,4 +74,6 @@ public class SpecialtyUserRole extends BaseModel {
     public void setRole(String role) {
         this.role = role;
     }
+
+
 }

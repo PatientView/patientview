@@ -169,6 +169,8 @@ public class UserManagerImpl implements UserManager {
 
         }
 
+        user.setUpdated(new Date());
+
         userDao.save(user);
     }
 

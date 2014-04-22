@@ -480,6 +480,23 @@
             </field>
         </form>
 
+        <form name="patientForm">
+            <field property="username" depends="required">
+                <msg key="username.required" name="required"/>
+            </field>
+        </form>
+
+        <form name="/control/unitUserEdit">
+            <field property="username" depends="required">
+                <msg key="username.required" name="required"/>
+            </field>
+        </form>
+
+        <form name="/control/unitUserEditInput">
+            <field property="username" depends="required">
+                <msg key="username.required" name="required"/>
+            </field>
+        </form>
     </formset>
 
 </form-validation>

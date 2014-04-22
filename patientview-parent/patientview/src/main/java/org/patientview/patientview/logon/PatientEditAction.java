@@ -24,6 +24,7 @@
 package org.patientview.patientview.logon;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -82,7 +83,7 @@ public class PatientEditAction extends ActionSupport {
         // Does another user have the same NHS Number
         List<User> users = userManager.get(nhsno, BeanUtils.getProperty(form, "username"));
 
-        if (!users.contains(user) && !overrideDuplicateNhsno.equals("on")) {
+        if (CollectionUtils.isNotEmpty(users) && !users.contains(user) && !overrideDuplicateNhsno.equals("on")) {
             request.setAttribute(LogonUtils.NHSNO_ALREADY_EXISTS, nhsno);
             mappingToFind = "input";
         } else {
@@ -90,7 +91,7 @@ public class PatientEditAction extends ActionSupport {
             try {
                 userManager.save(user);
             } catch (UsernameExistsException uee) {
-                LOGGER.info("Tried to allocate a user with an existing username, please choose another one");
+                LOGGER.info("Tried to allocate a user with ane existing username");
                 request.setAttribute(LogonUtils.USER_ALREADY_EXISTS, BeanUtils.getProperty(form, "username"));
                 return mapping.findForward("input");
             }

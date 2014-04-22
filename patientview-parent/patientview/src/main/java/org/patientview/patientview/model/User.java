@@ -28,6 +28,7 @@ import org.patientview.utils.LegacySpringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -96,6 +97,9 @@ public class User extends BaseModel {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<UserMapping> userMappings;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<SpecialtyUserRole> specialtyUserRoles;
 
     public User() {
     }
@@ -276,5 +280,13 @@ public class User extends BaseModel {
 
     public void setUserMappings(final Set<UserMapping> userMappings) {
         this.userMappings = userMappings;
+    }
+
+    public Set<SpecialtyUserRole> getSpecialtyUserRoles() {
+        return specialtyUserRoles;
+    }
+
+    public void setSpecialtyUserRoles(final Set<SpecialtyUserRole> specialtyUserRoles) {
+        this.specialtyUserRoles = specialtyUserRoles;
     }
 }
