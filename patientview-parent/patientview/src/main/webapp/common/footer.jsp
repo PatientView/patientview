@@ -77,7 +77,8 @@
             </div>
             <div id="js-feedback-success">
                 <h2>Feedback Sent</h2>
-                <p>Your feedback has been sent to the relevant recipients</p>
+                <br/>
+                <div class="alert alert-success">Your feedback has been sent to the relevant recipients</div>
                 <input type="submit" value="Close" id="js-feedback-close-btn" class="btn"/>
             </div>
         </div>

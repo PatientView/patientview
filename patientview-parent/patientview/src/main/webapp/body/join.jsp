@@ -27,11 +27,17 @@
 <html:xhtml/>
 
 <script>
-// warning for today's date
+// warning for today's date and future date
 $(document).ready(function(){
     $("input[name='dateOfBirth']").change(function() {
         if ($(this).val() == new Date().toISOString().slice(0, 10).split("-").reverse().join("-")) {
             alert("Please enter your date of birth, not today's date.");
+            $(this).val("");
+        }
+
+        var splitDate = $(this).val().split("-");
+        if (new Date(splitDate[2], splitDate[1] - 1, splitDate[0], '00', '00', '00') > new Date()) {
+            alert("You must enter a date in the past.");
             $(this).val("");
         }
     });
