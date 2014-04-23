@@ -1042,24 +1042,6 @@
             <forward name="success" path="/control/unit_list.jsp"/>
         </action>
 
-        <action path="/control/radarGroupEdit"
-                type="org.patientview.patientview.unit.UnitEditAction"
-                name="unitForm"
-                scope="request"
-                validate="false">
-            <forward name="success" path="/control/radar_group_edit.jsp"/>
-        </action>
-
-        <action path="/control/radarGroupUpdate"
-                type="org.patientview.patientview.unit.UnitUpdateAction"
-                name="unitForm"
-                input="input"
-                parameter="radargroup"
-                scope="request">
-            <forward name="input" path="/control/radar_group_edit.jsp"/>
-            <forward name="success" path="/control/unit_list.jsp"/>
-        </action>
-
         <action path="/control/unitPatientsUnitSelect"
                 type="org.patientview.patientview.logon.LogonAddInputAction"
                 name="unitForm"

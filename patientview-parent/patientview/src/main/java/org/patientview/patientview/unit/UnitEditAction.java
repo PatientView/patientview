@@ -53,8 +53,8 @@ public class UnitEditAction extends ActionSupport {
         Unit unit = unitManager.get(unitcode);
         request.getSession().setAttribute("unit", unit);
 
-        // get EdtaCode which will contain the static links for this unit only for Radargroup type units
-        if (unit.getSourceType().equals("Radargroup")) {
+        // get EdtaCode which will contain the static links for this unit only for radargroup type units
+        if (unit.getSourceType().equalsIgnoreCase("radargroup")) {
             EdtaCode edtaCode = edtaCodeManager.getEdtaCode(unitcode);
             if (edtaCode == null) {
                 edtaCode = new EdtaCode(unit.getUnitcode());
@@ -65,5 +65,4 @@ public class UnitEditAction extends ActionSupport {
 
         return LogonUtils.logonChecks(mapping, request);
     }
-
 }
