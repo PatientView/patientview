@@ -28,6 +28,7 @@ import org.patientview.model.Unit;
 import org.patientview.patientview.exception.UsernameExistsException;
 import org.patientview.patientview.logon.PatientLogon;
 import org.patientview.patientview.logon.UnitAdmin;
+import org.patientview.patientview.model.LogEntry;
 import org.patientview.patientview.model.PatientUser;
 import org.patientview.patientview.model.SpecialtyUserRole;
 import org.patientview.patientview.model.User;
@@ -41,6 +42,7 @@ import org.patientview.repository.SpecialtyUserRoleDao;
 import org.patientview.repository.UnitDao;
 import org.patientview.repository.UserDao;
 import org.patientview.repository.UserMappingDao;
+import org.patientview.service.LogEntryManager;
 import org.patientview.service.SecurityUserManager;
 import org.patientview.service.UserManager;
 import org.slf4j.Logger;
@@ -48,6 +50,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -76,6 +79,9 @@ public class UserManagerImpl implements UserManager {
 
     @Inject
     private UnitDao unitDao;
+    
+    @Inject
+    private LogEntryManager logEntryManager;
 
     @Override
     public User getLoggedInUser() {
@@ -165,13 +171,34 @@ public class UserManagerImpl implements UserManager {
                 throw new UsernameExistsException("Username already allocated");
             }
 
+            LogEntry logEntry = createLogEntry(oldUser);
+            logEntry.setExtrainfo("Changing " + oldUser.getUsername() + " to " + user.getUsername());
+            logEntryManager.save(logEntry);
             userMappingDao.updateUsername(user.getUsername(), oldUser.getUsername());
+
+
+           
 
         }
 
         user.setUpdated(new Date());
 
+
+        
         userDao.save(user);
+    }
+
+
+    private LogEntry createLogEntry(User user) {
+        LogEntry logEntry = new LogEntry();
+        logEntry.setSpecialty(getCurrentSpecialty(getLoggedInUser()));
+        logEntry.setAction("username change");
+        logEntry.setActor(getLoggedInUser().getUsername());
+        logEntry.setUser(user.getUsername());
+        logEntry.setDate(Calendar.getInstance());
+
+        return logEntry;
+        
     }
 
     @Override

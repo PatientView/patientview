@@ -23,6 +23,7 @@
 
 package org.patientview.patientview.model;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.patientview.model.BaseModel;
 import org.patientview.model.Specialty;
 
@@ -48,6 +49,7 @@ public class UserMapping extends BaseModel {
     @JoinColumn(name = "specialty_id")
     private Specialty specialty;
 
+    @JsonIgnore
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "username", referencedColumnName = "username")
     private User user;
