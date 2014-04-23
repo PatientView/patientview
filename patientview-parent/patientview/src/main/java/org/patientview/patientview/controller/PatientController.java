@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -58,41 +59,51 @@ public class PatientController {
     @RequestMapping(value = Routes.ADD_PATIENT, consumes = MediaType.APPLICATION_JSON_VALUE,
             method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK)
-    public void addPatient(@RequestBody PatientInput patientInput, HttpServletRequest requestBody) throws Exception {
+    public ModelAndView addPatient(@RequestBody PatientInput patientInput, HttpServletRequest requestBody)
+            throws Exception {
 
         // Check the input
         if (!isValidNhsNumber(patientInput)) {
 
+
+            ModelAndView modelAndView = new ModelAndView("control/patient_add_input");
+            modelAndView.addObject("patient", patientInput);
+
+
             if (isValidNhsNumberWithLetters(patientInput)) {
-                requestBody.setAttribute(LogonUtils.OFFER_TO_ALLOW_INVALID_NHSNO, patientInput.getNhsNo());
+                modelAndView.addObject(LogonUtils.OFFER_TO_ALLOW_INVALID_NHSNO, patientInput.getNhsNo());
             } else {
-                requestBody.setAttribute(LogonUtils.INVALID_NHSNO, patientInput.getNhsNo());
+                modelAndView.addObject(LogonUtils.INVALID_NHSNO, patientInput.getNhsNo());
             }
             requestBody.setAttribute("patient", patientInput);
 
-         //   return "/control/patient_add_input.jsp";
+            return modelAndView;
         }
 
         if (isPatientAlreadyInUnit(patientInput)) {
-            requestBody.setAttribute(LogonUtils.PATIENT_ALREADY_IN_UNIT, patientInput.getNhsNo());
-            requestBody.setAttribute("patient", patientInput);
-           // return "/control/patient_add_input.jsp";
+
+            ModelAndView modelAndView = new ModelAndView("control/patient_add_input");
+            modelAndView.addObject(LogonUtils.PATIENT_ALREADY_IN_UNIT, patientInput.getNhsNo());
+            modelAndView.addObject("patient", patientInput);
+            return modelAndView;
         }
 
         if (isPatientAlreadyInSpecialty(patientInput)) {
             // patient with same NHS no. found in another unit, forwards to action asking to add this existing
             // patient to current unit, ignoring all user entered details, firstname/lastname/username etc
-            requestBody.setAttribute(LogonUtils.PATIENTS_WITH_SAME_NHSNO,
+            ModelAndView modelAndView = new ModelAndView("control/patient_add_input");
+            modelAndView.addObject(LogonUtils.PATIENTS_WITH_SAME_NHSNO,
                     userMappingManager.getAllByNhsNo(patientInput.getNhsNo()));
-            requestBody.setAttribute("patient", patientInput);
-           // return "/control/patient_add_samenhsno.jsp";
+            modelAndView.addObject("patient", patientInput);
+            return modelAndView;
         }
 
         if (!isUsernameAvailable(patientInput)) {
             requestBody.setAttribute(LogonUtils.USER_ALREADY_EXISTS, patientInput.getUsername());
             patientInput.setUsername("");
-            requestBody.setAttribute("patient", patientInput);
-           // return "/control/patient_add_input.jsp";
+            ModelAndView modelAndView = new ModelAndView("control/patient_add_input");
+            modelAndView.addObject("patient", patientInput);
+            return modelAndView;
         }
 
 
@@ -107,17 +118,17 @@ public class PatientController {
         userManager.saveHashPassword(user);
         userManager.saveHashPassword(gpUser);
 
-
-        // Page Set Up
-        requestBody.setAttribute("patient", patientInput);
+        // Success! Page Set Up
+        ModelAndView modelAndView = new ModelAndView("control/patient_add_confirm");
+        modelAndView.addObject("patient", patientInput);
         List<Unit> units = unitManager.getUnitsBySpecialty(
                 userManager.getCurrentSpecialty(userManager.getLoggedInUser()));
-        requestBody.setAttribute("units", units);
+        modelAndView.addObject("units", units);
         // Logging
         AddLog.addLog(securityUserManager.getLoggedInUsername(), AddLog.PATIENT_ADD,
                 patientInput.getUsername(), patientInput.getNhsNo(), patientInput.getUnitCode(), "");
 
-     //   return "/control/patient_add_confirm.jsp";
+        return modelAndView;
 
     }
 

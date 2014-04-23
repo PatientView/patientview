@@ -81,10 +81,10 @@ patient.add = function(form) {
             type: "POST",
             url: $form.attr('action'),
             data: JSON.stringify(data),
-            dataType: 'json',
+            dataType: 'html',
             contentType: "application/json; charset=UTF-8",
             success: function(data) {
-                location.replace("/control/patientAdd.do");
+                document.write(data);
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 onError(textStatus);

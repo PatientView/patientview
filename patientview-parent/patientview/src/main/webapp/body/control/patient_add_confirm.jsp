@@ -49,11 +49,11 @@ On <dt:format pattern="d MMM yyyy"><dt:currentTime/></dt:format> you successfull
     </tr>
     <tr>
       <td><b>Name</b></td>
-      <td><bean:write name="patient" property="name" /></td>
+      <td><bean:write name="patient" property="firstName"/>&nbsp;<bean:write name="patient" property="lastName"/></td>
     </tr>
     <tr>
       <td><b>NHS Number</b></td>
-      <td><bean:write name="userMapping" property="nhsno" /></td>
+      <td><bean:write name="patient" property="nhsNo" /></td>
     </tr>
     <tr>
       <td><b>Email Address</b></td>
