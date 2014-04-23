@@ -193,6 +193,9 @@ public class Unit extends BaseModel {
     @Column
     private boolean visible;
 
+    @Column
+    private boolean feedbackEnabled = false;
+
     public Unit() {
     }
 
@@ -795,5 +798,13 @@ public class Unit extends BaseModel {
 
     public void setVisible(boolean visible) {
         this.visible = visible;
+    }
+
+    public boolean isFeedbackEnabled() {
+        return feedbackEnabled;
+    }
+
+    public void setFeedbackEnabled(boolean feedbackEnabled) {
+        this.feedbackEnabled = feedbackEnabled;
     }
 }

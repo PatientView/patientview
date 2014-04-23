@@ -27,11 +27,18 @@
 <html:xhtml/>
 
 <script>
-// warning for today's date
+// warning for today's date and future date
 $(document).ready(function(){
     $("input[name='dateOfBirth']").change(function() {
         if ($(this).val() == new Date().toISOString().slice(0, 10).split("-").reverse().join("-")) {
             alert("Please enter your date of birth, not today's date.");
+            $(this).val("");
+        }
+
+        var splitDate = $(this).val().split("-");
+        if (new Date(splitDate[2], splitDate[1] - 1, splitDate[0], '00', '00', '00') > new Date()) {
+            alert("You must enter a date in the past.");
+            $(this).val("");
         }
     });
 });
@@ -66,17 +73,17 @@ $(document).ready(function(){
         <label class="control-label">Date of birth</label>
 
         <div class="date datePicker controls" data-date="<bean:write name="joinForm" property="dateOfBirth"/>">
-            <input name="dateOfBirth" class="span2" size="16" type="text"
+            <input name="dateOfBirth" readonly="readonly" style="background:white;" class="span2" size="16" type="text"
                    value="<bean:write name="joinForm" property="dateOfBirth"/>">
             <span class="add-on"><i class="icon-th"></i></span>
-            <span class="help-inline">dd-mm-yyyy</span>
+            <span class="help-inline">(click on date at top to change month & year)</span>
         </div>
     </div>
 
     <div class="control-group">
         <label class="control-label">NHS Number</label>
 
-        <div class="controls"><html:text property="nhsNo"/> (optional but useful)</div>
+        <div class="controls"><html:text property="nhsNo"/> <span class="help-inline">(optional but useful)</span></div>
     </div>
 
     <div class="control-group">

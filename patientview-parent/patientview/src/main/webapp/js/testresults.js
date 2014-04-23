@@ -66,7 +66,7 @@ function drawChart() {
                     vAxis: chartVAxis,
                     interpolateNulls: true
                 };
-                console.log(options);
+                
                 chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
                 chart.draw(dataView, options);
 

@@ -63,6 +63,60 @@ messages.init = function() {
                 errorsEl.html('').hide();
             });
     }
+
+    // set up rating
+    $('#conversationRatingInfo').text("");
+
+    $('.rateit').on('beforerated', function (e, value) {
+            e.preventDefault();
+            $('#conversationRatingInfo').text("");
+
+            var ratingData = {};
+            ratingData.conversationId = $(".js-message-conversation-id").val();
+            ratingData.rating = value;
+
+            $.ajax({
+                type: "POST",
+                url: "/web/feedback/rateConversation",
+                data: ratingData,
+                success: function(data) {
+                    $('#conversationRatingInfo').text("Thank you for your feedback!");
+                    $('#conversationRating .rateit').rateit('value', value);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    $('#conversationRatingInfo').text("Sorry, there was an error rating this conversation");
+                },
+                dataType: 'json'
+            });
+    });
+
+    // set up conversation status
+    $('#conversationStatusInfo').text("");
+    $('#selectConversationStatus').val($('#conversationStatusHidden').val());
+
+    $('#btnSetConversationStatus').on('click', function (e) {
+        e.preventDefault();
+        $('#conversationStatusInfo').text("");
+
+        var conversation = {};
+        conversation.conversationId = $(".js-message-conversation-id").val();
+        conversation.status = $('#selectConversationStatus').val();
+
+        $.ajax({
+            type: "POST",
+            url: "/web/feedback/setConversationStatus",
+            data: conversation,
+            success: function(data) {
+                $('#conversationStatusInfo').text("Status updated");
+                $('#conversationStatusText').text($('#selectConversationStatus :selected').text());
+
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                $('#conversationStatusInfo').text("Sorry, there was an error setting the conversation status");
+            },
+            dataType: 'json'
+        });
+    });
 };
 
 messages.getMessageHtml = function(message) {

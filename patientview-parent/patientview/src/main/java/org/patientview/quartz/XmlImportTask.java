@@ -27,6 +27,7 @@ import org.apache.commons.lang.ArrayUtils;
 import org.patientview.patientview.FindXmlFiles;
 import org.patientview.quartz.exception.ProcessException;
 import org.patientview.service.ImportManager;
+import org.patientview.util.CommonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,8 +40,6 @@ import java.io.File;
  * Quartz XmlImportTask Job
  */
 public class XmlImportTask {
-
-    private static final String LINE_SEPARATOR = System.getProperty("file.separator");
 
     private static final Logger LOGGER = LoggerFactory.getLogger(XmlImportTask.class);
 
@@ -62,7 +61,6 @@ public class XmlImportTask {
 
     @PostConstruct
     public void init() {
-        LOGGER.debug("Using {} as a line separator", LINE_SEPARATOR);
         LOGGER.info("Processing from directory {}.", xmlDirectory);
         LOGGER.info("Data loading from directory {}.", xmlDirectory);
     }
@@ -105,7 +103,8 @@ public class XmlImportTask {
 
     public void archiveFile(File xmlFile) {
 
-        String unitDirectoryName = xmlPatientDataLoadDirectory + LINE_SEPARATOR + getUnitCode(xmlFile.getName());
+        String unitDirectoryName = xmlPatientDataLoadDirectory
+                + CommonUtils.getUnitCode(xmlFile.getName());
 
         File unitDirectory = new File(unitDirectoryName);
 
@@ -124,18 +123,6 @@ public class XmlImportTask {
             }
 
         }
-    }
-
-    private String getUnitCode(String filename) {
-
-        String[] filenameParts = filename.split("_");
-        if (filenameParts.length > 1) {
-            return filenameParts[0];
-        } else {
-            LOGGER.error("Cannot define unit code from filename so using the 'unknown' folder");
-            return "unknown";
-        }
-
     }
 
 

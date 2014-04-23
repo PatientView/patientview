@@ -28,13 +28,14 @@ import org.patientview.model.Specialty;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
 public class UserMapping extends BaseModel {
 
-    @Column
+    @Column(insertable = false , updatable = false)
     private String username;
 
     @Column
@@ -46,6 +47,10 @@ public class UserMapping extends BaseModel {
     @ManyToOne(optional = false)
     @JoinColumn(name = "specialty_id")
     private Specialty specialty;
+
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @JoinColumn(name = "username", referencedColumnName = "username")
+    private User user;
 
     public UserMapping() {
     }
@@ -86,5 +91,13 @@ public class UserMapping extends BaseModel {
 
     public void setNhsno(String nhsno) {
         this.nhsno = nhsno;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(final User user) {
+        this.user = user;
     }
 }

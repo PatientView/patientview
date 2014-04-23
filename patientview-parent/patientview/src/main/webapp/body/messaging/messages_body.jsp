@@ -38,7 +38,7 @@
     }
 %>
 <div class="row">
-    <div class="<%= (actionPrefix.equals("patient") ? "span12" : "span9") %>">
+    <div class='<%= (actionPrefix.equals("patient") ? "span12" : "span9") %>'>
 
         <logic:present name="noEmailSet">
             <div class="page-header">
@@ -49,7 +49,7 @@
                 <div style="color: rgb(0, 136, 204)">
                     IMPORTANT: We are still testing messaging. Do not send urgent information or questions this way yet! Click on messages
                     to see the full conversation. To send a new message, click on "Create Message" above right. When you send a message,
-                    the recipient will receive and email asking them to log in to read it, if they have an email address in the system.
+                    the recipient will receive an email asking them to log in to read it, if they have an email address in the system.
                 </div>
             </div>
 
@@ -69,7 +69,7 @@
                 <div style="color: rgb(0, 136, 204)">
                     IMPORTANT: We are still testing messaging. Do not send urgent information or questions this way yet! Click on messages
                     to see the full conversation. To send a new message, click on "Create Message" above right. When you send a message,
-                    the recipient will receive and email asking them to log in to read it, if they have an email address in the system.
+                    the recipient will receive an email asking them to log in to read it, if they have an email address in the system.
                 </div>
             </div>
 
@@ -94,7 +94,7 @@
                     <div style="color: rgb(0, 136, 204)">
                         IMPORTANT: We are still testing messaging. Do not send urgent information or questions this way yet! Click on messages
                         to see the full conversation. To send a new message, click on "Create Message" above right. When you send a message,
-                        the recipient will receive and email asking them to log in to read it, if they have an email address in the system.
+                        the recipient will receive an email asking them to log in to read it, if they have an email address in the system.
                     </div>
                 </div>
 
@@ -116,6 +116,16 @@
                                                 </span>
                                             </logic:greaterThan>
                                             <span class="pull-right conversation-date label label-inverse"><bean:write name="conversation" property="friendlyLatestMessageDate" /></span>
+                                            <logic:equal value="<%=Messaging.FEEDBACK%>" name="conversation" property="type">
+                                                <!-- show Feedback label -->
+                                                <span class="pull-right label">Feedback</span>
+                                                <logic:equal value="false" name="conversation" property="clinicianClosed">
+                                                    <span class="pull-right label-conversationStatus-open label">Open</span>
+                                                </logic:equal>
+                                                <logic:equal value="true" name="conversation" property="clinicianClosed">
+                                                    <span class="pull-right label-conversationStatus-closed label">Closed</span>
+                                                </logic:equal>
+                                            </logic:equal>
                                             <span class="action-test dull">Click to open conversation</span>
                                         </h2>
 
@@ -168,7 +178,10 @@
 
                                         <label class="control-label">To</label>
                                         <input type="text" class="search-query" placeholder="Filter" id="search" name="search" size="8" style="display: none"/>
-                                        <button class="js-filter-button control-group">...</button>
+
+                                        <logic:present name='<%=Messaging.IS_UNIT_ADMIN_PARAM%>'>
+                                            <button class="js-filter-button control-group">...</button>
+                                        </logic:present>
 
                                         <div class="controls">
                                             <select name="recipientId" class="js-message-recipient-id">

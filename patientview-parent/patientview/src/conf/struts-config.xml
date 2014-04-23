@@ -79,6 +79,7 @@
             <form-property name="units" type="java.lang.String"/>
         </form-bean>
         <form-bean name="patientForm" type="org.apache.struts.validator.DynaValidatorActionForm">
+            <form-property name="id" type="java.lang.Long"/>
             <form-property name="username" type="java.lang.String"/>
             <form-property name="password" type="java.lang.String"/>
             <form-property name="firstName" type="java.lang.String"/>
@@ -172,6 +173,7 @@
             <form-property name="sourceType" type="java.lang.String"/>
             <form-property name="filename" type="java.lang.String"/>
             <form-property name="visible" type="java.lang.Boolean"/>
+            <form-property name="feedbackEnabled" type="java.lang.Boolean"/>
         </form-bean>
         <form-bean name="gpgForm" type="org.apache.struts.validator.DynaValidatorActionForm">
             <form-property name="src" type="java.lang.String"/>

@@ -21,32 +21,47 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
-package org.patientview.repository;
+package org.patientview.patientview.model;
 
-import org.patientview.model.Specialty;
-import org.patientview.model.Unit;
-import org.patientview.patientview.model.User;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
+public class FeedbackData {
 
-import java.util.List;
+    private String recipient;
+    private String subject;
+    private String message;
+    private String imageData;
 
-@Transactional(propagation = Propagation.MANDATORY)
-public interface UserDao {
+    public FeedbackData() {
+    }
 
-    User get(Long id);
+    public String getRecipient() {
+        return recipient;
+    }
 
-    User get(String username);
+    public void setRecipient(String recipient) {
+        this.recipient = recipient;
+    }
 
-    List<User> get(String nhsno, String unitcode);
+    public String getSubject() {
+        return subject;
+    }
 
-    void save(User user);
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
 
-    void delete(User user);
+    public String getMessage() {
+        return message;
+    }
 
-    List<User> getAll();
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
-    List<User> get(User user, Specialty specialty, String userType, Unit unit);
+    public String getImageData() {
+        return imageData;
+    }
 
-    List<User> getByEmailAddress(String emailAddress);
+    public void setImageData(String imageData) {
+        this.imageData = imageData;
+    }
 }

@@ -21,32 +21,17 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
-package org.patientview.repository;
+package org.patientview.repository.impl.messaging;
 
-import org.patientview.model.Specialty;
-import org.patientview.model.Unit;
-import org.patientview.patientview.model.User;
+import org.patientview.patientview.model.ConversationStatus;
+import org.patientview.repository.AbstractHibernateDAO;
+import org.patientview.repository.messaging.ConversationStatusDao;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Transactional(propagation = Propagation.MANDATORY)
-public interface UserDao {
-
-    User get(Long id);
-
-    User get(String username);
-
-    List<User> get(String nhsno, String unitcode);
-
-    void save(User user);
-
-    void delete(User user);
-
-    List<User> getAll();
-
-    List<User> get(User user, Specialty specialty, String userType, Unit unit);
-
-    List<User> getByEmailAddress(String emailAddress);
+@Repository(value = "conversationStatusDao")
+public class ConversationStatusDaoImpl extends AbstractHibernateDAO<ConversationStatus>
+        implements ConversationStatusDao {
 }

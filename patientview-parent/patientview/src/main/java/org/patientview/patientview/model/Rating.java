@@ -21,32 +21,18 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
-package org.patientview.repository;
+package org.patientview.patientview.model;
 
-import org.patientview.model.Specialty;
-import org.patientview.model.Unit;
-import org.patientview.patientview.model.User;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
+public class Rating {
 
-import java.util.List;
+    private Long conversationId;
+    private Long rating;
 
-@Transactional(propagation = Propagation.MANDATORY)
-public interface UserDao {
+    public Rating() {
+    }
 
-    User get(Long id);
-
-    User get(String username);
-
-    List<User> get(String nhsno, String unitcode);
-
-    void save(User user);
-
-    void delete(User user);
-
-    List<User> getAll();
-
-    List<User> get(User user, Specialty specialty, String userType, Unit unit);
-
-    List<User> getByEmailAddress(String emailAddress);
+    public Long getConversationId() { return conversationId; }
+    public void setConversationId(Long conversationId) { this.conversationId = conversationId; }
+    public Long getRating() { return rating; }
+    public void setRating(Long rating) { this.rating = rating; }
 }

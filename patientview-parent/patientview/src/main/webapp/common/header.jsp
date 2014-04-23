@@ -25,6 +25,7 @@
   <title>Patient View</title>
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/datepicker.css" rel="stylesheet">
+    <link href="/css/rateit.css" rel="stylesheet">
     <link href="/css/main.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/css/slider.css"/>
     <link rel="icon" type="image/png" href="/images/kidney.gif">
@@ -34,6 +35,7 @@
     <script type="text/javascript" src="/js/jquery-1.10.1.min.js"></script>
     <script type="text/javascript" src="/js/jquery-migrate-1.2.1.min.js"></script>
     <script type="text/javascript" src="/js/jquery.tools.min.js"></script>
+    <script type="text/javascript" src="/js/jquery-ui-1.10.4.min.js"></script>
 
 </head>
 

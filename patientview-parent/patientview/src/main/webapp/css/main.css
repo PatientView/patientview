@@ -46,10 +46,22 @@ h1, h2{
 	color: #0066cc;
 }
 
+h2.title {
+    font-size: 20px;
+}
+
+h4.author {
+    padding-bottom: 10px;
+}
+
 h3{
     font-size: 15px;
     line-height: 20px;
     margin-bottom: 15px;
+}
+
+.maincontainer {
+    background-color: #ffffff;
 }
 
 .navbar-inner{
@@ -439,7 +451,8 @@ h3{
 
 
 section article.conversation, section article.message{
-    padding:18px 18px;
+    /*padding:18px 18px;*/
+    padding: 0 0 10px 10px;
     border-bottom: 1px dotted #eeeeee;
 }
 
@@ -525,4 +538,84 @@ section article.conversation .dull, section article.message .dull, .dull{
     max-height: 405px;
     padding: 15px;
     overflow-y: auto;
+}
+
+.ui-dialog-titlebar {
+    display:none;
+}
+
+#feedbackModal {
+    border: 1px solid #999;
+    display: none;
+}
+
+#feedbackModal form, #js-feedback-success, #js-feedback-loading{
+    background-color: white;
+    padding: 20px;
+    margin: 0px;
+}
+
+#js-feedback-message {
+    height: 150px;
+    width: 300px;
+    margin-bottom: 0px;
+}
+
+#js-feedback-subject {
+    width: 304px;
+}
+
+#js-feedback-recipient {
+    width: 310px;
+    margin-bottom: 0px;
+}
+
+#js-feedback-recipient-error, #js-feedback-subject-error, #js-feedback-message-error,
+#js-feedback-error-found, #js-feedback-success, #js-feedback-loading{
+    display:none;
+}
+
+#feedbackModal {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    margin-left:-175px;
+    width: 350px;
+    z-index: 10;
+}
+
+.hider {
+    opacity:0;
+    position:absolute;
+    top:0px;
+    left:0px;
+}
+
+.imageData {
+    border: 1px solid #999;
+    width:100%;
+    margin: 40px 0px 20px 0px;
+}
+
+.boxShadow1 {
+    -webkit-box-shadow: 0px 0px 28px 0px rgba(50, 50, 50, 0.47);
+    -moz-box-shadow:    0px 0px 28px 0px rgba(50, 50, 50, 0.47);
+    box-shadow:         0px 0px 28px 0px rgba(50, 50, 50, 0.47);
+}
+
+.label {
+    margin-left: 2px;
+}
+
+.label-conversationStatus-open {
+    background-color: #c94c29;
+}
+
+.label-conversationStatus-closed {
+    background-color: #189c41;
+}
+
+#selectConversationStatus {
+    position: relative;
+    top: 5px;
 }

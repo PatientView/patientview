@@ -21,32 +21,28 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
-package org.patientview.repository;
+package org.patientview.patientview.model;
 
-import org.patientview.model.Specialty;
-import org.patientview.model.Unit;
-import org.patientview.patientview.model.User;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
+import org.patientview.model.BaseModel;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
-import java.util.List;
+@Entity
+@Table(name = "conversation_status")
+public class ConversationStatus extends BaseModel {
 
-@Transactional(propagation = Propagation.MANDATORY)
-public interface UserDao {
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String status;
 
-    User get(Long id);
+    @Column(nullable = false)
+    private Boolean closedStatus;
 
-    User get(String username);
+    public ConversationStatus() {
+    }
 
-    List<User> get(String nhsno, String unitcode);
-
-    void save(User user);
-
-    void delete(User user);
-
-    List<User> getAll();
-
-    List<User> get(User user, Specialty specialty, String userType, Unit unit);
-
-    List<User> getByEmailAddress(String emailAddress);
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
+    public Boolean getClosedStatus() { return closedStatus; }
+    public void setClosedStatus(Boolean closedStatus) { this.closedStatus = closedStatus; }
 }

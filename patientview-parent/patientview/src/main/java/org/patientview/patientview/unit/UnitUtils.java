@@ -221,6 +221,7 @@ public final class UnitUtils {
         unit.setHaemodialysisunitphone12(BeanUtils.getProperty(form, "haemodialysisunitphone12"));
         unit.setHaemodialysisunitlocation12(BeanUtils.getProperty(form, "haemodialysisunitlocation12"));
         unit.setHaemodialysisuniturl12(BeanUtils.getProperty(form, "haemodialysisuniturl12"));
-        unit.setVisible(Boolean.getBoolean(BeanUtils.getProperty(form, "visible")));
+        unit.setVisible(BeanUtils.getProperty(form, "visible") == "true" ? true : false);
+        unit.setFeedbackEnabled(BeanUtils.getProperty(form, "feedbackEnabled") == "true" ? true : false);
     }
 }
