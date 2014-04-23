@@ -138,8 +138,6 @@
         }
     %>
 
-    <li><html:link action="/help" styleClass='<%= ("help".equals(request.getAttribute("currentNav"))) ? "navlinkon" : "navlink" %>'>Help?</html:link></li>
-
     <%
         if (!LegacySpringUtils.getSecurityUserManager().isLoggedInToSpecialty()) {
     %>

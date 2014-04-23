@@ -23,7 +23,6 @@
 
 package org.patientview.patientview.model;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.patientview.model.BaseModel;
 import org.patientview.utils.LegacySpringUtils;
 import org.slf4j.Logger;
@@ -96,11 +95,9 @@ public class User extends BaseModel {
     @Transient
     private Date dateofbirth;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<UserMapping> userMappings;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Set<SpecialtyUserRole> specialtyUserRoles;
 
