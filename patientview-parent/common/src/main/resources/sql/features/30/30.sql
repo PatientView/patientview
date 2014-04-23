@@ -1,6 +1,4 @@
-<<<<<<< HEAD
 /* Sharing Thoughts */
-
 CREATE TABLE `sharedthought` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) NOT NULL,
@@ -33,7 +31,6 @@ CREATE TABLE `sharedthought` (
   `is_viewed` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-=======
 
 ALTER TABLE unit ADD COLUMN `feedbackEnabled` tinyint(1) DEFAULT '0';
 
@@ -50,4 +47,3 @@ CREATE TABLE `conversation_status` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 INSERT INTO conversation_status (id, status, closedStatus) VALUES (1, 'Open - Ongoing', 0), (2, 'Closed - Amended', 1), (3, 'Closed - Explained Records', 1), (4, 'Closed - Will Discuss in Clinic', 1);
->>>>>>> develop
