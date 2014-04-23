@@ -49,25 +49,25 @@ public class SharedThought extends BaseModel {
     private int positiveNegative;
 
     @Column(name = "is_patient")
-    private Boolean isPatient;
+    private Boolean isPatient = false;
 
     @Column(name = "is_principal_carer")
-    private Boolean isPrincipalCarer;
+    private Boolean isPrincipalCarer = false;
 
     @Column(name = "is_relative")
-    private Boolean isRelative;
+    private Boolean isRelative = false;
 
     @Column(name = "is_friend")
-    private Boolean isFriend;
+    private Boolean isFriend = false;
 
     @Column(name = "is_about_me")
-    private Boolean isAboutMe;
+    private Boolean isAboutMe = false;
 
     @Column(name = "is_about_other")
-    private Boolean isAboutOther;
+    private Boolean isAboutOther = false;
 
     @Column(name = "is_anonymous")
-    private Boolean isAnonymous;
+    private Boolean isAnonymous = false;
 
     @Column(name = "start_date")
     private Date startDate;
@@ -76,7 +76,7 @@ public class SharedThought extends BaseModel {
     private Date endDate;
 
     @Column(name = "is_ongoing")
-    private Boolean isOngoing;
+    private Boolean isOngoing = false;
 
     @Column(name = "location")
     private String location;
@@ -97,7 +97,7 @@ public class SharedThought extends BaseModel {
     private int howSerious;
 
     @Column(name = "is_submitted")
-    private boolean isSubmitted;
+    private boolean isSubmitted = false;
 
     // this will be set by manager
     @Column(name = "date_last_saved")
@@ -108,14 +108,14 @@ public class SharedThought extends BaseModel {
     private User allocationUser;
 
     @Column(name = "is_action_taken")
-    private Boolean isActionTaken;
+    private Boolean isActionTaken = false;
 
     @ManyToOne
     @JoinColumn(name = "filterer_user_id")
     private User filtererUser;
 
     @Column(name = "is_patient_contacted")
-    private Boolean isPatientContacted;
+    private Boolean isPatientContacted = false;
 
     @Column(name = "notes")
     private String notes;
@@ -124,7 +124,7 @@ public class SharedThought extends BaseModel {
     private String status;
 
     @Column(name = "is_viewed")
-    private Boolean isViewed;
+    private Boolean isViewed = false;
 
     public SharedThought() {
     }
