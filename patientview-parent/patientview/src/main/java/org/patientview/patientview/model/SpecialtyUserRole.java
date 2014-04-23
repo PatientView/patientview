@@ -23,6 +23,7 @@
 
 package org.patientview.patientview.model;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.patientview.model.BaseModel;
 import org.patientview.model.Specialty;
 
@@ -44,6 +45,7 @@ public class SpecialtyUserRole extends BaseModel {
     @JoinColumn(name = "specialty_id")
     private Specialty specialty;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn
     private User user;
