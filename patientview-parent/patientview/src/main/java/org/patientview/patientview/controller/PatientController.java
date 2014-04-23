@@ -17,10 +17,13 @@ import org.patientview.util.CommonUtils;
 import org.patientview.utils.FormUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -52,8 +55,10 @@ public class PatientController {
 
 
 
-    @RequestMapping(value = Routes.ADD_PATIENT, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public String addPatient(@RequestBody PatientInput patientInput, HttpServletRequest requestBody) throws Exception {
+    @RequestMapping(value = Routes.ADD_PATIENT, consumes = MediaType.APPLICATION_JSON_VALUE,
+            method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.OK)
+    public void addPatient(@RequestBody PatientInput patientInput, HttpServletRequest requestBody) throws Exception {
 
         // Check the input
         if (!isValidNhsNumber(patientInput)) {
@@ -65,13 +70,13 @@ public class PatientController {
             }
             requestBody.setAttribute("patient", patientInput);
 
-            return "/control/patient_add_input.jsp";
+         //   return "/control/patient_add_input.jsp";
         }
 
         if (isPatientAlreadyInUnit(patientInput)) {
             requestBody.setAttribute(LogonUtils.PATIENT_ALREADY_IN_UNIT, patientInput.getNhsNo());
             requestBody.setAttribute("patient", patientInput);
-            return "/control/patient_add_input.jsp";
+           // return "/control/patient_add_input.jsp";
         }
 
         if (isPatientAlreadyInSpecialty(patientInput)) {
@@ -80,14 +85,14 @@ public class PatientController {
             requestBody.setAttribute(LogonUtils.PATIENTS_WITH_SAME_NHSNO,
                     userMappingManager.getAllByNhsNo(patientInput.getNhsNo()));
             requestBody.setAttribute("patient", patientInput);
-            return "/control/patient_add_samenhsno.jsp";
+           // return "/control/patient_add_samenhsno.jsp";
         }
 
         if (!isUsernameAvailable(patientInput)) {
             requestBody.setAttribute(LogonUtils.USER_ALREADY_EXISTS, patientInput.getUsername());
             patientInput.setUsername("");
             requestBody.setAttribute("patient", patientInput);
-            return "/control/patient_add_input.jsp";
+           // return "/control/patient_add_input.jsp";
         }
 
 
@@ -112,7 +117,7 @@ public class PatientController {
         AddLog.addLog(securityUserManager.getLoggedInUsername(), AddLog.PATIENT_ADD,
                 patientInput.getUsername(), patientInput.getNhsNo(), patientInput.getUnitCode(), "");
 
-        return "/control/patient_add_confirm.jsp";
+     //   return "/control/patient_add_confirm.jsp";
 
     }
 

@@ -46,16 +46,13 @@ import org.patientview.patientview.utils.TimestampUtils;
 import org.patientview.quartz.exception.ProcessException;
 import org.patientview.quartz.exception.ResultParserException;
 import org.patientview.quartz.handler.ErrorHandler;
-import org.patientview.repository.PatientDao;
 import org.patientview.repository.UnitDao;
 import org.patientview.repository.UserMappingDao;
 import org.patientview.service.ImportManager;
-import org.patientview.service.LogEntryManager;
 import org.patientview.util.CommonUtils;
 import org.patientview.utils.LegacySpringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -78,33 +75,19 @@ public class ImportManagerImpl implements ImportManager {
     private static final Logger LOGGER = LoggerFactory.getLogger(ImportManagerImpl.class);
 
     @Inject
-    private XmlImportUtils xmlImportUtils;
-
-    @Inject
     private UnitDao unitDao;
-
-    @Inject
-    private PatientDao patientDao;
 
     @Inject
     private UserMappingDao userMappingDao;
 
     @Inject
-    private ApplicationContext applicationContext;
-
-    @Inject
-    private LogEntryManager logEntryManager;
-
-    @Inject
     private ErrorHandler errorHandler;
-
 
     @Override
     public Unit retrieveUnit(String unitCode) {
         unitCode = unitCode.toUpperCase();
         return unitDao.get(unitCode, null);
     }
-
 
 
     public void process(File xmlFile) throws ProcessException {

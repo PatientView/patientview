@@ -81,14 +81,15 @@ patient.add = function(form) {
             type: "POST",
             url: $form.attr('action'),
             data: JSON.stringify(data),
+            dataType: 'json',
+            contentType: "application/json; charset=UTF-8",
             success: function(data) {
                 location.replace("/control/patientAdd.do");
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 onError(textStatus);
-            },
-            dataType: 'json',
-            contentType: "application/json; charset=UTF-8"
+            }
+
         });
     }
 }
