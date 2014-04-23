@@ -176,15 +176,9 @@ public class UserManagerImpl implements UserManager {
             logEntryManager.save(logEntry);
             userMappingDao.updateUsername(user.getUsername(), oldUser.getUsername());
 
-
-           
-
         }
 
         user.setUpdated(new Date());
-
-
-        
         userDao.save(user);
     }
 
