@@ -79,7 +79,7 @@ public class UserManagerImpl implements UserManager {
 
     @Inject
     private UnitDao unitDao;
-    
+
     @Inject
     private LogEntryManager logEntryManager;
 
@@ -192,7 +192,6 @@ public class UserManagerImpl implements UserManager {
         logEntry.setDate(Calendar.getInstance());
 
         return logEntry;
-        
     }
 
     @Override
