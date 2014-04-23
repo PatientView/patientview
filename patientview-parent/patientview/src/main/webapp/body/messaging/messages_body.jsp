@@ -180,7 +180,7 @@
                                         <input type="text" class="search-query" placeholder="Filter" id="search" name="search" size="8" style="display: none"/>
 
                                         <logic:present name='<%=Messaging.IS_UNIT_ADMIN_PARAM%>'>
-                                            <button class="js-filter-button control-group">...</button>
+                                            <button class="js-filter-button control-group">click to filter</button>
                                         </logic:present>
 
                                         <div class="controls">

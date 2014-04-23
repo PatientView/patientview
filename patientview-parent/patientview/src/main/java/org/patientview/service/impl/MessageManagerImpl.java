@@ -595,7 +595,7 @@ public class MessageManagerImpl implements MessageManager {
      */
     private boolean canIncludePatient(User patient) {
         return patient.getName() != null
-                && !patient.getName().toLowerCase().contains("-gp")
+                && !patient.getUsername().toLowerCase().contains("-gp")
                 && !patient.isDummypatient();
     }
 
