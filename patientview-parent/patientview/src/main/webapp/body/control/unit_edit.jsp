@@ -27,8 +27,10 @@
 <html:xhtml/>
 <div class="span9">
 <div class="page-header">
-    <logic:present name="edtaCode"><h1>RaDaR Group Editing</h1></logic:present>
-    <logic:notPresent name="edtaCode"><h1>Unit Editing</h1></logic:notPresent>
+    <h1>
+        <logic:equal value="radargroup" name="unit" property="sourceType">RaDaR Group Editing</logic:equal>
+        <logic:notEqual value="radargroup" name="unit" property="sourceType">Unit Editing</logic:notEqual>
+    </h1>
 </div>
 
 <html:errors />
@@ -54,7 +56,7 @@
       <td><html:text name="unit" property="shortname" maxlength="15"/></td>
     </tr>
 
-    <logic:notPresent name="edtaCode">
+    <logic:notEqual value="radargroup" name="unit" property="sourceType">
         <logic:present role="superadmin">
         <tr>
           <td><b>Unit sFTP User</b></td>
@@ -96,7 +98,7 @@
           <td><html:text name="unit" property="trusturl" /></td>
         </tr>
 
-    </logic:notPresent>
+    </logic:notEqual>
 
     <tr>
       <td><b>Admin Name</b></td>
@@ -113,7 +115,7 @@
       <td><html:text name="unit" property="renaladminemail" /></td>
     </tr>
 
-    <logic:notPresent name="edtaCode">
+    <logic:notEqual value="radargroup" name="unit" property="sourceType">
         <tr>
           <td><b>Unit Enquiries Phone</b></td>
           <td><html:text name="unit" property="unitenquiriesphone" /></td>
@@ -422,7 +424,7 @@
             <td><b>Feedback enabled</b></td>
             <td><html:checkbox name="unit" property="feedbackEnabled" value="true"/></td>
         </tr>
-    </logic:notPresent>
+    </logic:notEqual>
   </table>
   <br/><br/>
   <logic:present name="edtaCode">
