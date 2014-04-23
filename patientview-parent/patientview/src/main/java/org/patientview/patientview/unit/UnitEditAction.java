@@ -54,13 +54,15 @@ public class UnitEditAction extends ActionSupport {
         request.getSession().setAttribute("unit", unit);
 
         // get EdtaCode which will contain the static links for this unit only for radargroup type units
+        request.getSession().removeAttribute(EdtaCode.getIdentifier());
+
         if (unit.getSourceType().equalsIgnoreCase("radargroup")) {
             EdtaCode edtaCode = edtaCodeManager.getEdtaCode(unitcode);
             if (edtaCode == null) {
                 edtaCode = new EdtaCode(unit.getUnitcode());
                 edtaCode.setLinkType("unitLinks");
             }
-            request.setAttribute(EdtaCode.getIdentifier(), edtaCode);
+            request.getSession().setAttribute(EdtaCode.getIdentifier(), edtaCode);
         }
 
         return LogonUtils.logonChecks(mapping, request);
