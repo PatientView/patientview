@@ -47,7 +47,6 @@ public final class FormUtils {
     public static User createGpUser(PatientInput patientInput) {
         User user = new User();
         user.setUsername(patientInput.getUsername() + "-GP");
-        user.setEmail(patientInput.getEmail());
         user.setFirstName(patientInput.getFirstName());
         user.setLastName(patientInput.getLastName());
         user.setPassword(LogonUtils.generateNewPassword());
