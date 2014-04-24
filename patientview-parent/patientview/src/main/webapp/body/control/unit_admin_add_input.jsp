@@ -95,7 +95,7 @@
             </tr>
             <tr>
                 <td><b>Feedback Recipient</b></td>
-                <td><html:checkbox property="feedbackrecipient" value="true"/></td>
+                <td><html:checkbox property="feedbackRecipient" value="true"/></td>
             </tr>
             <tr>
                 <td><b>Clinician</b></td>

@@ -98,7 +98,7 @@
             <div class="control-group">
                 <label class="control-label">Feedback Recipient</label>
                 <div class="controls">
-                    <html:checkbox property="feedbackrecipient" name="unitUser" value="true"/>
+                    <html:checkbox property="feedbackRecipient" name="unitUser" value="true"/>
                 </div>
             </div>
             <div class="control-group">
