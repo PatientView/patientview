@@ -111,15 +111,10 @@ public class FeedbackController extends BaseController {
         User user = userManager.getLoggedInUser();
 
         try {
-            Conversation conversation = messageManager.getConversation(rating.getConversationId());
-            if (user.equals(conversation.getParticipant1()) || user.equals(conversation.getParticipant2())) {
-                conversation.setRating(rating.getRating());
-                messageManager.saveConversation(conversation);
-                return new ResponseEntity<String>(HttpStatus.OK);
-
-            } else {
-                return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
-            }
+            Conversation conversation = messageManager.getConversation(rating.getConversationId(), user);
+            conversation.setRating(rating.getRating());
+            messageManager.saveConversation(conversation);
+            return new ResponseEntity<String>(HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
         }
@@ -136,10 +131,9 @@ public class FeedbackController extends BaseController {
         User user = userManager.getLoggedInUser();
 
         try {
-            Conversation conversation = messageManager.getConversation(Long.parseLong(conversationId));
+            Conversation conversation = messageManager.getConversation(Long.parseLong(conversationId), user);
             ConversationStatus conversationStatus = messageManager.getConversationStatus(Long.parseLong(status));
 
-            if (user.equals(conversation.getParticipant1()) || user.equals(conversation.getParticipant2())) {
                 conversation.setConversationStatus(conversationStatus);
                 if (conversationStatus != null) {
                     conversation.setClinicianClosed(conversationStatus.getClosedStatus());
@@ -148,9 +142,7 @@ public class FeedbackController extends BaseController {
                 }
                 messageManager.saveConversation(conversation);
                 return new ResponseEntity<String>(HttpStatus.OK);
-            } else {
-                return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
-            }
+
         } catch (Exception ex) {
             return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
         }
@@ -165,13 +157,11 @@ public class FeedbackController extends BaseController {
     public byte[] downloadImage(@RequestParam(value = "conversationId", required = true) String conversationId) {
         try {
             User user = userManager.getLoggedInUser();
-            Conversation conversation = messageManager.getConversation(Long.parseLong(conversationId));
+            Conversation conversation = messageManager.getConversation(Long.parseLong(conversationId), user);
             if (conversation != null) {
-                if (user.equals(conversation.getParticipant1()) || user.equals(conversation.getParticipant2())) {
-                    if (conversation.getImageData() != null) {
-                        String imageData = conversation.getImageData().split(",")[1];
-                        return Base64.decodeBase64(imageData.getBytes());
-                    }
+                if (conversation.getImageData() != null) {
+                    String imageData = conversation.getImageData().split(",")[1];
+                    return Base64.decodeBase64(imageData.getBytes());
                 }
             }
         } catch (Exception ex) {

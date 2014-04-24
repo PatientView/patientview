@@ -83,7 +83,7 @@ public class MessageManagerTest extends BaseServiceTest {
 
         assertTrue("Invalid id for message", conversation.getId() > 0);
 
-        Conversation checkConversation = messageManager.getConversation(conversation.getId());
+        Conversation checkConversation = messageManager.getConversation(conversation.getId(), null);
         assertNotNull("Conversation nout found", checkConversation);
     }
 
@@ -96,7 +96,7 @@ public class MessageManagerTest extends BaseServiceTest {
         // now delete and try to pull back
         messageManager.deleteConversation(conversation);
 
-        Conversation checkConversation = messageManager.getConversation(conversation.getId());
+        Conversation checkConversation = messageManager.getConversation(conversation.getId(), null);
 
         assertNull("Conversation was found after being deleted", checkConversation);
     }
@@ -110,7 +110,7 @@ public class MessageManagerTest extends BaseServiceTest {
         // now delete and try to pull back
         messageManager.deleteConversation(conversation.getId());
 
-        Conversation checkConversation = messageManager.getConversation(conversation.getId());
+        Conversation checkConversation = messageManager.getConversation(conversation.getId(), null);
 
         assertNull("Conversation was found after being deleted", checkConversation);
     }

@@ -35,7 +35,7 @@ import java.util.List;
 
 public interface MessageManager {
 
-    Conversation getConversation(Long conversationId);
+    Conversation getConversation(Long conversationId, User user);
 
     /**
      * This will get the conversation but applied to the current user
