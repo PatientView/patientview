@@ -24,11 +24,9 @@
 package org.patientview.patientview.controller;
 
 import org.apache.commons.codec.binary.Base64;
-import org.patientview.model.Unit;
 import org.patientview.patientview.model.Conversation;
 import org.patientview.patientview.model.ConversationStatus;
 import org.patientview.patientview.model.FeedbackData;
-import org.patientview.patientview.model.MessageRecipient;
 import org.patientview.patientview.model.Rating;
 import org.patientview.patientview.model.User;
 import org.patientview.service.MessageManager;
@@ -64,20 +62,14 @@ public class FeedbackController extends BaseController {
     @RequestMapping(value = Routes.GET_FEEDBACK_RECIPIENTS, method = RequestMethod.GET)
     @ResponseBody
     public HashMap<Long, String> getFeedbackRecipients() {
-        List<MessageRecipient> recipients = messageManager.getFeedbackRecipients(userManager.getLoggedInUser());
+        List<User> recipients = messageManager.getFeedbackRecipients(userManager.getLoggedInUser());
 
         if (!recipients.isEmpty()) {
-            HashMap<Long, String> recipientsSimple = new HashMap<Long, String>();
-
-            for (MessageRecipient recipient : recipients) {
-                User staff = recipient.getUser();
-                Unit staffUnit = recipient.getUnit();
-                recipientsSimple.put(staff.getId(), staff.getName() + " ("
-                        + (staff.getRole().equals("unitadmin") ? "Admin" : "Staff") + ", "
-                        + staffUnit.getShortname() + ")");
+            HashMap<Long, String> recipientsData = new HashMap<Long, String>();
+            for (User recipient : recipients) {
+                recipientsData.put(recipient.getId(), recipient.getName());
             }
-
-            return recipientsSimple;
+            return recipientsData;
         } else { return null; }
     }
 

@@ -93,6 +93,7 @@ public class UnitUserEditAction extends ActionSupport {
             user.setEmailverified("true".equals(BeanUtils.getProperty(form, "emailverified")));
             user.setFirstlogon("true".equals(BeanUtils.getProperty(form, "firstlogon")));
             user.setIsrecipient("true".equals(BeanUtils.getProperty(form, "isrecipient")));
+            user.setFeedbackRecipient("true".equals(BeanUtils.getProperty(form, "feedbackRecipient")));
             user.setIsclinician("true".equals(BeanUtils.getProperty(form, "isclinician")));
 
             String role = BeanUtils.getProperty(form, "role");

@@ -574,13 +574,12 @@ public class MessageManagerImpl implements MessageManager {
                 }
             }
         }
-
         return recipients;
     }
 
     /**
      * exclude patients that have no got an email set
-     * exlude patients with '-gp' or 'dummy' in the name
+     * exclude patients with '-gp' or 'dummy' in the name
      */
     private boolean canIncludePatient(User patient) {
         return patient.getName() != null
@@ -693,31 +692,7 @@ public class MessageManagerImpl implements MessageManager {
     }
 
     @Override
-    public List<MessageRecipient> getFeedbackRecipients(User requestingUser) {
-        List<MessageRecipient> unitStaffRecipients = new ArrayList<MessageRecipient>();
-        List<MessageRecipient> unitAdminRecipients = new ArrayList<MessageRecipient>();
-        List<Unit> units = unitManager.getUsersUnits(requestingUser);
-
-        if (units != null) {
-            for (Unit unit : units) {
-                if (unit.isFeedbackEnabled()) {
-                    // unit staff
-                    List<User> staffUsers = getUnitStaffRecipients("unitstaff", unit, requestingUser, true);
-                    Collections.sort(staffUsers, new UserComparator());
-                    for (User user : staffUsers) {
-                        unitStaffRecipients.add(new MessageRecipient(user, unit));
-                    }
-                    //unit admins
-                    List<User> adminUsers = getUnitStaffRecipients("unitadmin", unit, requestingUser, true);
-                    Collections.sort(adminUsers, new UserComparator());
-                    for (User user : adminUsers) {
-                        unitAdminRecipients.add(new MessageRecipient(user, unit));
-                    }
-                }
-            }
-        }
-
-        unitAdminRecipients.addAll(unitStaffRecipients);
-        return unitAdminRecipients;
+    public List<User> getFeedbackRecipients(User requestingUser) {
+        return messageDao.getFeedbackRecipients(requestingUser);
     }
 }

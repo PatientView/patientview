@@ -120,5 +120,5 @@ public interface MessageManager {
      * @param user
      * @return
      */
-    List<MessageRecipient> getFeedbackRecipients(User user);
+    List<User> getFeedbackRecipients(User user);
 }
