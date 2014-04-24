@@ -174,6 +174,32 @@
             <form-property name="filename" type="java.lang.String"/>
             <form-property name="visible" type="java.lang.Boolean"/>
             <form-property name="feedbackEnabled" type="java.lang.Boolean"/>
+
+            <!-- used by radar add form -->
+            <form-property name="medicalLink01" type="java.lang.String"/>
+            <form-property name="medicalLink02" type="java.lang.String"/>
+            <form-property name="medicalLink03" type="java.lang.String"/>
+            <form-property name="medicalLink04" type="java.lang.String"/>
+            <form-property name="medicalLink05" type="java.lang.String"/>
+            <form-property name="medicalLink06" type="java.lang.String"/>
+            <form-property name="medicalLinkText01" type="java.lang.String"/>
+            <form-property name="medicalLinkText02" type="java.lang.String"/>
+            <form-property name="medicalLinkText03" type="java.lang.String"/>
+            <form-property name="medicalLinkText04" type="java.lang.String"/>
+            <form-property name="medicalLinkText05" type="java.lang.String"/>
+            <form-property name="medicalLinkText06" type="java.lang.String"/>
+            <form-property name="patientLink01" type="java.lang.String"/>
+            <form-property name="patientLink02" type="java.lang.String"/>
+            <form-property name="patientLink03" type="java.lang.String"/>
+            <form-property name="patientLink04" type="java.lang.String"/>
+            <form-property name="patientLink05" type="java.lang.String"/>
+            <form-property name="patientLink06" type="java.lang.String"/>
+            <form-property name="patientLinkText01" type="java.lang.String"/>
+            <form-property name="patientLinkText02" type="java.lang.String"/>
+            <form-property name="patientLinkText03" type="java.lang.String"/>
+            <form-property name="patientLinkText04" type="java.lang.String"/>
+            <form-property name="patientLinkText05" type="java.lang.String"/>
+            <form-property name="patientLinkText06" type="java.lang.String"/>
         </form-bean>
         <form-bean name="gpgForm" type="org.apache.struts.validator.DynaValidatorActionForm">
             <form-property name="src" type="java.lang.String"/>
@@ -993,7 +1019,6 @@
             <forward name="success" path="/control/radar_group_add_input.jsp"/>
         </action>
 
-
         <action path="/control/unitAdd"
                 type="org.patientview.patientview.unit.UnitAddAction"
                 name="unitForm"
@@ -1013,12 +1038,10 @@
             <forward name="success" path="/control/unit_list.jsp"/>
         </action>
 
-
         <action path="/control/unitDisplay"
                 type="org.patientview.patientview.unit.UnitsDisplayAction">
             <forward name="success" path="/control/unit_list.jsp"/>
         </action>
-
 
         <action path="/control/radarGroupDisplay"
                 type="org.patientview.patientview.logon.RadarGroupUsersAction">
@@ -1039,24 +1062,6 @@
                 input="input"
                 scope="request">
             <forward name="input" path="/control/unit_edit.jsp"/>
-            <forward name="success" path="/control/unit_list.jsp"/>
-        </action>
-
-        <action path="/control/radarGroupEdit"
-                type="org.patientview.patientview.unit.UnitEditAction"
-                name="unitForm"
-                scope="request"
-                validate="false">
-            <forward name="success" path="/control/radar_group_edit.jsp"/>
-        </action>
-
-        <action path="/control/radarGroupUpdate"
-                type="org.patientview.patientview.unit.UnitUpdateAction"
-                name="unitForm"
-                input="input"
-                parameter="radargroup"
-                scope="request">
-            <forward name="input" path="/control/radar_group_edit.jsp"/>
             <forward name="success" path="/control/unit_list.jsp"/>
         </action>
 
@@ -1375,43 +1380,6 @@
                 scope="request"
                 validate="false">
             <forward name="success" path="/control/xml_file_select.jsp"/>
-        </action>
-
-        <action path="/control/groupDisplay"
-                type="org.patientview.patientview.group.GroupsDisplayAction">
-            <forward name="success" path="/control/group_list.jsp"/>
-        </action>
-
-        <action path="/control/groupAddInput"
-                type="org.patientview.patientview.IndexAction"
-                name="unitForm"
-                scope="request">
-            <forward name="success" path="/control/group_add_input.jsp"/>
-        </action>
-
-        <action path="/control/groupAdd"
-                type="org.patientview.patientview.group.GroupAddAction"
-                name="unitForm"
-                input="input"
-                scope="request">
-            <forward name="input" path="/control/group_add_input.jsp"/>
-            <forward name="success" path="/control/group_add_input.jsp"/>
-        </action>
-
-        <action path="/control/groupEdit"
-                type="org.patientview.patientview.group.GroupEditAction"
-                name="unitForm"
-                scope="request">
-            <forward name="success" path="/control/group_edit.jsp"/>
-        </action>
-
-        <action path="/control/groupUpdate"
-                type="org.patientview.patientview.group.GroupUpdateAction"
-                name="unitForm"
-                input="input"
-                scope="request">
-            <forward name="input" path="/control/group_edit.jsp"/>
-            <forward name="success" path="/control/group_edit.jsp"/>
         </action>
 
         <action path="/contactMyUnit"

@@ -126,10 +126,12 @@
                                                     <span class="pull-right label-conversationStatus-closed label">Closed</span>
                                                 </logic:equal>
                                             </logic:equal>
-                                            <span class="action-test dull">Click to open conversation</span>
+                                            <span class="action-test dull">Click to open</span>
                                         </h2>
-
-                                        <h4 class="user"><bean:write name="conversation" property="subject" /></h4>
+                                        <h4>
+                                            <logic:equal value="<%=Messaging.FEEDBACK%>" name="conversation" property="type">Feedback: </logic:equal>
+                                            <bean:write name="conversation" property="subject" />
+                                        </h4>
                                         <div class="content dull">
                                             <bean:write name="conversation" property="latestMessageSummary" />
                                         </div>
