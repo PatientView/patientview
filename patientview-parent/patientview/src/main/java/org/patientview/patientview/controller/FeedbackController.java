@@ -93,7 +93,7 @@ public class FeedbackController extends BaseController {
 
         try {
             messageManager.createMessage(request.getSession().getServletContext()
-                    , "Feedback: " + feedbackData.getSubject(), feedbackData.getMessage()
+                    , feedbackData.getSubject(), feedbackData.getMessage()
                     , user, staff, feedbackData.getImageData(), true);
             return new ResponseEntity<String>(HttpStatus.OK);
         } catch (Exception ex) {
