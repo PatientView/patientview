@@ -425,7 +425,7 @@ public class MessageManagerImpl implements MessageManager {
         List<User> unitAdminRecipients = new ArrayList<User>();
 
         if (unit != null) {
-            unitAdminRecipients = getUnitAdminOrStaffRecipients("unitadmin", unit, requestingUser);
+            unitAdminRecipients = getUnitStaffRecipients("unitadmin", unit, requestingUser, true);
         }
 
         // sort by name
@@ -460,7 +460,7 @@ public class MessageManagerImpl implements MessageManager {
         List<User> unitStaffRecipients = new ArrayList<User>();
 
         if (unit != null) {
-            unitStaffRecipients = getUnitAdminOrStaffRecipients("unitstaff", unit, requestingUser);
+            unitStaffRecipients = getUnitStaffRecipients("unitstaff", unit, requestingUser, true);
         }
 
         // sort by name
@@ -547,30 +547,8 @@ public class MessageManagerImpl implements MessageManager {
         return loggedInUsersUnits;
     }
 
-    private List<User> getUnitAdminOrStaffRecipients(String adminOrStaff, Unit unit, User requestingUser) {
-        List<User> unitAdminRecipients = new ArrayList<User>();
-
-        if (unit != null) {
-            if (!unit.getUnitcode().equalsIgnoreCase("patient")) {
-                List<UnitAdmin> unitAdmins = unitManager.getUnitUsers(unit.getUnitcode());
-
-                for (UnitAdmin unitAdmin : unitAdmins) {
-                    User unitUser = userManager.get(unitAdmin.getUsername());
-
-                    if (!unitUser.equals(requestingUser)) {
-                        if (unitAdmin.getRole().equals(adminOrStaff) && unitUser.isIsrecipient()) {
-                            unitAdminRecipients.add(unitUser);
-                        }
-                    }
-                }
-            }
-        }
-
-        return unitAdminRecipients;
-    }
-
-    private List<User> getUnitRecipientsIgnoreRecipientStatus(String role, Unit unit, User requestingUser) {
-        List<User> unitAdminRecipients = new ArrayList<User>();
+    private List<User> getUnitStaffRecipients(String role, Unit unit, User requestingUser, Boolean checkIsRecipient) {
+        List<User> recipients = new ArrayList<User>();
 
         if (unit != null) {
             if (!unit.getUnitcode().equalsIgnoreCase("patient")) {
@@ -578,15 +556,15 @@ public class MessageManagerImpl implements MessageManager {
                 for (UnitAdmin unitAdmin : unitAdmins) {
                     User unitUser = userManager.get(unitAdmin.getUsername());
                     if (!unitUser.equals(requestingUser)) {
-                        if (unitAdmin.getRole().equals(role)) {
-                            unitAdminRecipients.add(unitUser);
+                        if (unitAdmin.getRole().equals(role) && (checkIsRecipient ? unitUser.isIsrecipient() : true)) {
+                            recipients.add(unitUser);
                         }
                     }
                 }
             }
         }
 
-        return unitAdminRecipients;
+        return recipients;
     }
 
     /**
@@ -665,7 +643,7 @@ public class MessageManagerImpl implements MessageManager {
             if (latestMessage != null) {
                 conversation.setLatestMessageSummary(latestMessage.getSummary());
                 conversation.setLatestMessageDate(latestMessage.getDate());
-                // also wnat to make a friendly time like 2 secs ago - doing this in here in case it gets complicated
+                // also want to make a friendly time like 2 secs ago - doing this in here in case it gets complicated
                 conversation.setFriendlyLatestMessageDate(getFriendlyDateTime(latestMessage.getDate()));
             }
 
@@ -713,13 +691,13 @@ public class MessageManagerImpl implements MessageManager {
             for (Unit unit : units) {
                 if (unit.isFeedbackEnabled()) {
                     // unit staff
-                    List<User> staffUsers = getUnitRecipientsIgnoreRecipientStatus("unitstaff", unit, requestingUser);
+                    List<User> staffUsers = getUnitStaffRecipients("unitstaff", unit, requestingUser, true);
                     Collections.sort(staffUsers, new UserComparator());
                     for (User user : staffUsers) {
                         unitStaffRecipients.add(new MessageRecipient(user, unit));
                     }
                     //unit admins
-                    List<User> adminUsers = getUnitRecipientsIgnoreRecipientStatus("unitadmin", unit, requestingUser);
+                    List<User> adminUsers = getUnitStaffRecipients("unitadmin", unit, requestingUser, true);
                     Collections.sort(adminUsers, new UserComparator());
                     for (User user : adminUsers) {
                         unitAdminRecipients.add(new MessageRecipient(user, unit));
