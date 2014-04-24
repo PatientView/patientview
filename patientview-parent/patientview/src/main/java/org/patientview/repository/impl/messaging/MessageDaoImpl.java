@@ -25,6 +25,7 @@ package org.patientview.repository.impl.messaging;
 
 import org.patientview.patientview.model.Message;
 import org.patientview.patientview.model.Message_;
+import org.patientview.patientview.model.User;
 import org.patientview.repository.AbstractHibernateDAO;
 import org.patientview.repository.messaging.MessageDao;
 import org.springframework.stereotype.Repository;
@@ -38,12 +39,38 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 @Transactional(propagation = Propagation.MANDATORY)
 @Repository(value = "messageDao")
 public class MessageDaoImpl extends AbstractHibernateDAO<Message> implements MessageDao {
+
+    @Override
+    public List<User> getFeedbackRecipients(User user) {
+        StringBuilder queryText = new StringBuilder();
+        queryText.append("SELECT    usr ");
+        queryText.append("FROM      User AS usr ");
+        queryText.append(",         UserMapping AS ump ");
+        queryText.append(",         Unit AS uni ");
+        queryText.append("WHERE     usr.feedbackRecipient = true ");
+        queryText.append("AND       ump.username = usr.username ");
+        queryText.append("AND       ump.unitcode = uni.unitcode ");
+        queryText.append("AND       uni.feedbackEnabled = true ");
+        queryText.append("AND       ump.unitcode IN ");
+        queryText.append("          (select unitcode from UserMapping where username = :currentUserName) ");
+        queryText.append("GROUP BY  usr.id");
+
+        TypedQuery<User> query = getEntityManager().createQuery(queryText.toString(), User.class);
+        query.setParameter("currentUserName", user.getUsername());
+
+        try {
+            return query.getResultList();
+        } catch (Exception e) {
+            return Collections.emptyList();
+        }
+    }
 
     @Override
     public Message get(Long id) {

@@ -94,6 +94,10 @@
                 <td><html:checkbox property="isrecipient" value="true"/></td>
             </tr>
             <tr>
+                <td><b>Feedback Recipient</b></td>
+                <td><html:checkbox property="feedbackRecipient" value="true"/></td>
+            </tr>
+            <tr>
                 <td><b>Clinician</b></td>
                 <td><html:checkbox property="isclinician" value="true"/></td>
             </tr>
