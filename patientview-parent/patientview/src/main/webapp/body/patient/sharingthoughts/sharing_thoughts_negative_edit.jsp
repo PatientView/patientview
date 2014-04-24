@@ -5,15 +5,13 @@
 
 <html:xhtml/>
 
-<p align="right"><html:link action="/patient/sharingThoughts"><html:submit value="Home" styleClass="btn formbutton" /></html:link></p>
-
 <div class="page-header">
-    <h1>Quality or safety concern</h1><br />
+    <h1>Quality or safety concern</h1>
+    <p align="right"><html:link action="/patient/sharingThoughts"><html:submit value="Home" styleClass="btn formbutton" /></html:link></p>
+    <br />
 </div>
-
+<html:form action="/patient/sharingThoughtSave">
 <table border="0" cellspacing="1" cellpadding="3" class="table table-bordered table-striped">
-
-    <html:form action="/patient/sharingThoughtSave">
 
         <html:hidden name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.ID%>" />
         <html:hidden property="<%=SharingThoughts.POSITIVE_NEGATIVE%>" value="-1" />
@@ -59,8 +57,15 @@
         <bean:define id="startDate" name="<%=SharingThoughts.THOUGHT_PARAM%>" property="startDateFormattedDate" />
         <tr >
             <td>Start date (dd-mm-yyyy)</td>
-            <td><input type="text" name="<%=SharingThoughts.START_DATE%>" value="<bean:write name='<%=SharingThoughts.THOUGHT_PARAM%>' property='<%=SharingThoughts.START_DATE_FORMATTED_DATE%>' />" size="50"  /></td>
+            <td><div class="date datePicker controls" data-date="<bean:write name='<%=SharingThoughts.THOUGHT_PARAM%>' property='<%=SharingThoughts.START_DATE_FORMATTED_DATE%>'/>">
+                <input name="<%=SharingThoughts.START_DATE%>" readonly="readonly" style="background:white;" class="span2" size="16" type="text"
+                       value="<bean:write name='<%=SharingThoughts.THOUGHT_PARAM%>' property='<%=SharingThoughts.START_DATE_FORMATTED_DATE%>'/>">
+                <span class="add-on"><i class="icon-th"></i></span>
+                <span class="help-inline">(click on date at top to change month & year)</span>
+            </div></td>
         </tr>
+
+
 
         <bean:define id="endDate" name="<%=SharingThoughts.THOUGHT_PARAM%>" property="endDateFormattedDate" />
         <tr >
@@ -117,21 +122,8 @@
             5: <html:radio property="<%=SharingThoughts.HOW_SERIOUS%>"  name="<%=SharingThoughts.THOUGHT_PARAM%>" value="5" />&nbsp;&nbsp;More serious
         </td>
         </tr>
-        <tr >
-            <td width="300">&nbsp;</td>
-            <td>
-                <input type="submit" value="Save Draft" label="Save Draft" name="Save Draft"/> &nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="submit" value="<%=SharingThoughts.SUBMIT%>" name="<%=SharingThoughts.SUBMIT%>"/>
-            </td>
-        </tr>
-
-    </html:form>
-
-    <tr >
-        <td width="300">&nbsp;</td>
-        <td>
-            <html:form action="/patient/sharingThoughtsNegative"><input type="submit" value="Clear Form"/></html:form>
-        </td>
-    </tr>
-
 </table>
+
+<input type="submit" value="<%=SharingThoughts.SUBMIT%>" name="<%=SharingThoughts.SUBMIT%>" class="btn btn-primary"/> &nbsp;&nbsp;
+<input type="submit" value="Save Draft" label="Save Draft" name="Save Draft" class="btn"/> &nbsp;&nbsp;
+</html:form>

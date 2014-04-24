@@ -91,10 +91,10 @@ public class SharedThought extends BaseModel {
     private String concernReason;
 
     @Column(name = "likelihood_recurrence")
-    private int likelihoodOfRecurrence;
+    private Integer likelihoodOfRecurrence;
 
     @Column(name = "how_serious")
-    private int howSerious;
+    private Integer howSerious;
 
     @Column(name = "is_submitted")
     private boolean isSubmitted = false;
@@ -265,19 +265,19 @@ public class SharedThought extends BaseModel {
         this.concernReason = concernReason;
     }
 
-    public int getLikelihoodOfRecurrence() {
+    public Integer getLikelihoodOfRecurrence() {
         return likelihoodOfRecurrence;
     }
 
-    public void setLikelihoodOfRecurrence(int likelihoodOfRecurrence) {
+    public void setLikelihoodOfRecurrence(Integer likelihoodOfRecurrence) {
         this.likelihoodOfRecurrence = likelihoodOfRecurrence;
     }
 
-    public int getHowSerious() {
+    public Integer getHowSerious() {
         return howSerious;
     }
 
-    public void setHowSerious(int howSerious) {
+    public void setHowSerious(Integer howSerious) {
         this.howSerious = howSerious;
     }
 

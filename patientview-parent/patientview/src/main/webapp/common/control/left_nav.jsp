@@ -92,10 +92,6 @@
                     <li class="divider"></li>
                 </logic:present>
                 <logic:present specialty="renal">
-                    <li><html:link action="/control/sharingThoughts">Sharing Thoughts</html:link></li>
-                    <li class="divider"></li>
-                </logic:present>
-                <logic:present specialty="renal">
                     <li><html:link action="/control/newsView">News</html:link></li>
                     <li><html:link action="/control/newsList">News Edit</html:link></li>
                     <logic:present role="superadmin,unitadmin">
@@ -103,6 +99,12 @@
                         <li><html:link action="/control/splashPageList">Splash Pages</html:link></li>
                     </logic:present>
                 </logic:present>
+            </logic:present>
+
+
+            <logic:present specialty="renal">
+                <li class="divider"></li>
+                <li><html:link action="/control/sharingThoughts">Sharing Thoughts</html:link></li>
             </logic:present>
 
             <logic:present feature="messaging">

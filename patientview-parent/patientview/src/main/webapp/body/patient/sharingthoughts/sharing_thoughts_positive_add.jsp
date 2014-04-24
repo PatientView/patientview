@@ -51,7 +51,7 @@
     <tr >
       <td width="300">Would you prefer to remain anonymous?</td><td>
          Yes: <html:radio property="<%=SharingThoughts.IS_ANONYMOUS%>" value="true" name="sharingThoughtsForm"/>&nbsp;&nbsp;&nbsp;&nbsp;
-          No: <html:radio property="<%=SharingThoughts.IS_ANONYMOUS%>" value="false" name="sharingThoughtsForm"/>&nbsp;&nbsp;&nbsp;&nbsp;
+          No: <html:radio property="<%=SharingThoughts.IS_ANONYMOUS%>" value="false" name="sharingThoughtsForm" />&nbsp;&nbsp;&nbsp;&nbsp;
       </td>
     </tr>
 

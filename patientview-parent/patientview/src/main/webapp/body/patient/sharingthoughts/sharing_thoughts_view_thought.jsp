@@ -5,8 +5,6 @@
 
 <html:xhtml/>
 
-<p align="right"><html:link action="/patient/sharingThoughts"><< Return to Sharing Thoughts start page</html:link></p>
-
 <div class="page-header">
   <logic:equal value="1" property="<%=SharingThoughts.POSITIVE_NEGATIVE%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" >
      <h1>Positive comment</h1><br />
@@ -14,7 +12,6 @@
   <logic:notEqual value="1" property="<%=SharingThoughts.POSITIVE_NEGATIVE%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" >
      <h1>Quality or safety concern</h1><br />
   </logic:notEqual>
-
 </div>
 
 <table border="0" cellspacing="1" cellpadding="3" class="table table-bordered table-striped">
@@ -194,3 +191,4 @@
     </tr>
     --%>
 </table>
+
