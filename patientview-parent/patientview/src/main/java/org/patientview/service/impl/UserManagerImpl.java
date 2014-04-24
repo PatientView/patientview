@@ -164,17 +164,22 @@ public class UserManagerImpl implements UserManager {
 
         // If the username has changed we need to update the UserMapping as well
         // Foreign key so a native call is required.
-        User oldUser = userDao.get(user.getId());
-        if (!oldUser.getUsername().equalsIgnoreCase(user.getUsername())) {
+        if (user.hasValidId()) {
 
-            if (userDao.get(user.getUsername()) != null) {
-                throw new UsernameExistsException("Username already allocated");
+            User oldUser = userDao.get(user.getId());
+
+            if (!oldUser.getUsername().equalsIgnoreCase(user.getUsername())) {
+
+                if (userDao.get(user.getUsername()) != null) {
+                    throw new UsernameExistsException("Username already allocated");
+                }
+
+                LogEntry logEntry = createLogEntry(oldUser);
+                logEntry.setExtrainfo("Changing " + oldUser.getUsername() + " to " + user.getUsername());
+                logEntryManager.save(logEntry);
+                userMappingDao.updateUsername(user.getUsername(), oldUser.getUsername());
+
             }
-
-            LogEntry logEntry = createLogEntry(oldUser);
-            logEntry.setExtrainfo("Changing " + oldUser.getUsername() + " to " + user.getUsername());
-            logEntryManager.save(logEntry);
-            userMappingDao.updateUsername(user.getUsername(), oldUser.getUsername());
 
         }
 
