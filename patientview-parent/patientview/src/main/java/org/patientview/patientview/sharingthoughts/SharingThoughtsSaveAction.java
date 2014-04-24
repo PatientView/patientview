@@ -82,13 +82,15 @@ public class SharingThoughtsSaveAction extends BaseAction {
 
         // dates, null if blank or error converting
         Date startDate = null;
-        try { startDate = convertFormDateString(SharingThoughts.START_DATE, dynaForm); }
-        catch (Exception ignored) { ignored = null; }
+        try {
+            startDate = convertFormDateString(SharingThoughts.START_DATE, dynaForm);
+        } catch (Exception ignored) { ignored = null; }
         thought.setStartDate(startDate);
 
         Date endDate = null;
-        try { endDate = convertFormDateString(SharingThoughts.END_DATE, dynaForm); }
-        catch (Exception ignored) { ignored = null; }
+        try {
+            endDate = convertFormDateString(SharingThoughts.END_DATE, dynaForm);
+        } catch (Exception ignored) { ignored = null; }
         thought.setEndDate(endDate);
 
         // text fields
@@ -120,17 +122,11 @@ public class SharingThoughtsSaveAction extends BaseAction {
     }
 
     private boolean validatePositiveThought(DynaActionForm form) {
-        boolean isValid = true;
-
-        isValid = validatePositiveOrNegativeThought(form);
-
-        return isValid;
+        return validatePositiveOrNegativeThought(form);
     }
 
     private boolean validateNegativeThought(DynaActionForm form) {
-        boolean isValid = true;
-
-        isValid = validatePositiveOrNegativeThought(form);
+        boolean isValid = validatePositiveOrNegativeThought(form);
 
         if ((null == form.get(SharingThoughts.CONCERN_REASON)) || "".equals(form.get(SharingThoughts.CONCERN_REASON)
         )) {

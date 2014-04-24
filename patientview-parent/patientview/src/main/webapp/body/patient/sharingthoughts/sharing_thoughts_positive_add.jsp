@@ -5,15 +5,13 @@
 
 <html:xhtml/>
 
-<p align="right"><html:link action="/patient/sharingThoughts"><html:submit value="Home" styleClass="btn formbutton" /></html:link></p>
-
 <div class="page-header">
-    <h1>Positive comment</h1><br />
+    <h1>Positive Comment</h1>
+    <p align="right"><html:link action="/patient/sharingThoughts"><html:submit value="Home" styleClass="btn formbutton" /></html:link></p>
 </div>
 
-<table border="0" cellspacing="1" cellpadding="3" class="table table-bordered table-striped">
-
-  <html:form action="/patient/sharingThoughtSave">
+<html:form action="/patient/sharingThoughtSave">
+    <table border="0" cellspacing="1" cellpadding="3" class="table table-bordered table-striped">
 
     <html:hidden property="<%=SharingThoughts.POSITIVE_NEGATIVE%>" value="1" />
 
@@ -56,13 +54,20 @@
     </tr>
 
     <tr >
-      <td>Start date (dd/mm/yyyy)</td>
-      <td><html:text name="sharingThoughtsForm" property="<%=SharingThoughts.START_DATE%>" size="50"/></td>
+      <td>Start date (dd-mm-yyyy)</td>
+      <td><div class="date datePicker controls">
+          <input name="<%=SharingThoughts.START_DATE%>" readonly="readonly" style="background:white;" class="datepicker" size="16" type="text"/>
+          <span class="add-on"><i class="icon-th"></i></span>
+          <span class="help-inline">(click on date at top to change month & year)</span>
+      </div></td>
     </tr>
-
     <tr >
-      <td>End date (dd/mm/yyyy)</td>
-      <td><html:text name="sharingThoughtsForm" property="<%=SharingThoughts.END_DATE%>" size="50"/></td>
+      <td>End date (dd-mm-yyyy)</td>
+      <td><div class="date datePicker controls">
+          <input name="<%=SharingThoughts.END_DATE%>" readonly="readonly" style="background:white;" class="datepicker" size="16" type="text"/>
+          <span class="add-on"><i class="icon-th"></i></span>
+          <span class="help-inline">(click on date at top to change month & year)</span>
+      </div></td>
     </tr>
 
     <tr >
@@ -90,21 +95,7 @@
       <td><html:textarea property="<%=SharingThoughts.SUGGESTED_ACTION%>" name="sharingThoughtsForm" rows="10" cols="50" /></td>
     </tr>
 
-    <tr >
-      <td width="300">&nbsp;</td>
-      <td>
-        <input type="submit" value="Save Draft" label="Save Draft" name="Save Draft"/> &nbsp;&nbsp;&nbsp;&nbsp;
-        <input type="submit" value="<%=SharingThoughts.SUBMIT%>" name="<%=SharingThoughts.SUBMIT%>"/>
-      </td>
-    </tr>
-
-  </html:form>
-
-    <tr >
-      <td width="300">&nbsp;</td>
-      <td>
-        <html:form action="/patient/sharingThoughtsPositive"><input type="submit" value="Clear Form"/></html:form>
-      </td>
-    </tr>
-
-</table>
+    </table>
+    <input type="submit" value="Save Draft" label="Save Draft" name="Save Draft" class="btn"/> &nbsp;&nbsp;
+    <input type="submit" value="<%=SharingThoughts.SUBMIT%>" name="<%=SharingThoughts.SUBMIT%>" class="btn btn-primary"/>
+</html:form>
