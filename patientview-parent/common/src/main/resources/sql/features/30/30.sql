@@ -14,3 +14,5 @@ CREATE TABLE `conversation_status` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 INSERT INTO conversation_status (id, status, closedStatus) VALUES (1, 'Open - Ongoing', 0), (2, 'Closed - Amended', 1), (3, 'Closed - Explained Records', 1), (4, 'Closed - Will Discuss in Clinic', 1);
+
+ALTER TABLE user ADD COLUMN `isfeedbackrecipient` tinyint(1) NOT NULL DEFAULT '0';

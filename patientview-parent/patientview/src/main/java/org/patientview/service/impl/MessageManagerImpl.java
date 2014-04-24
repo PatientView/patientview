@@ -563,13 +563,31 @@ public class MessageManagerImpl implements MessageManager {
                 }
             }
         }
+        return recipients;
+    }
 
+    private List<User> getUnitStaffFeedbackRecipients(String role, Unit unit, User requestingUser) {
+        List<User> recipients = new ArrayList<User>();
+
+        if (unit != null) {
+            if (!unit.getUnitcode().equalsIgnoreCase("patient")) {
+                List<UnitAdmin> unitAdmins = unitManager.getUnitUsers(unit.getUnitcode());
+                for (UnitAdmin unitAdmin : unitAdmins) {
+                    User unitUser = userManager.get(unitAdmin.getUsername());
+                    if (!unitUser.equals(requestingUser)) {
+                        if (unitAdmin.getRole().equals(role) && unitUser.isIsfeedbackrecipient()) {
+                            recipients.add(unitUser);
+                        }
+                    }
+                }
+            }
+        }
         return recipients;
     }
 
     /**
      * exclude patients that have no got an email set
-     * exlude patients with '-gp' or 'dummy' in the name
+     * exclude patients with '-gp' or 'dummy' in the name
      */
     private boolean canIncludePatient(User patient) {
         return patient.getName() != null
@@ -691,13 +709,13 @@ public class MessageManagerImpl implements MessageManager {
             for (Unit unit : units) {
                 if (unit.isFeedbackEnabled()) {
                     // unit staff
-                    List<User> staffUsers = getUnitStaffRecipients("unitstaff", unit, requestingUser, true);
+                    List<User> staffUsers = getUnitStaffFeedbackRecipients("unitstaff", unit, requestingUser);
                     Collections.sort(staffUsers, new UserComparator());
                     for (User user : staffUsers) {
                         unitStaffRecipients.add(new MessageRecipient(user, unit));
                     }
                     //unit admins
-                    List<User> adminUsers = getUnitStaffRecipients("unitadmin", unit, requestingUser, true);
+                    List<User> adminUsers = getUnitStaffFeedbackRecipients("unitadmin", unit, requestingUser);
                     Collections.sort(adminUsers, new UserComparator());
                     for (User user : adminUsers) {
                         unitAdminRecipients.add(new MessageRecipient(user, unit));

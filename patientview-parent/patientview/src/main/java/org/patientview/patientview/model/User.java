@@ -80,11 +80,14 @@ public class User extends BaseModel {
     @Column(nullable = false)
     private boolean accounthidden = false;
 
-    @Column(nullable = true)
-    private boolean isrecipient;
+    @Column(nullable = false)
+    private boolean isrecipient = false;
 
-    @Column(nullable = true)
-    private boolean isclinician;
+    @Column(nullable = false)
+    private boolean isfeedbackrecipient = false;
+
+    @Column(nullable = false)
+    private boolean isclinician = false;
 
     @Column(nullable = true)
     private Date created;
@@ -221,6 +224,14 @@ public class User extends BaseModel {
 
     public void setIsrecipient(boolean isrecipient) {
         this.isrecipient = isrecipient;
+    }
+
+    public boolean isIsfeedbackrecipient() {
+        return isfeedbackrecipient;
+    }
+
+    public void setIsfeedbackrecipient(boolean isfeedbackrecipient) {
+        this.isfeedbackrecipient = isfeedbackrecipient;
     }
 
     public boolean isIsclinician() {
