@@ -51,7 +51,7 @@ public abstract class Logon {
     private boolean accountlocked;
     private boolean accounthidden;
     private boolean isrecipient;
-    private boolean isfeedbackrecipient;
+    private boolean feedbackrecipient;
     private boolean isclinician;
     private Date lastverificationdate;
     private int rrtModality;
@@ -219,12 +219,12 @@ public abstract class Logon {
         this.isrecipient = isrecipient;
     }
 
-    public boolean isIsfeedbackrecipient() {
-        return isfeedbackrecipient;
+    public boolean isFeedbackrecipient() {
+        return feedbackrecipient;
     }
 
-    public void setIsfeedbackrecipient(boolean isfeedbackrecipient) {
-        this.isfeedbackrecipient = isfeedbackrecipient;
+    public void setFeedbackrecipient(boolean feedbackrecipient) {
+        this.feedbackrecipient = feedbackrecipient;
     }
 
     public boolean isIsclinician() {

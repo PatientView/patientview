@@ -152,7 +152,7 @@ public class UnitAdminAddAction extends ActionSupport {
             String firstName = BeanUtils.getProperty(form, "firstName");
             String lastName = BeanUtils.getProperty(form, "lastName");
             boolean isRecipient = "true".equals(BeanUtils.getProperty(form, "isrecipient"));
-            boolean isFeedbackRecipient = "true".equals(BeanUtils.getProperty(form, "isfeedbackrecipient"));
+            boolean feedbackRecipient = "true".equals(BeanUtils.getProperty(form, "feedbackrecipient"));
             boolean isClinician = "true".equals(BeanUtils.getProperty(form, "isclinician"));
 
             // create new UnitAdmin (extended from Logon but currently with no extra fields/methods)
@@ -166,7 +166,7 @@ public class UnitAdminAddAction extends ActionSupport {
             unitAdmin.setRole(role);
             unitAdmin.setFirstlogon(true);
             unitAdmin.setIsrecipient(isRecipient);
-            unitAdmin.setIsfeedbackrecipient(isFeedbackRecipient);
+            unitAdmin.setFeedbackrecipient(feedbackRecipient);
             unitAdmin.setIsclinician(isClinician);
             unitAdmin.setAccounthidden(false);
             unitAdmin.setAccountlocked(false);

@@ -84,7 +84,7 @@ public class User extends BaseModel {
     private boolean isrecipient = false;
 
     @Column(nullable = false)
-    private boolean isfeedbackrecipient = false;
+    private boolean feedbackrecipient = false;
 
     @Column(nullable = false)
     private boolean isclinician = false;
@@ -226,12 +226,12 @@ public class User extends BaseModel {
         this.isrecipient = isrecipient;
     }
 
-    public boolean isIsfeedbackrecipient() {
-        return isfeedbackrecipient;
+    public boolean isFeedbackrecipient() {
+        return feedbackrecipient;
     }
 
-    public void setIsfeedbackrecipient(boolean isfeedbackrecipient) {
-        this.isfeedbackrecipient = isfeedbackrecipient;
+    public void setFeedbackrecipient(boolean feedbackrecipient) {
+        this.feedbackrecipient = feedbackrecipient;
     }
 
     public boolean isIsclinician() {

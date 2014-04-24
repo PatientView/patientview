@@ -95,7 +95,7 @@ public class UserManagerTest extends BaseServiceTest {
         unitAdmin.setRole("unitstaff");
         unitAdmin.setFirstlogon(true);
         unitAdmin.setIsrecipient(false);
-        unitAdmin.setIsfeedbackrecipient(false);
+        unitAdmin.setFeedbackrecipient(false);
         unitAdmin.setIsclinician(true);
     }
 
