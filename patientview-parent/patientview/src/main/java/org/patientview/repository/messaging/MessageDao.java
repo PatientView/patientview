@@ -24,10 +24,12 @@
 package org.patientview.repository.messaging;
 
 import org.patientview.patientview.model.Message;
-
+import org.patientview.patientview.model.User;
 import java.util.List;
 
 public interface MessageDao {
+
+    List<User> getFeedbackRecipients(User user);
 
     Message get(Long id);
 

@@ -79,7 +79,7 @@ public class UserManagerImpl implements UserManager {
 
     @Inject
     private UnitDao unitDao;
-    
+
     @Inject
     private LogEntryManager logEntryManager;
 
@@ -164,27 +164,26 @@ public class UserManagerImpl implements UserManager {
 
         // If the username has changed we need to update the UserMapping as well
         // Foreign key so a native call is required.
-        User oldUser = userDao.get(user.getId());
-        if (!oldUser.getUsername().equalsIgnoreCase(user.getUsername())) {
+        if (user.hasValidId()) {
 
-            if (userDao.get(user.getUsername()) != null) {
-                throw new UsernameExistsException("Username already allocated");
+            User oldUser = userDao.get(user.getId());
+
+            if (!oldUser.getUsername().equalsIgnoreCase(user.getUsername())) {
+
+                if (userDao.get(user.getUsername()) != null) {
+                    throw new UsernameExistsException("Username already allocated");
+                }
+
+                LogEntry logEntry = createLogEntry(oldUser);
+                logEntry.setExtrainfo("Changing " + oldUser.getUsername() + " to " + user.getUsername());
+                logEntryManager.save(logEntry);
+                userMappingDao.updateUsername(user.getUsername(), oldUser.getUsername());
+
             }
-
-            LogEntry logEntry = createLogEntry(oldUser);
-            logEntry.setExtrainfo("Changing " + oldUser.getUsername() + " to " + user.getUsername());
-            logEntryManager.save(logEntry);
-            userMappingDao.updateUsername(user.getUsername(), oldUser.getUsername());
-
-
-           
 
         }
 
         user.setUpdated(new Date());
-
-
-        
         userDao.save(user);
     }
 
@@ -198,8 +197,9 @@ public class UserManagerImpl implements UserManager {
         logEntry.setDate(Calendar.getInstance());
 
         return logEntry;
-        
     }
+
+
 
     @Override
     public User saveUserFromUnitAdmin(UnitAdmin unitAdmin, String unitcode) throws UsernameExistsException {
@@ -230,6 +230,7 @@ public class UserManagerImpl implements UserManager {
         user.setPassword(unitAdmin.getPassword());
         user.setUsername(unitAdmin.getUsername());
         user.setIsrecipient(unitAdmin.isIsrecipient());
+        user.setFeedbackRecipient(unitAdmin.isFeedbackRecipient());
         user.setIsclinician(unitAdmin.isIsclinician());
         if (isNewUser) {
             user.setCreated(new Date());

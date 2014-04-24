@@ -291,6 +291,7 @@ public class UnitDaoImpl extends AbstractHibernateDAO<Unit> implements UnitDao {
             unitAdmin.setRole(resultSet.getString("surrole"));
             unitAdmin.setFirstlogon(resultSet.getBoolean("firstlogon"));
             unitAdmin.setIsrecipient(resultSet.getBoolean("isrecipient"));
+            unitAdmin.setFeedbackRecipient(resultSet.getBoolean("feedbackRecipient"));
             unitAdmin.setIsclinician(resultSet.getBoolean("isclinician"));
             unitAdmin.setLastlogon(resultSet.getDate("lastlogon"));
             unitAdmin.setAccountlocked(resultSet.getBoolean("accountlocked"));

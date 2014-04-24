@@ -55,19 +55,10 @@
 
           <logic:present role="superadmin,unitadmin">
             <td>
-                <logic:equal property="sourceType" name="unit" value="radargroup">
-                    <html:form action="/control/radarGroupEdit">
-                        <html:hidden name="unit" property="unitcode"/>
-                        <html:submit value="Edit" styleClass="btn"/>
-                    </html:form>
-                </logic:equal>
-                <logic:notEqual property="sourceType" name="unit" value="radargroup">
-                    <html:form action="/control/unitEdit">
-                        <html:hidden name="unit" property="unitcode"/>
-                        <html:submit value="Edit" styleClass="btn"/>
-                    </html:form>
-                </logic:notEqual>
-
+                <html:form action="/control/unitEdit">
+                    <html:hidden name="unit" property="unitcode"/>
+                    <html:submit value="Edit" styleClass="btn"/>
+                </html:form>
             </td>
             <td>
             <html:form action="/control/unitStat">
