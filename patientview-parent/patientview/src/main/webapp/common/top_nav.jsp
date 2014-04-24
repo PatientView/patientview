@@ -142,6 +142,7 @@
         if (!LegacySpringUtils.getSecurityUserManager().isLoggedInToSpecialty()) {
     %>
 
+    <li><html:link action="/help">Help?</html:link></li>
     <li class="pull-right"><html:link action="/forgotten-password" styleClass='<%= ("forgotten-password".equals(request.getAttribute("currentNav"))) ? "navlinkon" : "navlink" %>'>Forgotten password?</html:link></li>
 
     <%
