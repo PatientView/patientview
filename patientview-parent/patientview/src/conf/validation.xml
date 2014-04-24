@@ -497,6 +497,12 @@
                 <msg key="username.required" name="required"/>
             </field>
         </form>
+
+        <form name="/control/unitAdminAddToUnit">
+            <field property="username" depends="required">
+                <msg key="username.required" name="required"/>
+            </field>
+        </form>
     </formset>
 
 </form-validation>

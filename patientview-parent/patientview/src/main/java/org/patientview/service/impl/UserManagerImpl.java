@@ -199,6 +199,8 @@ public class UserManagerImpl implements UserManager {
         return logEntry;
     }
 
+
+
     @Override
     public User saveUserFromUnitAdmin(UnitAdmin unitAdmin, String unitcode) throws UsernameExistsException {
 
