@@ -61,6 +61,7 @@
           <th class="tableheader" onclick="sort('lastlogon')"><a href="#">Last Login</a></th>
           <th class="tableheader" onclick="sort('accountlocked')"><a href="#">Password</a></th>
           <th class="tableheader" onclick="sort('isrecipient')"><a href="#">Message Recipient</a></th>
+          <th class="tableheader" onclick="sort('isfeedbackrecipient')"><a href="#">Feedback Recipient</a></th>
           <th class="tableheader" onclick="sort('isclinician')"><a href="#">Clinician</a></th>
 
       </tr>
@@ -105,6 +106,10 @@
           <td class="tablecell">
               <logic:equal name="unitUser" property="isrecipient" value="false">No</logic:equal>
               <logic:equal name="unitUser" property="isrecipient" value="true">Yes</logic:equal>
+          </td>
+          <td class="tablecell">
+              <logic:equal name="unitUser" property="isfeedbackrecipient" value="false">No</logic:equal>
+              <logic:equal name="unitUser" property="isfeedbackrecipient" value="true">Yes</logic:equal>
           </td>
           <td class="tablecell">
               <logic:equal name="unitUser" property="isclinician" value="false">No</logic:equal>

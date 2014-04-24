@@ -127,6 +127,7 @@ public class UserDaoTest extends BaseDaoTest {
         user.setAccountlocked(true);
         user.setIsclinician(true);
         user.setIsrecipient(false);
+        user.setIsfeedbackrecipient(false);
 
         userDao.save(user);
 
@@ -142,6 +143,7 @@ public class UserDaoTest extends BaseDaoTest {
 
         assertTrue("Account locked not persisted", checkUser.isAccountlocked());
         assertFalse("IsRecipient not persisted", checkUser.isIsrecipient());
+        assertFalse("IsFeedbackRecipient not persisted", checkUser.isIsfeedbackrecipient());
         assertTrue("IsClinician not persisted", checkUser.isIsclinician());
     }
 

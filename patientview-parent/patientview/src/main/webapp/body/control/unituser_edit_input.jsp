@@ -96,6 +96,12 @@
                 </div>
             </div>
             <div class="control-group">
+                <label class="control-label">Feedback Recipient</label>
+                <div class="controls">
+                    <html:checkbox property="isfeedbackrecipient" name="unitUser" value="true"/>
+                </div>
+            </div>
+            <div class="control-group">
                 <label class="control-label">Clinician</label>
                 <div class="controls">
                     <html:checkbox property="isclinician" name="unitUser" value="true"/>

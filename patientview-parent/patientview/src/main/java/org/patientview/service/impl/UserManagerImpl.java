@@ -223,6 +223,7 @@ public class UserManagerImpl implements UserManager {
         user.setPassword(unitAdmin.getPassword());
         user.setUsername(unitAdmin.getUsername());
         user.setIsrecipient(unitAdmin.isIsrecipient());
+        user.setIsfeedbackrecipient(unitAdmin.isIsfeedbackrecipient());
         user.setIsclinician(unitAdmin.isIsclinician());
         if (isNewUser) {
             user.setCreated(new Date());
