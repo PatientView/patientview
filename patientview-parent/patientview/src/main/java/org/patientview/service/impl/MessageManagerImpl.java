@@ -99,8 +99,17 @@ public class MessageManagerImpl implements MessageManager {
     private SecurityUserManager securityUserManager;
 
     @Override
-    public Conversation getConversation(Long conversationId) {
-        return conversationDao.get(conversationId);
+    public Conversation getConversation(Long conversationId, User user) {
+        Conversation conversation = conversationDao.get(conversationId);
+
+        if (user != null) {
+            if (userHasAccessToConversation(conversation, user.getId())) {
+                return conversationDao.get(conversationId);
+            }
+        }
+
+        return null;
+
     }
 
     @Override
@@ -108,9 +117,11 @@ public class MessageManagerImpl implements MessageManager {
         Conversation conversation = conversationDao.get(conversationId);
 
         if (conversation.getType() == null) {
-            if (!userHasAccessToConversation(conversation, participantId)) {
-                return null;
-            }
+            return null;
+        }
+
+        if (!userHasAccessToConversation(conversation, participantId)) {
+            return null;
         }
 
         populateConversation(conversation, participantId);
@@ -364,7 +375,7 @@ public class MessageManagerImpl implements MessageManager {
         }
 
         // check for the conversation
-        Conversation conversation = getConversation(conversationId);
+        Conversation conversation = conversationDao.get(conversationId);
 
         if (conversation == null) {
             throw new IllegalArgumentException("Invalid conversation");
@@ -596,7 +607,7 @@ public class MessageManagerImpl implements MessageManager {
         return message;
     }
 
-    private boolean userHasAccessToConversation(Conversation conversation, Long participantId) {
+    public boolean userHasAccessToConversation(Conversation conversation, Long participantId) {
         return conversation.getParticipant1().getId().equals(participantId)
                 || conversation.getParticipant2().getId().equals(participantId);
     }
