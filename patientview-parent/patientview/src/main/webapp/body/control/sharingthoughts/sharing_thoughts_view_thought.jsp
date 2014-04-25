@@ -189,7 +189,6 @@
     <h2>Responders</h2>
     <br/>
     <table border="0" cellspacing="1" cellpadding="3" class="table table-bordered table-striped">
-        <tr ><th colspan="2">Responder</th></tr>
         <logic:notEmpty name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.RESPONDERS%>">
             <bean:define id="responders" name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.RESPONDERS%>"/>
             <logic:iterate name="responders" id="responder">
