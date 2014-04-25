@@ -7,9 +7,6 @@
     <div  class="page-header">
         <h1>Sharing Thoughts Admin Home</h1>
     </div>
-
-
-
 <logic:empty name="sharedThoughts">
     <div class="alert">No Shared Thoughts</div>
 </logic:empty>

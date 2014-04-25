@@ -24,16 +24,20 @@
 package org.patientview.patientview.model;
 
 import org.patientview.model.BaseModel;
+import org.patientview.patientview.messaging.Messaging;
 import org.patientview.patientview.model.enums.GroupEnum;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Conversation extends BaseModel {
@@ -78,7 +82,7 @@ public class Conversation extends BaseModel {
     private GroupEnum groupEnum;
 
     @Column(nullable = true)
-    private String type;
+    private String type = Messaging.MESSAGE;
 
     @Column(nullable = true)
     private String imageData;
@@ -92,6 +96,9 @@ public class Conversation extends BaseModel {
 
     @Column(nullable = false)
     private boolean clinicianClosed = false;
+
+    @OneToMany(mappedBy = "conversation", fetch = FetchType.EAGER)
+    private List<Message> messages;
 
     public boolean isDeleted() {
         return deleted;
@@ -206,4 +213,12 @@ public class Conversation extends BaseModel {
     public boolean isClinicianClosed() { return clinicianClosed; }
 
     public void setClinicianClosed(boolean clinicianClosed) { this.clinicianClosed = clinicianClosed; }
+
+    public List<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
+    }
 }

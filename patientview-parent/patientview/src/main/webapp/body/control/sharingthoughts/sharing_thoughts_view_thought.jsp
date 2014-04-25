@@ -193,7 +193,7 @@
         <logic:iterate name="responders" id="responder">
             <tr>
                 <td><bean:write name="responder" property="firstName"/> <bean:write name="responder" property="lastName"/></td>
-                <td></td>
+                <td style="width:70px"><a class="btn" id="removeUserSharedThought">Remove</a></td>
             </tr>
         </logic:iterate>
         </table>
