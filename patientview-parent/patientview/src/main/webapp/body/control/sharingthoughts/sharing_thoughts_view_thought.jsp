@@ -189,11 +189,12 @@
     <h2>Responders</h2>
     <br/>
     <table border="0" cellspacing="1" cellpadding="3" class="table table-bordered table-striped">
+    <tbody>
         <logic:notEmpty name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.RESPONDERS%>">
             <bean:define id="responders" name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.RESPONDERS%>"/>
             <logic:iterate name="responders" id="responder">
                 <tr>
-                    <td><bean:write name="responder" property="firstName"/> <bean:write name="responder" property="lastName"/></td>
+                    <td><bean:write name="responder" property="name"/></td>
                     <td style="width:70px"><a class="btn" id="removeUserSharedThought">Remove</a></td>
                 </tr>
             </logic:iterate>
@@ -203,6 +204,7 @@
             <html:submit value="Add Responder" styleClass="btn formbutton" styleId="btnAddOtherSharedThoughtResponder"/> &nbsp;&nbsp;
             <span id="messageAddOtherSharedThoughtResponder"></span>
         </td></tr>
+    </tbody>
     </table>
 
     <html:link action="/control/sharingThoughts"><html:submit value="Back" styleClass="btn formbutton" /></html:link>

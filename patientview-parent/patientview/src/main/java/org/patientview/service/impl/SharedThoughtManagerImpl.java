@@ -1,7 +1,9 @@
 package org.patientview.service.impl;
 
 import org.patientview.patientview.model.SharedThought;
+import org.patientview.patientview.model.User;
 import org.patientview.repository.SharedThoughtDao;
+import org.patientview.repository.UserDao;
 import org.patientview.service.SharedThoughtManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -17,6 +19,8 @@ public class SharedThoughtManagerImpl implements SharedThoughtManager {
 
     @Inject
     private SharedThoughtDao sharedThoughtDao;
+    @Inject
+    private UserDao userDao;
 
     @Override
     public List<SharedThought> getAll() {
@@ -24,7 +28,7 @@ public class SharedThoughtManagerImpl implements SharedThoughtManager {
     }
 
     @Override
-    public SharedThought getSharedThought(Long sharedThoughtId) {
+    public SharedThought get(Long sharedThoughtId) {
         return sharedThoughtDao.get(sharedThoughtId);
     }
 
@@ -43,4 +47,22 @@ public class SharedThoughtManagerImpl implements SharedThoughtManager {
         thought.setDateLastSaved(GregorianCalendar.getInstance().getTime());
         sharedThoughtDao.save(thought);
     }
+
+    @Override
+    public List<User> getOtherResponders(SharedThought sharedThought) {
+        return sharedThoughtDao.getOtherResponders(sharedThought);
+    }
+
+    @Override
+    public boolean addResponder(Long sharedThoughtId, Long responderId) {
+        SharedThought sharedThought = get(sharedThoughtId);
+        User responder = userDao.get(responderId);
+
+        if (sharedThought != null && responder != null) {
+            return sharedThoughtDao.addResponder(sharedThought, responder);
+        } else {
+            return false;
+        }
+    }
+
 }

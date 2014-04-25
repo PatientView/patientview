@@ -37,6 +37,7 @@ sharedThought.init = function() {
         sharedThought.addResponder();
     });
 
+    sharedThought.responderAddMessage.empty();
     sharedThought.getOtherResponders();
 };
 
@@ -44,15 +45,25 @@ sharedThought.init = function() {
  * Get list of responders who are not already attached to this shared thought, add to select
  */
 sharedThought.getOtherResponders = function() {
-    sharedThought.responderAddMessage.empty();
-    $.getJSON('/web/sharingThoughts/getResponders', function(data) {
-        sharedThought.responderSelect.empty();
-        $.each(data, function(id, name) {
-            sharedThought.responderSelect.append("<option value='" + id + "'>" + name + "</option>");
-        });
-    }).fail(function(error) {
-        sharedThought.responderAddMessage.text("There was an error getting additional responders");
-        sharedThought.responderAddBtn.attr('disabled','disabled');
+    sharedThought.responderSelect.empty();
+    sharedThought.responderAddBtn.attr('disabled','disabled');
+    sharedThought.responderSelect.attr('disabled','disabled');
+
+    $.ajax({
+        type: "POST",
+        url: "/web/sharingThoughts/getOtherResponders",
+        data: {sharedThoughtId : sharedThought.id},
+        success: function(data) {
+            $.each(data, function(id, name) {
+                sharedThought.responderSelect.append("<option value='" + id + "'>" + name + "</option>");
+            });
+            sharedThought.responderAddBtn.removeAttr('disabled');
+            sharedThought.responderSelect.removeAttr('disabled');
+        },
+        error: function() {
+            sharedThought.responderAddMessage.text("No additional responders available");
+        },
+        dataType: 'json'
     });
 }
 
@@ -73,6 +84,7 @@ sharedThought.addResponder = function() {
         url: "/web/sharingThoughts/addResponder",
         data: responderData,
         success: function() {
+            sharedThought.getOtherResponders();
             sharedThought.responderAddMessage.text("Added responder");
         },
         error: function() {
@@ -80,8 +92,6 @@ sharedThought.addResponder = function() {
         },
         dataType: 'json'
     });
-
-    sharedThought.responderAddBtn.removeAttr('disabled');
 }
 
 // add in a dom ready to fire init

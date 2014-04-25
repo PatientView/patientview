@@ -2,6 +2,7 @@ package org.patientview.repository.impl;
 
 import org.patientview.patientview.model.SharedThought;
 import org.patientview.patientview.model.SharedThought_;
+import org.patientview.patientview.model.User;
 import org.patientview.repository.AbstractHibernateDAO;
 import org.patientview.repository.SharedThoughtDao;
 import org.springframework.stereotype.Repository;
@@ -9,11 +10,13 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Transactional(propagation = Propagation.MANDATORY)
@@ -58,6 +61,31 @@ public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> im
             return getEntityManager().createQuery(criteria).getResultList();
         } catch (NoResultException e) {
             return null;
+        }
+    }
+
+    @Override
+    public List<User> getOtherResponders(SharedThought sharedThought) {
+        StringBuilder queryText = new StringBuilder();
+        queryText.append("SELECT    usr ");
+        queryText.append("FROM      User AS usr ");
+
+        TypedQuery<User> query = getEntityManager().createQuery(queryText.toString(), User.class);
+
+        try {
+            return query.getResultList();
+        } catch (Exception e) {
+            return Collections.emptyList();
+        }
+    }
+
+    @Override
+    public boolean addResponder(SharedThought sharedThought, User responder) {
+
+        try {
+            return true;
+        } catch (Exception e) {
+            return false;
         }
     }
 }

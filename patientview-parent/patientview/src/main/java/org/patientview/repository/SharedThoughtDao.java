@@ -1,6 +1,7 @@
 package org.patientview.repository;
 
 import org.patientview.patientview.model.SharedThought;
+import org.patientview.patientview.model.User;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,4 +19,8 @@ public interface SharedThoughtDao {
     void save(SharedThought thought);
 
     void delete(Long id);
+
+    List<User> getOtherResponders(SharedThought sharedThought);
+
+    boolean addResponder(SharedThought sharedThought, User responder);
 }
