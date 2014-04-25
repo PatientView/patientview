@@ -44,6 +44,7 @@ public final class SharingThoughts {
     public static final String USERS_THOUGHTS_DRAFT_PARAM = "usersDraftSharedThoughts";
     public static final String USERS_THOUGHTS_SUBMITTED_PARAM = "usersSubmittedSharedThoughts";
     public static final String THOUGHT_PARAM = "thought";
+    public static final String RESPONDERS = "responders";
 
     static void putThoughtListInRequest(HttpServletRequest request, User user, boolean submitted) {
         String attributeName = (submitted) ? SharingThoughts.USERS_THOUGHTS_SUBMITTED_PARAM

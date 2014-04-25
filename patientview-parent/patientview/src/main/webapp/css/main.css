@@ -619,3 +619,8 @@ section article.conversation .dull, section article.message .dull, .dull{
     position: relative;
     top: 5px;
 }
+
+#selectOtherSharedThoughtResponders {
+    margin-bottom: 0px;
+}
+
