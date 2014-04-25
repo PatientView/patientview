@@ -74,10 +74,12 @@ sharedThought.addResponder = function() {
     sharedThought.responderAddMessage.empty();
     sharedThought.responderAddBtn.attr('disabled','disabled');
 
+    var responderName = sharedThought.responderSelect.find("option:selected").text();
+    var responderId = sharedThought.responderSelect.val()
+
     var responderData = {};
     responderData.sharedThoughtId = sharedThought.id;
-    responderData.responderId = sharedThought.responderSelect.val();
-    var responderName = sharedThought.responderSelect.find("option:selected").text();
+    responderData.responderId = responderId;
 
     $.ajax({
         type: "POST",
@@ -86,7 +88,7 @@ sharedThought.addResponder = function() {
         success: function() {
             sharedThought.getOtherResponders();
             sharedThought.responderAddMessage.text("Added responder");
-            sharedThought.responderTr.before("<tr><td>" + responderName + "</td><td style='width:70px'><a class='btn removeUserSharedThought'>Remove</a></td></tr>");
+            sharedThought.responderTr.before("<tr><td>" + responderName + "</td><td class='tdUserSharedThought'><a class='btn removeUserSharedThought' data-userId='" + responderId + "'>Remove</a></td></tr>");
         },
         error: function() {
             sharedThought.responderAddMessage.text("There was an error adding a responder");

@@ -195,7 +195,7 @@
             <logic:iterate name="responders" id="responder">
                 <tr>
                     <td><bean:write name="responder" property="name"/></td>
-                    <td style="width:70px"><a class="btn removeUserSharedThought">Remove</a></td>
+                    <td class='tdUserSharedThought'><a class="btn removeUserSharedThought" data-userId="<bean:write name="responder" property="id"/>">Remove</a></td>
                 </tr>
             </logic:iterate>
         </logic:notEmpty>

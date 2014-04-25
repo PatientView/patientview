@@ -624,3 +624,6 @@ section article.conversation .dull, section article.message .dull, .dull{
     margin-bottom: 0px;
 }
 
+td.tdUserSharedThought {
+    width: 70px;
+}
