@@ -71,13 +71,13 @@ sharedThought.getOtherResponders = function() {
  * Add selected staff member to list of responders, in db and on ui table
  */
 sharedThought.addResponder = function() {
-
     sharedThought.responderAddMessage.empty();
     sharedThought.responderAddBtn.attr('disabled','disabled');
 
     var responderData = {};
     responderData.sharedThoughtId = sharedThought.id;
     responderData.responderId = sharedThought.responderSelect.val();
+    var responderName = sharedThought.responderSelect.find("option:selected").text();
 
     $.ajax({
         type: "POST",
@@ -86,6 +86,7 @@ sharedThought.addResponder = function() {
         success: function() {
             sharedThought.getOtherResponders();
             sharedThought.responderAddMessage.text("Added responder");
+            sharedThought.responderTr.before("<tr><td>" + responderName + "</td><td style='width:70px'><a class='btn removeUserSharedThought'>Remove</a></td></tr>");
         },
         error: function() {
             sharedThought.responderAddMessage.text("There was an error adding a responder");

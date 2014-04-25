@@ -69,8 +69,15 @@ public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> im
         StringBuilder queryText = new StringBuilder();
         queryText.append("SELECT    usr ");
         queryText.append("FROM      User AS usr ");
+        queryText.append(",         UserMapping AS ump ");
+        queryText.append(",         Unit AS uni ");
+        queryText.append("WHERE       ump.username = usr.username ");
+        queryText.append("AND       ump.unitcode = uni.unitcode ");
+        queryText.append("AND       ump.unitcode = :unitCode ");
+        queryText.append("GROUP BY  usr.id");
 
         TypedQuery<User> query = getEntityManager().createQuery(queryText.toString(), User.class);
+        query.setParameter("unitCode", sharedThought.getUnit().getUnitcode());
 
         try {
             return query.getResultList();
