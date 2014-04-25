@@ -23,14 +23,21 @@
 
 package org.patientview.patientview.model;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.patientview.model.BaseModel;
 import org.patientview.model.Unit;
 import org.patientview.ibd.Ibd;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.CascadeType;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity(name = "sharedthought")
 public class SharedThought extends BaseModel {
@@ -126,7 +133,17 @@ public class SharedThought extends BaseModel {
     @Column(name = "is_viewed")
     private Boolean isViewed = false;
 
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @JoinTable(
+            name = "user_sharedthought",
+            joinColumns = { @JoinColumn(name = "sharedthought_id") },
+            inverseJoinColumns = { @JoinColumn(name = "user_id") }
+    )
+    private List<User> responders;
+
     public SharedThought() {
+        responders = new ArrayList<User>();
     }
 
     public User getUser() {
@@ -396,5 +413,14 @@ public class SharedThought extends BaseModel {
     public String getDescriptionBeginning() {
         return (description.length() >= SHORT_DESCRIPTION_LENGTH) ? description.substring(0, SHORT_DESCRIPTION_LENGTH)
                 : description;
+    }
+
+    public List<User> getResponders() {
+        return responders;
+    }
+
+
+    public void setResponders(List<User> responders) {
+        this.responders = responders;
     }
 }

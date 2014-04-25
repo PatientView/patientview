@@ -185,14 +185,18 @@
 </table>
 
     <logic:equal value="false" property="<%=SharingThoughts.IS_ANONYMOUS%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" >
-        <h2>Assign Shared Thought to Responders</h2>
+        <h2>Responders</h2>
+        <br/>
         <table border="0" cellspacing="1" cellpadding="3" class="table table-bordered table-striped">
-        <tr >
-            <th width="300">Clinician</th>
-            <th>Can Add Messages?</th>
-        </tr>
+        <tr ><th colspan="2">Responder</th></tr>
+        <bean:define id="responders" name="<%=SharingThoughts.THOUGHT_PARAM%>" property="responders"/>
+        <logic:iterate name="responders" id="responder">
+            <tr>
+                <td><bean:write name="responder" property="firstName"/> <bean:write name="responder" property="lastName"/></td>
+                <td></td>
+            </tr>
+        </logic:iterate>
         </table>
-        <a class="btn btn-primary">Save Assignments</a>
     </logic:equal>
 
     <html:link action="/control/sharingThoughts"><html:submit value="Back" styleClass="btn formbutton" /></html:link>

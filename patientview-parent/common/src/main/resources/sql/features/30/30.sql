@@ -32,6 +32,15 @@ CREATE TABLE `sharedthought` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `user_sharedthought` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL,
+  `sharedthought_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/* Feedback */
+
 ALTER TABLE unit ADD COLUMN `feedbackEnabled` tinyint(1) DEFAULT '0';
 
 ALTER TABLE conversation ADD COLUMN `imageData` mediumtext;
