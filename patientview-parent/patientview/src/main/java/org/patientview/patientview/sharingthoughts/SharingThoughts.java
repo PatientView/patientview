@@ -20,6 +20,7 @@ public final class SharingThoughts {
     public static final String IS_ABOUT_ME = "aboutMe";
     public static final String IS_ABOUT_OTHER = "aboutOther";
     public static final String IS_ANONYMOUS = "anonymous";
+    public static final String USER = "user";
     public static final String START_DATE = "startDate";
     public static final String START_DATE_FORMATTED_DATE = "startDateFormattedDate";
     public static final String START_DATE_FORMATTED_DATE_TIME = "startDateFormattedDateTime";
@@ -28,6 +29,7 @@ public final class SharingThoughts {
     public static final String END_DATE_FORMATTED_DATE_TIME = "endDateFormattedDateTime";
     public static final String IS_ONGOING = "ongoing";
     public static final String LOCATION = "location";
+    public static final String UNIT_NAME = "unit.name";
     public static final String DESCRIPTION = "description";
     public static final String DESCRIPTION_BEGINNING = "descriptionBeginning";
     public static final String SUGGESTED_ACTION = "suggestedAction";

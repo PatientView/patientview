@@ -6,7 +6,6 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.DynaActionForm;
 import org.patientview.ibd.action.BaseAction;
 import org.patientview.patientview.model.SharedThought;
-import org.patientview.patientview.unit.UnitUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,8 +21,6 @@ public class SharingThoughtsAdminViewThoughtAction extends BaseAction {
         SharedThought thought = getSharedThoughtManager().getSharedThought(thoughtId);
 
         request.setAttribute(SharingThoughts.THOUGHT_PARAM, thought);
-
-        UnitUtils.putRelevantUnitsInRequest(request);
 
         return mapping.findForward("success");
     }
