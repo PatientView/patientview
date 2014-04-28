@@ -18,3 +18,4 @@ INSERT INTO conversation_status (id, status, closedStatus) VALUES (1, 'Open - On
 ALTER TABLE user ADD COLUMN `feedbackRecipient` tinyint(1) NOT NULL DEFAULT '0';
 
 UPDATE conversation SET type='MESSAGE' WHERE type IS NULL;
+UPDATE message SET type='MESSAGE' WHERE type IS NULL;
