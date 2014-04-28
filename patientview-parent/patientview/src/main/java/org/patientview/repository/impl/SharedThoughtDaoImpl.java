@@ -90,6 +90,9 @@ public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> im
     public boolean addResponder(SharedThought sharedThought, User responder) {
 
         try {
+            sharedThought.getResponders().add(responder);
+            getEntityManager().merge(sharedThought);
+            getEntityManager().flush();
             return true;
         } catch (Exception e) {
             return false;
