@@ -41,7 +41,7 @@
             <td class="tablecell"><bean:write name="thought" property="location"/></td>
             <td class="tablecell"><bean:write name="thought" property="location"/></td>
             <logic:present role="unitstaff,unitadmin,superadmin">
-                <td class="tablecell"><html:form action="/control/sharingThoughtsViewThought"><html:hidden name="thought" property="id"/><html:submit value="View/Respond" styleClass="btn" /></html:form>&nbsp;</td>
+                <td class="tablecell"><html:form action="/control/sharingThoughtsViewThought"><html:hidden name="thought" property="id"/><html:submit value="View/Respond" styleClass="btn" /></html:form></td>
             </logic:present>
         </tr>
         </logic:iterate>

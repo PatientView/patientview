@@ -632,3 +632,7 @@ td.tdUserSharedThought {
     width: 555px;
     margin-bottom: 0;
 }
+
+form {
+    margin: 0;
+}
