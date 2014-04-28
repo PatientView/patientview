@@ -196,6 +196,9 @@ public class Unit extends BaseModel {
     @Column
     private boolean feedbackEnabled = false;
 
+    @Column
+    private boolean sharedThoughtEnabled = false;
+
     public Unit() {
     }
 
@@ -806,5 +809,13 @@ public class Unit extends BaseModel {
 
     public void setFeedbackEnabled(boolean feedbackEnabled) {
         this.feedbackEnabled = feedbackEnabled;
+    }
+
+    public boolean isSharedThoughtEnabled() {
+        return sharedThoughtEnabled;
+    }
+
+    public void setSharedThoughtEnabled(boolean sharedThoughtEnabled) {
+        this.sharedThoughtEnabled = sharedThoughtEnabled;
     }
 }

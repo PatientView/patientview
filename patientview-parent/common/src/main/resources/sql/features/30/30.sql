@@ -39,6 +39,8 @@ CREATE TABLE `user_sharedthought` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+ALTER TABLE unit ADD COLUMN `sharedThoughtEnabled` tinyint(1) DEFAULT '0';
+
 /* Feedback */
 
 ALTER TABLE unit ADD COLUMN `feedbackEnabled` tinyint(1) DEFAULT '0';
