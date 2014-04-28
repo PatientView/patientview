@@ -24,7 +24,7 @@
 package org.patientview.patientview.model;
 
 import org.patientview.model.BaseModel;
-import org.patientview.patientview.messaging.Messaging;
+import org.patientview.patientview.model.enums.ConversationType;
 import org.patientview.patientview.model.enums.GroupEnum;
 
 import javax.persistence.Column;
@@ -78,8 +78,9 @@ public class Conversation extends BaseModel {
     @Enumerated(EnumType.STRING)
     private GroupEnum groupEnum;
 
-    @Column(nullable = true)
-    private String type = Messaging.MESSAGE;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private ConversationType type = ConversationType.MESSAGE;
 
     @Column(nullable = true)
     private String imageData;
@@ -178,15 +179,15 @@ public class Conversation extends BaseModel {
         return groupEnum;
     }
 
-    public String getType() {
-        return type;
-    }
-
     public void setGroupEnum(GroupEnum groupEnum) {
         this.groupEnum = groupEnum;
     }
 
-    public void setType(String type) {
+    public ConversationType getType() {
+        return type;
+    }
+
+    public void setType(ConversationType type) {
         this.type = type;
     }
 

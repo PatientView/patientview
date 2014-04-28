@@ -26,13 +26,13 @@ package org.patientview.service.impl;
 import org.joda.time.DateTime;
 import org.patientview.model.Unit;
 import org.patientview.patientview.logon.UnitAdmin;
-import org.patientview.patientview.messaging.Messaging;
 import org.patientview.patientview.model.Conversation;
 import org.patientview.patientview.model.ConversationStatus;
 import org.patientview.patientview.model.Job;
 import org.patientview.patientview.model.Message;
 import org.patientview.patientview.model.MessageRecipient;
 import org.patientview.patientview.model.User;
+import org.patientview.patientview.model.enums.ConversationType;
 import org.patientview.patientview.model.enums.GroupEnum;
 import org.patientview.patientview.model.enums.SendEmailEnum;
 import org.patientview.repository.job.JobDao;
@@ -117,7 +117,7 @@ public class MessageManagerImpl implements MessageManager {
         Conversation conversation = conversationDao.get(conversationId);
 
         // only check if conversation type is non BULK
-        if (!conversation.getType().equals(Messaging.BULK)) {
+        if (!conversation.getType().equals(ConversationType.BULK)) {
             if (!userHasAccessToConversation(conversation, participantId)) {
                 return null;
             }
@@ -169,7 +169,7 @@ public class MessageManagerImpl implements MessageManager {
         if (conversations != null) {
             for (Conversation conversation : conversations) {
                 if (conversation.getType() != null) {
-                    if (conversation.getType().equals(Messaging.BULK)) {
+                    if (conversation.getType().equals(ConversationType.BULK)) {
                         messages = getMessages(conversation.getId());
 
                         if (messages != null && !messages.isEmpty()) {
@@ -283,7 +283,7 @@ public class MessageManagerImpl implements MessageManager {
         conversation.setSubject(subject);
         conversation.setImageData(imageData);
         if (isFeedback) {
-            conversation.setType("FEEDBACK");
+            conversation.setType(ConversationType.FEEDBACK);
         }
         conversationDao.save(conversation);
 
@@ -292,7 +292,7 @@ public class MessageManagerImpl implements MessageManager {
 
     @Override
     public Message createGroupMessage(ServletContext context, String subject, String content, User sender,
-                                      String groupName, String type, Unit unit) throws Exception {
+                                      String groupName, ConversationType type, Unit unit) throws Exception {
         if (!StringUtils.hasText(subject)) {
             throw new IllegalArgumentException("Invalid required parameter subject");
         }
@@ -625,26 +625,19 @@ public class MessageManagerImpl implements MessageManager {
     // need to go through and show how many messages in a convo that user needs to read
     private void populateConversation(Conversation conversation, Long participantId) {
         if (conversation != null) {
-            // type is not null indicate the group message
-            if (conversation.getType() != null) {
-                if (conversation.getType().equals(Messaging.BULK)) {
-                    // the bulk message is not new for unitadmin who send it
-                    if (!securityUserManager.isRolePresent("superadmin")
-                            && !(securityUserManager.isRolePresent("unitadmin")
-                            && participantId.equals(conversation.getParticipant1().getId()))) {
-                        if (groupMessageManager.get(participantId, conversation) ==  null) {
-                            conversation.setNumberUnread(1);
-                        }
+            if (conversation.getType().equals(ConversationType.BULK)) {
+                // the bulk message is not new for unitadmin who send it
+                if (!securityUserManager.isRolePresent("superadmin")
+                        && !(securityUserManager.isRolePresent("unitadmin")
+                        && participantId.equals(conversation.getParticipant1().getId()))) {
+                    if (groupMessageManager.get(participantId, conversation) ==  null) {
+                        conversation.setNumberUnread(1);
                     }
-                } else {
-                    conversation.setNumberUnread(messageDao.getNumberOfUnreadMessages(
-                        participantId, conversation.getId()).intValue());
                 }
             } else {
                 conversation.setNumberUnread(messageDao.getNumberOfUnreadMessages(
-                        participantId, conversation.getId()).intValue());
+                    participantId, conversation.getId()).intValue());
             }
-
 
             // set the summary details for the convo to the last message
             Message latestMessage = messageDao.getLatestMessage(conversation.getId());

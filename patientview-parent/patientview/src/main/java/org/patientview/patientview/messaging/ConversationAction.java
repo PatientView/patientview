@@ -28,6 +28,7 @@ import org.patientview.ibd.action.BaseAction;
 import org.patientview.patientview.exception.MessagingException;
 import org.patientview.patientview.model.Conversation;
 import org.patientview.patientview.model.User;
+import org.patientview.patientview.model.enums.ConversationType;
 import org.patientview.patientview.model.enums.GroupEnum;
 import org.patientview.patientview.user.UserUtils;
 import org.apache.struts.action.ActionForm;
@@ -72,7 +73,7 @@ public class ConversationAction extends BaseAction {
 
         // single message
         if (conversation.getType() != null) {
-            if (!conversation.getType().equals(Messaging.BULK)) {
+            if (!conversation.getType().equals(ConversationType.BULK)) {
                 getMessageManager().markMessagesAsReadForConversation(loggedInUser.getId(), conversation.getId());
             } else {
                 try {
