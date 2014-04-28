@@ -39,7 +39,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Entity(name = "sharedthought")
+@Entity
 public class SharedThought extends BaseModel {
 
     public static final int SHORT_DESCRIPTION_LENGTH = 49;

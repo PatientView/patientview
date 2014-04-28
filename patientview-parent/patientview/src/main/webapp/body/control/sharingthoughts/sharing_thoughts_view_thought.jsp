@@ -207,8 +207,16 @@
     </tbody>
     </table>
 
-    <html:link action="/control/sharingThoughts"><html:submit value="Back" styleClass="btn formbutton" /></html:link>
+    <h2>Conversation</h2>
+    <br/>
+    <logic:notEmpty name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.RESPONDERS%>">
+        <bean:define id="responders" name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.RESPONDERS%>"/>
+        <logic:iterate name="responders" id="responder">
+            <bean:write name="responder" property="name"/><br/>
+        </logic:iterate>
+    </logic:notEmpty>
 
+    <html:link action="/control/sharingThoughts"><html:submit value="Back" styleClass="btn formbutton" /></html:link>
 </div>
 
 <script type="text/javascript" src="/js/sharedThought.js"></script>
