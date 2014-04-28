@@ -74,7 +74,7 @@ public class Message extends BaseModel {
     @Enumerated(EnumType.STRING)
     private GroupEnum groupEnum;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private ConversationType type = ConversationType.MESSAGE;
 
