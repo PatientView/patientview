@@ -116,12 +116,11 @@ public class MessageManagerImpl implements MessageManager {
     public Conversation getConversationForUser(Long conversationId, Long participantId) {
         Conversation conversation = conversationDao.get(conversationId);
 
-        if (conversation.getType() == null) {
-            return null;
-        }
-
-        if (!userHasAccessToConversation(conversation, participantId)) {
-            return null;
+        // only check if conversation type is non BULK
+        if (!conversation.getType().equals(Messaging.BULK)) {
+            if (!userHasAccessToConversation(conversation, participantId)) {
+                return null;
+            }
         }
 
         populateConversation(conversation, participantId);
