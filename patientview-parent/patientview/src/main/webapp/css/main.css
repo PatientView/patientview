@@ -628,6 +628,7 @@ td.tdUserSharedThought {
     width: 70px;
 }
 
-#textareaComment {
-    width: 690px;
+#textareaMessage {
+    width: 555px;
+    margin-bottom: 0;
 }

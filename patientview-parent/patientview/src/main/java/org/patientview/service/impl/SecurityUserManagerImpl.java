@@ -77,6 +77,13 @@ public class SecurityUserManagerImpl implements SecurityUserManager {
     }
 
     @Override
+    public User getLoggedInUser() {
+
+        SecurityUser securityUser = getSecurityUser();
+        return securityUser != null ? userDao.get(securityUser.getUsername()) : null;
+    }
+
+    @Override
     public String getLoggedInEmailAddress() {
 
         SecurityUser securityUser = getSecurityUser();

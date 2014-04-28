@@ -65,6 +65,7 @@ public final class Routes {
     public static final String SHARING_THOUGHTS_GET_OTHER_RESPONDERS = "/sharingThoughts/getOtherResponders";
     public static final String SHARING_THOUGHTS_ADD_RESPONDER = "/sharingThoughts/addResponder";
     public static final String SHARING_THOUGHTS_REMOVE_RESPONDER = "/sharingThoughts/removeResponder";
+    public static final String SHARING_THOUGHTS_ADD_MESSAGE = "/sharingThoughts/addMessage";
 
     private Routes() { }
 }

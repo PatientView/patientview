@@ -1,8 +1,11 @@
 package org.patientview.repository.impl;
 
+import org.patientview.patientview.model.Conversation;
+import org.patientview.patientview.model.Message;
 import org.patientview.patientview.model.SharedThought;
 import org.patientview.patientview.model.SharedThought_;
 import org.patientview.patientview.model.User;
+import org.patientview.patientview.model.enums.ConversationType;
 import org.patientview.repository.AbstractHibernateDAO;
 import org.patientview.repository.SharedThoughtDao;
 import org.springframework.stereotype.Repository;
@@ -17,6 +20,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 @Transactional(propagation = Propagation.MANDATORY)
@@ -87,6 +91,7 @@ public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> im
         queryText.append(",         UserMapping AS ump ");
         queryText.append(",         Unit AS uni ");
         queryText.append("WHERE     ump.username = usr.username ");
+        queryText.append("AND       usr.isclinician = true ");
         queryText.append("AND       ump.unitcode = uni.unitcode ");
         queryText.append("AND       ump.unitcode = :unitCode ");
         queryText.append("GROUP BY  usr.id");
@@ -125,6 +130,37 @@ public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> im
             getEntityManager().flush();
             return true;
         } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean createSharedThoughtMessage(SharedThought sharedThought, String content, User sender) {
+        try {
+            if (sharedThought.getConversation() == null) {
+                Conversation conversation = new Conversation();
+                conversation.setParticipant1(sender);
+                conversation.setParticipant2(sender);
+                conversation.setSubject(ConversationType.SHARED_THOUGHT.toString());
+                conversation.setType(ConversationType.SHARED_THOUGHT);
+                conversation.setStarted(new Date());
+                sharedThought.setConversation(conversation);
+                getEntityManager().persist(conversation);
+                getEntityManager().merge(sharedThought);
+                getEntityManager().flush();
+            }
+
+            Message message = new Message();
+            message.setConversation(sharedThought.getConversation());
+            message.setSender(sender);
+            message.setContent(content);
+            message.setType(ConversationType.SHARED_THOUGHT);
+            message.setDate(new Date());
+            getEntityManager().persist(message);
+            getEntityManager().flush();
+
+            return true;
+        } catch (Exception ex) {
             return false;
         }
     }

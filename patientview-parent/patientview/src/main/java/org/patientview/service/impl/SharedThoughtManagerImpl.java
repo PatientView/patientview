@@ -4,6 +4,7 @@ import org.patientview.patientview.model.SharedThought;
 import org.patientview.patientview.model.User;
 import org.patientview.repository.SharedThoughtDao;
 import org.patientview.repository.UserDao;
+import org.patientview.service.SecurityUserManager;
 import org.patientview.service.SharedThoughtManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -21,6 +22,8 @@ public class SharedThoughtManagerImpl implements SharedThoughtManager {
     private SharedThoughtDao sharedThoughtDao;
     @Inject
     private UserDao userDao;
+    @Inject
+    private SecurityUserManager securityUserManager;
 
     @Override
     public List<SharedThought> getAll() {
@@ -72,6 +75,18 @@ public class SharedThoughtManagerImpl implements SharedThoughtManager {
 
         if (sharedThought != null && responder != null) {
             return sharedThoughtDao.removeResponder(sharedThought, responder);
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean addMessage(Long sharedThoughtId, String message) {
+        SharedThought sharedThought = get(sharedThoughtId);
+
+        if (sharedThought != null) {
+            return sharedThoughtDao.createSharedThoughtMessage(
+                    sharedThought, message, securityUserManager.getLoggedInUser());
         } else {
             return false;
         }

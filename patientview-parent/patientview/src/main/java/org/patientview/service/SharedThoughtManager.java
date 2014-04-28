@@ -19,8 +19,7 @@ public interface SharedThoughtManager {
 
     /**
      * Get list of responders suitable for a shared thought, ignores those already attached
-     *
-     * @param SharedThought the shared thought to add responders to
+     * @param sharedThought the shared thought to add responders to
      * @return List of User responders
      */
     List<User> getOtherResponders(SharedThought sharedThought);
@@ -40,4 +39,12 @@ public interface SharedThoughtManager {
      * @return true or false based on success
      */
     boolean removeResponder(Long sharedThoughtId, Long responderId);
+
+    /**
+     * Add a message to a shared thought conversation
+     * @param sharedThoughtId Id of the shared thought to remove from
+     * @param message Text of the message to add
+     * @return true or false based on success
+     */
+    boolean addMessage(Long sharedThoughtId, String message);
 }

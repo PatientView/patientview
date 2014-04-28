@@ -209,19 +209,32 @@
 
     <h2>Conversation</h2>
     <br/>
+    <table border="0" cellspacing="1" cellpadding="3" class="table table-bordered table-striped" id="tableOtherSharedThoughtResponders">
+    <tbody>
     <logic:notEmpty name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.CONVERSATION%>">
         <bean:define id="messages" name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.CONVERSATION_MESSAGES%>"/>
         <logic:iterate name="messages" id="message">
-            <bean:write name="message" property="content"/><br/>
+            <tr>
+                <td colspan="2">
+                    <strong><bean:write name="message" property="sender.name"/>: </strong> &nbsp;
+                    <bean:write name="message" property="content"/>
+                </td>
+            </tr>
         </logic:iterate>
     </logic:notEmpty>
     <logic:empty name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.CONVERSATION%>">
-        <p>No comments from responding staff yet</p>
+        <tr id="trNoComments"><td colspan="2">No messages from responding staff yet</td></tr>
     </logic:empty>
+    <tr>
+        <td><textarea id="textareaMessage"></textarea></td>
+        <td><html:submit value="Add Message" styleClass="btn formbutton" styleId="btnAddMessage"/></td>
+        <input type="hidden" id="userFullName" value="<bean:write name="user" property="name"/>"/>
+    </tr>
+    </tbody>
+    </table>
 
-    <textarea id="textareaComment"></textarea>
     <br/>
-    <html:submit value="Add Comment" styleClass="btn formbutton" styleId="btnAddComment"/> &nbsp;&nbsp;
+
     <html:link action="/control/sharingThoughts"><html:submit value="Back" styleClass="btn formbutton" /></html:link>
 </div>
 

@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 
 public class SharingThoughtsAdminViewThoughtAction extends BaseAction {
 
+
+
     public ActionForward execute(
             ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -21,6 +23,7 @@ public class SharingThoughtsAdminViewThoughtAction extends BaseAction {
         SharedThought thought = getSharedThoughtManager().get(thoughtId);
 
         request.setAttribute(SharingThoughts.THOUGHT_PARAM, thought);
+        request.setAttribute("user", getSecurityUserManager().getLoggedInUser());
 
         return mapping.findForward("success");
     }

@@ -27,20 +27,23 @@ sharedThought.responderSelect = $('#selectOtherSharedThoughtResponders');
 sharedThought.responderTr = $('#trOtherSharedThoughtResponders');
 sharedThought.responderAddBtn = $('#btnAddOtherSharedThoughtResponder');
 sharedThought.responderRemoveBtn = '.removeUserSharedThought';
-sharedThought.responderCommentBtn = $('#btnAddComment');
+sharedThought.responderMessageBtn = $('#btnAddMessage');
+sharedThought.responderMessageTextarea = $('#textareaMessage');
+sharedThought.responderMessageTrNoComments = $('#trNoComments');
 sharedThought.responderAddMessage = $('#messageAddOtherSharedThoughtResponder');
 sharedThought.id = $('#sharedThoughtId').val();
+sharedThought.userFullName = $('#userFullName').val();
 
 /**
  * Set up buttons
  */
 sharedThought.init = function() {
-    sharedThought.responderAddBtn.click(function(event) {
+    sharedThought.responderMessageBtn.click(function(event) {
         event.preventDefault();
-        sharedThought.addComment();
+        sharedThought.addMessage();
     });
 
-    sharedThought.responderCommentBtn.click(function(event) {
+    sharedThought.responderAddBtn.click(function(event) {
         event.preventDefault();
         sharedThought.addResponder();
     });
@@ -52,6 +55,7 @@ sharedThought.init = function() {
     });
 
     sharedThought.responderAddMessage.empty();
+    sharedThought.responderMessageTextarea.empty();
     sharedThought.getOtherResponders();
 };
 
@@ -68,11 +72,13 @@ sharedThought.getOtherResponders = function() {
         url: "/web/sharingThoughts/getOtherResponders",
         data: {sharedThoughtId : sharedThought.id},
         success: function(data) {
-            $.each(data, function(id, name) {
-                sharedThought.responderSelect.append("<option value='" + id + "'>" + name + "</option>");
-            });
-            sharedThought.responderAddBtn.removeAttr('disabled');
-            sharedThought.responderSelect.removeAttr('disabled');
+            if (data != null) {
+                $.each(data, function(id, name) {
+                    sharedThought.responderSelect.append("<option value='" + id + "'>" + name + "</option>");
+                });
+                sharedThought.responderAddBtn.removeAttr('disabled');
+                sharedThought.responderSelect.removeAttr('disabled');
+            }
         },
         error: function() {
             sharedThought.responderAddMessage.text("No additional responders available");
@@ -112,32 +118,32 @@ sharedThought.addResponder = function() {
 }
 
 /**
- * Add selected staff member to list of responders, in db and on ui table
+ * Add message to sharing thought conversation
  */
-sharedThought.addResponder = function() {
-    sharedThought.responderCommentBtn.attr('disabled','disabled');
+sharedThought.addMessage = function() {
 
-    var responderId = sharedThought.responderSelect.val();
+    sharedThought.responderMessageBtn.attr('disabled','disabled');
 
     var responderData = {};
     responderData.sharedThoughtId = sharedThought.id;
-    responderData.commentText = responderId;
+    responderData.message = sharedThought.responderMessageTextarea.val();
 
     $.ajax({
         type: "POST",
-        url: "/web/sharingThoughts/addComment",
+        url: "/web/sharingThoughts/addMessage",
         data: responderData,
         success: function() {
-            location.reload();
+            sharedThought.responderMessageTrNoComments.remove();
+            sharedThought.responderMessageBtn.parent().parent().before("<tr><td colspan='2'><strong>" + sharedThought.userFullName + ": </strong>&nbsp;&nbsp;" + responderData.message + "</td></tr>")
+            sharedThought.responderMessageTextarea.val("");
         },
         error: function() {
-            alert("There was an error adding a comment");
+            alert("There was an error adding a message");
         },
         dataType: 'json'
     });
 
-    sharedThought.responderCommentBtn.removeAttr('disabled');
-
+    sharedThought.responderMessageBtn.removeAttr('disabled');
 }
 
 /**
