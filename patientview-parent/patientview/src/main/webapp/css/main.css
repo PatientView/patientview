@@ -627,3 +627,7 @@ section article.conversation .dull, section article.message .dull, .dull{
 td.tdUserSharedThought {
     width: 70px;
 }
+
+#textareaComment {
+    width: 690px;
+}

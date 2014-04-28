@@ -209,13 +209,19 @@
 
     <h2>Conversation</h2>
     <br/>
-    <logic:notEmpty name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.RESPONDERS%>">
-        <bean:define id="responders" name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.RESPONDERS%>"/>
-        <logic:iterate name="responders" id="responder">
-            <bean:write name="responder" property="name"/><br/>
+    <logic:notEmpty name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.CONVERSATION%>">
+        <bean:define id="messages" name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.CONVERSATION_MESSAGES%>"/>
+        <logic:iterate name="messages" id="message">
+            <bean:write name="message" property="content"/><br/>
         </logic:iterate>
     </logic:notEmpty>
+    <logic:empty name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.CONVERSATION%>">
+        <p>No comments from responding staff yet</p>
+    </logic:empty>
 
+    <textarea id="textareaComment"></textarea>
+    <br/>
+    <html:submit value="Add Comment" styleClass="btn formbutton" styleId="btnAddComment"/> &nbsp;&nbsp;
     <html:link action="/control/sharingThoughts"><html:submit value="Back" styleClass="btn formbutton" /></html:link>
 </div>
 

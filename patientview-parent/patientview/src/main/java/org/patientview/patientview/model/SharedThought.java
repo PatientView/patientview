@@ -35,6 +35,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.CascadeType;
+import javax.persistence.OneToOne;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -51,6 +52,10 @@ public class SharedThought extends BaseModel {
     @ManyToOne(optional = false)
     @JoinColumn(name = "unit_id")
     private Unit unit;
+
+    @OneToOne(optional = true)
+    @JoinColumn(name = "conversation_id")
+    private Conversation conversation;
 
     @Column(name = "positive_negative", nullable = false)
     private int positiveNegative;
@@ -160,6 +165,14 @@ public class SharedThought extends BaseModel {
 
     public void setUnit(Unit unit) {
         this.unit = unit;
+    }
+
+    public Conversation getConversation() {
+        return conversation;
+    }
+
+    public void setConversation(Conversation conversation) {
+        this.conversation = conversation;
     }
 
     public int getPositiveNegative() {
