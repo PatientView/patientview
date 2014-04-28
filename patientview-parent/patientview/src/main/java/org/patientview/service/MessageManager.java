@@ -29,6 +29,7 @@ import org.patientview.patientview.model.ConversationStatus;
 import org.patientview.patientview.model.Message;
 import org.patientview.patientview.model.MessageRecipient;
 import org.patientview.patientview.model.User;
+import org.patientview.patientview.model.enums.ConversationType;
 
 import javax.servlet.ServletContext;
 import java.util.List;
@@ -88,7 +89,7 @@ public interface MessageManager {
             , String imageData, Boolean isFeedback) throws Exception;
 
     Message createGroupMessage(ServletContext context, String subject, String content, User sender,
-                               String groupName, String type, Unit unit) throws Exception;
+                               String groupName, ConversationType type, Unit unit) throws Exception;
 
     Message replyToMessage(ServletContext context, String content, Long conversationId, User sender) throws Exception;
 

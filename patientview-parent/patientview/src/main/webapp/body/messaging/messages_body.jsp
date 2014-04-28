@@ -1,4 +1,5 @@
 <%@ page import="org.patientview.patientview.messaging.Messaging" %>
+<%@ page import="org.patientview.patientview.model.enums.ConversationType" %>
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
@@ -116,7 +117,7 @@
                                                 </span>
                                             </logic:greaterThan>
                                             <span class="pull-right conversation-date label label-inverse"><bean:write name="conversation" property="friendlyLatestMessageDate" /></span>
-                                            <logic:equal value="<%=Messaging.FEEDBACK%>" name="conversation" property="type">
+                                            <logic:equal value="<%=ConversationType.FEEDBACK.toString()%>" name="conversation" property="type">
                                                 <!-- show Feedback label -->
                                                 <span class="pull-right label">Feedback</span>
                                                 <logic:equal value="false" name="conversation" property="clinicianClosed">
@@ -129,7 +130,7 @@
                                             <span class="action-test dull">Click to open</span>
                                         </h2>
                                         <h4>
-                                            <logic:equal value="<%=Messaging.FEEDBACK%>" name="conversation" property="type">Feedback: </logic:equal>
+                                            <logic:equal value="<%=ConversationType.FEEDBACK.toString()%>" name="conversation" property="type">Feedback: </logic:equal>
                                             <bean:write name="conversation" property="subject" />
                                         </h4>
                                         <div class="content dull">
