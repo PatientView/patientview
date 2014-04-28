@@ -65,4 +65,7 @@ INSERT INTO LOOKUP (lookup_name, lookup_type, lookup_value, lookup_text) VALUES 
 
 
 
+INSERT INTO unit(unitcode, name, shortname, unituser, address1, address2, postcode, renaladminname, renaladminphone, renaladminemail,             unitenquiriesemail, sourceTYpe, specialty_id)
+VALUES ('SALIBD', 'Salford Royal Foundation Trust', 'Salford Royal', 'A_sdfsdf','Stott Lane', 'Salford', 'M6 8HD', 'C Calvert', '0161 206423', 'myibdportal@srft.nhs.uk', 'myibdportal@srft.nhs.uk', 'ibdunit', 2);
+
 

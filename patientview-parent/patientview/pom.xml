@@ -287,10 +287,25 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.1.1</version>
                 <configuration>
+                    <attachClasses>true</attachClasses>
                     <!-- when creating the war file use the filtered web.xml -->
                     <!--<webXml>${project.build.directory}/web.xml</webXml>-->
                     <!-- overwrite the default files with any build/environment specific ones -->
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <!-- build the test JAR (test classes) -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.4</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>

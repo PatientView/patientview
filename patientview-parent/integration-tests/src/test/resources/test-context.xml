@@ -43,6 +43,7 @@
     <bean id="ukTransplantManager" class="org.patientview.test.helpers.impl.TestableFileUpdater"/>
 
 
+
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
     <!--Imports-->
@@ -50,10 +51,11 @@
     <import resource="test-context-repository.xml"/>
     <import resource="classpath:context-controller.xml"/>
     <import resource="classpath:batch.xml"/>
+    <import resource="classpath:quartz.xml"/>
 
     <!--Properties Placeholder-->
     <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="location" value="classpath:patientview.properties"/>
+        <property name="location" value="classpath:integration-test.properties"/>
     </bean>
 
     <util:properties id="contextProperties" >

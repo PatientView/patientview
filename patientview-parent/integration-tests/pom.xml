@@ -44,14 +44,14 @@
                 <directory>src/test/resources</directory>
                 <filtering>true</filtering>
                 <includes>
-                    <include>**/*.xml</include>
+                    <include>integration-test.properties</include>
                 </includes>
             </resource>
         </resources>
 
         <filters>
             <!--Uses e.g. filters/<env>-filters.properties to overlay cms.properties, other property files -->
-            <filter>src/main/filters/test-filters.properties</filter>
+            <filter>src/main/filters/${env}-filters.properties</filter>
         </filters>
 
 
@@ -68,7 +68,8 @@
             <groupId>org.patientview</groupId>
             <artifactId>patientview</artifactId>
             <version>1.2-SNAPSHOT</version>
-            <type>war</type>
+            <type>jar</type>
+            <classifier>classes</classifier>
         </dependency>
 
         <!-- our common code -->
@@ -76,6 +77,7 @@
             <groupId>org.patientview</groupId>
             <artifactId>common</artifactId>
             <version>1.2-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- POI - USED FOR EXCEL API -->
