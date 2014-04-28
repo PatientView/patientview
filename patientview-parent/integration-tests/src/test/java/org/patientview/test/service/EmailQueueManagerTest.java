@@ -85,9 +85,9 @@ public class EmailQueueManagerTest extends BaseServiceTest {
 
     @Test
     public void testGetEmailQueueList() throws Exception {
-        User user1 = serviceHelpers.createUser("org.patientview.test 4", "tester1@org.patientview.test.com", "test1", "Test 1");
-        User user2 = serviceHelpers.createUser("org.patientview.test 5", "tester2@org.patientview.test.com", "test2", "Test 2");
-        User user3 = serviceHelpers.createUser("org.patientview.test 6", "tester3@org.patientview.test.com", "test3", "Test 3");
+        User user1 = serviceHelpers.createUser("test 4", "tester1@test.com", "test1", "Test 1");
+        User user2 = serviceHelpers.createUser("test 5", "tester2@test.com", "test2", "Test 2");
+        User user3 = serviceHelpers.createUser("test 6", "tester3@test.com", "test3", "Test 3");
         Job job = getJob();
 
         EmailQueue queue1 = new EmailQueue();
@@ -128,12 +128,12 @@ public class EmailQueueManagerTest extends BaseServiceTest {
     }
 
     private Job getJob(){
-        User user1 = serviceHelpers.createUser("org.patientview.test 1", "tester1@org.patientview.test.com", "test1", "Test 1");
-        User user2 = serviceHelpers.createUser("org.patientview.test 2", "tester2@org.patientview.test.com", "test2", "Test 2");
+        User user1 = serviceHelpers.createUser("test 1", "tester1@test.com", "test1", "Test 1");
+        User user2 = serviceHelpers.createUser("test 2", "tester2@test.com", "test2", "Test 2");
         Conversation conversation = serviceHelpers.createConversation("Test subject", user1, user2, true);
 
         Message message = serviceHelpers.createMessage(conversation, user1, user2, "This is a message", true);
-        Specialty specialty = serviceHelpers.createSpecialty("Specialty1", "specialty1", "A org.patientview.test specialty");
+        Specialty specialty = serviceHelpers.createSpecialty("Specialty1", "specialty1", "A test specialty");
 
         Job job = new Job();
         job.setCreator(user1);

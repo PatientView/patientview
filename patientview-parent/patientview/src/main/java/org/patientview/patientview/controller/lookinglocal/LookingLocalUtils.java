@@ -668,10 +668,10 @@ public final class LookingLocalUtils {
     }
 
     /**
-     * Filter patient org.patientview.test results based on org.patientview.test code
-     * @param results List of TestResultWithUnitShortname patient org.patientview.test results
+     * Filter patient test results based on test code
+     * @param results List of TestResultWithUnitShortname patient test results
      * @param testCode Test code to filter results by
-     * @return List of filtered org.patientview.test results
+     * @return List of filtered test results
      */
     private static List<TestResultWithUnitShortname> filterTestResults(List<TestResultWithUnitShortname> results,
                                                                        String testCode) {

@@ -54,7 +54,7 @@ public class NewsDaoTest extends BaseDaoTest {
     @Before
     public void createNews() {
 
-        specialty = repositoryHelpers.createSpecialty("Specialty1", "specialty1", "A org.patientview.test specialty");
+        specialty = repositoryHelpers.createSpecialty("Specialty1", "specialty1", "A test specialty");
 
         News news = new News();
         news.setSpecialty(specialty);

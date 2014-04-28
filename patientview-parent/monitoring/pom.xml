@@ -53,15 +53,15 @@
             </properties>
         </profile>
         <profile>
-            <id>localhost-org.patientview.test</id>
+            <id>localhost-test</id>
             <properties>
-                <env>localhost-org.patientview.test</env>
+                <env>localhost-test</env>
             </properties>
         </profile>
         <profile>
-            <id>org.patientview.test</id>
+            <id>test</id>
             <properties>
-                <env>org.patientview.test</env>
+                <env>test</env>
             </properties>
         </profile>
         <profile>

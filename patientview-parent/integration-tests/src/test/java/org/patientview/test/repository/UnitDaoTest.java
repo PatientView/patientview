@@ -107,7 +107,7 @@ public class UnitDaoTest extends BaseDaoTest {
     @Before
     public void createUnits() {
 
-        specialty = repositoryHelpers.createSpecialty("Specialty1", "Specialty1", "A org.patientview.test specialty");
+        specialty = repositoryHelpers.createSpecialty("Specialty1", "Specialty1", "A test specialty");
 
         Unit unit = new Unit();
         unit.setSpecialty(specialty);
@@ -288,10 +288,10 @@ public class UnitDaoTest extends BaseDaoTest {
 
         unitDao.save(unit);
 
-        User user = repositoryHelpers.createUserWithMapping("paulc", "paul@org.patientview.test.com", "p", "Paul", "UNITCODEA",
+        User user = repositoryHelpers.createUserWithMapping("paulc", "paul@test.com", "p", "Paul", "UNITCODEA",
                 "nhs1", specialty);
         repositoryHelpers.createSpecialtyUserRole(specialty, user, "unitadmin");
-        user = repositoryHelpers.createUserWithMapping("deniz", "deniz@org.patientview.test.com", "d", "Deniz", "UNITCODEA", "nhs2",
+        user = repositoryHelpers.createUserWithMapping("deniz", "deniz@test.com", "d", "Deniz", "UNITCODEA", "nhs2",
                 specialty);
         repositoryHelpers.createSpecialtyUserRole(specialty, user, "unitadmin");
 
@@ -305,7 +305,7 @@ public class UnitDaoTest extends BaseDaoTest {
 
         unitDao.save(unit);
 
-        user = repositoryHelpers.createUserWithMapping("dave", "dave@org.patientview.test.com", "d", "Dave", "UNITCODEB", "nhs3",
+        user = repositoryHelpers.createUserWithMapping("dave", "dave@test.com", "d", "Dave", "UNITCODEB", "nhs3",
                 specialty);
         repositoryHelpers.createSpecialtyUserRole(specialty, user, "unitadmin");
 
@@ -320,10 +320,10 @@ public class UnitDaoTest extends BaseDaoTest {
 
     @Test
     public void testGetUnitPatientUsers() {
-        User user1 = repositoryHelpers.createUserWithMapping("paulc", "paul@org.patientview.test.com", "p", "Paul", "UNITCODEA",
+        User user1 = repositoryHelpers.createUserWithMapping("paulc", "paul@test.com", "p", "Paul", "UNITCODEA",
                 "nhs1", specialty);
         repositoryHelpers.createSpecialtyUserRole(specialty, user1, "patient");
-        User user2 = repositoryHelpers.createUserWithMapping("deniz", "deniz@org.patientview.test.com", "d", "Deniz", "UNITCODEA", "nhs2",
+        User user2 = repositoryHelpers.createUserWithMapping("deniz", "deniz@test.com", "d", "Deniz", "UNITCODEA", "nhs2",
                 specialty);
         repositoryHelpers.createSpecialtyUserRole(specialty, user2, "patient");
 
@@ -350,7 +350,7 @@ public class UnitDaoTest extends BaseDaoTest {
     }
 
     /**
-     * org.patientview.test UnitDao.getAllUnitUsers method, this method is used by UnitUsersController.
+     * test UnitDao.getAllUnitUsers method, this method is used by UnitUsersController.
      * this method will be used when searching all unit users whose role is 'unitadmin' or 'unitstaff'.
      */
     @Test
@@ -374,16 +374,16 @@ public class UnitDaoTest extends BaseDaoTest {
         unit.setShortname("unit 2");
         unitDao.save(unit);
 
-        User user = repositoryHelpers.createUserWithMapping("paulc", "paul@org.patientview.test.com", "p", "Paul", "UNITCODEA",
+        User user = repositoryHelpers.createUserWithMapping("paulc", "paul@test.com", "p", "Paul", "UNITCODEA",
                 "nhs1", specialty);
         repositoryHelpers.createSpecialtyUserRole(specialty, user, "unitadmin");
 
         //this user's role is radaradmin, and he won't be in result list.
-        user = repositoryHelpers.createUserWithMapping("deniz", "deniz@org.patientview.test.com", "d", "Deniz", "UNITCODEA", "nhs2",
+        user = repositoryHelpers.createUserWithMapping("deniz", "deniz@test.com", "d", "Deniz", "UNITCODEA", "nhs2",
                 specialty);
         repositoryHelpers.createSpecialtyUserRole(specialty, user, "radaradmin");
 
-        user = repositoryHelpers.createUserWithMapping("dave", "dave@org.patientview.test.com", "d", "Dave", "UNITCODEB", "nhs3",
+        user = repositoryHelpers.createUserWithMapping("dave", "dave@test.com", "d", "Dave", "UNITCODEB", "nhs3",
                 specialty);
         repositoryHelpers.createSpecialtyUserRole(specialty, user, "unitstaff");
 

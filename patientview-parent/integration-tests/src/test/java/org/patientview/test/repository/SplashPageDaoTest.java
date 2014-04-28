@@ -59,7 +59,7 @@ public class SplashPageDaoTest extends BaseDaoTest {
     @Before
     public void createSplashPagesAndSeen() {
 
-        specialty = repositoryHelpers.createSpecialty("Specialty1", "Specialty1", "A org.patientview.test specialty");
+        specialty = repositoryHelpers.createSpecialty("Specialty1", "Specialty1", "A test specialty");
 
         SplashPage splashPage = new SplashPage();
         splashPage.setSpecialty(specialty);

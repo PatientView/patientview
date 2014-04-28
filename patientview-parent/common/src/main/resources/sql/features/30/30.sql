@@ -2,28 +2,20 @@ CREATE TABLE result_heading_bak AS
 SELECT  *
 FROM    result_heading;
 
-CREATE TABLE specialty_result_heading (id INT(20) PRIMARY KEY AUTO_INCREMENT,
-                                       result_heading_id BIGINT(20),
-                                       heading VARCHAR(30),
-                                       rollover VARCHAR(50),
-                                       panel int(11),
-                                       panelorder int(11),
-                                       specialty_id int(20));
+ALTER TABLE unit ADD COLUMN `feedbackEnabled` tinyint(1) DEFAULT '0';
 
-INSERT INTO specialty_result_heading(result_heading_id, heading, rollover, panel, panelorder, specialty_id)
-SELECT  id
-,       heading
-,       rollover
-,       panel
-,       panelorder
-,       1
-FROM    result_heading;
+ALTER TABLE conversation ADD COLUMN `imageData` mediumtext;
+ALTER TABLE conversation ADD COLUMN `rating` float DEFAULT NULL;
+ALTER TABLE conversation ADD COLUMN `status` int(11) DEFAULT NULL;
+ALTER TABLE conversation ADD COLUMN `clinicianClosed` tinyint(1) DEFAULT '0';
 
+CREATE TABLE `conversation_status` (
+  `id` bigint(20) NOT NULL,
+  `status` text NOT NULL,
+  `closedStatus` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
-ALTER TABLE result_heading DROP COLUMN panel;
+INSERT INTO conversation_status (id, status, closedStatus) VALUES (1, 'Open - Ongoing', 0), (2, 'Closed - Amended', 1), (3, 'Closed - Explained Records', 1), (4, 'Closed - Will Discuss in Clinic', 1);
 
-ALTER TABLE result_heading DROP COLUMN panelorder;
-
-ALTER TABLE result_heading DROP COLUMN specialty_id;
-
-CREATE TABLE LOOKUP (id BIGINT(20) AUTO_INCREMENT PRIMARY KEY, lookup_name VARCHAR(200), lookup_type VARCHAR(200), lookup_value VARCHAR(200), lookup_text VARCHAR(500), created DATETIME DEFAULT CURRENT_TIMESTAMP);
+ALTER TABLE user ADD COLUMN `feedbackRecipient` tinyint(1) NOT NULL DEFAULT '0';

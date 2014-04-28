@@ -72,7 +72,7 @@ public class CreateEmailQueueWriterTest extends BaseBatchTest {
 
         List<Object> emailQueues = new ArrayList<Object>();
         Specialty specialty1 = serviceHelpers.createSpecialty("Specialty 1", "Specialty1", "Test description");
-        User adminUser = serviceHelpers.createUserWithMapping("adminuser", "org.patientview.test@admin.com", "p", "Admin", "unitA", "nhs1", specialty1);
+        User adminUser = serviceHelpers.createUserWithMapping("adminuser", "test@admin.com", "p", "Admin", "unitA", "nhs1", specialty1);
         User user1 = serviceHelpers.createUserWithMapping("testname1", "test1@admin.com", "p", "test1", "unitA", "nhstest1", specialty1);
         User user2 = serviceHelpers.createUserWithMapping("testname2", "test2@admin.com", "p", "test2", "unitA", "nhstest2", specialty1);
 

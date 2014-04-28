@@ -64,7 +64,7 @@ public class UserDaoTest extends BaseDaoTest {
     @Before
     public void createTestMappings() {
 
-        specialty = repositoryHelpers.createSpecialty("Specialty1", "Specialty1", "A org.patientview.test specialty");
+        specialty = repositoryHelpers.createSpecialty("Specialty1", "Specialty1", "A test specialty");
 
         UserMapping userMapping = new UserMapping();
         userMapping.setSpecialty(specialty);
@@ -100,7 +100,7 @@ public class UserDaoTest extends BaseDaoTest {
         user.setFirstName("Firstname");
         user.setLastName("Lastname");
         user.setPassword("password");
-        user.setUsername("org/patientview/test");
+        user.setUsername("test");
 
         userDao.save(user);
 
@@ -119,11 +119,11 @@ public class UserDaoTest extends BaseDaoTest {
     public void testAddGetUserBooleanAttributes() {
 
         User user = new User();
-        user.setEmail("org.patientview.test@worthsolns.com");
+        user.setEmail("test@worthsolns.com");
         user.setFirstName("Firstname");
         user.setLastName("Lastname");
         user.setPassword("password");
-        user.setUsername("org/patientview/test");
+        user.setUsername("test");
         user.setAccountlocked(true);
         user.setIsclinician(true);
         user.setIsrecipient(false);
@@ -148,12 +148,12 @@ public class UserDaoTest extends BaseDaoTest {
     @Test
     public void testGetAllDelete() {
         User user = new User();
-        user.setEmail("org.patientview.test@worthsolns.com");
+        user.setEmail("test@worthsolns.com");
         user.setFirstName("Firstname");
         user.setLastName("Lastname");
 
         user.setPassword("password");
-        user.setUsername("org/patientview/test");
+        user.setUsername("test");
         userDao.save(user);
 
         user = new User();
@@ -348,7 +348,7 @@ public class UserDaoTest extends BaseDaoTest {
 
         // Add user
         User user = new User();
-        user.setEmail("org.patientview.test@worthsolns.com");
+        user.setEmail("test@worthsolns.com");
         user.setFirstName("Firstname");
         user.setLastName("Lastname");
         user.setPassword("password");

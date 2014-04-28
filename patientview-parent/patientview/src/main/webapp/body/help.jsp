@@ -72,7 +72,7 @@
 
         <dt><a name="Anchor-How-49575"></a>How does it work?</dt>
         <dd>PatientView takes information from your renal unit's computer system and links it to useful explanations about your kidney condition
-            and its treatment. It shows blood org.patientview.test results, clinic letters (if they are on your unit's renal computer system), and much more.
+            and its treatment. It shows blood test results, clinic letters (if they are on your unit's renal computer system), and much more.
             It is updated at least once a day so that it should be up to date. Because it shows information from your local unit's computer
             system, you should contact your local unit if you see (or suspect) errors. Technical information: Downloads for a patient are
             activated by a flag in the local information system. This is triggered by a local administrator after receiving your signed agreement.

@@ -103,7 +103,7 @@ public class MyMedicationDaoTest extends BaseDaoTest {
         Medication medication = getTestMedicationObject();
         MedicationDose medicationDose = medication.getAllowedDosages().get(0);
 
-        // create two org.patientview.test medicines
+        // create two test medicines
         MyMedication myMedication1 = new MyMedication();
 
         myMedication1.setNhsno("123456789");
@@ -147,7 +147,7 @@ public class MyMedicationDaoTest extends BaseDaoTest {
         Medication medication = getTestMedicationObject();
         MedicationDose medicationDose = medication.getAllowedDosages().get(0);
 
-        // create two org.patientview.test medicines 1 that does not have a date stopped meaning current and one which has
+        // create two test medicines 1 that does not have a date stopped meaning current and one which has
         MyMedication myMedication1 = new MyMedication();
 
         myMedication1.setNhsno("123456789");
@@ -188,7 +188,7 @@ public class MyMedicationDaoTest extends BaseDaoTest {
         Medication medication = getTestMedicationObject();
         MedicationDose medicationDose = medication.getAllowedDosages().get(0);
 
-        // create two org.patientview.test medicines 1 that does not have a date stopped meaning current and one which has
+        // create two test medicines 1 that does not have a date stopped meaning current and one which has
         MyMedication myMedication1 = new MyMedication();
 
         myMedication1.setNhsno("123456789");

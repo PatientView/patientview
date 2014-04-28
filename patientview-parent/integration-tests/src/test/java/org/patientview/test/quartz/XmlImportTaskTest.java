@@ -190,13 +190,13 @@ public class XmlImportTaskTest extends BaseTestPvDbSchema {
     }
 
     /**
-     * Import a new patient with org.patientview.test results and show the mostRecentTestResultDateRangeStopDate is taken from
+     * Import a new patient with test results and show the mostRecentTestResultDateRangeStopDate is taken from
      * the last stop date in the xml file.
      *
-     * Then run a second import with org.patientview.test results previous to the first import.  Show that this does not affect the
+     * Then run a second import with test results previous to the first import.  Show that this does not affect the
      * mostRecentTestResultDateRangeStopDate set on the patient.
      *
-     * Then run a third import with org.patientview.test results after the first import.  Show that this does update the
+     * Then run a third import with test results after the first import.  Show that this does update the
      * mostRecentTestResultDateRangeStopDate.
      * @throws Exception
      */
@@ -270,7 +270,7 @@ public class XmlImportTaskTest extends BaseTestPvDbSchema {
     }
 
     /**
-     * This org.patientview.test is to create a data exception on the patient record. The exception is the lack of a
+     * This test is to create a data exception on the patient record. The exception is the lack of a
      * nhs no.
      *
      * @throws Exception

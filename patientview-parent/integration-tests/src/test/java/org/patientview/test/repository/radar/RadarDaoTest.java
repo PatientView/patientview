@@ -54,7 +54,7 @@ public class RadarDaoTest extends BaseDaoTest {
     @Test
     public void testCreateProfessionalUserInRadar() throws Exception {
         Unit unit = new Unit();
-        unit.setSpecialty(repositoryHelpers.createSpecialty("Specialty1", "Specialty1", "A org.patientview.test specialty"));
+        unit.setSpecialty(repositoryHelpers.createSpecialty("Specialty1", "Specialty1", "A test specialty"));
         // required fields
         unit.setUnitcode("UNITCODE1");
         unit.setName("z");
@@ -63,15 +63,15 @@ public class RadarDaoTest extends BaseDaoTest {
 
         // first create a user
         User user = new User();
-        user.setEmail("org.patientview.test@worthsolns.com");
+        user.setEmail("test@worthsolns.com");
         user.setFirstName("Firstname");
         user.setLastName("Lastname");
         user.setPassword("password");
-        user.setUsername("org/patientview/test");
+        user.setUsername("test");
 
         userDao.save(user);
 
-        // first org.patientview.test to see if its in there which it should be
+        // first test to see if its in there which it should be
         assertFalse(radarDao.userExistsInRadar(user.getId()));
 
         // then create a user in radar and try again
@@ -84,7 +84,7 @@ public class RadarDaoTest extends BaseDaoTest {
     @Test
     public void testRemoveUserFromRadar() throws Exception {
         Unit unit = new Unit();
-        unit.setSpecialty(repositoryHelpers.createSpecialty("Specialty1", "Specialty1", "A org.patientview.test specialty"));
+        unit.setSpecialty(repositoryHelpers.createSpecialty("Specialty1", "Specialty1", "A test specialty"));
         // required fields
         unit.setUnitcode("UNITCODE1");
         unit.setName("z");
@@ -93,11 +93,11 @@ public class RadarDaoTest extends BaseDaoTest {
 
         // first create a user
         User user = new User();
-        user.setEmail("org.patientview.test@worthsolns.com");
+        user.setEmail("test@worthsolns.com");
         user.setFirstName("Firstname");
         user.setLastName("Lastname");
         user.setPassword("password");
-        user.setUsername("org/patientview/test");
+        user.setUsername("test");
 
         userDao.save(user);
 
@@ -107,7 +107,7 @@ public class RadarDaoTest extends BaseDaoTest {
         // now remove the user and there should be no reference to it
         radarDao.removeUserFromRadar(user.getId());
 
-        // org.patientview.test if it exists
+        // test if it exists
         assertFalse(radarDao.userExistsInRadar(user.getId()));
     }
 }

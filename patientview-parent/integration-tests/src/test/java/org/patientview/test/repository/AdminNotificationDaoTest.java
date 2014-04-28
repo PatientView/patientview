@@ -43,7 +43,7 @@ public class AdminNotificationDaoTest extends BaseDaoTest {
     @Before
     public void setup() {
         AdminNotification adminNotification = new AdminNotification();
-        adminNotification.setEmail("org.patientview.test@org.patientview.test.com");
+        adminNotification.setEmail("test@test.com");
         adminNotification.setXmlImportNotification(XmlImportNotification.FAILED_IMPORT);
         adminNotificationDao.save(adminNotification);
     }

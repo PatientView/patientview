@@ -109,7 +109,7 @@
             </test>
         </testdetails>
         <letterdetails>
-            <letter>    <!-- this letter was not in the original file, it's from RPV's org.patientview.test file -->
+            <letter>    <!-- this letter was not in the original file, it's from RPV's test file -->
                 <letterdate>2012-01-24T11:24:06</letterdate>
                 <lettertype>Sample Letter</lettertype>
                 <lettercontent>

@@ -50,7 +50,7 @@ UPDATE unit SET renaladminemail = 'patientview-testing@solidstategroup.com', uni
 -- set all the user passwords to 'pppppp'
 UPDATE USER SET PASSWORD = '891e12e156d8c6609c6d5f3e04b2fc8da6d9ff3d7e9f906314c0909da69637eb', NAME = CONCAT('Name for ', username), email = 'patientview-testing@solidstategroup.com', screenname = CONCAT('Screen name for ', username);
 
--- setup the radar org.patientview.test users
+-- setup the radar test users
 UPDATE tbl_users SET uEmail = 'radarsuperuser@solidstategroup.com' WHERE uID = 28;
 UPDATE tbl_users SET uEmail = 'demo@nhs.net' WHERE uID = 37;
 UPDATE tbl_adminusers SET uEmail = 'renalreg@renalreg.com' WHERE uID = 2;

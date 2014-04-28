@@ -221,7 +221,7 @@ public class ResultParser {
                                      */
                                     if (testResultDate.isAfter(
                                             LegacySpringUtils.getTimeManager().getCurrentDate().getTime())) {
-                                        // add this org.patientview.test to corrupt tests list
+                                        // add this test to corrupt tests list
                                         corruptNodes.add(new CorruptNode(testNode, NodeError.FUTURE_RESULT));
                                     } else if (dateRangeStart != null && dateRangeStop != null && !(new Interval(
                                             new DateTime(dateRangeStart), new DateTime(dateRangeStop)).contains(

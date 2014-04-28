@@ -64,8 +64,8 @@ public class SendEmailWriterTest extends BaseBatchTest {
     public void testRead() throws Exception {
 
         List<Object> emailQueues = new ArrayList<Object>();
-        User user1 = serviceHelpers.createUser("mailTest A", "mailTestA@org.patientview.test.com", "mailTestA", "mailTest A");
-        User user2 = serviceHelpers.createUser("mailTest B", "mailTestB@org.patientview.test.com", "mailTestA", "mailTest B");
+        User user1 = serviceHelpers.createUser("mailTest A", "mailTestA@test.com", "mailTestA", "mailTest A");
+        User user2 = serviceHelpers.createUser("mailTest B", "mailTestB@test.com", "mailTestA", "mailTest B");
         Job job = getJob();
 
         EmailQueue queue1 = new EmailQueue();
@@ -89,12 +89,12 @@ public class SendEmailWriterTest extends BaseBatchTest {
     }
 
     private Job getJob(){
-        User adminUser = serviceHelpers.createUser("adminUser", "tester1@org.patientview.test.com", "test1", "Admin User");
-        User user2 = serviceHelpers.createUser("org.patientview.test 2", "tester2@org.patientview.test.com", "test2", "Test 2");
+        User adminUser = serviceHelpers.createUser("adminUser", "tester1@test.com", "test1", "Admin User");
+        User user2 = serviceHelpers.createUser("test 2", "tester2@test.com", "test2", "Test 2");
         Conversation conversation = serviceHelpers.createConversation("Test subject", adminUser, user2, true);
 
         Message message = serviceHelpers.createMessage(conversation, adminUser, user2, "This is a message", true);
-        Specialty specialty = serviceHelpers.createSpecialty("Specialty1", "specialty1", "A org.patientview.test specialty");
+        Specialty specialty = serviceHelpers.createSpecialty("Specialty1", "specialty1", "A test specialty");
 
         Job job = new Job();
         job.setCreator(adminUser);

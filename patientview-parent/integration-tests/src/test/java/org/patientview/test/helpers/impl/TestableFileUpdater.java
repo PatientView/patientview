@@ -36,6 +36,6 @@ public class TestableFileUpdater extends UKTransplantManagerImpl {
 
     @Override
     public void deleteFile(File xmlFile) {
-        // do nothing - it's a org.patientview.test
+        // do nothing - it's a test
     }
 }

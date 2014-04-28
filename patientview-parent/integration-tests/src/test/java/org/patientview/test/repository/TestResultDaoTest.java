@@ -111,7 +111,7 @@ public class TestResultDaoTest extends BaseDaoTest {
 
     @Test
     public void testGetTestResults() throws Exception {
-        Specialty specialty = repositoryHelpers.createSpecialty("Specialty1", "Specialty1", "A org.patientview.test specialty");
+        Specialty specialty = repositoryHelpers.createSpecialty("Specialty1", "Specialty1", "A test specialty");
 
         Unit unit = new Unit();
         unit.setSpecialty(specialty);
@@ -127,7 +127,7 @@ public class TestResultDaoTest extends BaseDaoTest {
         unit.setShortname("unit 2");
         unitDao.save(unit);
 
-        User user = repositoryHelpers.createUserWithMapping("testuser", "testuser@org.patientview.test.com", "p", "testuser", "UNITCODEA",
+        User user = repositoryHelpers.createUserWithMapping("testuser", "testuser@test.com", "p", "testuser", "UNITCODEA",
                 "1234567890", specialty);
         repositoryHelpers.createSpecialtyUserRole(specialty, user, "patient");
 

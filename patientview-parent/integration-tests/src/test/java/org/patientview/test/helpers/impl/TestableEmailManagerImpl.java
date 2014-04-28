@@ -45,9 +45,9 @@ public class TestableEmailManagerImpl extends EmailManagerImpl {
     @Override
     public void sendEmail(String from, String[] to, String[] bcc, String subject, String body) {
         /**
-         * Don't send emails in org.patientview.test environment, but log them.
+         * Don't send emails in test environment, but log them.
          */
-        LOGGER.info("--- Skipping sending an email as this is org.patientview.test environment ---");
+        LOGGER.info("--- Skipping sending an email as this is test environment ---");
         LOGGER.info("From: {}\nTo: {}\nCc: {}\nSubject: {}\nContent:\n{}",
                 new Object[] {from, StringUtils.join(to, ", "), StringUtils.join(bcc, ", "), subject, body});
         LOGGER.info("--- End of Email ---");
@@ -56,9 +56,9 @@ public class TestableEmailManagerImpl extends EmailManagerImpl {
     @Override
     public void sendEmail(String from, String[] to, String subject, String body) throws Exception{
         /**
-         * Don't send emails in org.patientview.test environment, but log them.
+         * Don't send emails in test environment, but log them.
          */
-        LOGGER.info("--- Skipping sending bulk email as this is org.patientview.test environment ---");
+        LOGGER.info("--- Skipping sending bulk email as this is test environment ---");
         LOGGER.info("From: {}\nTo: {}\nSubject: {}\nContent:\n{}",
                 new Object[] {from, StringUtils.join(to, ", "), subject, body});
         LOGGER.info("--- End of bulk Email ---");

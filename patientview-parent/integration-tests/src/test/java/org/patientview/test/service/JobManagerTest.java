@@ -60,12 +60,12 @@ public class JobManagerTest extends BaseServiceTest {
 
     @Test
     public void testAddGetJob() throws Exception {
-        User user1 = serviceHelpers.createUser("org.patientview.test 1", "tester1@org.patientview.test.com", "test1", "Test 1");
-        User user2 = serviceHelpers.createUser("org.patientview.test 2", "tester2@org.patientview.test.com", "test2", "Test 2");
+        User user1 = serviceHelpers.createUser("test 1", "tester1@test.com", "test1", "Test 1");
+        User user2 = serviceHelpers.createUser("test 2", "tester2@test.com", "test2", "Test 2");
         Conversation conversation = serviceHelpers.createConversation("Test subject", user1, user2, true);
 
         Message message = serviceHelpers.createMessage(conversation, user1, user2, "This is a message", true);
-        Specialty specialty = serviceHelpers.createSpecialty("Specialty1", "specialty1", "A org.patientview.test specialty");
+        Specialty specialty = serviceHelpers.createSpecialty("Specialty1", "specialty1", "A test specialty");
 
         Job job1 = new Job();
         job1.setCreator(user1);
@@ -101,7 +101,7 @@ public class JobManagerTest extends BaseServiceTest {
     @Test
     public void testGetSpecialGroupUsers() {
         Specialty specialty1 = serviceHelpers.createSpecialty("Specialty 1", "Specialty1", "Test description");
-        User adminUser = serviceHelpers.createUserWithMapping("adminuser", "org.patientview.test@admin.com", "p", "Admin", "UNITA", "nhs1", specialty1);
+        User adminUser = serviceHelpers.createUserWithMapping("adminuser", "test@admin.com", "p", "Admin", "UNITA", "nhs1", specialty1);
         serviceHelpers.createSpecialtyUserRole(specialty1, adminUser, "ROLE_RENAL_UNITADMIN");
         User user1 = serviceHelpers.createUserWithMapping("testname1", "test1@admin.com", "p", "test1", "UNITA", "nhstest1", specialty1);
         User user2 = serviceHelpers.createUserWithMapping("testname2", "test2@admin.com", "p", "test2", "UNITA", "nhstest2", specialty1);

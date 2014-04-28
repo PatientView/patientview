@@ -76,10 +76,10 @@ public class UnitUtilsTest extends BaseServiceTest {
      */
     @Before
     public void initDatas() {
-        unitadmin = serviceHelpers.createUser("unitadmin", "username@org.patientview.test.com", "pass", "Test User");
-        superadmin = serviceHelpers.createUser("superadmin", "username@org.patientview.test.com", "pass", "Test User");
-        radaradmin = serviceHelpers.createUser("radaradmin", "username@org.patientview.test.com", "pass", "Test User");
-        comboAdmin = serviceHelpers.createUser("comboAdmin", "username@org.patientview.test.com", "pass", "Test User");
+        unitadmin = serviceHelpers.createUser("unitadmin", "username@test.com", "pass", "Test User");
+        superadmin = serviceHelpers.createUser("superadmin", "username@test.com", "pass", "Test User");
+        radaradmin = serviceHelpers.createUser("radaradmin", "username@test.com", "pass", "Test User");
+        comboAdmin = serviceHelpers.createUser("comboAdmin", "username@test.com", "pass", "Test User");
 
         specialty1 = serviceHelpers.createSpecialty("Specialty 1", "Specialty1", "Test description");
 
@@ -160,7 +160,7 @@ public class UnitUtilsTest extends BaseServiceTest {
 
 
     /**
-     * org.patientview.test UnitUtils.setUserUnits method, this method is used by LogonAddInputAction and UnitAdminAddAction.
+     * test UnitUtils.setUserUnits method, this method is used by LogonAddInputAction and UnitAdminAddAction.
      * this method will search units depend on login user's role and sourceType of unit('radargroup', 'renalunit').
      * superadmin will get all 'radargroup' and 'renalunit' units, unitadmin will get all units which he belongs to,
      * other role user won't get any unit, like radaradmin.
@@ -221,7 +221,7 @@ public class UnitUtilsTest extends BaseServiceTest {
     }
 
     /**
-     * org.patientview.test UnitUtils.setUserRenalUnits method, this method is used by PatientAddInputAction.
+     * test UnitUtils.setUserRenalUnits method, this method is used by PatientAddInputAction.
      * this method will search units depend on login user's role and 'renalunit' unit
      * superadmin will get all 'renalunit' units, unitadmin will get all 'renalunit' units which he belongs to,
      * other role user won't get any unit, like radaradmin.

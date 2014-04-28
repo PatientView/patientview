@@ -64,14 +64,13 @@ public class ResultHeadingTest extends BaseDaoTest {
 
     @Before
     public void setupSystem() {
-        specialty = repositoryHelpers.createSpecialty("Specialty", "specialty1", "A org.patientview.test Specialty");
+        specialty = repositoryHelpers.createSpecialty("Specialty", "specialty1", "A test Specialty");
     }
 
     @Test
     public void testSaveGet() {
 
         ResultHeading resultHeading = new ResultHeading();
-        //resultHeading.setSpecialty(specialty);
         resultHeading.setHeading("heading");
         resultHeading.setHeadingcode("HEADA");
         resultHeading.setLink("http://www.google.com/");
@@ -92,7 +91,6 @@ public class ResultHeadingTest extends BaseDaoTest {
     public void testSaveGetAllDelete() {
 
         ResultHeading resultHeading = new ResultHeading();
-        //resultHeading.setSpecialty(specialty);
         resultHeading.setHeading("heading");
         resultHeading.setHeadingcode("HEAD");
         resultHeading.setLink("http://www.google.com/");
@@ -103,7 +101,6 @@ public class ResultHeadingTest extends BaseDaoTest {
         resultHeadingDao.save(resultHeading);
 
         resultHeading = new ResultHeading();
-        //resultHeading.setSpecialty(specialty);
         resultHeading.setHeading("heading2");
         resultHeading.setHeadingcode("HEAD2");
         resultHeading.setLink("http://www.google2.com/");
@@ -128,7 +125,6 @@ public class ResultHeadingTest extends BaseDaoTest {
     public void testSaveGetUsingPanel() {
 
         ResultHeading resultHeading = new ResultHeading();
-        //resultHeading.setSpecialty(specialty);
         resultHeading.setHeading("heading");
         resultHeading.setHeadingcode("HEAD");
         resultHeading.setLink("http://www.google.com/");
@@ -139,7 +135,6 @@ public class ResultHeadingTest extends BaseDaoTest {
         resultHeadingDao.save(resultHeading);
 
         resultHeading = new ResultHeading();
-        //resultHeading.setSpecialty(specialty);
         resultHeading.setHeading("heading2");
         resultHeading.setHeadingcode("HEAD2");
         resultHeading.setLink("http://www.google2.com/");

@@ -38,7 +38,7 @@ import javax.inject.Inject;
  *  Sets up everything required for hibernate, persistence.
  *
  *  NOTE: these tests are not transaction driven, the transactions are create new in the service layer,
- *  hence the need to manually roll back the database in between each org.patientview.test.
+ *  hence the need to manually roll back the database in between each test.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:test-context.xml"})

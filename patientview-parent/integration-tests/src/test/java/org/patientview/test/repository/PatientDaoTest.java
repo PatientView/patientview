@@ -68,9 +68,9 @@ public class PatientDaoTest extends BaseDaoTest {
     @Before
     public void setupSystem() throws Exception {
 
-        specialty = repositoryHelpers.createSpecialty("Specialty1", "ten1", "A org.patientview.test specialty");
+        specialty = repositoryHelpers.createSpecialty("Specialty1", "ten1", "A test specialty");
 
-        user = repositoryHelpers.createUserWithMapping("username1", "org.patientview.test@org.patientview.test.com", "password", NAME_OF_USER,
+        user = repositoryHelpers.createUserWithMapping("username1", "test@test.com", "password", NAME_OF_USER,
                 CENTRE_1, NHS_NO_1, specialty);
 
         specialtyUserRole = repositoryHelpers.createSpecialtyUserRole(specialty, user, "patient");

@@ -52,14 +52,14 @@ public class XssUtilsTest extends BaseServiceTest {
 
     @Test
     public void testCleanObjectForXss() {
-        User user1 = repositoryHelpers.createUser("org.patientview.test 1", "tester1@org.patientview.test.com", "test1", "Test 1");
-        User user2 = repositoryHelpers.createUser("org.patientview.test 2", "tester2@org.patientview.test.com", "test2", "Test 2");
+        User user1 = repositoryHelpers.createUser("test 1", "tester1@test.com", "test1", "Test 1");
+        User user2 = repositoryHelpers.createUser("test 2", "tester2@test.com", "test2", "Test 2");
 
         Conversation conversation = new Conversation();
 
         conversation.setParticipant1(user1);
         conversation.setParticipant2(user2);
-        conversation.setSubject("This is org.patientview.test message");
+        conversation.setSubject("This is test message");
         conversationDao.save(conversation);
 
         Message message1 = new Message();

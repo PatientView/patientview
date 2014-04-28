@@ -53,12 +53,12 @@ public class JobDaoTest extends BaseDaoTest {
 
     @Test
     public void testAddGetJob() throws Exception {
-        User user1 = repositoryHelpers.createUser("org.patientview.test 1", "tester1@org.patientview.test.com", "test1", "Test 1");
-        User user2 = repositoryHelpers.createUser("org.patientview.test 2", "tester2@org.patientview.test.com", "test2", "Test 2");
+        User user1 = repositoryHelpers.createUser("test 1", "tester1@test.com", "test1", "Test 1");
+        User user2 = repositoryHelpers.createUser("test 2", "tester2@test.com", "test2", "Test 2");
         Conversation conversation = repositoryHelpers.createConversation("Test subject", user1, user2, true);
 
         Message message = repositoryHelpers.createMessage(conversation, user1, user2, "This is a message", true);
-        Specialty specialty = repositoryHelpers.createSpecialty("Specialty1", "specialty1", "A org.patientview.test specialty");
+        Specialty specialty = repositoryHelpers.createSpecialty("Specialty1", "specialty1", "A test specialty");
 
         Job job1 = new Job();
         job1.setCreator(user1);

@@ -57,7 +57,7 @@
 <rrtstatus>HD</rrtstatus>
 </clinicaldetails>
 <testdetails>
-<org.patientview.test>
+<test>
 <testname>Hb</testname>
 <testcode>hb</testcode>
 <units>gm/l</units>
@@ -102,9 +102,9 @@
 <datestamp>2012-01-26</datestamp>
 <value>11.90</value>
 </result>
-</org.patientview.test>
+</test>
 
-<org.patientview.test>
+<test>
 <testname>WBC</testname>
 <testcode>wbc</testcode>
 <units>x10^9/l</units>
@@ -149,9 +149,9 @@
 <datestamp>2012-01-26</datestamp>
 <value>5.10</value>
 </result>
-</org.patientview.test>
+</test>
 
-<org.patientview.test>
+<test>
 <testname>Platelets</testname>
 <testcode>platelets</testcode>
 <units>x10^12/l</units>
@@ -196,9 +196,9 @@
 <datestamp>2012-01-26</datestamp>
 <value>104</value>
 </result>
-</org.patientview.test>
+</test>
 
-<org.patientview.test>
+<test>
 <testname>Serum Urea</testname>
 <testcode>urea</testcode>
 <units>mmol/l</units>
@@ -243,9 +243,9 @@
 <datestamp>2012-02-04T16:45:00</datestamp>
 <value>17.30</value>
 </result>
-</org.patientview.test>
+</test>
 
-<org.patientview.test>
+<test>
 <testname>Serum Creatinine</testname>
 <testcode>creatinine</testcode>
 <units>umol/l</units>
@@ -290,9 +290,9 @@
 <datestamp>2012-02-04T16:45:00</datestamp>
 <value>882</value>
 </result>
-</org.patientview.test>
+</test>
 
-<org.patientview.test>
+<test>
 <testname>Potassium</testname>
 <testcode>potassium</testcode>
 <units>mmol/l</units>
@@ -337,9 +337,9 @@
 <datestamp>2012-02-04T16:45:00</datestamp>
 <value>4.10</value>
 </result>
-</org.patientview.test>
+</test>
 
-<org.patientview.test>
+<test>
 <testname>Calcium</testname>
 <testcode>calcium</testcode>
 <units>mmol/l</units>
@@ -384,9 +384,9 @@
 <datestamp>2010-02-07T07:00:00</datestamp>
 <value>1.82</value>
 </result>
-</org.patientview.test>
+</test>
 
-<org.patientview.test>
+<test>
 <testname>Adjusted Calcium</testname>
 <testcode>adjustedcalcium</testcode>
 <units>mmol/l</units>
@@ -431,9 +431,9 @@
 <datestamp>2012-01-26</datestamp>
 <value>1.98</value>
 </result>
-</org.patientview.test>
+</test>
 
-<org.patientview.test>
+<test>
 <testname>Phosphate</testname>
 <testcode>phosphate</testcode>
 <units>mmol/l</units>
@@ -478,9 +478,9 @@
 <datestamp>2012-01-26</datestamp>
 <value>2.01</value>
 </result>
-</org.patientview.test>
+</test>
 
-<org.patientview.test>
+<test>
 <testname>Albumin</testname>
 <testcode>albumin</testcode>
 <units>g/l</units>
@@ -525,9 +525,9 @@
 <datestamp>2012-01-26</datestamp>
 <value>38</value>
 </result>
-</org.patientview.test>
+</test>
 
-<org.patientview.test>
+<test>
 <testname>CRP</testname>
 <testcode>crp</testcode>
 <units>mg/l</units>
@@ -572,9 +572,9 @@
 <datestamp>2011-12-05T08:00:00</datestamp>
 <value>73</value>
 </result>
-</org.patientview.test>
+</test>
 
-<org.patientview.test>
+<test>
 <testname>PTH</testname>
 <testcode>pth</testcode>
 <units>pmol/l</units>
@@ -619,9 +619,9 @@
 <datestamp>2010-03-04T11:52:00</datestamp>
 <value>18.9</value>
 </result>
-</org.patientview.test>
+</test>
 
-<org.patientview.test>
+<test>
 <testname>Cholesterol</testname>
 <testcode>cholesterol</testcode>
 <units>mmol/l</units>
@@ -654,9 +654,9 @@
 <datestamp>2009-11-16T08:06:00</datestamp>
 <value>2.4</value>
 </result>
-</org.patientview.test>
+</test>
 
-<org.patientview.test>
+<test>
 <testname>Triglycerides</testname>
 <testcode>tg</testcode>
 <units>mmol/l</units>
@@ -689,9 +689,9 @@
 <datestamp>2009-11-16T08:06:00</datestamp>
 <value>1.14</value>
 </result>
-</org.patientview.test>
+</test>
 
-<org.patientview.test>
+<test>
 <testname>Glucose</testname>
 <testcode>glucose</testcode>
 <units>mmol/l</units>
@@ -736,9 +736,9 @@
 <datestamp>2010-02-13T07:00:00</datestamp>
 <value>3.3</value>
 </result>
-</org.patientview.test>
+</test>
 
-<org.patientview.test>
+<test>
 <testname>HbA1c</testname>
 <testcode>hba1c</testcode>
 <units>%</units>
@@ -747,9 +747,9 @@
 <datestamp>2012-02-02</datestamp>
 <value>5</value>
 </result>
-</org.patientview.test>
+</test>
 
-<org.patientview.test>
+<test>
 <testname>URR</testname>
 <testcode>urr</testcode>
 <units>%</units>
@@ -794,9 +794,9 @@
 <datestamp>2011-06-02T18:00:00</datestamp>
 <value>67</value>
 </result>
-</org.patientview.test>
+</test>
 
-<org.patientview.test>
+<test>
 <testname>BP sys</testname>
 <testcode>bpsys</testcode>
 <units>mm mg</units>
@@ -841,9 +841,9 @@
 <datestamp>2012-02-28T13:55:00</datestamp>
 <value>131</value>
 </result>
-</org.patientview.test>
+</test>
 
-<org.patientview.test>
+<test>
 <testname>BP dia</testname>
 <testcode>bpdia</testcode>
 <units>mm mg</units>
@@ -888,9 +888,9 @@
 <datestamp>2012-02-28T13:55:00</datestamp>
 <value>85</value>
 </result>
-</org.patientview.test>
+</test>
 
-<org.patientview.test>
+<test>
 <testname>Height</testname>
 <testcode>height</testcode>
 <units>cm</units>
@@ -899,9 +899,9 @@
 <datestamp>2009-11-24</datestamp>
 <value>175</value>
 </result>
-</org.patientview.test>
+</test>
 
-<org.patientview.test>
+<test>
 <testname>Weight</testname>
 <testcode>weight</testcode>
 <units>kg</units>
@@ -946,9 +946,9 @@
 <datestamp>2012-02-23T14:00:00</datestamp>
 <value>92.4</value>
 </result>
-</org.patientview.test>
+</test>
 
-<org.patientview.test>
+<test>
 <testname>eGFR</testname>
 <testcode>egfr</testcode>
 <units>ml/min/1.73m^2</units>
@@ -993,9 +993,9 @@
 <datestamp>2012-02-04T16:45:00</datestamp>
 <value>6</value>
 </result>
-</org.patientview.test>
+</test>
 
-<org.patientview.test>
+<test>
 <testname>HCO3</testname>
 <testcode>hco3</testcode>
 <units>mmol/l</units>
@@ -1040,9 +1040,9 @@
 <datestamp>2012-02-04T16:45:00</datestamp>
 <value>18</value>
 </result>
-</org.patientview.test>
+</test>
 
-<org.patientview.test>
+<test>
 <testname>INR</testname>
 <testcode>inr</testcode>
 <units></units>
@@ -1087,9 +1087,9 @@
 <datestamp>2011-08-06T14:30:00</datestamp>
 <value>1.1</value>
 </result>
-</org.patientview.test>
+</test>
 
-<org.patientview.test>
+<test>
 <testname>Sodium</testname>
 <testcode>sodium</testcode>
 <units>mmol/l</units>
@@ -1134,9 +1134,9 @@
 <datestamp>2012-02-04T16:45:00</datestamp>
 <value>140</value>
 </result>
-</org.patientview.test>
+</test>
 
-<org.patientview.test>
+<test>
 <testname>Bilirubin</testname>
 <testcode>bili</testcode>
 <units>umol/l</units>
@@ -1181,9 +1181,9 @@
 <datestamp>2012-01-26</datestamp>
 <value>4</value>
 </result>
-</org.patientview.test>
+</test>
 
-<org.patientview.test>
+<test>
 <testname>AST</testname>
 <testcode>ast</testcode>
 <units>Iu/l</units>
@@ -1228,9 +1228,9 @@
 <datestamp>2012-01-26</datestamp>
 <value>13</value>
 </result>
-</org.patientview.test>
+</test>
 
-<org.patientview.test>
+<test>
 <testname>ALT</testname>
 <testcode>alt</testcode>
 <units>Iu/l</units>
@@ -1275,9 +1275,9 @@
 <datestamp>2012-01-26</datestamp>
 <value>11</value>
 </result>
-</org.patientview.test>
+</test>
 
-<org.patientview.test>
+<test>
 <testname>ALP</testname>
 <testcode>alp</testcode>
 <units>Iu/l</units>
@@ -1322,9 +1322,9 @@
 <datestamp>2012-01-26</datestamp>
 <value>64</value>
 </result>
-</org.patientview.test>
+</test>
 
-<org.patientview.test>
+<test>
 <testname>GGT</testname>
 <testcode>ggt</testcode>
 <units>Iu/l</units>
@@ -1369,9 +1369,9 @@
 <datestamp>2012-01-26</datestamp>
 <value>45</value>
 </result>
-</org.patientview.test>
+</test>
 
-<org.patientview.test>
+<test>
 <testname>Ferritin</testname>
 <testcode>ferritin</testcode>
 <units>ug/l</units>
@@ -1416,9 +1416,9 @@
 <datestamp>2010-01-29T09:23:00</datestamp>
 <value>509</value>
 </result>
-</org.patientview.test>
+</test>
 
-<org.patientview.test>
+<test>
 <testname>Iron</testname>
 <testcode>iron</testcode>
 <units>umol/l</units>
@@ -1463,9 +1463,9 @@
 <datestamp>2010-01-07T18:12:00</datestamp>
 <value>16</value>
 </result>
-</org.patientview.test>
+</test>
 
-<org.patientview.test>
+<test>
 <testname>Transferrin</testname>
 <testcode>transferrin</testcode>
 <units>g/l</units>
@@ -1510,9 +1510,9 @@
 <datestamp>2010-01-07T18:12:00</datestamp>
 <value>1.5</value>
 </result>
-</org.patientview.test>
+</test>
 
-<org.patientview.test>
+<test>
 <testname>Iron Saturation</testname>
 <testcode>ironsat</testcode>
 <units>%</units>
@@ -1557,7 +1557,7 @@
 <datestamp>2010-01-07T18:12:00</datestamp>
 <value>48</value>
 </result>
-</org.patientview.test>
+</test>
 
 </testdetails>
 <drugdetails>

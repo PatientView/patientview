@@ -55,7 +55,7 @@ public class LetterDaoTest extends BaseDaoTest {
 
     @Before
     public void setupSystem() {
-        specialty = repositoryHelpers.createSpecialty("Specialty1", "ten1", "A org.patientview.test specialty");
+        specialty = repositoryHelpers.createSpecialty("Specialty1", "ten1", "A test specialty");
     }
 
     @Test

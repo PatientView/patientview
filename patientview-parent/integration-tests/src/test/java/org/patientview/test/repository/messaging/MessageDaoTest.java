@@ -51,8 +51,8 @@ public class MessageDaoTest extends BaseDaoTest {
 
     @Test
     public void testAddGetMessage() throws Exception {
-        User user1 = repositoryHelpers.createUser("org.patientview.test 1", "tester1@org.patientview.test.com", "test1", "Test 1");
-        User user2 = repositoryHelpers.createUser("org.patientview.test 2", "tester2@org.patientview.test.com", "test2", "Test 2");
+        User user1 = repositoryHelpers.createUser("test 1", "tester1@test.com", "test1", "Test 1");
+        User user2 = repositoryHelpers.createUser("test 2", "tester2@test.com", "test2", "Test 2");
         Conversation conversation = repositoryHelpers.createConversation("Test subject", user1, user2, true);
 
         Message message = repositoryHelpers.createMessage(conversation, user1, user2, "This is a message", true);
@@ -68,8 +68,8 @@ public class MessageDaoTest extends BaseDaoTest {
 
     @Test
     public void testDeleteMessage() throws Exception {
-        User user1 = repositoryHelpers.createUser("org.patientview.test 1", "tester1@org.patientview.test.com", "test1", "Test 1");
-        User user2 = repositoryHelpers.createUser("org.patientview.test 2", "tester2@org.patientview.test.com", "test2", "Test 2");
+        User user1 = repositoryHelpers.createUser("test 1", "tester1@test.com", "test1", "Test 1");
+        User user2 = repositoryHelpers.createUser("test 2", "tester2@test.com", "test2", "Test 2");
         Conversation conversation = repositoryHelpers.createConversation("Test subject", user1, user2, true);
 
         Message message = repositoryHelpers.createMessage(conversation, user1, user2, "This is a message", true);
@@ -95,9 +95,9 @@ public class MessageDaoTest extends BaseDaoTest {
          *
          * Should get back 1 message for conversation 2
          */
-        User user1 = repositoryHelpers.createUser("org.patientview.test 1", "tester1@org.patientview.test.com", "test1", "Test 1");
-        User user2 = repositoryHelpers.createUser("org.patientview.test 2", "tester2@org.patientview.test.com", "test2", "Test 2");
-        User user3 = repositoryHelpers.createUser("org.patientview.test 3", "tester3@org.patientview.test.com", "test3", "Test 3");
+        User user1 = repositoryHelpers.createUser("test 1", "tester1@test.com", "test1", "Test 1");
+        User user2 = repositoryHelpers.createUser("test 2", "tester2@test.com", "test2", "Test 2");
+        User user3 = repositoryHelpers.createUser("test 3", "tester3@test.com", "test3", "Test 3");
 
         // create convo between 1 and 2
         Conversation conversation1 = repositoryHelpers.createConversation("Test subject", user1, user2, true);
@@ -141,8 +141,8 @@ public class MessageDaoTest extends BaseDaoTest {
          * User 2 should have 2 unread messages for that conversation
          */
 
-        User user1 = repositoryHelpers.createUser("org.patientview.test 1", "tester1@org.patientview.test.com", "test1", "Test 1");
-        User user2 = repositoryHelpers.createUser("org.patientview.test 2", "tester2@org.patientview.test.com", "test2", "Test 2");
+        User user1 = repositoryHelpers.createUser("test 1", "tester1@test.com", "test1", "Test 1");
+        User user2 = repositoryHelpers.createUser("test 2", "tester2@test.com", "test2", "Test 2");
 
         // create convo between 1 and 2
         Conversation conversation = repositoryHelpers.createConversation("Test subject", user1, user2, true);
@@ -178,8 +178,8 @@ public class MessageDaoTest extends BaseDaoTest {
          * User 2 should have 2 unread messages for that conversation
          */
 
-        User user1 = repositoryHelpers.createUser("org.patientview.test 1", "tester1@org.patientview.test.com", "test1", "Test 1");
-        User user2 = repositoryHelpers.createUser("org.patientview.test 2", "tester2@org.patientview.test.com", "test2", "Test 2");
+        User user1 = repositoryHelpers.createUser("test 1", "tester1@test.com", "test1", "Test 1");
+        User user2 = repositoryHelpers.createUser("test 2", "tester2@test.com", "test2", "Test 2");
 
         // create convo between 1 and 2
         Conversation conversation = repositoryHelpers.createConversation("Test subject", user1, user2, true);
@@ -203,8 +203,8 @@ public class MessageDaoTest extends BaseDaoTest {
 
     @Test
     public void testGetLatestMessage() throws Exception {
-        User user1 = repositoryHelpers.createUser("org.patientview.test 1", "tester1@org.patientview.test.com", "test1", "Test 1");
-        User user2 = repositoryHelpers.createUser("org.patientview.test 2", "tester2@org.patientview.test.com", "test2", "Test 2");
+        User user1 = repositoryHelpers.createUser("test 1", "tester1@test.com", "test1", "Test 1");
+        User user2 = repositoryHelpers.createUser("test 2", "tester2@test.com", "test2", "Test 2");
 
         // create convo between 1 and 2
         Conversation conversation = repositoryHelpers.createConversation("Test subject", user1, user2, true);
@@ -213,7 +213,7 @@ public class MessageDaoTest extends BaseDaoTest {
         Message message1 = repositoryHelpers.createMessage(conversation, user1, user2, "Message in conversation 1",
                 true);
 
-        // this is a bit of a hack but cause the org.patientview.test messages are created at almost the same time MySQL doesnt take
+        // this is a bit of a hack but cause the test messages are created at almost the same time MySQL doesnt take
         // into account the milliseconds so save the 2nd message then save again to make the time slightly different
         Message message2 = repositoryHelpers.createMessage(conversation, user1, user2, "2nd Message in conversation 1",
                 true);

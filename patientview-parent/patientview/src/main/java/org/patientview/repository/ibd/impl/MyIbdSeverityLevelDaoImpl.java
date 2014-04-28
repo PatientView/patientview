@@ -83,7 +83,7 @@ public class MyIbdSeverityLevelDaoImpl extends AbstractHibernateDAO<MyIbdSeverit
 
     @Override
     public void save(MyIbdSeverityLevel myIbdSeverityLevel) {
-        // need to org.patientview.test if there is a record with this level already and just use that
+        // need to test if there is a record with this level already and just use that
         MyIbdSeverityLevel existingMyIbdSeverityLevel = get(myIbdSeverityLevel.getNhsno(),
                 myIbdSeverityLevel.getSeverity());
 

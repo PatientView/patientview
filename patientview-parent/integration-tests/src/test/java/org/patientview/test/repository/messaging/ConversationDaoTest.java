@@ -50,8 +50,8 @@ public class ConversationDaoTest extends BaseDaoTest {
 
     @Test
     public void testAddGetConversation() throws Exception {
-        User user1 = repositoryHelpers.createUser("org.patientview.test 1", "tester1@org.patientview.test.com", "test1", "Test 1");
-        User user2 = repositoryHelpers.createUser("org.patientview.test 2", "tester2@org.patientview.test.com", "test2", "Test 2");
+        User user1 = repositoryHelpers.createUser("test 1", "tester1@test.com", "test1", "Test 1");
+        User user2 = repositoryHelpers.createUser("test 2", "tester2@test.com", "test2", "Test 2");
 
         Conversation conversation = repositoryHelpers.createConversation("Test subject", user1, user2, true);
 
@@ -68,8 +68,8 @@ public class ConversationDaoTest extends BaseDaoTest {
 
     @Test
     public void testDeleteConversation() throws Exception {
-        User user1 = repositoryHelpers.createUser("org.patientview.test 1", "tester1@org.patientview.test.com", "test1", "Test 1");
-        User user2 = repositoryHelpers.createUser("org.patientview.test 2", "tester2@org.patientview.test.com", "test2", "Test 2");
+        User user1 = repositoryHelpers.createUser("test 1", "tester1@test.com", "test1", "Test 1");
+        User user2 = repositoryHelpers.createUser("test 2", "tester2@test.com", "test2", "Test 2");
 
         Conversation conversation = repositoryHelpers.createConversation("Test subject", user1, user2, true);
 
@@ -124,10 +124,10 @@ public class ConversationDaoTest extends BaseDaoTest {
     @Test
     public void testGetConversationList() throws Exception {
 
-        User user1 = repositoryHelpers.createUser("org.patientview.test 1", "tester1@org.patientview.test.com", "test1", "Test 1");
-        User user2 = repositoryHelpers.createUser("org.patientview.test 2", "tester2@org.patientview.test.com", "test2", "Test 2");
-        User user3 = repositoryHelpers.createUser("org.patientview.test 3", "tester3@org.patientview.test.com", "test3", "Test 3");
-        User user4 = repositoryHelpers.createUser("org.patientview.test 4", "tester3@org.patientview.test.com", "test4", "Test 4");
+        User user1 = repositoryHelpers.createUser("test 1", "tester1@test.com", "test1", "Test 1");
+        User user2 = repositoryHelpers.createUser("test 2", "tester2@test.com", "test2", "Test 2");
+        User user3 = repositoryHelpers.createUser("test 3", "tester3@test.com", "test3", "Test 3");
+        User user4 = repositoryHelpers.createUser("test 4", "tester3@test.com", "test4", "Test 4");
 
         Conversation conversation1 = repositoryHelpers.createConversation("Test subject", user1, user2, true);
 

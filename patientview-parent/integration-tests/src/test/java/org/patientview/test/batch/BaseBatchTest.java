@@ -36,14 +36,14 @@ public abstract class BaseBatchTest extends BaseServiceTest {
     private String configEnvironment;
 
     /**
-     * // If profile is localhost or org.patientview.test or localhost-org.patientview.test return false;
+     * // If profile is localhost or test or localhost-test return false;
      *
      * @return whether can run the testcase
      */
     protected boolean canRun() {
         if (configEnvironment != null && !configEnvironment.equalsIgnoreCase("localhost")
-                && !configEnvironment.equalsIgnoreCase("org/patientview/test")
-                && !configEnvironment.equalsIgnoreCase("localhost-org.patientview.test")) {
+                && !configEnvironment.equalsIgnoreCase("test")
+                && !configEnvironment.equalsIgnoreCase("localhost-test")) {
             return true;
         }
 

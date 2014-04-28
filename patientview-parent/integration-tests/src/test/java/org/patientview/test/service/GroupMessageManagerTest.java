@@ -54,8 +54,8 @@ public class GroupMessageManagerTest extends BaseServiceTest {
 
     @Test
     public void testGetGroupMessage() throws Exception {
-        User user1 = serviceHelpers.createUser("org.patientview.test 1", "tester1@org.patientview.test.com", "test1", "Test 1");
-        User user2 = serviceHelpers.createUser("org.patientview.test 2", "tester2@org.patientview.test.com", "test2", "Test 2");
+        User user1 = serviceHelpers.createUser("test 1", "tester1@test.com", "test1", "Test 1");
+        User user2 = serviceHelpers.createUser("test 2", "tester2@test.com", "test2", "Test 2");
         Conversation conversation = serviceHelpers.createConversation("Test subject", user1, user2, true);
 
         GroupMessage message = new GroupMessage();
@@ -74,8 +74,8 @@ public class GroupMessageManagerTest extends BaseServiceTest {
 
     @Test
     public void testMarkGroupMessageAsReadForConversation() throws Exception {
-        User user1 = serviceHelpers.createUser("org.patientview.test 1", "tester1@org.patientview.test.com", "test1", "Test 1");
-        User user2 = serviceHelpers.createUser("org.patientview.test 2", "tester2@org.patientview.test.com", "test2", "Test 2");
+        User user1 = serviceHelpers.createUser("test 1", "tester1@test.com", "test1", "Test 1");
+        User user2 = serviceHelpers.createUser("test 2", "tester2@test.com", "test2", "Test 2");
         Conversation conversation = serviceHelpers.createConversation("Test subject", user1, user2, true);
 
         groupMessageManager.markGroupMessageAsReadForConversation(user2, conversation);

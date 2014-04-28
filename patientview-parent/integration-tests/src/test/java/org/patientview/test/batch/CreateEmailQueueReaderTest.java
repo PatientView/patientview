@@ -83,7 +83,7 @@ public class CreateEmailQueueReaderTest extends BaseBatchTest {
     @Before
     public void setup() {
         specialty = serviceHelpers.createSpecialty("Specialty 1", "Specialty1", "Test description");
-        adminUser = serviceHelpers.createUserWithMapping("adminuser", "org.patientview.test@admin.com", "p", "Admin", "UNITA", "nhs1", specialty);
+        adminUser = serviceHelpers.createUserWithMapping("adminuser", "test@admin.com", "p", "Admin", "UNITA", "nhs1", specialty);
         user1 = serviceHelpers.createUserWithMapping("testname1", "test1@admin.com", "p", "test1", "UNITA", "nhstest1", specialty);
         user2 = serviceHelpers.createUserWithMapping("testname2", "test2@admin.com", "p", "test2", "UNITA", "nhstest2", specialty);
         User user3 = serviceHelpers.createUserWithMapping("testname3-GP", "test3@admin.com", "p", "test3", "UNITA", "nhstest3", specialty);

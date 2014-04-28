@@ -42,7 +42,7 @@ public class EmailVerificationDaoTest extends BaseDaoTest {
 
     @Test
     public void testAddGetEmailVerification() throws Exception {
-        EmailVerification emailVerification = getTestObject("org/patientview/test", "org.patientview.test@org.patientview.test.com",
+        EmailVerification emailVerification = getTestObject("test", "test@test.com",
                 "InTigEdjeUBE9LmcKel8Xmd7CQqwYNeHS4o8XpjefSEu1hlx8g", Calendar.getInstance(), Calendar.getInstance());
 
         emailVerificationDao.save(emailVerification);
@@ -67,13 +67,13 @@ public class EmailVerificationDaoTest extends BaseDaoTest {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, 5); // need the expiry to be in the future
 
-        EmailVerification emailVerification1 = getTestObject("org/patientview/test", "org.patientview.test@org.patientview.test.com",
+        EmailVerification emailVerification1 = getTestObject("test", "test@test.com",
                 "InTigEdjeUBE9LmcKel8Xmd7CQqwYNeHS4o8XpjefSEu1hlx81", calendar, Calendar.getInstance());
         emailVerificationDao.save(emailVerification1);
         assertTrue("Invalid id for email verification 1", emailVerification1.getId() > 0);
 
         // create a 2nd just to make sure it doesnt get pulled back
-        EmailVerification emailVerification2 = getTestObject("org/patientview/test", "org.patientview.test@org.patientview.test.com",
+        EmailVerification emailVerification2 = getTestObject("test", "test@test.com",
                 "InTigEdjeUBE9LmcKel8Xmd7CQqwYNeHS4o8XpjefSEu1hlx82", Calendar.getInstance(), Calendar.getInstance());
         emailVerificationDao.save(emailVerification2);
         assertTrue("Invalid id for email verification 2", emailVerification2.getId() > 0);
@@ -92,7 +92,7 @@ public class EmailVerificationDaoTest extends BaseDaoTest {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, -5); // need the expiry to be in the past
 
-        EmailVerification emailVerification = getTestObject("org/patientview/test", "org.patientview.test@org.patientview.test.com",
+        EmailVerification emailVerification = getTestObject("test", "test@test.com",
                 "InTigEdjeUBE9LmcKel8Xmd7CQqwYNeHS4o8XpjefSEu1hlx81", calendar, Calendar.getInstance());
         emailVerificationDao.save(emailVerification);
         assertTrue("Invalid id for email verification", emailVerification.getId() > 0);
@@ -109,7 +109,7 @@ public class EmailVerificationDaoTest extends BaseDaoTest {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, 5);
 
-        EmailVerification emailVerification = getTestObject("org/patientview/test", "org.patientview.test@org.patientview.test.com",
+        EmailVerification emailVerification = getTestObject("test", "test@test.com",
                 "InTigEdjeUBE9LmcKel8Xmd7CQqwYNeHS4o8XpjefSEu1hlx81", calendar, Calendar.getInstance());
         emailVerificationDao.save(emailVerification);
         assertTrue("Invalid id for email verification", emailVerification.getId() > 0);

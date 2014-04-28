@@ -41,7 +41,7 @@ public class XmlImportUtilsTest {
         Patient originalPatient = new Patient();
 
         Patient newPatient = new Patient();
-        newPatient.setDiagnosis("This is a diagnosis org.patientview.test");
+        newPatient.setDiagnosis("This is a diagnosis test");
 
         XmlImportUtils.copyObject(originalPatient, newPatient);
 

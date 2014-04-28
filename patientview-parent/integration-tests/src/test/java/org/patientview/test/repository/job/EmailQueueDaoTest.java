@@ -82,9 +82,9 @@ public class EmailQueueDaoTest extends BaseDaoTest {
 
     @Test
     public void testGetEmailQueueList() throws Exception {
-        User user1 = repositoryHelpers.createUser("org.patientview.test 4", "tester1@org.patientview.test.com", "test1", "Test 1");
-        User user2 = repositoryHelpers.createUser("org.patientview.test 5", "tester2@org.patientview.test.com", "test2", "Test 2");
-        User user3 = repositoryHelpers.createUser("org.patientview.test 6", "tester3@org.patientview.test.com", "test3", "Test 3");
+        User user1 = repositoryHelpers.createUser("test 4", "tester1@test.com", "test1", "Test 1");
+        User user2 = repositoryHelpers.createUser("test 5", "tester2@test.com", "test2", "Test 2");
+        User user3 = repositoryHelpers.createUser("test 6", "tester3@test.com", "test3", "Test 3");
         Job job = getJob();
 
         EmailQueue queue1 = new EmailQueue();
@@ -128,12 +128,12 @@ public class EmailQueueDaoTest extends BaseDaoTest {
     }
 
     private Job getJob(){
-        User user1 = repositoryHelpers.createUser("org.patientview.test 1", "tester1@org.patientview.test.com", "test1", "Test 1");
-        User user2 = repositoryHelpers.createUser("org.patientview.test 2", "tester2@org.patientview.test.com", "test2", "Test 2");
+        User user1 = repositoryHelpers.createUser("test 1", "tester1@test.com", "test1", "Test 1");
+        User user2 = repositoryHelpers.createUser("test 2", "tester2@test.com", "test2", "Test 2");
         Conversation conversation = repositoryHelpers.createConversation("Test subject", user1, user2, true);
 
         Message message = repositoryHelpers.createMessage(conversation, user1, user2, "This is a message", true);
-        Specialty specialty = repositoryHelpers.createSpecialty("Specialty1", "specialty1", "A org.patientview.test specialty");
+        Specialty specialty = repositoryHelpers.createSpecialty("Specialty1", "specialty1", "A test specialty");
 
         Job job = new Job();
         job.setCreator(user1);

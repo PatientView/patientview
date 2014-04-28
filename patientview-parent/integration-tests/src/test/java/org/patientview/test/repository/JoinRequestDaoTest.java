@@ -74,11 +74,11 @@ public class JoinRequestDaoTest extends BaseDaoTest {
         joinRequest.setFirstName("testName");
         joinRequest.setLastName("London");
         joinRequest.setDateOfBirth(new Date());
-        joinRequest.setEmail("org.patientview.test@london.com");
+        joinRequest.setEmail("test@london.com");
         joinRequest.setNhsNo("9876543210");
         joinRequest.setUnitcode("SNC01");
         joinRequest.setComplete(true);
-        joinRequest.setNotes("org.patientview.test notes");
+        joinRequest.setNotes("test notes");
         joinRequest.setDateOfRequest(new Date());
 
         joinRequestDao.save(joinRequest);
@@ -108,11 +108,11 @@ public class JoinRequestDaoTest extends BaseDaoTest {
         joinRequest.setFirstName("testName");
         joinRequest.setLastName("London");
         joinRequest.setDateOfBirth(new Date());
-        joinRequest.setEmail("org.patientview.test@london.com");
+        joinRequest.setEmail("test@london.com");
         joinRequest.setNhsNo("9876543210");
         joinRequest.setUnitcode("SNC01");
         joinRequest.setComplete(true);
-        joinRequest.setNotes("org.patientview.test notes");
+        joinRequest.setNotes("test notes");
         joinRequest.setDateOfRequest(new Date());
 
         joinRequestDao.save(joinRequest);

@@ -73,12 +73,12 @@ public class PatientManagerTest extends BaseServiceTest {
         specialty2 = serviceHelpers.createSpecialty("Specialty 2", "Specialty2", "Test description 2");
 
         // create an admin adminUser and specialty and log them in
-        User adminUser = serviceHelpers.createUser("admin1", "admin1@org.patientview.test.com", "pass", "Test Unit Admin");
+        User adminUser = serviceHelpers.createUser("admin1", "admin1@test.com", "pass", "Test Unit Admin");
         serviceHelpers.createSpecialtyUserRole(specialty1, adminUser, "unitadmin");
         securityHelpers.loginAsUser(adminUser.getUsername(), specialty1);
 
         // setup a system with a user with 2 specialty roles
-        user = serviceHelpers.createUserWithMapping("Username", "username@org.patientview.test.com", "pass", "Test User",
+        user = serviceHelpers.createUserWithMapping("Username", "username@test.com", "pass", "Test User",
                 "unitcode1", "nhsno1", specialty1);
 
 
@@ -113,7 +113,7 @@ public class PatientManagerTest extends BaseServiceTest {
 
 
     /**
-     * This is to org.patientview.test that the PatientManager can get the latest org.patientview.test results with unit code;
+     * This is to test that the PatientManager can get the latest test results with unit code;
      *
      * Create 3 patient record all with different dates and get the latest one.
      *

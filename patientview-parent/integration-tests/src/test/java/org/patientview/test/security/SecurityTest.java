@@ -91,7 +91,7 @@ public class SecurityTest extends BaseServiceTest {
 
     @Before
     public void setupSpecialties() {
-        user = serviceHelpers.createUser("Username", "username@org.patientview.test.com", "pass", "Test User");
+        user = serviceHelpers.createUser("Username", "username@test.com", "pass", "Test User");
 
         specialty1 = serviceHelpers.createSpecialty("Specialty 1", "Specialty1", "Test description");
         specialty2 = serviceHelpers.createSpecialty("Specialty 2", "Specialty2", "Test description 2");
@@ -239,15 +239,15 @@ public class SecurityTest extends BaseServiceTest {
     @Test //(expected = AccessDeniedException.class)
     public void testGetUnitUser() {
 
-        User adminUser = serviceHelpers.createUserWithMapping("adminuser", "adminuser@org.patientview.test.com", "p", "Adminuser", "UNITCODEA",
+        User adminUser = serviceHelpers.createUserWithMapping("adminuser", "adminuser@test.com", "p", "Adminuser", "UNITCODEA",
                 "nhs1", specialty2);
         serviceHelpers.createSpecialtyUserRole(specialty2, adminUser, "unitadmin");
 
-        User validUser = serviceHelpers.createUserWithMapping("validUser", "validUser@org.patientview.test.com", "p", "ValidUser", "UNITCODEA",
+        User validUser = serviceHelpers.createUserWithMapping("validUser", "validUser@test.com", "p", "ValidUser", "UNITCODEA",
                 "nhs1", specialty2);
         serviceHelpers.createSpecialtyUserRole(specialty2, validUser, "unitadmin");
 
-        User invalidUser = serviceHelpers.createUserWithMapping("invalidUser", "invalidUser@org.patientview.test.com", "p", "InvalidUser", "TestUnit",
+        User invalidUser = serviceHelpers.createUserWithMapping("invalidUser", "invalidUser@test.com", "p", "InvalidUser", "TestUnit",
                 "nhs1", specialty2);
         serviceHelpers.createSpecialtyUserRole(specialty2, invalidUser, "unitadmin");
 
@@ -258,7 +258,7 @@ public class SecurityTest extends BaseServiceTest {
         validUnit.setUnitcode("UNITCODEA");
         validUnit.setName("UNITCODEA");
         validUnit.setShortname("UNITCODEA");
-        validUnit.setRenaladminemail("org.patientview.test@mailinator.com");
+        validUnit.setRenaladminemail("test@mailinator.com");
         validUnit.setSpecialty(specialty2);
         unitManager.save(validUnit);
 
@@ -281,11 +281,11 @@ public class SecurityTest extends BaseServiceTest {
     @Test
     public void testGetValidUnitUser() {
 
-        User adminUser = serviceHelpers.createUserWithMapping("adminuser", "adminuser@org.patientview.test.com", "p", "Adminuser", "UNITCODEA",
+        User adminUser = serviceHelpers.createUserWithMapping("adminuser", "adminuser@test.com", "p", "Adminuser", "UNITCODEA",
                 "nhs1", specialty2);
         serviceHelpers.createSpecialtyUserRole(specialty2, adminUser, "unitadmin");
 
-        User validUser = serviceHelpers.createUserWithMapping("validUser", "validUser@org.patientview.test.com", "p", "ValidUser", "UNITCODEA",
+        User validUser = serviceHelpers.createUserWithMapping("validUser", "validUser@test.com", "p", "ValidUser", "UNITCODEA",
                 "nhs1", specialty2);
         serviceHelpers.createSpecialtyUserRole(specialty2, validUser, "unitadmin");
 
@@ -295,7 +295,7 @@ public class SecurityTest extends BaseServiceTest {
         validUnit.setUnitcode("UNITCODEA");
         validUnit.setName("UNITCODEA");
         validUnit.setShortname("UNITCODEA");
-        validUnit.setRenaladminemail("org.patientview.test@mailinator.com");
+        validUnit.setRenaladminemail("test@mailinator.com");
         validUnit.setSpecialty(specialty2);
         unitManager.save(validUnit);
 
@@ -307,7 +307,7 @@ public class SecurityTest extends BaseServiceTest {
 
     @Test(expected = AccessDeniedException.class)
     public void testGetAllUnitUsersWithUnitAdmin() {
-        User unitadmin = serviceHelpers.createUserWithMapping("testuser1", "paul@org.patientview.test.com", "p", "Testuser1", "UNITCODEA",
+        User unitadmin = serviceHelpers.createUserWithMapping("testuser1", "paul@test.com", "p", "Testuser1", "UNITCODEA",
                 "nhs1", specialty2);
         serviceHelpers.createSpecialtyUserRole(specialty2, unitadmin, "unitadmin");
         loginAsUser(unitadmin.getUsername(), specialty2);
@@ -317,20 +317,20 @@ public class SecurityTest extends BaseServiceTest {
 
     @Test
     public void testGetAllUnitUsersWithSuperAdmin() {
-        User superadmin = serviceHelpers.createUser("superadminname", "superadminname@org.patientview.test.com", "p", "Testuser1");
+        User superadmin = serviceHelpers.createUser("superadminname", "superadminname@test.com", "p", "Testuser1");
 
         Specialty specialty = serviceHelpers.createSpecialty("RENAL", "RENAL", "Test RENAL");
 
         serviceHelpers.createSpecialtyUserRole(specialty, superadmin, "superadmin");
         loginAsUser(superadmin.getUsername(), specialty);
 
-        //reinstatement. I don't know why without assert statement, I guess org.patientview.test no exception thrown. see testGetAllUnitUsersWithUnitAdmin method.
+        //reinstatement. I don't know why without assert statement, I guess test no exception thrown. see testGetAllUnitUsersWithUnitAdmin method.
         unitManager.getAllUnitUsers();
     }
 
     @Test(expected = AccessDeniedException.class)
     public void testGetAllUnitPatientsWithTreatmentWithUnitAdmin() {
-        User unitadmin = serviceHelpers.createUserWithMapping("testuser1", "paul@org.patientview.test.com", "p", "Testuser1", "UNITCODEA",
+        User unitadmin = serviceHelpers.createUserWithMapping("testuser1", "paul@test.com", "p", "Testuser1", "UNITCODEA",
                 "nhs1", specialty2);
         serviceHelpers.createSpecialtyUserRole(specialty2, unitadmin, "unitadmin");
         loginAsUser(unitadmin.getUsername(), specialty2);
@@ -341,7 +341,7 @@ public class SecurityTest extends BaseServiceTest {
 
     @Test
     public void testGetAllUnitPatientsWithTreatmentWithSuperAdmin() {
-        User superadmin = serviceHelpers.createUser("superadminname", "superadminname@org.patientview.test.com", "p", "Testuser1");
+        User superadmin = serviceHelpers.createUser("superadminname", "superadminname@test.com", "p", "Testuser1");
 
         Specialty specialty = serviceHelpers.createSpecialty("RENAL", "RENAL", "Test RENAL");
 

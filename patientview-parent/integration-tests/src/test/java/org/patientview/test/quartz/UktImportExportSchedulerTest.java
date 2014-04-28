@@ -83,9 +83,9 @@ public class UktImportExportSchedulerTest {
     @Before
     public void setupSystem() throws Exception {
 
-        specialty = repositoryHelpers.createSpecialty("Specialty1", "ten1", "A org.patientview.test specialty");
+        specialty = repositoryHelpers.createSpecialty("Specialty1", "ten1", "A test specialty");
 
-        user = repositoryHelpers.createUserWithMapping("username", "paul@org.patientview.test.com", "p", "username", "UNITCODEA",
+        user = repositoryHelpers.createUserWithMapping("username", "paul@test.com", "p", "username", "UNITCODEA",
                 "9876543211", specialty);
 
         patient = new Patient();
@@ -105,7 +105,7 @@ public class UktImportExportSchedulerTest {
 
         int uktFilesSize = 0;
 
-        String parentDir = ResourceUtils.getFile("classpath:schedule/org.patientview.test-uktstatus.gpg.txt").getParent();
+        String parentDir = ResourceUtils.getFile("classpath:schedule/test-uktstatus.gpg.txt").getParent();
 
         setUktDirectory(parentDir);
 
