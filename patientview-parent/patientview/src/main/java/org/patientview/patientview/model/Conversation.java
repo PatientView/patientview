@@ -24,6 +24,7 @@
 package org.patientview.patientview.model;
 
 import org.patientview.model.BaseModel;
+import org.patientview.patientview.messaging.Messaging;
 import org.patientview.patientview.model.enums.GroupEnum;
 
 import javax.persistence.Column;
@@ -78,7 +79,7 @@ public class Conversation extends BaseModel {
     private GroupEnum groupEnum;
 
     @Column(nullable = true)
-    private String type;
+    private String type = Messaging.MESSAGE;
 
     @Column(nullable = true)
     private String imageData;
