@@ -119,7 +119,12 @@ public class PatientController {
         userManager.saveHashPassword(gpUser);
 
         // Success! Page Set Up
-        ModelAndView modelAndView = new ModelAndView("control/patient_add_confirm");
+        ModelAndView modelAndView;
+        if (userManager.getCurrentSpecialtyRole(user).equalsIgnoreCase("ibd")) {
+            modelAndView = new ModelAndView("control/patient_ibd_input");
+        } else {
+            modelAndView = new ModelAndView("control/patient_add_confirm");
+        }
         modelAndView.addObject("patient", patientInput);
         List<Unit> units = unitManager.getUnitsBySpecialty(
                 userManager.getCurrentSpecialty(userManager.getLoggedInUser()));
