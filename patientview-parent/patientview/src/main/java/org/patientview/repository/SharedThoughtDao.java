@@ -23,4 +23,6 @@ public interface SharedThoughtDao {
     List<User> getOtherResponders(SharedThought sharedThought);
 
     boolean addResponder(SharedThought sharedThought, User responder);
+
+    boolean removeResponder(SharedThought sharedThought, User responder);
 }

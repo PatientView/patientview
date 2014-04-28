@@ -65,4 +65,15 @@ public class SharedThoughtManagerImpl implements SharedThoughtManager {
         }
     }
 
+    @Override
+    public boolean removeResponder(Long sharedThoughtId, Long responderId) {
+        SharedThought sharedThought = get(sharedThoughtId);
+        User responder = userDao.get(responderId);
+
+        if (sharedThought != null && responder != null) {
+            return sharedThoughtDao.removeResponder(sharedThought, responder);
+        } else {
+            return false;
+        }
+    }
 }

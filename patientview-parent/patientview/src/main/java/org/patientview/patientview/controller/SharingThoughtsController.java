@@ -66,7 +66,7 @@ public class SharingThoughtsController extends BaseController {
     }
 
     /**
-     * Deal with the URIs "/sharingThoughts/addResponders"
+     * Deal with the URIs "/sharingThoughts/addResponder"
      * adds a responder to a shared thought (they can join the conversation etc)
      */
     @RequestMapping(value = Routes.SHARING_THOUGHTS_ADD_RESPONDER, method = RequestMethod.POST)
@@ -77,6 +77,23 @@ public class SharingThoughtsController extends BaseController {
 
         try {
             if (sharedThoughtManager.addResponder(Long.parseLong(sharedThoughtId), Long.parseLong(responderId))) {
+                return new ResponseEntity<String>(HttpStatus.OK);
+            } else { return new ResponseEntity<String>(HttpStatus.BAD_REQUEST); }
+        } catch (Exception ex) { return new ResponseEntity<String>(HttpStatus.BAD_REQUEST); }
+    }
+
+    /**
+     * Deal with the URIs "/sharingThoughts/removeResponder"
+     * remove a responder from a shared thought
+     */
+    @RequestMapping(value = Routes.SHARING_THOUGHTS_REMOVE_RESPONDER, method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<String> removeResponder(
+            @RequestParam("sharedThoughtId") String sharedThoughtId,
+            @RequestParam("responderId") String responderId) {
+
+        try {
+            if (sharedThoughtManager.removeResponder(Long.parseLong(sharedThoughtId), Long.parseLong(responderId))) {
                 return new ResponseEntity<String>(HttpStatus.OK);
             } else { return new ResponseEntity<String>(HttpStatus.BAD_REQUEST); }
         } catch (Exception ex) { return new ResponseEntity<String>(HttpStatus.BAD_REQUEST); }

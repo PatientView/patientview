@@ -32,4 +32,12 @@ public interface SharedThoughtManager {
      * @return true or false based on success
      */
     boolean addResponder(Long sharedThoughtId, Long responderId);
+
+    /**
+     * Remove a responder from a shared thought
+     * @param sharedThoughtId Id of the shared thought to remove from
+     * @param responderId Id of the responder to remove
+     * @return true or false based on success
+     */
+    boolean removeResponder(Long sharedThoughtId, Long responderId);
 }

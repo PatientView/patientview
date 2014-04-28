@@ -22,9 +22,11 @@
  */
 
 sharedThought = {};
+sharedThought.responderTable = $('#tableOtherSharedThoughtResponders');
 sharedThought.responderSelect = $('#selectOtherSharedThoughtResponders');
 sharedThought.responderTr = $('#trOtherSharedThoughtResponders');
 sharedThought.responderAddBtn = $('#btnAddOtherSharedThoughtResponder');
+sharedThought.responderRemoveBtn = '.removeUserSharedThought';
 sharedThought.responderAddMessage = $('#messageAddOtherSharedThoughtResponder');
 sharedThought.id = $('#sharedThoughtId').val();
 
@@ -35,6 +37,12 @@ sharedThought.init = function() {
     sharedThought.responderAddBtn.click(function(event) {
         event.preventDefault();
         sharedThought.addResponder();
+    });
+
+    $(document.body).on("click", sharedThought.responderRemoveBtn, function(event) {
+        event.preventDefault();
+        console.log($(sharedThought.responderRemoveBtn));
+        sharedThought.removeResponder($(this));
     });
 
     sharedThought.responderAddMessage.empty();
@@ -75,7 +83,7 @@ sharedThought.addResponder = function() {
     sharedThought.responderAddBtn.attr('disabled','disabled');
 
     var responderName = sharedThought.responderSelect.find("option:selected").text();
-    var responderId = sharedThought.responderSelect.val()
+    var responderId = sharedThought.responderSelect.val();
 
     var responderData = {};
     responderData.sharedThoughtId = sharedThought.id;
@@ -95,6 +103,35 @@ sharedThought.addResponder = function() {
         },
         dataType: 'json'
     });
+}
+
+/**
+ * Remove selected staff member from list of responders, in db and on ui table
+ */
+sharedThought.removeResponder = function(removeButton) {
+    sharedThought.responderAddMessage.empty();
+    removeButton.attr('disabled','disabled');
+
+    var responderData = {};
+    responderData.sharedThoughtId = sharedThought.id;
+    responderData.responderId = removeButton.attr("data-userId");
+
+    $.ajax({
+        type: "POST",
+        url: "/web/sharingThoughts/removeResponder",
+        data: responderData,
+        success: function() {
+            sharedThought.getOtherResponders();
+            sharedThought.responderAddMessage.text("Removed responder");
+            removeButton.parent().parent().remove();
+        },
+        error: function() {
+            sharedThought.responderAddMessage.text("There was an error removing a responder");
+        },
+        dataType: 'json'
+    });
+
+    removeButton.removeAttr('disabled');
 }
 
 // add in a dom ready to fire init

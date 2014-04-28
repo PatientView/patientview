@@ -71,7 +71,7 @@ public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> im
         queryText.append("FROM      User AS usr ");
         queryText.append(",         UserMapping AS ump ");
         queryText.append(",         Unit AS uni ");
-        queryText.append("WHERE       ump.username = usr.username ");
+        queryText.append("WHERE     ump.username = usr.username ");
         queryText.append("AND       ump.unitcode = uni.unitcode ");
         queryText.append("AND       ump.unitcode = :unitCode ");
         queryText.append("GROUP BY  usr.id");
@@ -80,7 +80,9 @@ public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> im
         query.setParameter("unitCode", sharedThought.getUnit().getUnitcode());
 
         try {
-            return query.getResultList();
+            List<User> users = query.getResultList();
+            users.removeAll(sharedThought.getResponders());
+            return users;
         } catch (Exception e) {
             return Collections.emptyList();
         }
@@ -91,6 +93,19 @@ public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> im
 
         try {
             sharedThought.getResponders().add(responder);
+            getEntityManager().merge(sharedThought);
+            getEntityManager().flush();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean removeResponder(SharedThought sharedThought, User responder) {
+
+        try {
+            sharedThought.getResponders().remove(responder);
             getEntityManager().merge(sharedThought);
             getEntityManager().flush();
             return true;
