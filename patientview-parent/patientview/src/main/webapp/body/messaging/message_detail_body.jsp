@@ -1,6 +1,6 @@
 <%@ page import="org.patientview.patientview.model.User" %>
 <%@ page import="org.patientview.utils.LegacySpringUtils" %>
-<%@ page import="org.patientview.patientview.messaging.Messaging" %>
+<%@ page import="org.patientview.patientview.model.enums.ConversationType" %>
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
@@ -58,8 +58,8 @@
                 <h1><br /><bean:write name="conversation" property="subject" /></h1>
                 <h4 class="author"><bean:write name="conversation" property="otherUser.name" /></h4>
 
-                <logic:equal value="<%=Messaging.FEEDBACK%>" name="conversation" property="type">
-                    <!-- only shown for conversations with type Messaging.FEEDBACK -->
+                <logic:equal value="<%=ConversationType.FEEDBACK.toString()%>" name="conversation" property="type">
+                    <!-- only shown for conversations with type ConversationType.FEEDBACK.toString() -->
                     <logic:present role="patient">
                         <logic:present name="conversation" property="conversationStatus">
                             <logic:equal value="true" name="conversation" property="clinicianClosed">

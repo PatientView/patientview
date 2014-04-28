@@ -52,7 +52,5 @@ public final class Messaging {
     public static final String UNIT_NAME_PARAM = "unit_name";
     public static final String CONVERSATION_STATUS_PARAM = "conversationStatusOptions";
 
-    public static final String FEEDBACK = "FEEDBACK";
-    public static final String BULK = "BULK";
     public static final String FEEDBACK_ENABLED = "FEEDBACK_ENABLED";
 }
