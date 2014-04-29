@@ -682,6 +682,7 @@
 
         <action path="/patient/sharingThoughts" type="org.patientview.patientview.sharingthoughts.SharingThoughtsHomeAction" parameter="sharing_thoughts">
             <forward name="success" path="/patient/sharingthoughts/sharing_thoughts.jsp"/>
+            <forward name="noPermission" path="/patient/sharingthoughts/no_permission.jsp"/>
         </action>
 
         <action path="/patient/sharingThoughtsPositiveNegative" type="org.patientview.patientview.sharingthoughts.SharingThoughtsPositiveNegativeAction" parameter="sharing_thoughts">
