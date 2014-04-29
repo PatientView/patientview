@@ -208,6 +208,7 @@ public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> im
                 conversation.setType(ConversationType.SHARED_THOUGHT);
                 conversation.setStarted(new Date());
                 sharedThought.setConversation(conversation);
+                sharedThought.setDateLastSaved(new Date());
                 getEntityManager().persist(conversation);
                 getEntityManager().merge(sharedThought);
                 getEntityManager().flush();
