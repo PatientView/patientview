@@ -43,6 +43,7 @@ public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> im
         queryText.append(",         Unit AS uni ");
         queryText.append("WHERE     ump.username = usr.username ");
         queryText.append("AND       usr.sharedThoughtAdministrator = true ");
+        queryText.append("AND       uni.sharedThoughtEnabled = true ");
         queryText.append("AND       ump.unitcode = uni.unitcode ");
         queryText.append("AND       ump.unitcode = :unitCode ");
         queryText.append("GROUP BY  usr.id");
@@ -127,6 +128,7 @@ public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> im
         queryText.append(",         SharedThought AS sth ");
         queryText.append("WHERE     ump.username = usr.username ");
         queryText.append("AND       ump.unitcode = uni.unitcode ");
+        queryText.append("AND       uni.sharedThoughtEnabled = true ");
         queryText.append("AND       ump.unitcode = sth.unit.unitcode ");
         queryText.append("AND       :username = usr.username ");
         queryText.append("AND       ((:user MEMBER OF sth.responders) OR (usr.sharedThoughtAdministrator = true)) ");
@@ -153,6 +155,7 @@ public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> im
         queryText.append("WHERE     ump.username = usr.username ");
         queryText.append("AND       (usr.isclinician = true OR usr.sharedThoughtAdministrator = true) ");
         queryText.append("AND       ump.unitcode = uni.unitcode ");
+        queryText.append("AND       uni.sharedThoughtEnabled = true ");
         queryText.append("AND       ump.unitcode = :unitCode ");
         queryText.append("GROUP BY  usr.id");
 

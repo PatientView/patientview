@@ -223,5 +223,6 @@ public final class UnitUtils {
         unit.setHaemodialysisuniturl12(BeanUtils.getProperty(form, "haemodialysisuniturl12"));
         unit.setVisible(BeanUtils.getProperty(form, "visible") == "true" ? true : false);
         unit.setFeedbackEnabled(BeanUtils.getProperty(form, "feedbackEnabled") == "true" ? true : false);
+        unit.setSharedThoughtEnabled(BeanUtils.getProperty(form, "sharedThoughtEnabled") == "true" ? true : false);
     }
 }
