@@ -30,10 +30,10 @@
             <td class="tablecell"><bean:write name="thought" property="dateLastSavedFormattedDate"/></td>
             <td class="tablecell">
                 <logic:equal value="1" name="thought" property="positiveNegative">
-                    Positive
+                    <span class="yesTick">&#10004; Positive</span>
                 </logic:equal>
                 <logic:notEqual value="1" name="thought" property="positiveNegative">
-                    Negative
+                    <span class="noCross">&#10008; Negative</span>
                 </logic:notEqual>
             </td>
             <td class="tablecell"><bean:write name="thought" property="startDateFormattedDate"/></td>
