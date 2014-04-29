@@ -119,7 +119,7 @@ public class ImporterMockTest {
     @LocalData
     public void testProcess() {
 
-        File testXml = new File(this.getClass().getResource("/A_00794_1234567890.gpg.xml").getFile());
+        File testXml = new File("A_00794_1234567890.gpg.xml");
 
         when(unitDao.get(anyString(), any(Specialty.class))).thenReturn(getCorrectUnit());
         when(userMappingDao.getAllByNhsNo(anyString())).thenReturn(getCorrectMappings());
