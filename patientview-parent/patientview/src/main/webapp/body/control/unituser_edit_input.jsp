@@ -108,6 +108,12 @@
                 </div>
             </div>
             <div class="control-group">
+                <label class="control-label">Sharing Thoughts Responder</label>
+                <div class="controls">
+                    <html:checkbox property="sharedThoughtResponder" name="unitUser" value="true"/>
+                </div>
+            </div>
+            <div class="control-group">
                 <label class="control-label">Clinician</label>
                 <div class="controls">
                     <html:checkbox property="isclinician" name="unitUser" value="true"/>

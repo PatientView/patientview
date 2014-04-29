@@ -54,6 +54,7 @@ public abstract class Logon {
     private boolean feedbackRecipient;
     private boolean isclinician;
     private boolean sharedThoughtAdministrator;
+    private boolean sharedThoughtResponder;
     private Date lastverificationdate;
     private int rrtModality;
     private Date lastdatadate;
@@ -242,6 +243,14 @@ public abstract class Logon {
 
     public void setSharedThoughtAdministrator(boolean sharedThoughtAdministrator) {
         this.sharedThoughtAdministrator = sharedThoughtAdministrator;
+    }
+
+    public boolean isSharedThoughtResponder() {
+        return sharedThoughtResponder;
+    }
+
+    public void setSharedThoughtResponder(boolean sharedThoughtResponder) {
+        this.sharedThoughtResponder = sharedThoughtResponder;
     }
 
     public Date getLastverificationdate() {

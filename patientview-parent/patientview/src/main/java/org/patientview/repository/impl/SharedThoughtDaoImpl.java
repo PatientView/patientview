@@ -153,7 +153,7 @@ public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> im
         queryText.append(",         UserMapping AS ump ");
         queryText.append(",         Unit AS uni ");
         queryText.append("WHERE     ump.username = usr.username ");
-        queryText.append("AND       (usr.isclinician = true OR usr.sharedThoughtAdministrator = true) ");
+        queryText.append("AND       (usr.sharedThoughtResponder = true OR usr.sharedThoughtAdministrator = true) ");
         queryText.append("AND       ump.unitcode = uni.unitcode ");
         queryText.append("AND       uni.sharedThoughtEnabled = true ");
         queryText.append("AND       ump.unitcode = :unitCode ");

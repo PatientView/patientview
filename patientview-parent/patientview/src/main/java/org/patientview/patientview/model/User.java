@@ -92,6 +92,9 @@ public class User extends BaseModel {
     @Column(nullable = false)
     private boolean sharedThoughtAdministrator = false;
 
+    @Column(nullable = false)
+    private boolean sharedThoughtResponder = false;
+
     @Column(nullable = true)
     private Date created;
 
@@ -251,6 +254,14 @@ public class User extends BaseModel {
 
     public void setSharedThoughtAdministrator(boolean sharedThoughtAdministrator) {
         this.sharedThoughtAdministrator = sharedThoughtAdministrator;
+    }
+
+    public boolean isSharedThoughtResponder() {
+        return sharedThoughtResponder;
+    }
+
+    public void setSharedThoughtResponder(boolean sharedThoughtResponder) {
+        this.sharedThoughtResponder = sharedThoughtResponder;
     }
 
     public Date getCreated() {
