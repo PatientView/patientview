@@ -426,7 +426,7 @@
         </tr>
 
         <tr>
-            <td><b>Shared Thought enabled</b></td>
+            <td><b>Sharing Thoughts enabled</b></td>
             <td><html:checkbox name="unit" property="sharedThoughtEnabled" value="true"/></td>
         </tr>
     </logic:notEqual>

@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 
 public class SharingThoughtsHomeAction extends BaseAction {
 
-    SharedThoughtManager sharedThoughtManager;
-    SecurityUserManager securityUserManager;
+    private SharedThoughtManager sharedThoughtManager;
+    private SecurityUserManager securityUserManager;
 
     public ActionForward execute(
             ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
