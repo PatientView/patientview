@@ -11,10 +11,9 @@
     </div>
 
     <html:errors/>
-
-
     <form action="/web/patient/ibd" name="patientInput" class="js-patient-form" styleClass="form-horizontal">
 
+    <table cellpadding="3">
 
         <tr>
             <td>
@@ -136,10 +135,11 @@
                 <input name="namedConsultant" class="js-ibd-named-consultant">
             </td>
         </tr>
+        </table>
     </form>
 
     <form action="/" class="js-ibd-surgical-history-input" styleClass="form-horizontal">
-
+        <table>
         <tr>
             <td>
                 <b>Surgical History</b>

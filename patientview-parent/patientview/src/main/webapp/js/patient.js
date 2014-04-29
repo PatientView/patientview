@@ -14,7 +14,7 @@ patient.init = function() {
 
     $.getJSON(unitsUrl, function(data) {
         $.each(data, function(i, result) {
-            units.append('<option value=' + result.id + '>' + result.name + '</option>');
+            units.append('<option value=' + result.unitcode + '>' + result.name + '</option>');
         });
     });
 

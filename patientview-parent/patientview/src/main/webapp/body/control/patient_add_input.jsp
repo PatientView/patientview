@@ -32,63 +32,64 @@
 </logic:present>
 
 
-<form action="/web/patient/add" name="patientInput" class="js-patient-form" styleClass="form-horizontal">
+
 
     <div class="alert alert-error js-message-errors" style="display: none">
         <strong>You do not have any messages.</strong>
     </div>
 
-    <table cellpadding="3" >
-    <tr>
-      <td><b>User Name</b></td>
-      <td><input name="username" class="js-patient-username"h/></td>
-    </tr>
-    <tr>
-      <td><b>First Name</b></td>
-        <td><input name="firstname" class="js-patient-firstname"h/></td>
-    </tr>
-    <tr>
-        <td><b>Last Name</b></td>
-        <td><input name="lastname" class="js-patient-lastname"h/></td>
-    </tr>
-    <tr>
-      <td><b>NHS Number</b></td>
-      <td><input name="nhsno" class="js-patient-nhsno"/></td>
-        <logic:present name="offerToAllowInvalidNhsno" >
-        <td><b>Add patient with invalid NHS number</b></td>
-        <td><checkbox name="override-nhsno" class="js-patient-override-nhsno"/></td>
-      </logic:present>
-    </tr>
-    <tr>
-      <td><b>Email Address</b></td>
-      <td><input name="email" class="js-patient-email"/></td>
-    </tr>
-    <tr>
-      <td><b>
-          <logic:present specialty="renal">Renal Unit</logic:present><logic:present specialty="ibd">IBD Unit</logic:present>
-          <logic:present specialty="diabetes">Unit</logic:present>
-      </b></td>
-      <td><select property="units" class="js-patient-units">
-            <option value="-1" selected="selected">-- Select your unit --</option>
-      </select></td>
-    </tr>
-    <tr>
-      <td>
-          <b>Dummy Patient</b>
-      </td>
-      <td>
-          <input type="checkbox" name="dummypatient" class="js-patient-dummy" value="true" />
-      </td>
-    </tr>
+    <form action="/web/patient/add" name="patientInput" class="js-patient-form" styleClass="form-horizontal">
+        <table cellpadding="3" >
+        <tr>
+          <td><b>User Name</b></td>
+          <td><input name="username" class="js-patient-username"h/></td>
+        </tr>
+        <tr>
+          <td><b>First Name</b></td>
+            <td><input name="firstname" class="js-patient-firstname"h/></td>
+        </tr>
+        <tr>
+            <td><b>Last Name</b></td>
+            <td><input name="lastname" class="js-patient-lastname"h/></td>
+        </tr>
+        <tr>
+          <td><b>NHS Number</b></td>
+          <td><input name="nhsno" class="js-patient-nhsno"/></td>
+            <logic:present name="offerToAllowInvalidNhsno" >
+            <td><b>Add patient with invalid NHS number</b></td>
+            <td><checkbox name="override-nhsno" class="js-patient-override-nhsno"/></td>
+          </logic:present>
+        </tr>
+        <tr>
+          <td><b>Email Address</b></td>
+          <td><input name="email" class="js-patient-email"/></td>
+        </tr>
+        <tr>
+          <td><b>
+              <logic:present specialty="renal">Renal Unit</logic:present><logic:present specialty="ibd">IBD Unit</logic:present>
+              <logic:present specialty="diabetes">Unit</logic:present>
+          </b></td>
+          <td><select property="units" class="js-patient-units">
+                <option value="-1" selected="selected">-- Select your unit --</option>
+          </select></td>
+        </tr>
+        <tr>
+          <td>
+              <b>Dummy Patient</b>
+          </td>
+          <td>
+              <input type="checkbox" name="dummypatient" class="js-patient-dummy" value="true" />
+          </td>
+        </tr>
 
 
-    <tr align="right">
-        <td><html:submit value="Add" styleClass="btn" /></td>
-    </tr>
+        <tr align="right">
+            <td><html:submit value="Add" styleClass="btn" /></td>
+        </tr>
 
-  </table>
+      </table>
 
-</form>
+    </form>
 
 
 

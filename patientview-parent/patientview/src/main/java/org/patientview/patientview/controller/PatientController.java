@@ -120,7 +120,7 @@ public class PatientController {
 
         // Success! Page Set Up
         ModelAndView modelAndView;
-        if (userManager.getCurrentSpecialtyRole(user).equalsIgnoreCase("ibd")) {
+        if (userManager.getCurrentSpecialty(userManager.getLoggedInUser()).getContext().equalsIgnoreCase("ibd")) {
             modelAndView = new ModelAndView("control/patient_ibd_input");
         } else {
             modelAndView = new ModelAndView("control/patient_add_confirm");
