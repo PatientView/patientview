@@ -187,7 +187,7 @@
     </table>
 
     <h2>Responders</h2>
-    <p>Must be members of the unit referred to in the Shared Thought. Staff members who are Shared Thought Administrators can see all Shared Thoughts in their units.</p>
+    <p>Must be members of the unit referred to in the Shared Thought. Staff members who are Sharing Thoughts Administrators can see all Shared Thoughts in their units.</p>
     <br/>
     <table border="0" cellspacing="1" cellpadding="3" class="table table-bordered table-striped" id="tableOtherSharedThoughtResponders">
     <tbody>

@@ -102,7 +102,7 @@
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label">Shared Thought Administrator</label>
+                <label class="control-label">Sharing Thoughts Administrator</label>
                 <div class="controls">
                     <html:checkbox property="sharedThoughtAdministrator" name="unitUser" value="true"/>
                 </div>

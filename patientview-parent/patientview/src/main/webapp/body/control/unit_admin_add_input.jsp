@@ -98,7 +98,7 @@
                 <td><html:checkbox property="feedbackRecipient" value="true"/></td>
             </tr>
             <tr>
-                <td><b>Shared Thought Administrator</b></td>
+                <td><b>Sharing Thoughts Administrator</b></td>
                 <td><html:checkbox property="sharedThoughtAdministrator" value="true"/></td>
             </tr>
             <tr>

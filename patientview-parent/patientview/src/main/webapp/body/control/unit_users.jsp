@@ -62,7 +62,7 @@
           <th class="tableheader" onclick="sort('accountlocked')"><a href="#">Password</a></th>
           <th class="tableheader" onclick="sort('isrecipient')"><a href="#">Message Recipient</a></th>
           <th class="tableheader" onclick="sort('feedbackRecipient')"><a href="#">Feedback Recipient</a></th>
-          <th class="tableheader" onclick="sort('sharedThoughtAdministrator')"><a href="#">Shared Thought Administrator</a></th>
+          <th class="tableheader" onclick="sort('sharedThoughtAdministrator')"><a href="#">Sharing Thoughts Administrator</a></th>
           <th class="tableheader" onclick="sort('isclinician')"><a href="#">Clinician</a></th>
 
       </tr>
