@@ -314,6 +314,7 @@ public class ImportManagerImpl implements ImportManager {
         if (userMappingDao.getAllByNhsNo(patient.getNhsno(), centre.getCentreCode()) == null) {
             throw new ProcessException("Patient does not exist in unit");
         }
+
     }
 
     private void validateUnitCode(Centre centre) throws ProcessException {
