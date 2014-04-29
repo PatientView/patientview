@@ -101,4 +101,9 @@ public class SharedThoughtManagerImpl implements SharedThoughtManager {
             return false;
         }
     }
+
+    @Override
+    public boolean checkAccessSharingThoughts(User user) {
+        return sharedThoughtDao.checkAccessSharingThoughts(user);
+    }
 }

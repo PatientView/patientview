@@ -2,6 +2,7 @@
 <%@ page import="org.patientview.patientview.model.User" %>
 <%@ page import="org.patientview.patientview.user.UserUtils" %>
 <%@ page import="org.patientview.utils.LegacySpringUtils" %>
+<%@ page import="org.patientview.patientview.messaging.Messaging" %>
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
@@ -115,8 +116,10 @@
         %>
     </logic:present>
 
-    <logic:present specialty="renal">
-        <li <%= ("sharing_thoughts".equals(request.getAttribute("currentNav"))) ? "class=\"active\"" : "" %>><html:link action="/patient/sharingThoughts">Sharing Thoughts</html:link></li>
+    <logic:present name="<%=Messaging.SHARING_THOUGHTS_ENABLED %>" scope="session">
+        <logic:present specialty="renal">
+            <li <%= ("sharing_thoughts".equals(request.getAttribute("currentNav"))) ? "class=\"active\"" : "" %>><html:link action="/patient/sharingThoughts">Sharing Thoughts</html:link></li>
+        </logic:present>
     </logic:present>
 
     <logic:present specialty="renal">

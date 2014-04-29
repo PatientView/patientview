@@ -31,4 +31,6 @@ public interface SharedThoughtDao {
     boolean removeResponder(SharedThought sharedThought, User responder);
 
     boolean createSharedThoughtMessage(SharedThought sharedThought, String content, User sender);
+
+    boolean checkAccessSharingThoughts(User user);
 }

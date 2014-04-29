@@ -227,4 +227,29 @@ public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> im
             return false;
         }
     }
+
+    @Override
+    public boolean checkAccessSharingThoughts(User user) {
+        StringBuilder queryText = new StringBuilder();
+        queryText.append("SELECT    sth ");
+        queryText.append("FROM      User AS usr ");
+        queryText.append(",         UserMapping AS ump ");
+        queryText.append(",         Unit AS uni ");
+        queryText.append(",         SharedThought AS sth ");
+        queryText.append("WHERE     ump.username = usr.username ");
+        queryText.append("AND       ump.unitcode = uni.unitcode ");
+        queryText.append("AND       uni.sharedThoughtEnabled = true ");
+        queryText.append("AND       ump.unitcode = sth.unit.unitcode ");
+        queryText.append("AND       usr = :user ");
+        queryText.append("GROUP BY  sth.id ");
+
+        TypedQuery<SharedThought> query = getEntityManager().createQuery(queryText.toString(), SharedThought.class);
+        query.setParameter("user", user);
+
+        try {
+            return !query.getResultList().isEmpty();
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

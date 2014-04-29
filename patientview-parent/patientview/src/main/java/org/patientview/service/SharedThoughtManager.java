@@ -59,4 +59,11 @@ public interface SharedThoughtManager {
      * @return true or false based on success
      */
     boolean addMessage(Long sharedThoughtId, String message);
+
+    /**
+     * Check if patient has access to Sharing Thoughts (member of unit with unit.sharedThoughtEnabled = true)
+     * @param user User to check if they have access
+     * @return True if user can use Sharing Thoughts, false if not
+     */
+    boolean checkAccessSharingThoughts(User user);
 }
