@@ -141,10 +141,6 @@
                 <filtering>true</filtering>
             </resource>
             <resource>
-                <directory>src/test/resources</directory>
-                <filtering>false</filtering>
-            </resource>
-            <resource>
                 <directory>src/conf</directory>
                 <filtering>false</filtering>
                 <targetPath>${profile.build.output-webapp-dir}/WEB-INF</targetPath>
@@ -168,6 +164,18 @@
                 <targetPath>${profile.build.output-webapp-dir}/META-INF</targetPath>
             </resource>
         </resources>
+
+        <testResources>
+            <testResource>
+                <directory>src/test/java</directory>
+                <excludes>
+                    <exclude>**/*.java</exclude>
+                </excludes>
+            </testResource>
+            <testResource>
+                <directory>src/test/resources</directory>
+            </testResource>
+        </testResources>
 
         <filters>
             <!--Uses e.g. filters/<env>-filters.properties to overlay cms.properties, other property files -->
