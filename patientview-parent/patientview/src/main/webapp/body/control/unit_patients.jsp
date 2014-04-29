@@ -45,8 +45,8 @@
        request.setAttribute("context", context);
     %>
     <logic:notEmpty name="patients">
-        <div class="span10" style="margin-left: 20px;margin-bottom:15px;">
-            <div class="row" style="float: left; font-weight:bold; font-size: 15px; color: blue;">
+        <div class="span10">
+            <div class="row previousNext">
                 <logic:equal value="false" name="patients" property="firstPage">
                     <a href="/<%=LegacySpringUtils.getSecurityUserManager().getLoggedInSpecialty().getContext()%>/web/control/unitPatients?page=first">&lt;&lt;&nbsp;First</a>
                 </logic:equal>
@@ -55,7 +55,7 @@
                 </logic:equal>
                 <logic:equal value="false" name="patients" property="firstPage">
                     <logic:equal value="false" name="patients" property="lastPage">
-                        |&nbsp;
+                        |
                     </logic:equal>
                 </logic:equal>
                 <logic:equal value="false" name="patients" property="lastPage">
@@ -210,8 +210,8 @@
                 </tr>
             </logic:iterate>
         </table>
-        <div class="span10" style="margin-left: 20px;margin-top:-3px;">
-            <div class="row" style="float: left; font-weight:bold; font-size: 15px; color: blue;">
+        <div class="span10">
+            <div class="row previousNext">
                 <logic:equal value="false" name="patients" property="firstPage">
                     <a href="/<%=LegacySpringUtils.getSecurityUserManager().getLoggedInSpecialty().getContext()%>/web/control/unitPatients?page=first">&lt;&lt;&nbsp;First</a>
                 </logic:equal>
@@ -220,7 +220,7 @@
                 </logic:equal>
                 <logic:equal value="false" name="patients" property="firstPage">
                     <logic:equal value="false" name="patients" property="lastPage">
-                        |&nbsp;
+                        |
                     </logic:equal>
                 </logic:equal>
                 <logic:equal value="false" name="patients" property="lastPage">
