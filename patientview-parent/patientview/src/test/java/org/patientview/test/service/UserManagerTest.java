@@ -96,6 +96,7 @@ public class UserManagerTest extends BaseServiceTest {
         unitAdmin.setFirstlogon(true);
         unitAdmin.setIsrecipient(false);
         unitAdmin.setFeedbackRecipient(false);
+        unitAdmin.setSharedThoughtAdministrator(false);
         unitAdmin.setIsclinician(true);
     }
 

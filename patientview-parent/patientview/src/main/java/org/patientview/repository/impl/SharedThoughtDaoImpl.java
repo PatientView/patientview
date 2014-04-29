@@ -34,7 +34,7 @@ public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> im
 
     @Override
     public void submit(SharedThought sharedThought) {
-        
+
         // add default responders by user.sharedThoughtAdministrator
         StringBuilder queryText = new StringBuilder();
         queryText.append("SELECT    usr ");

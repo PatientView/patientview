@@ -88,37 +88,37 @@
         <td class="tablecell"><bean:write name="unitUser" property="email"/></td>
         <td class="tablecell">
             <logic:equal value="false" name="unitUser" property="emailverified">
-                <big><font color="red">&#10008;</font></big>
+                <span class="noCross">&#10008;</span>
             </logic:equal>
             <logic:equal value="true" name="unitUser" property="emailverified">
-                <big><font color="green">&#10004;</font></big>
+                <span class="yesTick">&#10004;</span>
             </logic:equal>
         </td>
         <td class="tablecell"><bean:write name="unitUser" property="lastlogonFormatted"/></td>
           <td class="tablecell">
               <logic:equal value="true" name="unitUser" property="accountlocked">
-                  <font color="red">locked</font>
+                  <span class="noCross">locked</span>
               </logic:equal>
               <logic:equal value="false" name="unitUser" property="accountlocked">
-                  <big><font color="green">&#10004;</font></big>
+                  <span class="yesTick">&#10004;</span>
               </logic:equal>
           </td>
 
           <td class="tablecell">
-              <logic:equal name="unitUser" property="isrecipient" value="false">No</logic:equal>
-              <logic:equal name="unitUser" property="isrecipient" value="true">Yes</logic:equal>
+              <logic:equal name="unitUser" property="isrecipient" value="false"></logic:equal>
+              <logic:equal name="unitUser" property="isrecipient" value="true"><span class="yesTick">&#10004;</span></logic:equal>
           </td>
           <td class="tablecell">
-              <logic:equal name="unitUser" property="feedbackRecipient" value="false">No</logic:equal>
-              <logic:equal name="unitUser" property="feedbackRecipient" value="true">Yes</logic:equal>
+              <logic:equal name="unitUser" property="feedbackRecipient" value="false"></logic:equal>
+              <logic:equal name="unitUser" property="feedbackRecipient" value="true"><span class="yesTick">&#10004;</span></logic:equal>
           </td>
           <td class="tablecell">
-              <logic:equal name="unitUser" property="sharedThoughtAdministrator" value="false">No</logic:equal>
-              <logic:equal name="unitUser" property="sharedThoughtAdministrator" value="true">Yes</logic:equal>
+              <logic:equal name="unitUser" property="sharedThoughtAdministrator" value="false"></logic:equal>
+              <logic:equal name="unitUser" property="sharedThoughtAdministrator" value="true"><span class="yesTick">&#10004;</span></logic:equal>
           </td>
           <td class="tablecell">
-              <logic:equal name="unitUser" property="isclinician" value="false">No</logic:equal>
-              <logic:equal name="unitUser" property="isclinician" value="true">Yes</logic:equal>
+              <logic:equal name="unitUser" property="isclinician" value="false"></logic:equal>
+              <logic:equal name="unitUser" property="isclinician" value="true"><span class="yesTick">&#10004;</span></logic:equal>
           </td>
 
       </tr>

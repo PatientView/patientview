@@ -633,6 +633,18 @@ td.tdUserSharedThought {
     margin-bottom: 0;
 }
 
+.yesTick, .noCross {
+    font-size: 20px;
+}
+
+.yesTick {
+    color: #008000;
+}
+
+.noCross {
+    color: #8b0000;
+}
+
 form {
     margin: 0;
 }

@@ -132,19 +132,19 @@
                         </logic:notEmpty>
                     <td class="tablecell">
                         <logic:equal value="false" name="patient" property="emailverified">
-                            <big><font color="red">&#10008;</font></big>
+                            <span class="noCross">&#10008;</span>
                         </logic:equal>
                         <logic:equal value="true" name="patient" property="emailverified">
-                            <big><font color="green">&#10004;</font></big>
+                            <span class="yesTick">&#10004;</span>
                         </logic:equal>
                     </td>
                     <td class="tablecell"><bean:write name="patient" property="lastlogonFormatted"/></td>
                     <td class="tablecell">
                         <logic:equal value="true" name="patient" property="accountlocked">
-                            <font color="red">locked</font>
+                            <span class="noCross">locked</span>
                         </logic:equal>
                         <logic:equal value="false" name="patient" property="accountlocked">
-                            <big><font color="green">&#10004;</font></big>
+                            <span class="yesTick">&#10004;</span>
                         </logic:equal>
                     </td>
                     <td class="tablecell"><bean:write name="patient" property="lastverificationdateFormatted"/></td>
