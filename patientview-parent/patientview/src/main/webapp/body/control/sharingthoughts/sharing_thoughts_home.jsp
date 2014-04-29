@@ -3,6 +3,7 @@
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
 
 <html:xhtml/>
+
 <div class="span9">
     <div  class="page-header">
         <h1>Sharing Thoughts Admin Home</h1>
@@ -12,7 +13,7 @@
 </logic:empty>
 
 <logic:notEmpty name="sharedThoughts">
-    <table class="table table-bordered table-striped">
+    <table class="table table-bordered table-striped" id="tableSharedThoughts">
         <thead>
         <tr>
             <th>Updated</th>
@@ -57,5 +58,11 @@
         </logic:iterate>
         </tbody>
     </table>
+
+    <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript">
+        $('#tableSharedThoughts').dataTable();
+    </script>
+
 </logic:notEmpty>
 </div>

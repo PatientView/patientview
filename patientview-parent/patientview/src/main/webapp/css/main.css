@@ -656,3 +656,29 @@ div.previousNext {
     margin-bottom: 10px;
     color: #0088CC;
 }
+
+/* sharing thoughts table */
+div#tableSharedThoughts_filter, div#tableSharedThoughts_length {
+    display: none;
+}
+
+div#tableSharedThoughts_length {
+    float: left;
+    margin-right: 20px;
+}
+
+select[name="tableSharedThoughts_length"] {
+    width: 60px;
+}
+
+.paginate_disabled_previous, .paginate_disabled_next{
+    display: none;
+}
+
+.paginate_enabled_previous, .paginate_enabled_next{
+     margin-right: 5px;
+ }
+
+.paginate_enabled_previous:hover, .paginate_enabled_next:hover{
+     cursor: pointer;
+ }
