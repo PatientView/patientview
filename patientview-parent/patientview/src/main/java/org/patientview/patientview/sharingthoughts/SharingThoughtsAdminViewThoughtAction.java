@@ -12,8 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 
 public class SharingThoughtsAdminViewThoughtAction extends BaseAction {
 
-
-
     public ActionForward execute(
             ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
