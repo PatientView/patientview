@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.jvnet.hudson.test.recipes.LocalData;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -115,6 +116,7 @@ public class ImporterMockTest {
      *
      */
     @Test
+    @LocalData
     public void testProcess() {
 
         File testXml = new File(this.getClass().getResource("/A_00794_1234567890.gpg.xml").getFile());
@@ -139,6 +141,7 @@ public class ImporterMockTest {
      * Fail: The test does not throw a ProcessException
      */
     @Test
+    @LocalData
     public void testProcessWithInvalidUnitCode() {
         File testXml = new File(this.getClass().getResource("/A_00794_1234567890-InvalidUnitCode.gpg.xml").getFile());
 
@@ -162,6 +165,7 @@ public class ImporterMockTest {
      *
      */
     @Test
+    @LocalData
     public void testProcessWithInvalidNhsNumber() {
         File testXml = new File(this.getClass().getClassLoader().getResource("A_00794_1234567890-InvalidNHSNumber.gpg.xml").getFile());
 
@@ -184,6 +188,7 @@ public class ImporterMockTest {
      * Fail: The test does not throw a ProcessException
      */
     @Test
+    @LocalData
     public void testProcessWithThePatientNotInTheUnit() {
 
         File testXml = new File(this.getClass().getClassLoader().getResource("A_00794_1234567890.gpg.xml").getFile());
@@ -209,6 +214,7 @@ public class ImporterMockTest {
      * Fail: The test does not throw a ProcessException
      */
     @Test
+    @LocalData
     public void testProcessWithThePatientNotInCorrectUnit() {
 
         File testXml = new File(this.getClass().getClassLoader().getResource("A_00794_1234567890.gpg.xml").getFile());
@@ -230,6 +236,7 @@ public class ImporterMockTest {
      *
      */
     @Test
+    @LocalData
     public void testProcessWithPatientInARadarUnit() {
         File testXml = new File(this.getClass().getClassLoader().getResource("A_00794_1234567890.gpg.xml").getFile());
 
@@ -254,6 +261,7 @@ public class ImporterMockTest {
      *
      */
     @Test
+    @LocalData
     public void testProcessWithPatientNotInARadarUnitOrOtherUnit() {
         File testXml = new File(this.getClass().getClassLoader().getResource("A_00794_1234567890.gpg.xml").getFile());
 
