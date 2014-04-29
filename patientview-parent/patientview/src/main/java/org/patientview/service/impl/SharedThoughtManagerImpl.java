@@ -41,6 +41,11 @@ public class SharedThoughtManagerImpl implements SharedThoughtManager {
     }
 
     @Override
+    public List<SharedThought> getStaffThoughtList(User user) {
+        return sharedThoughtDao.getStaffThoughtList(user);
+    }
+
+    @Override
     public void delete(Long sharedThoughtId) {
         sharedThoughtDao.delete(sharedThoughtId);
     }

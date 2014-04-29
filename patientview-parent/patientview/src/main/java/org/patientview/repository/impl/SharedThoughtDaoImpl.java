@@ -70,13 +70,9 @@ public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> im
     public SharedThought get(Long id) {
         CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<SharedThought> criteria = builder.createQuery(SharedThought.class);
-
         Root<SharedThought> root = criteria.from(SharedThought.class);
-
         List<Predicate> wherePredicates = new ArrayList<Predicate>();
-
         wherePredicates.add(builder.equal(root.get(SharedThought_.id), id));
-
         buildWhereClause(criteria, wherePredicates);
 
         try {
@@ -105,20 +101,45 @@ public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> im
     public List<SharedThought> getUsersThoughts(Long userId, boolean isSubmitted) {
         CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<SharedThought> criteria = builder.createQuery(SharedThought.class);
-
         Root<SharedThought> root = criteria.from(SharedThought.class);
-
         List<Predicate> wherePredicates = new ArrayList<Predicate>();
-
         wherePredicates.add(builder.equal(root.get(SharedThought_.user), userId));
         wherePredicates.add(builder.equal(root.get(SharedThought_.isSubmitted), isSubmitted));
-
         buildWhereClause(criteria, wherePredicates);
 
         try {
             return getEntityManager().createQuery(criteria).getResultList();
         } catch (NoResultException e) {
             return null;
+        }
+    }
+
+    @Override
+    public List<SharedThought> getStaffThoughtList(User user) {
+
+        // only show shared thought if user is member of shared thought's unit and user is in either the list of
+        // shared thought responders or is a shared thought administrator for that unit
+        StringBuilder queryText = new StringBuilder();
+        queryText.append("SELECT    sth ");
+        queryText.append("FROM      User AS usr ");
+        queryText.append(",         UserMapping AS ump ");
+        queryText.append(",         Unit AS uni ");
+        queryText.append(",         SharedThought AS sth ");
+        queryText.append("WHERE     ump.username = usr.username ");
+        queryText.append("AND       ump.unitcode = uni.unitcode ");
+        queryText.append("AND       ump.unitcode = sth.unit.unitcode ");
+        queryText.append("AND       :username = usr.username ");
+        queryText.append("AND       ((:user MEMBER OF sth.responders) OR (usr.sharedThoughtAdministrator = true)) ");
+        queryText.append("GROUP BY  sth.id ");
+
+        TypedQuery<SharedThought> query = getEntityManager().createQuery(queryText.toString(), SharedThought.class);
+        query.setParameter("username", user.getUsername());
+        query.setParameter("user", user);
+
+        try {
+            return query.getResultList();
+        } catch (Exception e) {
+            return Collections.emptyList();
         }
     }
 

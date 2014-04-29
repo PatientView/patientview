@@ -16,6 +16,8 @@ public interface SharedThoughtDao {
 
     List<SharedThought> getUsersThoughts(Long userId, boolean isSubmitted);
 
+    List<SharedThought> getStaffThoughtList(User user);
+
     void save(SharedThought thought);
 
     void submit(SharedThought thought);

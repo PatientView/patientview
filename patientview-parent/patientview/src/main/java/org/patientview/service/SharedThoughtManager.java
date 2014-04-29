@@ -14,6 +14,13 @@ public interface SharedThoughtManager {
     List<SharedThought> getUsersThoughts(Long userId, boolean isSubmitted);
 
     /**
+     * Get list of shared thoughts that this staff user can view as a responder
+     * @param user Staff user
+     * @return List of authorised shared thoughts
+     */
+    List<SharedThought> getStaffThoughtList(User user);
+
+    /**
      * Save shared thought, with assignment to sharing thoughts administrators if submitted
      * @param thought Shared Thought to save
      * @param isSubmitted Boolean for submission true/false

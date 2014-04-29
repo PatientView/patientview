@@ -15,12 +15,13 @@
     <table class="table table-bordered table-striped">
         <thead>
         <tr>
-            <th>Date Updated</th>
+            <th>Updated</th>
             <th>Positive/Negative</th>
             <th>Start Date</th>
             <th>End Date</th>
             <th>Location</th>
             <th>Description</th>
+            <th>Messages</th>
             <th></th>
         </tr>
         </thead>
@@ -39,7 +40,16 @@
             <td class="tablecell"><bean:write name="thought" property="startDateFormattedDate"/></td>
             <td class="tablecell"><bean:write name="thought" property="endDateFormattedDate"/></td>
             <td class="tablecell"><bean:write name="thought" property="location"/></td>
-            <td class="tablecell"><bean:write name="thought" property="location"/></td>
+            <td class="tablecell"><bean:write name="thought" property="descriptionBeginning"/></td>
+            <logic:present name="thought" property="conversation">
+                <td class="tablecell">
+                    <bean:size id="messageCount" name="thought" property="conversation.messages"/>
+                    <bean:write name="messageCount"/>
+                </td>
+            </logic:present>
+            <logic:notPresent name="thought" property="conversation">
+                <td class="tablecell">0</td>
+            </logic:notPresent>
             <logic:present role="unitstaff,unitadmin,superadmin">
                 <td class="tablecell"><html:form action="/control/sharingThoughtsViewThought"><html:hidden name="thought" property="id"/><html:submit value="View/Respond" styleClass="btn" /></html:form></td>
             </logic:present>
