@@ -1,46 +1,18 @@
-<!--
-  ~ PatientView
-  ~
-  ~ Copyright (c) Worth Solutions Limited 2004-2013
-  ~
-  ~ This file is part of PatientView.
-  ~
-  ~ PatientView is free software: you can redistribute it and/or modify it under the terms of the
-  ~ GNU General Public License as published by the Free Software Foundation, either version 3 of the License,
-  ~ or (at your option) any later version.
-  ~ PatientView is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
-  ~ the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  ~ GNU General Public License for more details.
-  ~ You should have received a copy of the GNU General Public License along with PatientView in a file
-  ~ titled COPYING. If not, see <http://www.gnu.org/licenses/>.
-  ~
-  ~ @package PatientView
-  ~ @link http://www.patientview.org
-  ~ @author PatientView <info@patientview.org>
-  ~ @copyright Copyright (c) 2004-2013, Worth Solutions Limited
-  ~ @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
-  -->
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>patientview-parent</artifactId>
+        <groupId>org.patientview</groupId>
+        <version>1.2-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>org.patientview</groupId>
-        <artifactId>patientview-parent</artifactId>
-        <version>1.2-SNAPSHOT</version>
-    </parent>
+    <artifactId>integration-tests</artifactId>
+    <packaging>jar</packaging>
 
-    <groupId>org.patientview</groupId>
-    <artifactId>patientview</artifactId>
-    <packaging>war</packaging>
-
-    <!--Snapshot means a version is downloaded every runtime-->
-    <version>1.2-SNAPSHOT</version>
-
-    <name>Renal Patient View</name>
-    <url>https://www.renalpatientview.org</url>
+    <name>integration-tests</name>
+    <url>http://maven.apache.org</url>
 
     <properties>
         <jetty.version>8.1.3.v20120416</jetty.version>
@@ -50,324 +22,29 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <profiles>
-        <profile>
-            <id>test</id>
-            <properties>
-                <env>test</env>
-                <tomcatmanagerurl>http://locahost:9080/manager/html</tomcatmanagerurl>
-                <warpath>/</warpath>
-                <!-- localhost is designed to build and run with war:inplace -->
-                <profile.build.output-webapp-dir>${project.basedir}/src/main/webapp</profile.build.output-webapp-dir>
-            </properties>
-        </profile>
-        <profile>
-            <id>localhost-test</id>
-            <properties>
-                <env>localhost-test</env>
-                <tomcatmanagerurl>http://locahost:9080/manager/html</tomcatmanagerurl>
-                <warpath>/patientview</warpath>
-                <!-- localhost is designed to build and run with war:inplace -->
-                <profile.build.output-webapp-dir>${project.basedir}/src/main/webapp</profile.build.output-webapp-dir>
-            </properties>
-        </profile>
-        <profile>
-            <id>localhost</id>
-            <properties>
-                <env>localhost</env>
-                <tomcatmanagerurl>http://locahost:9080/manager/html</tomcatmanagerurl>
-                <warpath>/</warpath>
-                <!-- localhost is designed to build and run with war:inplace -->
-                <profile.build.output-webapp-dir>${project.basedir}/src/main/webapp</profile.build.output-webapp-dir>
-            </properties>
-        </profile>
-        <profile>
-            <id>dev</id>
-            <properties>
-                <env>dev</env>
-                <tomcatmanagerurl>http://patientview.dev.solidstategroup.com/manager/text</tomcatmanagerurl>
-                <warpath>/</warpath>
-                <profile.build.output-webapp-dir>${project.build.directory}/${project.build.finalName}
-                </profile.build.output-webapp-dir>
-            </properties>
-        </profile>
-        <profile>
-            <id>staging</id>
-            <properties>
-                <env>staging</env>
-                <tomcatmanagerurl>http://patientview.staging.solidstategroup.com/manager/text</tomcatmanagerurl>
-                <warpath>/</warpath>
-                <profile.build.output-webapp-dir>${project.build.directory}/${project.build.finalName}
-                </profile.build.output-webapp-dir>
-            </properties>
-        </profile>
-        <profile>
-            <id>staging-ibd</id>
-            <properties>
-                <env>staging</env>
-                <tomcatmanagerurl>http://ibd.staging.solidstategroup.com/manager/text</tomcatmanagerurl>
-                <warpath>/</warpath>
-                <profile.build.output-webapp-dir>${project.build.directory}/${project.build.finalName}
-                </profile.build.output-webapp-dir>
-            </properties>
-        </profile>
-        <profile>
-            <id>production-ibd</id>
-            <properties>
-                <env>production-ibd</env>
-                <tomcatmanagerurl>https://ibd.solidstategroup.com:9080/manager/html</tomcatmanagerurl>
-                <warpath>/</warpath>
-                <profile.build.output-webapp-dir>${project.build.directory}/${project.build.finalName}
-                </profile.build.output-webapp-dir>
-            </properties>
-        </profile>
-        <profile>
-            <id>production</id>
-            <properties>
-                <env>production</env>
-                <tomcatmanagerurl>https://www.patientview.org:9080/manager/html</tomcatmanagerurl>
-                <warpath>/</warpath>
-                <profile.build.output-webapp-dir>${project.build.directory}/${project.build.finalName}
-                </profile.build.output-webapp-dir>
-            </properties>
-        </profile>
-    </profiles>
-
-    <build>
-        <resources>
-            <!-- resource files with filtering to output to target/classes -->
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-            <resource>
-                <directory>src/conf</directory>
-                <filtering>false</filtering>
-                <targetPath>${profile.build.output-webapp-dir}/WEB-INF</targetPath>
-                <includes>
-                    <include>*</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>src/conf/config</directory>
-                <filtering>true</filtering>
-                <targetPath>${profile.build.output-webapp-dir}/WEB-INF/config</targetPath>
-            </resource>
-            <resource>
-                <directory>src/conf/struts</directory>
-                <filtering>false</filtering>
-                <targetPath>${profile.build.output-webapp-dir}/WEB-INF/struts</targetPath>
-            </resource>
-            <resource>
-                <directory>src/conf/metainf</directory>
-                <filtering>true</filtering>
-                <targetPath>${profile.build.output-webapp-dir}/META-INF</targetPath>
-            </resource>
-        </resources>
-
-        <testResources>
-            <testResource>
-                <directory>src/test/java</directory>
-                <excludes>
-                    <exclude>**/*.java</exclude>
-                </excludes>
-            </testResource>
-            <testResource>
-                <directory>src/test/resources</directory>
-            </testResource>
-        </testResources>
-
-        <filters>
-            <!--Uses e.g. filters/<env>-filters.properties to overlay cms.properties, other property files -->
-            <filter>src/main/filters/${env}-filters.properties</filter>
-        </filters>
-
-        <plugins>
-
-            <!-- clear down any temporary files when running war:place localhost profile -->
-            <plugin>
-                <artifactId>maven-clean-plugin</artifactId>
-                <version>2.5</version>
-                <configuration>
-                    <filesets>
-                        <fileset>
-                            <directory>src/main/webapp/META-INF</directory>
-                            <includes>
-                                <include>**/*</include>
-                            </includes>
-                        </fileset>
-                        <fileset>
-                            <directory>src/main/webapp/WEB-INF</directory>
-                            <includes>
-                                <include>**/*</include>
-                            </includes>
-                            <excludes>
-                                <exclude>web.xml</exclude>
-                            </excludes>
-                        </fileset>
-                    </filesets>
-                </configuration>
-            </plugin>
-
-            <!-- http://maven.apache.org/plugins/maven-remote-resources-plugin/usage.html -->
-            <plugin>
-                <artifactId>maven-remote-resources-plugin</artifactId>
-                <version>1.4</version>
-                <executions>
-                    <execution>
-                        <id>process-remote-resources</id>
-                        <goals>
-                            <goal>process</goal>
-                        </goals>
-                        <configuration>
-                            <resourceBundles>
-                                <resourceBundle>org.patientview:common:${project.version}</resourceBundle>
-                            </resourceBundles>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
-                <configuration>
-                    <encoding>UTF-8</encoding>
-                    <source>1.6</source>
-                    <target>1.6</target>
-                    <compilerArguments>
-                        <processor>org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor</processor>
-                    </compilerArguments>
-                </configuration>
-            </plugin>
-
-            <!--For running standalone-->
-            <plugin>
-                <groupId>org.mortbay.jetty</groupId>
-                <artifactId>jetty-maven-plugin</artifactId>
-                <version>${jetty.version}</version>
-                <configuration>
-                    <connectors>
-                        <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
-                            <port>8080</port>
-                            <maxIdleTime>3600000</maxIdleTime>
-                        </connector>
-                    </connectors>
-                    <!-- this config tells jetty to run with our filtered web.xml -->
-                    <!--<webAppConfig>-->
-                    <!--<contextPath>/</contextPath>-->
-                    <!--<descriptor>${project.build.directory}/web.xml</descriptor>-->
-                    <!--</webAppConfig>-->
-                </configuration>
-            </plugin>
-
-            <!--For deploying to Tomcat-->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>tomcat-maven-plugin</artifactId>
-                <version>1.1</version>
-                <configuration>
-                    <url>${tomcatmanagerurl}</url>
-                    <server>tomcatmanager</server>
-                    <path>${warpath}</path>
-                </configuration>
-            </plugin>
-
-            <!-- for running an embedded tomcat 7 server -->
-            <plugin>
-                <groupId>org.apache.tomcat.maven</groupId>
-                <artifactId>tomcat7-maven-plugin</artifactId>
-                <version>2.0-beta-1</version>
-                <configuration>
-                    <path>/</path>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>2.1.1</version>
-                <configuration>
-                    <attachClasses>true</attachClasses>
-                    <!-- when creating the war file use the filtered web.xml -->
-                    <!--<webXml>${project.build.directory}/web.xml</webXml>-->
-                    <!-- overwrite the default files with any build/environment specific ones -->
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>2.10</version>
-                <executions>
-                    <execution>
-                        <phase>compile</phase>  <!-- needs to be compile because we have to pull in the common resources-->
-                        <goals>
-                            <goal>checkstyle</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <configLocation>${project.build.directory}/maven-shared-archive-resources/checkstyle/checkstyle.xml</configLocation>
-                    <headerLocation>${project.build.directory}/maven-shared-archive-resources/checkstyle/checkstyle.license</headerLocation>
-                    <suppressionsFile>${project.build.directory}/maven-shared-archive-resources/checkstyle/checkstyle-suppressions.xml</suppressionsFile>
-                    <failsOnError>true</failsOnError>
-                    <consoleOutput>true</consoleOutput>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jxr-plugin</artifactId>
-                <version>2.3</version>
-            </plugin>
-
-        </plugins>
-
-    </build>
-
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jxr-plugin</artifactId>
-                <version>2.3</version>
-            </plugin>
-        </plugins>
-    </reporting>
-
-    <!-- be careful not to bypass this repos, e.g. by setting a mirror to <mirrorOf>*</mirrorOf> in your settings.xml -->
-    <repositories>
-        <repository>
-            <id>lib</id>
-            <name>lib</name>
-            <releases>
-                <enabled>true</enabled>
-                <checksumPolicy>ignore</checksumPolicy>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <url>file://${project.basedir}/lib</url>
-        </repository>
-    </repositories>
 
     <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.patientview</groupId>
+            <artifactId>patientview</artifactId>
+            <version>1.2-SNAPSHOT</version>
+            <type>jar</type>
+            <classifier>classes</classifier>
+        </dependency>
 
         <!-- our common code -->
         <dependency>
             <groupId>org.patientview</groupId>
             <artifactId>common</artifactId>
             <version>1.2-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
-
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-            <version>1.9.5</version>
-        </dependency>
-
 
         <!-- POI - USED FOR EXCEL API -->
         <dependency>
@@ -777,11 +454,6 @@
         <!--</dependency>-->
 
         <!-- test stuff -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.11</version>
-        </dependency>
 
         <dependency>
             <groupId>org.springframework</groupId>
@@ -822,6 +494,18 @@
             <version>1.1.2</version>
         </dependency>
 
-    </dependencies>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>1.9.5</version>
+            <scope>test</scope>
+        </dependency>
 
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>2.10</version>
+        </dependency>
+
+    </dependencies>
 </project>
