@@ -1,5 +1,6 @@
 package org.patientview.test.importer;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,6 +44,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -117,9 +119,12 @@ public class ImporterMockTest {
      */
     @Test
     @LocalData
-    public void testProcess() {
+    public void testProcess() throws IOException {
 
-        File testXml = new File("A_00794_1234567890.gpg.xml");
+        File testXml = new File("temp");
+        FileUtils.copyInputStreamToFile(
+                this.getClass().getClassLoader().getResourceAsStream("A_00794_1234567890.gpg.xml"), testXml);
+
 
         when(unitDao.get(anyString(), any(Specialty.class))).thenReturn(getCorrectUnit());
         when(userMappingDao.getAllByNhsNo(anyString())).thenReturn(getCorrectMappings());
