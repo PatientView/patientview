@@ -8,10 +8,12 @@ import org.patientview.patientview.model.User;
 import org.patientview.patientview.model.enums.ConversationType;
 import org.patientview.repository.AbstractHibernateDAO;
 import org.patientview.repository.SharedThoughtDao;
+import org.patientview.utils.XssUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.inject.Inject;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -26,6 +28,43 @@ import java.util.List;
 @Transactional(propagation = Propagation.MANDATORY)
 @Repository(value = "sharedThoughtDao")
 public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> implements SharedThoughtDao {
+
+    @Inject
+    private XssUtils xssUtils;
+
+    @Override
+    public void submit(SharedThought sharedThought) {
+        
+        // add default responders by user.sharedThoughtAdministrator
+        StringBuilder queryText = new StringBuilder();
+        queryText.append("SELECT    usr ");
+        queryText.append("FROM      User AS usr ");
+        queryText.append(",         UserMapping AS ump ");
+        queryText.append(",         Unit AS uni ");
+        queryText.append("WHERE     ump.username = usr.username ");
+        queryText.append("AND       usr.sharedThoughtAdministrator = true ");
+        queryText.append("AND       ump.unitcode = uni.unitcode ");
+        queryText.append("AND       ump.unitcode = :unitCode ");
+        queryText.append("GROUP BY  usr.id");
+
+        TypedQuery<User> query = getEntityManager().createQuery(queryText.toString(), User.class);
+        query.setParameter("unitCode", sharedThought.getUnit().getUnitcode());
+        List<User> sharedThoughtAdmins = query.getResultList();
+
+        if (!sharedThoughtAdmins.isEmpty()) {
+            sharedThought.getResponders().addAll(sharedThoughtAdmins);
+        }
+
+        // save SharedThought
+        xssUtils.cleanObjectForXss(sharedThought);
+        if (!sharedThought.hasValidId()) {
+            getEntityManager().persist(sharedThought);
+        } else {
+            getEntityManager().merge(sharedThought);
+        }
+
+        getEntityManager().flush();
+    }
 
     @Override
     public SharedThought get(Long id) {
@@ -91,7 +130,7 @@ public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> im
         queryText.append(",         UserMapping AS ump ");
         queryText.append(",         Unit AS uni ");
         queryText.append("WHERE     ump.username = usr.username ");
-        queryText.append("AND       usr.isclinician = true ");
+        queryText.append("AND       (usr.isclinician = true OR usr.sharedThoughtAdministrator = true) ");
         queryText.append("AND       ump.unitcode = uni.unitcode ");
         queryText.append("AND       ump.unitcode = :unitCode ");
         queryText.append("GROUP BY  usr.id");

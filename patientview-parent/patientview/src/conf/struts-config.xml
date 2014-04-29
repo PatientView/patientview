@@ -99,6 +99,7 @@
             <form-property name="overrideInvalidNhsno" type="java.lang.String"/>
             <form-property name="isrecipient" type="java.lang.String"/>
             <form-property name="feedbackRecipient" type="java.lang.String"/>
+            <form-property name="sharedThoughtAdministrator" type="java.lang.String"/>
             <form-property name="isclinician" type="java.lang.String"/>
             <form-property name="patientId" type="java.lang.String"/>
         </form-bean>

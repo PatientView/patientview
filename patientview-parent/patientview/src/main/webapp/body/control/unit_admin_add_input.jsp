@@ -98,6 +98,10 @@
                 <td><html:checkbox property="feedbackRecipient" value="true"/></td>
             </tr>
             <tr>
+                <td><b>Shared Thought Administrator</b></td>
+                <td><html:checkbox property="sharedThoughtAdministrator" value="true"/></td>
+            </tr>
+            <tr>
                 <td><b>Clinician</b></td>
                 <td><html:checkbox property="isclinician" value="true"/></td>
             </tr>

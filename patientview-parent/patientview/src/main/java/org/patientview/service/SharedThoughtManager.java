@@ -13,7 +13,12 @@ public interface SharedThoughtManager {
 
     List<SharedThought> getUsersThoughts(Long userId, boolean isSubmitted);
 
-    void save(SharedThought thought);
+    /**
+     * Save shared thought, with assignment to sharing thoughts administrators if submitted
+     * @param thought Shared Thought to save
+     * @param isSubmitted Boolean for submission true/false
+     */
+    void save(SharedThought thought, boolean isSubmitted);
 
     void delete(Long sharedThoughtId);
 

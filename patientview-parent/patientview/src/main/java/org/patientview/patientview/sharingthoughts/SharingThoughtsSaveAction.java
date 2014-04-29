@@ -111,7 +111,7 @@ public class SharingThoughtsSaveAction extends BaseAction {
         } catch (Exception ignored) { ignored = null; }
         thought.setUnit(unit);
 
-        getSharedThoughtManager().save(thought);
+        getSharedThoughtManager().save(thought, isSubmitted);
 
         if (!isSubmitted) {
             SharingThoughts.putThoughtListInRequest(request, user, true);

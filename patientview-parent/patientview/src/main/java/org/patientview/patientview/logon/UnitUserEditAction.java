@@ -95,6 +95,8 @@ public class UnitUserEditAction extends ActionSupport {
             user.setIsrecipient("true".equals(BeanUtils.getProperty(form, "isrecipient")));
             user.setFeedbackRecipient("true".equals(BeanUtils.getProperty(form, "feedbackRecipient")));
             user.setIsclinician("true".equals(BeanUtils.getProperty(form, "isclinician")));
+            user.setSharedThoughtAdministrator(
+                    "true".equals(BeanUtils.getProperty(form, "sharedThoughtAdministrator")));
 
             String role = BeanUtils.getProperty(form, "role");
             updateRole(user, role);

@@ -40,6 +40,7 @@ CREATE TABLE `user_sharedthought` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ALTER TABLE unit ADD COLUMN `sharedThoughtEnabled` tinyint(1) DEFAULT '0';
+ALTER TABLE user ADD COLUMN `sharedThoughtAdministrator` tinyint(1) NOT NULL DEFAULT '0';
 
 /* Feedback */
 

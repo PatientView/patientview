@@ -46,9 +46,14 @@ public class SharedThoughtManagerImpl implements SharedThoughtManager {
     }
 
     @Override
-    public void save(SharedThought thought) {
+    public void save(SharedThought thought, boolean isSubmitted) {
         thought.setDateLastSaved(GregorianCalendar.getInstance().getTime());
-        sharedThoughtDao.save(thought);
+
+        if (isSubmitted) {
+            sharedThoughtDao.submit(thought);
+        } else {
+            sharedThoughtDao.save(thought);
+        }
     }
 
     @Override

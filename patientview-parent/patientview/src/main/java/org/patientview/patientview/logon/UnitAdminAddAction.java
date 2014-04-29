@@ -154,6 +154,7 @@ public class UnitAdminAddAction extends ActionSupport {
             boolean isRecipient = "true".equals(BeanUtils.getProperty(form, "isrecipient"));
             boolean feedbackRecipient = "true".equals(BeanUtils.getProperty(form, "feedbackRecipient"));
             boolean isClinician = "true".equals(BeanUtils.getProperty(form, "isclinician"));
+            boolean sharedThoughtAdministrator = "true".equals(BeanUtils.getProperty(form, "sharedThoughtAdministrator"));
 
             // create new UnitAdmin (extended from Logon but currently with no extra fields/methods)
             UnitAdmin unitAdmin = new UnitAdmin();

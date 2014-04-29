@@ -62,6 +62,7 @@
           <th class="tableheader" onclick="sort('accountlocked')"><a href="#">Password</a></th>
           <th class="tableheader" onclick="sort('isrecipient')"><a href="#">Message Recipient</a></th>
           <th class="tableheader" onclick="sort('feedbackRecipient')"><a href="#">Feedback Recipient</a></th>
+          <th class="tableheader" onclick="sort('sharedThoughtAdministrator')"><a href="#">Shared Thought Administrator</a></th>
           <th class="tableheader" onclick="sort('isclinician')"><a href="#">Clinician</a></th>
 
       </tr>
@@ -110,6 +111,10 @@
           <td class="tablecell">
               <logic:equal name="unitUser" property="feedbackRecipient" value="false">No</logic:equal>
               <logic:equal name="unitUser" property="feedbackRecipient" value="true">Yes</logic:equal>
+          </td>
+          <td class="tablecell">
+              <logic:equal name="unitUser" property="sharedThoughtAdministrator" value="false">No</logic:equal>
+              <logic:equal name="unitUser" property="sharedThoughtAdministrator" value="true">Yes</logic:equal>
           </td>
           <td class="tablecell">
               <logic:equal name="unitUser" property="isclinician" value="false">No</logic:equal>

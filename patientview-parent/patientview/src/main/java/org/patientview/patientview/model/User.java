@@ -89,6 +89,9 @@ public class User extends BaseModel {
     @Column(nullable = false)
     private boolean isclinician = false;
 
+    @Column(nullable = false)
+    private boolean sharedThoughtAdministrator = false;
+
     @Column(nullable = true)
     private Date created;
 
@@ -240,6 +243,14 @@ public class User extends BaseModel {
 
     public void setIsclinician(boolean isclinician) {
         this.isclinician = isclinician;
+    }
+
+    public boolean isSharedThoughtAdministrator() {
+        return sharedThoughtAdministrator;
+    }
+
+    public void setSharedThoughtAdministrator(boolean sharedThoughtAdministrator) {
+        this.sharedThoughtAdministrator = sharedThoughtAdministrator;
     }
 
     public Date getCreated() {

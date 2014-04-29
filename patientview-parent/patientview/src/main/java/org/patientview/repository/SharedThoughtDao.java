@@ -18,6 +18,8 @@ public interface SharedThoughtDao {
 
     void save(SharedThought thought);
 
+    void submit(SharedThought thought);
+
     void delete(Long id);
 
     List<User> getOtherResponders(SharedThought sharedThought);

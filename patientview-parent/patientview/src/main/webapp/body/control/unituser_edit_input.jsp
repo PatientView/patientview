@@ -102,6 +102,12 @@
                 </div>
             </div>
             <div class="control-group">
+                <label class="control-label">Shared Thought Administrator</label>
+                <div class="controls">
+                    <html:checkbox property="sharedThoughtAdministrator" name="unitUser" value="true"/>
+                </div>
+            </div>
+            <div class="control-group">
                 <label class="control-label">Clinician</label>
                 <div class="controls">
                     <html:checkbox property="isclinician" name="unitUser" value="true"/>
