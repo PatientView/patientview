@@ -5,7 +5,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.jvnet.hudson.test.recipes.LocalData;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -118,12 +117,9 @@ public class ImporterMockTest {
      *
      */
     @Test
-    @LocalData
     public void testProcess() throws IOException {
 
-        File testXml = new File("temp");
-        FileUtils.copyInputStreamToFile(
-                this.getClass().getClassLoader().getResourceAsStream("A_00794_1234567890.gpg.xml"), testXml);
+        File testXml = getFile("A_00794_1234567890.gpg.xml");
 
 
         when(unitDao.get(anyString(), any(Specialty.class))).thenReturn(getCorrectUnit());
@@ -147,9 +143,8 @@ public class ImporterMockTest {
      * Fail: The test does not throw a ProcessException
      */
     @Test
-    @LocalData
     public void testProcessWithInvalidUnitCode() {
-        File testXml = new File(this.getClass().getResource("A_00794_1234567890-InvalidUnitCode.gpg.xml").getFile());
+        File testXml = getFile("A_00794_1234567890-InvalidUnitCode.gpg.xml");
 
         when(unitDao.get(eq("XXXX"), any(Specialty.class))).thenReturn(null);
         when(userMappingDao.getAllByNhsNo(anyString(), anyString())).thenReturn(getCorrectMappings());
@@ -171,9 +166,8 @@ public class ImporterMockTest {
      *
      */
     @Test
-    @LocalData
     public void testProcessWithInvalidNhsNumber() {
-        File testXml = new File(this.getClass().getClassLoader().getResource("A_00794_1234567890-InvalidNHSNumber.gpg.xml").getFile());
+        File testXml = getFile("A_00794_1234567890-InvalidNHSNumber.gpg.xml");
 
         when(unitDao.get(anyString(), any(Specialty.class))).thenReturn(getCorrectUnit());
         when(userMappingDao.getAllByNhsNo(anyString(), anyString())).thenReturn(getCorrectMappings());
@@ -194,10 +188,9 @@ public class ImporterMockTest {
      * Fail: The test does not throw a ProcessException
      */
     @Test
-    @LocalData
     public void testProcessWithThePatientNotInTheUnit() {
 
-        File testXml = new File(this.getClass().getClassLoader().getResource("A_00794_1234567890.gpg.xml").getFile());
+        File testXml = getFile("A_00794_1234567890.gpg.xml");
 
         when(unitDao.get(anyString(), any(Specialty.class))).thenReturn(getCorrectUnit());
         when(userMappingDao.getAllByNhsNo(anyString())).thenReturn(null);
@@ -220,10 +213,9 @@ public class ImporterMockTest {
      * Fail: The test does not throw a ProcessException
      */
     @Test
-    @LocalData
     public void testProcessWithThePatientNotInCorrectUnit() {
 
-        File testXml = new File(this.getClass().getClassLoader().getResource("A_00794_1234567890.gpg.xml").getFile());
+        File testXml = getFile("A_00794_1234567890.gpg.xml");
         when(unitDao.get(anyString(), any(Specialty.class))).thenReturn(getCorrectUnit());
         when(userMappingDao.getAllByNhsNo(anyString())).thenReturn(getWrongMappings());
 
@@ -242,9 +234,8 @@ public class ImporterMockTest {
      *
      */
     @Test
-    @LocalData
     public void testProcessWithPatientInARadarUnit() {
-        File testXml = new File(this.getClass().getClassLoader().getResource("A_00794_1234567890.gpg.xml").getFile());
+        File testXml = getFile("A_00794_1234567890.gpg.xml");
 
         // Trigger the check for Radar
         when(unitDao.get(anyString(), any(Specialty.class))).thenReturn(getCorrectUnit());
@@ -267,9 +258,8 @@ public class ImporterMockTest {
      *
      */
     @Test
-    @LocalData
     public void testProcessWithPatientNotInARadarUnitOrOtherUnit() {
-        File testXml = new File(this.getClass().getClassLoader().getResource("A_00794_1234567890.gpg.xml").getFile());
+        File testXml = getFile("A_00794_1234567890.gpg.xml");
 
         when(unitDao.get(anyString(), any(Specialty.class))).thenReturn(getCorrectUnit());
         when(userMappingDao.getAllByNhsNo(anyString())).thenReturn(getWrongMappings());
@@ -281,6 +271,17 @@ public class ImporterMockTest {
             LOGGER.info(pe.getMessage());
         }
 
+    }
+
+    private File getFile(String filename) {
+        File testXml = new File("temp");
+        try {
+            FileUtils.copyInputStreamToFile(
+                    this.getClass().getClassLoader().getResourceAsStream("A_00794_1234567890.gpg.xml"), testXml);
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+        return testXml;
     }
 
     private Unit getCorrectUnit() {
