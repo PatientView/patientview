@@ -63,7 +63,6 @@ public class ImporterMockTest {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(ImporterMockTest.class);
 
-    private List<UserMapping> userMappings = new ArrayList<UserMapping>();
 
     @InjectMocks
     private ImportManager importManager = new ImportManagerImpl();
@@ -106,7 +105,6 @@ public class ImporterMockTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        userMappings.add(new UserMapping());
     }
 
 
@@ -121,8 +119,8 @@ public class ImporterMockTest {
 
         File testXml = new File(this.getClass().getClassLoader().getResource("A_00794_1234567890.gpg.xml").getFile());
 
-        when(unitDao.get(anyString(), any(Specialty.class))).thenReturn(new Unit());
-        when(userMappingDao.getAllByNhsNo(anyString(), anyString())).thenReturn(userMappings);
+        when(unitDao.get(anyString(), any(Specialty.class))).thenReturn(getCorrectUnit());
+        when(userMappingDao.getAllByNhsNo(anyString())).thenReturn(getCorrectMappings());
 
         try {
             importManager.process(testXml);
@@ -145,7 +143,7 @@ public class ImporterMockTest {
         File testXml = new File(this.getClass().getClassLoader().getResource("A_00794_1234567890-InvalidUnitCode.gpg.xml").getFile());
 
         when(unitDao.get(eq("XXXX"), any(Specialty.class))).thenReturn(null);
-        when(userMappingDao.getAllByNhsNo(anyString(), anyString())).thenReturn(userMappings);
+        when(userMappingDao.getAllByNhsNo(anyString(), anyString())).thenReturn(getCorrectMappings());
 
         try {
             importManager.process(testXml);
@@ -167,8 +165,8 @@ public class ImporterMockTest {
     public void testProcessWithInvalidNhsNumber() {
         File testXml = new File(this.getClass().getClassLoader().getResource("A_00794_1234567890-InvalidNHSNumber.gpg.xml").getFile());
 
-        when(unitDao.get(anyString(), any(Specialty.class))).thenReturn(new Unit());
-        when(userMappingDao.getAllByNhsNo(anyString(), anyString())).thenReturn(userMappings);
+        when(unitDao.get(anyString(), any(Specialty.class))).thenReturn(getCorrectUnit());
+        when(userMappingDao.getAllByNhsNo(anyString(), anyString())).thenReturn(getCorrectMappings());
 
         try {
             importManager.process(testXml);
@@ -190,8 +188,8 @@ public class ImporterMockTest {
 
         File testXml = new File(this.getClass().getClassLoader().getResource("A_00794_1234567890.gpg.xml").getFile());
 
-        when(unitDao.get(anyString(), any(Specialty.class))).thenReturn(new Unit());
-        when(userMappingDao.getAllByNhsNo(anyString(), anyString())).thenReturn(null);
+        when(unitDao.get(anyString(), any(Specialty.class))).thenReturn(getCorrectUnit());
+        when(userMappingDao.getAllByNhsNo(anyString())).thenReturn(null);
 
         try {
             importManager.process(testXml);
@@ -200,11 +198,121 @@ public class ImporterMockTest {
             verify(patientManager, Mockito.times(0)).save(any(Patient.class));
             LOGGER.info(pe.getMessage());
         }
+
+
+    }
+
+
+    /**
+     * Test: To check a file containing a patient not already in a unit does not process
+     *       The importer does not try and save the patient
+     * Fail: The test does not throw a ProcessException
+     */
+    @Test
+    public void testProcessWithThePatientNotInCorrectUnit() {
+
+        File testXml = new File(this.getClass().getClassLoader().getResource("A_00794_1234567890.gpg.xml").getFile());
+        when(unitDao.get(anyString(), any(Specialty.class))).thenReturn(getCorrectUnit());
+        when(userMappingDao.getAllByNhsNo(anyString())).thenReturn(getWrongMappings());
+
+        try {
+            importManager.process(testXml);
+            Assert.fail("This process should not complete with incorrect mappings returned for the patient");
+        } catch (ProcessException pe) {
+            verify(patientManager, Mockito.times(0)).save(any(Patient.class));
+            LOGGER.info(pe.getMessage());
+        }
     }
 
     /**
-     * Test
+     * Test: Trello 495 validate a NHS No against a Radar patient that has a mapping to a RadarGroup.
+     * Fail: An exception is not thrown for a patient with a Radar mapping.
      *
      */
+    @Test
+    public void testProcessWithPatientInARadarUnit() {
+        File testXml = new File(this.getClass().getClassLoader().getResource("A_00794_1234567890.gpg.xml").getFile());
 
+        // Trigger the check for Radar
+        when(unitDao.get(anyString(), any(Specialty.class))).thenReturn(getCorrectUnit());
+        when(userMappingDao.getAllByNhsNo(anyString())).thenReturn(getRadarMappings());
+
+        when(unitDao.getAll(null, new String[]{"radargroup"})).thenReturn(getRadarUnits());
+        try {
+            importManager.process(testXml);
+            verify(patientManager, Mockito.times(1)).save(any(Patient.class));;
+        } catch (ProcessException pe) {
+            Assert.fail("This process should not raise an exception for a radar patient with mapping");
+            LOGGER.info(pe.getMessage());
+        }
+
+    }
+
+    /**
+     * Test: Trello 495 validate a NHS No against a Radar patient that has a mapping to a RadarGroup.
+     * Fail: An exception is thrown for a patient without a Radar mapping or any other valid unit mapping.
+     *
+     */
+    @Test
+    public void testProcessWithPatientNotInARadarUnitOrOtherUnit() {
+        File testXml = new File(this.getClass().getClassLoader().getResource("A_00794_1234567890.gpg.xml").getFile());
+
+        when(unitDao.get(anyString(), any(Specialty.class))).thenReturn(getCorrectUnit());
+        when(userMappingDao.getAllByNhsNo(anyString())).thenReturn(getWrongMappings());
+        when(unitDao.getAll(null, new String[]{"radargroup"})).thenReturn(getRadarUnits());
+        try {
+            importManager.process(testXml);
+            Assert.fail("This process should not raise an exception for a radar patient with mapping");
+        } catch (ProcessException pe) {
+            LOGGER.info(pe.getMessage());
+        }
+
+    }
+
+    private Unit getCorrectUnit() {
+        Unit unit = new Unit();
+        unit.setUnitcode("A");
+        return unit;
+
+    }
+
+    private List<UserMapping> getCorrectMappings() {
+
+        List<UserMapping> correctUserMappings = new ArrayList<UserMapping>();
+        UserMapping userMapping = new UserMapping();
+        userMapping.setUnitcode("A");
+
+        correctUserMappings.add(userMapping);
+
+        return correctUserMappings;
+    }
+
+    private List<UserMapping> getWrongMappings() {
+
+        List<UserMapping> wrongUserMappings = new ArrayList<UserMapping>();
+        UserMapping userMapping = new UserMapping();
+        userMapping.setUnitcode("B");
+
+        wrongUserMappings.add(userMapping);
+
+        return wrongUserMappings;
+    }
+
+    private List<Unit> getRadarUnits() {
+
+        List<Unit> units = new ArrayList<Unit>();
+        Unit unit = new Unit();
+        unit.setUnitcode("radar");
+        units.add(unit);
+        return units;
+    }
+
+    private List<UserMapping> getRadarMappings() {
+
+        List<UserMapping> radarUserMappings = new ArrayList<UserMapping>();
+        UserMapping userMapping = new UserMapping();
+        userMapping.setUnitcode("radar");
+        radarUserMappings.add(userMapping);
+        return radarUserMappings;
+    }
 }
