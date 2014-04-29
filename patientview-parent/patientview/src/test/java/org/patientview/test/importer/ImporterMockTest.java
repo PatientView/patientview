@@ -277,7 +277,7 @@ public class ImporterMockTest {
         File testXml = new File("temp");
         try {
             FileUtils.copyInputStreamToFile(
-                    this.getClass().getClassLoader().getResourceAsStream("A_00794_1234567890.gpg.xml"), testXml);
+                    this.getClass().getClassLoader().getResourceAsStream(filename), testXml);
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
