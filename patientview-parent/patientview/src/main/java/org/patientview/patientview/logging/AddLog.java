@@ -54,6 +54,11 @@ public final class AddLog {
     public static final String PATIENT_COUNT = "patient count";
     public static final String EMAIL_VERIFY = "email verified";
 
+    // sharing thoughts
+    public static final String SHARED_THOUGHT_VIEW = "shared thought view";
+    public static final String SHARED_THOUGHT_SAVE = "shared thought save";
+    public static final String SHARED_THOUGHT_SUBMIT = "shared thought submit";
+
     public static void addLog(String actor, String action, String user, String nhsno, String unitcode,
                               String extrainfo) {
         actor = (actor == null) ? "" : actor;

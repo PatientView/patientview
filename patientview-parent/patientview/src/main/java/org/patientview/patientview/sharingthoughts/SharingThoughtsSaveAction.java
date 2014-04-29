@@ -1,6 +1,7 @@
 package org.patientview.patientview.sharingthoughts;
 
 import org.patientview.ibd.action.BaseAction;
+import org.patientview.patientview.logging.AddLog;
 import org.patientview.patientview.model.SharedThought;
 import org.patientview.model.Unit;
 import org.patientview.patientview.model.User;
@@ -116,6 +117,14 @@ public class SharingThoughtsSaveAction extends BaseAction {
         if (!isSubmitted) {
             SharingThoughts.putThoughtListInRequest(request, user, true);
             SharingThoughts.putThoughtListInRequest(request, user, false);
+
+            // log saving, store SharedThought.id in log.extrainfo
+            AddLog.addLog(user.getUsername(), AddLog.SHARED_THOUGHT_SAVE, user.getUsername(), "",
+                    thought.getUnit().getUnitcode(), thought.getId().toString());
+        } else {
+            // log submission, store SharedThought.id in log.extrainfo
+            AddLog.addLog(user.getUsername(), AddLog.SHARED_THOUGHT_SUBMIT, user.getUsername(), "",
+                    thought.getUnit().getUnitcode(), thought.getId().toString());
         }
 
         return mapping.findForward(forwardMapping);
