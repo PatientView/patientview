@@ -83,7 +83,6 @@ public class UnitAdminAddAction extends ActionSupport {
         List<UserMapping> usermappingsThisSpecialty = userManager.getUserMappings(username);
 
         if (!usermappingsAllSpecialties.isEmpty()) {
-
             // check if user exists has mapping in currently specialty
             if (!usermappingsThisSpecialty.isEmpty()) {
                 // user has mappings in this specialty
@@ -101,7 +100,6 @@ public class UnitAdminAddAction extends ActionSupport {
                     request.setAttribute(LogonUtils.USER_ALREADY_EXISTS, username);
                     return mapping.findForward("existinguser");
                 }
-
             } else {
                 // user has mappings in other specialties but not this one
                 request.setAttribute("currentUnitCodes"
