@@ -32,7 +32,6 @@ public class SharingThoughtsAdminHomeAction extends ActionSupport {
             request.setAttribute("sharedThoughts", sharedThoughtManager.getStaffThoughtList(loggedInUser));
         }
 
-
         return mapping.findForward("success");
     }
 }

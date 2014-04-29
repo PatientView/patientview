@@ -27,7 +27,7 @@ public class SharingThoughtsAdminViewThoughtAction extends BaseAction {
         request.setAttribute("user", loggedInUser);
 
         // log viewing, store SharedThought.id in log.extrainfo
-        AddLog.addLog(loggedInUser.getUsername(), AddLog.SHARED_THOUGHT_VIEW, loggedInUser.getUsername(), "",
+        AddLog.addLog(loggedInUser.getUsername(), AddLog.SHARED_THOUGHT_VIEW, thought.getUser().getUsername(), "",
                 thought.getUnit().getUnitcode(), thought.getId().toString());
 
         return mapping.findForward("success");
