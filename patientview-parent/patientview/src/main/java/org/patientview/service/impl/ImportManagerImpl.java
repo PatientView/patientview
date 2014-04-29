@@ -33,7 +33,6 @@ import org.patientview.model.enums.SourceType;
 import org.patientview.patientview.TestResultDateRange;
 import org.patientview.patientview.XmlImportUtils;
 import org.patientview.patientview.logging.AddLog;
-import org.patientview.patientview.model.Centre;
 import org.patientview.patientview.model.Diagnosis;
 import org.patientview.patientview.model.Diagnostic;
 import org.patientview.patientview.model.Letter;
@@ -64,6 +63,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -79,8 +79,6 @@ public class ImportManagerImpl implements ImportManager {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ImportManagerImpl.class);
 
-    @Inject
-    private XmlImportUtils xmlImportUtils;
 
     @Inject
     private UnitDao unitDao;
@@ -128,7 +126,7 @@ public class ImportManagerImpl implements ImportManager {
             throw new ProcessException("The file is empty");
         }
 
-        ResultParser resultParser = null;
+        ResultParser resultParser;
 
         try {
             resultParser = new ResultParser(xmlFile);
@@ -140,7 +138,7 @@ public class ImportManagerImpl implements ImportManager {
         // If the file parse process otherwise email the corruptions
         if (resultParser.parse()) {
 
-            String action = null;
+            String action;
 
             try {
                 action = processPatientData(resultParser);
@@ -176,8 +174,8 @@ public class ImportManagerImpl implements ImportManager {
             return AddLog.PATIENT_DATA_REMOVE;
         } else {
             validateNhsNumber(resultParser.getPatient());
-            validateUnitCode(resultParser.getCentre());
-            validatePatientExistsInUnit(resultParser.getPatient(), resultParser.getCentre());
+            validateUnitCode(resultParser.getUnit());
+            validatePatientExistsInUnit(resultParser.getPatient(), resultParser.getUnit());
             updatePatientDetails(resultParser.getPatient(), resultParser.getDateRanges());
             deleteDateRanges(resultParser.getDateRanges());
             insertResults(resultParser.getTestResults());
@@ -196,17 +194,17 @@ public class ImportManagerImpl implements ImportManager {
             deleteAllergies(resultParser.getData("nhsno"), resultParser.getData("centrecode"));
             insertAllergies(resultParser.getAllergies());
             // todo improvement: we should build a set of all units updated, then mark them at the end of the job
-            markLastImportDateOnUnit(resultParser.getCentre());
+            markLastImportDateOnUnit(resultParser.getUnit());
 
             return AddLog.PATIENT_DATA_FOLLOWUP;
         }
     }
 
-    private void markLastImportDateOnUnit(Centre centre) {
-        Unit unit = retrieveUnit(centre.getCentreCode());
-        if (unit != null) {
-            unit.setLastImportDate(new Date());
-            unitDao.save(unit);
+    private void markLastImportDateOnUnit(Unit unit) {
+        Unit persistedUnit = retrieveUnit(unit.getUnitcode());
+        if (persistedUnit != null) {
+            persistedUnit.setLastImportDate(new Date());
+            unitDao.save(persistedUnit);
         }
     }
 
@@ -318,22 +316,34 @@ public class ImportManagerImpl implements ImportManager {
     /**
      * Check patient exists in unit using usermapping table
      * @param patient Imported patient from XML
-     * @param centre Centre from XML (analogous to Unit, at least for unit/centre code)
+     * @param unit Unit from XML
      * @throws ProcessException
      */
-    private void validatePatientExistsInUnit(Patient patient, Centre centre) throws ProcessException {
+    private void validatePatientExistsInUnit(Patient patient, Unit unit) throws ProcessException {
 
-        List<UserMapping> userMappings = userMappingDao.getAllByNhsNo(patient.getNhsno(), centre.getCentreCode());
+        List<UserMapping> userMappings = userMappingDao.getAllByNhsNo(patient.getNhsno());
 
-        if (CollectionUtils.isEmpty(userMappings)) {
-            throw new ProcessException("This patient has not been added to your unit,"
-                    + " please register patient in PatientView using 'Add Patient'");
+        // Checks the patient has a usermapping for the Unit loading the data
+        List<Unit> units = new ArrayList<Unit>();
+        units.add(unit);
+        if (!doesPatientHaveMapping(userMappings, units)) {
+
+            // Failing that; check if the user has a radar mapping
+            units = unitDao.getAll(null, new String[]{"radargroup"});
+
+            if (!doesPatientHaveMapping(userMappings, units)) {
+                throw new ProcessException("This patient has not been added to your unit,"
+                        + " please register patient in PatientView using 'Add Patient'");
+            }
+
+
+
         }
     }
 
-    private void validateUnitCode(Centre centre) throws ProcessException {
+    private void validateUnitCode(Unit unit) throws ProcessException {
 
-        if (unitDao.get(centre.getCentreCode(), null) == null) {
+        if (unitDao.get(unit.getUnitcode(), null) == null) {
             throw new ProcessException("The unit code supplied by the file does not exist in the database");
         }
 
@@ -409,5 +419,21 @@ public class ImportManagerImpl implements ImportManager {
         errorHandler.createLogEntry(xmlFile, action, "");
     }
 
+    // Should go in CommonUtils.... usermapping etc
+    private boolean doesPatientHaveMapping(List<UserMapping> userMappings, List<Unit> requiredUnits) {
+
+        if (CollectionUtils.isEmpty(userMappings)) {
+            return false;
+        }
+
+        for (UserMapping userMapping : userMappings) {
+            for (Unit unit : requiredUnits) {
+                if (unit.getUnitcode().equalsIgnoreCase(userMapping.getUnitcode())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
 }
