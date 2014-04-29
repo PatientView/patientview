@@ -263,7 +263,7 @@ public class ImporterMockTest {
     @Test
     @LocalData
     public void testProcessWithPatientNotInARadarUnitOrOtherUnit() {
-        File testXml = new File(this.getClass().getClassLoader().getResource("A_00794_1234567890.gpg.xml").getFile());
+        File testXml = new File("A_00794_1234567890.gpg.xml");
 
         when(unitDao.get(anyString(), any(Specialty.class))).thenReturn(getCorrectUnit());
         when(userMappingDao.getAllByNhsNo(anyString())).thenReturn(getWrongMappings());
