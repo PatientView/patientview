@@ -117,7 +117,7 @@ public class ImporterMockTest {
     @Test
     public void testProcess() {
 
-        File testXml = new File(this.getClass().getClassLoader().getResource("A_00794_1234567890.gpg.xml").getFile());
+        File testXml = new File(this.getClass().getResource("/A_00794_1234567890.gpg.xml").getFile());
 
         when(unitDao.get(anyString(), any(Specialty.class))).thenReturn(getCorrectUnit());
         when(userMappingDao.getAllByNhsNo(anyString())).thenReturn(getCorrectMappings());
@@ -140,7 +140,7 @@ public class ImporterMockTest {
      */
     @Test
     public void testProcessWithInvalidUnitCode() {
-        File testXml = new File(this.getClass().getClassLoader().getResource("A_00794_1234567890-InvalidUnitCode.gpg.xml").getFile());
+        File testXml = new File(this.getClass().getResource("/A_00794_1234567890-InvalidUnitCode.gpg.xml").getFile());
 
         when(unitDao.get(eq("XXXX"), any(Specialty.class))).thenReturn(null);
         when(userMappingDao.getAllByNhsNo(anyString(), anyString())).thenReturn(getCorrectMappings());
