@@ -21,6 +21,7 @@ CREATE TABLE `sharedthought` (
   `likelihood_recurrence` int(11) DEFAULT NULL,
   `how_serious` int(11) DEFAULT NULL,
   `is_submitted` tinyint(1) NOT NULL DEFAULT '0',
+  `submit_date` datetime DEFAULT NULL,
   `date_last_saved` datetime DEFAULT NULL,
   `allocation_user_id` bigint(20) DEFAULT NULL,
   `is_action_taken` tinyint(1) NOT NULL DEFAULT '0',

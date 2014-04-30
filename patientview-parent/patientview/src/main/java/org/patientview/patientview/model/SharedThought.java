@@ -111,6 +111,9 @@ public class SharedThought extends BaseModel {
     @Column(name = "is_submitted")
     private boolean isSubmitted = false;
 
+    @Column(name = "submit_date")
+    private Date submitDate;
+
     // this will be set by manager
     @Column(name = "date_last_saved")
     private Date dateLastSaved;
@@ -317,6 +320,14 @@ public class SharedThought extends BaseModel {
 
     public void setSubmitted(boolean submitted) {
         isSubmitted = submitted;
+    }
+
+    public Date getSubmitDate() {
+        return submitDate;
+    }
+
+    public void setSubmitDate(Date submitDate) {
+        this.submitDate = submitDate;
     }
 
     public Date getDateLastSaved() {

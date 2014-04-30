@@ -56,6 +56,9 @@ public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> im
             sharedThought.getResponders().addAll(sharedThoughtAdmins);
         }
 
+        // add submission date
+        sharedThought.setSubmitDate(new Date());
+
         // save SharedThought
         xssUtils.cleanObjectForXss(sharedThought);
         if (!sharedThought.hasValidId()) {
