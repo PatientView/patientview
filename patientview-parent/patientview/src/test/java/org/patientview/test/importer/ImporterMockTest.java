@@ -1,6 +1,7 @@
 package org.patientview.test.importer;
 
 import org.apache.commons.io.FileUtils;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -273,11 +274,21 @@ public class ImporterMockTest {
 
     }
 
+    // Try clean up
+    @After
+    public void tearDown() {
+        File file = new File("temp");
+        if (file.exists()) {
+            file.delete();
+        }
+
+    }
+
+    // Have to get a file like this does to Jenkins build process
     private File getFile(String filename) {
         File testXml = new File("temp");
         try {
-            FileUtils.copyInputStreamToFile(
-                    this.getClass().getClassLoader().getResourceAsStream(filename), testXml);
+            FileUtils.copyInputStreamToFile(this.getClass().getClassLoader().getResourceAsStream(filename), testXml);
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
