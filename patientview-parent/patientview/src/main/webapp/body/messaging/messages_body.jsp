@@ -102,11 +102,12 @@
                 <section class="conversation-container">
                     <logic:present name="conversations">
                         <logic:notEmpty name="conversations">
+                            <table class="tableInvisible" id="tableConversations"><thead><th></th></thead><tbody>
                             <logic:iterate name="conversations" id="conversation" indexId="index">
                                 <%
                                     boolean even = index % 2 == 0;
                                 %>
-
+                                <tr><td>
                                 <a href="/<%=actionPrefix%>/conversation.do?conversationId=<bean:write name="conversation" property="id" />#response">
                                     <article class="conversation <%=even ? "" : "odd"%>">
                                         <h2 class="title">
@@ -138,7 +139,9 @@
                                         </div>
                                     </article>
                                 </a>
+                                </td></tr>
                             </logic:iterate>
+                            </tbody></table>
                         </logic:notEmpty>
                         <logic:empty name="conversations">
                             <div class="alert">
@@ -272,3 +275,4 @@
 </div>
 
 <script src="/js/messages.js" type="text/javascript"></script>
+<script src="/js/jquery.dataTables.min.js" type="text/javascript"></script>

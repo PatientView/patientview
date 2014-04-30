@@ -448,7 +448,17 @@ h3{
 }
 
 /** MESSAGES **/
+#tableConversations_length, #tableConversations_filter{
+    display: none;
+}
 
+#tableConversations_info{
+    margin-top:10px;
+}
+
+#tableConversations{
+
+}
 
 section article.conversation, section article.message{
     /*padding:18px 18px;*/
@@ -462,7 +472,7 @@ section article.conversation.odd{
 
 section article.conversation .badge, section article.message .badge{
     position:relative;
-    top:-15px;
+    top:-5px;
 }
 
 section article.message{
@@ -720,4 +730,8 @@ div.sharingThoughtsHome1 {
 div.sharingThoughtsHome2 {
     float: right;
     width: 200px;
+}
+
+table.tableInvisible{
+    width: 100%;
 }
