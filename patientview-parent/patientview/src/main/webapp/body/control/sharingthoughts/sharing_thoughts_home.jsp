@@ -29,7 +29,7 @@
         <tbody>
         <logic:iterate name="sharedThoughts" id="thought">
         <tr>
-            <td class="tablecell"><bean:write name="thought" property="dateLastSavedFormattedDate"/></td>
+            <td class="tablecell"><bean:write name="thought" property="dateLastSavedFormattedDateTime"/></td>
             <td class="tablecell">
                 <logic:equal value="1" name="thought" property="positiveNegative">
                     <span class="yesTick">&#10004; Positive</span>

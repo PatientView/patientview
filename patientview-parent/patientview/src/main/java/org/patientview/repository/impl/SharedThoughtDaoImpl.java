@@ -34,28 +34,6 @@ public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> im
 
     @Override
     public void submit(SharedThought sharedThought) {
-
-        // add default responders by user.sharedThoughtAdministrator
-        StringBuilder queryText = new StringBuilder();
-        queryText.append("SELECT    usr ");
-        queryText.append("FROM      User AS usr ");
-        queryText.append(",         UserMapping AS ump ");
-        queryText.append(",         Unit AS uni ");
-        queryText.append("WHERE     ump.username = usr.username ");
-        queryText.append("AND       usr.sharedThoughtAdministrator = true ");
-        queryText.append("AND       uni.sharedThoughtEnabled = true ");
-        queryText.append("AND       ump.unitcode = uni.unitcode ");
-        queryText.append("AND       ump.unitcode = :unitCode ");
-        queryText.append("GROUP BY  usr.id");
-
-        TypedQuery<User> query = getEntityManager().createQuery(queryText.toString(), User.class);
-        query.setParameter("unitCode", sharedThought.getUnit().getUnitcode());
-        List<User> sharedThoughtAdmins = query.getResultList();
-
-        if (!sharedThoughtAdmins.isEmpty()) {
-            sharedThought.getResponders().addAll(sharedThoughtAdmins);
-        }
-
         // add submission date
         sharedThought.setSubmitDate(new Date());
 
@@ -156,7 +134,7 @@ public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> im
         queryText.append(",         UserMapping AS ump ");
         queryText.append(",         Unit AS uni ");
         queryText.append("WHERE     ump.username = usr.username ");
-        queryText.append("AND       (usr.sharedThoughtResponder = true OR usr.sharedThoughtAdministrator = true) ");
+        queryText.append("AND       usr.sharedThoughtResponder = true ");
         queryText.append("AND       ump.unitcode = uni.unitcode ");
         queryText.append("AND       uni.sharedThoughtEnabled = true ");
         queryText.append("AND       ump.unitcode = :unitCode ");
@@ -235,7 +213,7 @@ public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> im
     @Override
     public boolean checkAccessSharingThoughts(User user) {
         StringBuilder queryText = new StringBuilder();
-        queryText.append("SELECT    sth ");
+        queryText.append("SELECT    usr ");
         queryText.append("FROM      User AS usr ");
         queryText.append(",         UserMapping AS ump ");
         queryText.append(",         Unit AS uni ");
@@ -243,11 +221,10 @@ public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> im
         queryText.append("WHERE     ump.username = usr.username ");
         queryText.append("AND       ump.unitcode = uni.unitcode ");
         queryText.append("AND       uni.sharedThoughtEnabled = true ");
-        queryText.append("AND       ump.unitcode = sth.unit.unitcode ");
         queryText.append("AND       usr = :user ");
-        queryText.append("GROUP BY  sth.id ");
+        queryText.append("GROUP BY  usr.id ");
 
-        TypedQuery<SharedThought> query = getEntityManager().createQuery(queryText.toString(), SharedThought.class);
+        TypedQuery<User> query = getEntityManager().createQuery(queryText.toString(), User.class);
         query.setParameter("user", user);
 
         try {

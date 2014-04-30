@@ -42,6 +42,7 @@ public final class SharingThoughts {
     public static final String RESPONDERS = "responders";
     public static final String CONVERSATION = "conversation";
     public static final String CONVERSATION_MESSAGES = "conversation.messages";
+    public static final String SHARED_THOUGHT_ADMINISTRATOR = "sharedThoughtAdministrator";
 
     static void putThoughtListInRequest(HttpServletRequest request, User user, boolean submitted) {
         String attributeName = (submitted) ? SharingThoughts.USERS_THOUGHTS_SUBMITTED_PARAM

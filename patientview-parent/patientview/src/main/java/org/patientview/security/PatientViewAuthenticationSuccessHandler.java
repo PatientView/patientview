@@ -93,7 +93,7 @@ public class PatientViewAuthenticationSuccessHandler extends SavedRequestAwareAu
                 request.getSession().setAttribute(Messaging.FEEDBACK_ENABLED, true);
             }
 
-            // check if user member of unit with sharing thoughts enabled
+            // check if patient user member of unit with sharing thoughts enabled
             if (sharedThoughtManager.checkAccessSharingThoughts(user)) {
                 request.getSession().setAttribute(Messaging.SHARING_THOUGHTS_ENABLED, true);
             }

@@ -37,7 +37,7 @@ import javax.persistence.Transient;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Conversation extends BaseModel {
@@ -99,7 +99,7 @@ public class Conversation extends BaseModel {
     private boolean clinicianClosed = false;
 
     @OneToMany(mappedBy = "conversation", fetch = FetchType.EAGER)
-    private List<Message> messages;
+    private Set<Message> messages;
 
     public boolean isDeleted() {
         return deleted;
@@ -215,11 +215,11 @@ public class Conversation extends BaseModel {
 
     public void setClinicianClosed(boolean clinicianClosed) { this.clinicianClosed = clinicianClosed; }
 
-    public List<Message> getMessages() {
+    public Set<Message> getMessages() {
         return messages;
     }
 
-    public void setMessages(List<Message> messages) {
+    public void setMessages(Set<Message> messages) {
         this.messages = messages;
     }
 }

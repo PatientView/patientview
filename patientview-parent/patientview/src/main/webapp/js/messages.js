@@ -25,7 +25,7 @@ messages = {};
 
 messages.init = function() {
 
-    // set up conversations table for pagination using dataTables
+    // set up conversations table for pagination using dataTables (requires jquery.dataTables.min.js)
     $('#tableConversations').dataTable({
         "bSort" : false,
         "iDisplayLength": 5

@@ -98,7 +98,8 @@ public class ConversationDaoImpl extends AbstractHibernateDAO<Conversation> impl
         Predicate predicate1 = builder.and(
                 builder.equal(root.get(Conversation_.deleted), false),
                 builder.or(builder.equal(root.get(Conversation_.participant1), participantId),
-                builder.equal(root.get(Conversation_.participant2), participantId)));
+                builder.equal(root.get(Conversation_.participant2), participantId)),
+                builder.notEqual(root.get(Conversation_.type), ConversationType.SHARED_THOUGHT));
 
         Predicate predicate2 = builder.and(
                 builder.equal(root.get(Conversation_.deleted), false),
