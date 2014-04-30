@@ -617,6 +617,14 @@ section article.conversation .dull, section article.message .dull, .dull{
     margin-left: 2px;
 }
 
+.label-conversationStatus-closed,
+.label-conversationStatus-open,
+.label-conversationStatus-feedback,
+.conversation-date{
+    position: relative;
+    top: 10px;
+}
+
 .label-conversationStatus-open {
     background-color: #c94c29;
 }

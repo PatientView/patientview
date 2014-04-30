@@ -120,7 +120,7 @@
                                             <span class="pull-right conversation-date label label-inverse"><bean:write name="conversation" property="friendlyLatestMessageDate" /></span>
                                             <logic:equal value="<%=ConversationType.FEEDBACK.toString()%>" name="conversation" property="type">
                                                 <!-- show Feedback label -->
-                                                <span class="pull-right label">Feedback</span>
+                                                <span class="pull-right label label-conversationStatus-feedback">Feedback</span>
                                                 <logic:equal value="false" name="conversation" property="clinicianClosed">
                                                     <span class="pull-right label-conversationStatus-open label">Open</span>
                                                 </logic:equal>
