@@ -657,7 +657,8 @@ div.previousNext {
     color: #0088CC;
 }
 
-input.btn-success-sharingthoughts, input.btn-primary-sharingthoughts, input.btn-danger-sharingthoughts {
+input.btn-success-sharingthoughts, input.btn-primary-sharingthoughts
+, input.btn-danger-sharingthoughts, input.btn-sharingthoughts {
     height: 40px;
     width:  200px;
 }
@@ -710,3 +711,13 @@ select[name="tableSharedThoughts_length"] {
 th.sorting:hover, th.sorting_asc:hover, th.sorting_desc:hover{
      cursor: pointer;
  }
+
+div.sharingThoughtsHome1 {
+    float: left;
+    width: 600px;
+}
+
+div.sharingThoughtsHome2 {
+    float: right;
+    width: 200px;
+}

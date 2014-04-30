@@ -42,7 +42,7 @@
         </table>
     </logic:notEmpty>
     <logic:empty name="<%=SharingThoughts.USERS_THOUGHTS_DRAFT_PARAM%>">
-        <p>No partially completed feedback.</p>
+        <div class="alert"><p>No partially completed thoughts</p></div>
     </logic:empty>
 </logic:present>
 
@@ -84,7 +84,7 @@
         </table>
     </logic:notEmpty>
     <logic:empty name="<%=SharingThoughts.USERS_THOUGHTS_SUBMITTED_PARAM%>">
-        <p>No submitted feedback.</p>
+        <div class="alert"><p>No submitted thoughts</p></div>
     </logic:empty>
 </logic:present>
 
