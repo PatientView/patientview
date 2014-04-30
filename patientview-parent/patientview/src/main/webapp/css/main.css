@@ -617,6 +617,14 @@ section article.conversation .dull, section article.message .dull, .dull{
     margin-left: 2px;
 }
 
+.label-conversationStatus-closed,
+.label-conversationStatus-open,
+.label-conversationStatus-feedback,
+.conversation-date{
+    position: relative;
+    top: 10px;
+}
+
 .label-conversationStatus-open {
     background-color: #c94c29;
 }
@@ -629,6 +637,19 @@ section article.conversation .dull, section article.message .dull, .dull{
     position: relative;
     top: 5px;
 }
+
+.paginate_disabled_previous, .paginate_disabled_next{
+    display: none;
+}
+
+.paginate_enabled_previous, .paginate_enabled_next{
+     margin-right: 5px;
+ }
+
+.paginate_enabled_previous:hover, .paginate_enabled_next:hover,
+th.sorting:hover, th.sorting_asc:hover, th.sorting_desc:hover{
+     cursor: pointer;
+ }
 
 table.tableInvisible{
     width: 100%;
