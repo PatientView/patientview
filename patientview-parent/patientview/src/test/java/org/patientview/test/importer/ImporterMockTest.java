@@ -284,7 +284,7 @@ public class ImporterMockTest {
 
     }
 
-    // Have to get a file like this does to Jenkins build process
+    // Have to get a file like this because of the Jenkins build process
     private File getFile(String filename) {
         File testXml = new File("temp");
         try {
