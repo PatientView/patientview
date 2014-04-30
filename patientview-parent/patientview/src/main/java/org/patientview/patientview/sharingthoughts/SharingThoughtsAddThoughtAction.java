@@ -9,9 +9,8 @@ import org.apache.struts.action.ActionMapping;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class SharingThoughtsNegativeAction extends BaseAction {
+public class SharingThoughtsAddThoughtAction extends BaseAction {
 
-    // TODO: check this isn't redundant with SharingThoughtsPositiveAction
     public ActionForward execute(
             ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {

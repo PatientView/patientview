@@ -6,7 +6,7 @@
 <html:xhtml/>
 
 <div class="page-header">
-    <h1>Partially Completed Feedback</h1>
+    <h1>Partially Completed Thoughts</h1>
 </div>
 
 <logic:present name="<%=SharingThoughts.USERS_THOUGHTS_DRAFT_PARAM%>">
@@ -49,7 +49,7 @@
 <br />
 
 <div class="page-header">
-    <h1>Submitted Feedback</h1>
+    <h1>Submitted Thoughts</h1>
 </div>
 
 <logic:present name="<%=SharingThoughts.USERS_THOUGHTS_SUBMITTED_PARAM%>">

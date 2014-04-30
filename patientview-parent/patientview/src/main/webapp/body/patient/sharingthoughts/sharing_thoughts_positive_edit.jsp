@@ -93,12 +93,12 @@
 
       <tr >
       <td width="300">Please describe what was good about the care that you or others have received</td>
-      <td><html:textarea property="<%=SharingThoughts.DESCRIPTION%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" rows="10" cols="50" /></td>
+      <td><html:textarea property="<%=SharingThoughts.DESCRIPTION%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" rows="10" styleClass="textareaSharingThoughts"/></td>
     </tr>
 
     <tr >
       <td width="300">What can be done to make sure that patients always receive this quality of care?</td>
-      <td><html:textarea property="<%=SharingThoughts.SUGGESTED_ACTION%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" rows="10" cols="50" /></td>
+      <td><html:textarea property="<%=SharingThoughts.SUGGESTED_ACTION%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" rows="10" styleClass="textareaSharingThoughts"/></td>
     </tr>
 
     </table>

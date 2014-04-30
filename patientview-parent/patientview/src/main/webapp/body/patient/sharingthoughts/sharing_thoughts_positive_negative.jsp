@@ -8,10 +8,10 @@
     <h1>Type of comment</h1>
 </div>
 
-<br />
+<br /><br/>
 
 <p align="center">
-    <html:link action="/patient/sharingThoughtsPositive"><html:submit value="Share positive comment" styleClass="btn btn-success formbutton" /></html:link>
+    <html:link action="/patient/sharingThoughtsPositive"><html:submit value="Positive Comment" styleClass="btn btn-success btn-success-sharingthoughts formbutton" /></html:link>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <html:link action="/patient/sharingThoughtsNegative"><html:submit value="Share quality or safety concern" styleClass="btn btn-danger formbutton" /></html:link>
+    <html:link action="/patient/sharingThoughtsNegative"><html:submit value="Quality or Safety Concern" styleClass="btn btn-danger btn-danger-sharingthoughts formbutton" /></html:link>
 </p>

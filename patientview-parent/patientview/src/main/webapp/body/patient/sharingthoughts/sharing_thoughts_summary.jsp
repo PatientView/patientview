@@ -8,7 +8,6 @@
     <h1>Sharing Thoughts - Summary</h1>
 </div>
 
-
 <p>When we have enough general information to help improve quality and/or safety, we will provide you with an overview
     or summary of the types of comments patients provide and any action taken. We plan to provide a summary every month.</p>
 

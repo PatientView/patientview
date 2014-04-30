@@ -92,12 +92,12 @@
 
         <tr >
             <td width="300">Please tell us what happened</td>
-            <td><html:textarea property="<%=SharingThoughts.DESCRIPTION%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" rows="10" cols="500" /></td>
+            <td><html:textarea property="<%=SharingThoughts.DESCRIPTION%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" rows="10" styleClass="textareaSharingThoughts"/></td>
         </tr>
 
         <tr >
             <td width="300">Why do you feel this was a concern for you?</td>
-            <td><html:textarea property="<%=SharingThoughts.CONCERN_REASON%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" rows="10" cols="500" /></td>
+            <td><html:textarea property="<%=SharingThoughts.CONCERN_REASON%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" rows="10" styleClass="textareaSharingThoughts"/></td>
         </tr>
 
         <tr>
@@ -112,7 +112,7 @@
 
         <tr >
             <td width="300">What do you think could be done to stop this from happening again to you or other patients?</td>
-            <td><html:textarea property="<%=SharingThoughts.SUGGESTED_ACTION%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" rows="10" cols="500" /></td>
+            <td><html:textarea property="<%=SharingThoughts.SUGGESTED_ACTION%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" rows="10" styleClass="textareaSharingThoughts"/></td>
         </tr>
 
         <tr>

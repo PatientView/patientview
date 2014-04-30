@@ -683,19 +683,19 @@
 
         <action path="/patient/sharingThoughts" type="org.patientview.patientview.sharingthoughts.SharingThoughtsHomeAction" parameter="sharing_thoughts">
             <forward name="success" path="/patient/sharingthoughts/sharing_thoughts.jsp"/>
-            <forward name="noPermission" path="/patient/sharingthoughts/no_permission.jsp"/>
+            <forward name="noPermission" path="/body/patient/sharingthoughts/no_permission.jsp"/>
         </action>
 
         <action path="/patient/sharingThoughtsPositiveNegative" type="org.patientview.patientview.sharingthoughts.SharingThoughtsPositiveNegativeAction" parameter="sharing_thoughts">
             <forward name="success" path="/patient/sharingthoughts/sharing_thoughts_positive_negative.jsp"/>
         </action>
 
-        <action path="/patient/sharingThoughtsPositive" type="org.patientview.patientview.sharingthoughts.SharingThoughtsPositiveAction" parameter="sharing_thoughts"
+        <action path="/patient/sharingThoughtsPositive" type="org.patientview.patientview.sharingthoughts.SharingThoughtsAddThoughtAction" parameter="sharing_thoughts"
                 name="sharingThoughtsForm">
             <forward name="success" path="/patient/sharingthoughts/sharing_thoughts_positive_add.jsp"/>
         </action>
 
-        <action path="/patient/sharingThoughtsNegative" type="org.patientview.patientview.sharingthoughts.SharingThoughtsNegativeAction" parameter="sharing_thoughts"
+        <action path="/patient/sharingThoughtsNegative" type="org.patientview.patientview.sharingthoughts.SharingThoughtsAddThoughtAction" parameter="sharing_thoughts"
                 name="sharingThoughtsForm">
             <forward name="success" path="/patient/sharingthoughts/sharing_thoughts_negative_add.jsp"/>
         </action>

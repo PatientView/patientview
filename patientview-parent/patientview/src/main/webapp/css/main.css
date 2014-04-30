@@ -657,6 +657,33 @@ div.previousNext {
     color: #0088CC;
 }
 
+input.btn-success-sharingthoughts, input.btn-primary-sharingthoughts, input.btn-danger-sharingthoughts {
+    height: 40px;
+    width:  200px;
+}
+
+.btn-primary-sharingthoughts:hover {
+    -webkit-box-shadow: 0px 0px 28px 0px rgba(0, 116, 204, 0.47);
+    -moz-box-shadow:    0px 0px 28px 0px rgba(0, 116, 204, 0.47);
+    box-shadow:         0px 0px 28px 0px rgba(0, 116, 204, 0.47);
+}
+
+.btn-success-sharingthoughts:hover {
+    -webkit-box-shadow: 0px 0px 28px 0px rgba(0, 128, 0, 0.47);
+    -moz-box-shadow:    0px 0px 28px 0px rgba(0, 128, 0, 0.47);
+    box-shadow:         0px 0px 28px 0px rgba(0, 128, 0, 0.47);
+}
+
+.btn-danger-sharingthoughts:hover {
+    -webkit-box-shadow: 0px 0px 28px 0px rgba(174, 0, 0, 0.47);
+    -moz-box-shadow:    0px 0px 28px 0px rgba(174, 0, 0, 0.47);
+    box-shadow:         0px 0px 28px 0px rgba(174, 0, 0, 0.47);
+}
+
+textarea.textareaSharingThoughts {
+    width: 600px;
+}
+
 /* sharing thoughts table */
 div#tableSharedThoughts_filter, div#tableSharedThoughts_length {
     display: none;
