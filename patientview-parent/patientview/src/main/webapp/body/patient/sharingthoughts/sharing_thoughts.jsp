@@ -32,13 +32,7 @@
 
 <p align="center">
     <html:link action="/patient/sharingThoughtsPositiveNegative"><html:submit value="Share a Thought" styleClass="btn btn-primary btn-primary-sharingthoughts formbutton" /></html:link>
-</p>
-
-<br/>
-
-<p align="center">
-    <html:link action="/patient/sharingThoughtsUserList"><html:submit value="Your Thoughts" styleClass="btn formbutton btn-sharingthoughts " /></html:link>
-    &nbsp;&nbsp;&nbsp;
-    <html:link action="/patient/sharingThoughtsSummary"><html:submit value="Monthly Feedback Summary" styleClass="btn formbutton btn-sharingthoughts " /></html:link>
+    <br/><br/><html:link action="/patient/sharingThoughtsUserList"><html:submit value="Your Thoughts" styleClass="btn formbutton btn-sharingthoughts " /></html:link>
+    <br/><br/><html:link action="/patient/sharingThoughtsSummary"><html:submit value="Monthly Feedback Summary" styleClass="btn formbutton btn-sharingthoughts " /></html:link>
 </p>
 </div>
