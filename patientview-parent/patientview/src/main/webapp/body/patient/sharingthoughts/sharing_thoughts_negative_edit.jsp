@@ -10,11 +10,10 @@
     <p align="right"><html:link action="/patient/sharingThoughts"><html:submit value="Home" styleClass="btn formbutton" /></html:link></p>
 </div>
 <html:form action="/patient/sharingThoughtSave">
+
+    <html:hidden name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.ID%>" />
+    <html:hidden property="<%=SharingThoughts.POSITIVE_NEGATIVE%>" value="-1" />
     <table border="0" cellspacing="1" cellpadding="3" class="table table-bordered table-striped">
-
-        <html:hidden name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.ID%>" />
-        <html:hidden property="<%=SharingThoughts.POSITIVE_NEGATIVE%>" value="-1" />
-
         <logic:present name="<%=SharingThoughts.ERRORS_PARAM%>">
             <logic:notEmpty name="<%=SharingThoughts.ERRORS_PARAM%>">
                 <p><h4>Please correct the following in your submission:</h4></p>

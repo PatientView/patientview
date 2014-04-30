@@ -20,13 +20,10 @@ public final class SharingThoughts {
     public static final String IS_ABOUT_ME = "aboutMe";
     public static final String IS_ABOUT_OTHER = "aboutOther";
     public static final String IS_ANONYMOUS = "anonymous";
-    public static final String USER = "user";
     public static final String START_DATE = "startDate";
     public static final String START_DATE_FORMATTED_DATE = "startDateFormattedDate";
-    public static final String START_DATE_FORMATTED_DATE_TIME = "startDateFormattedDateTime";
     public static final String END_DATE = "endDate";
     public static final String END_DATE_FORMATTED_DATE = "endDateFormattedDate";
-    public static final String END_DATE_FORMATTED_DATE_TIME = "endDateFormattedDateTime";
     public static final String IS_ONGOING = "ongoing";
     public static final String LOCATION = "location";
     public static final String UNIT_NAME = "unit.name";
@@ -36,8 +33,6 @@ public final class SharingThoughts {
     public static final String CONCERN_REASON = "concernReason";
     public static final String LIKELIHOOD_0F_RECURRENCE = "likelihoodOfRecurrence";
     public static final String HOW_SERIOUS = "howSerious";
-    public static final String DATE_LAST_SAVED = "dateLastSaved";
-    public static final String DATE_LAST_SAVED_FORMATTED_DATE = "dateLastSavedFormattedDate";
     public static final String DATE_LAST_SAVED_FORMATTED_DATE_TIME = "dateLastSavedFormattedDateTime";
     public static final String SUBMIT = "Submit";
     public static final String ERRORS_PARAM = "errors";

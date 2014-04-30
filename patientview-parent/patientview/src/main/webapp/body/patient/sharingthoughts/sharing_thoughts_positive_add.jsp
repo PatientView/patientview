@@ -11,9 +11,8 @@
 </div>
 
 <html:form action="/patient/sharingThoughtSave">
-    <table border="0" cellspacing="1" cellpadding="3" class="table table-bordered table-striped">
-
     <html:hidden property="<%=SharingThoughts.POSITIVE_NEGATIVE%>" value="1" />
+    <table border="0" cellspacing="1" cellpadding="3" class="table table-bordered table-striped">
 
     <logic:present name="<%=SharingThoughts.ERRORS_PARAM%>">
         <logic:notEmpty name="<%=SharingThoughts.ERRORS_PARAM%>">
