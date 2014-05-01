@@ -31,7 +31,6 @@ import org.patientview.ibd.action.BaseAction;
 import org.patientview.model.Unit;
 import org.patientview.patientview.model.MessageRecipient;
 import org.patientview.patientview.model.User;
-import org.patientview.patientview.user.UserUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -47,7 +46,7 @@ public class ConversationsAction extends BaseAction {
         // set current nav
         ActionUtils.setUpNavLink(mapping.getParameter(), request);
 
-        User user = UserUtils.retrieveUser(request);
+        User user = getUserManager().getLoggedInUser();
 
         List<Unit> units = getMessageManager().getMessagingEnabledUnitsForLoggedInUser();
 
