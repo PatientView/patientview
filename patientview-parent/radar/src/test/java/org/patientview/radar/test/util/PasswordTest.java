@@ -23,10 +23,10 @@
 
 package org.patientview.radar.test.util;
 
-import org.patientview.radar.model.user.User;
 import org.junit.Test;
+import org.patientview.radar.model.user.User;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 /**
  *

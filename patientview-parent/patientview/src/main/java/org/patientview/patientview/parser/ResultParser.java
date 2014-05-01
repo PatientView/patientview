@@ -43,7 +43,6 @@ import org.patientview.patientview.model.enums.NodeError;
 import org.patientview.patientview.utils.TimestampUtils;
 import org.patientview.quartz.exception.ResultParserException;
 import org.patientview.util.CommonUtils;
-import org.patientview.utils.LegacySpringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.CDATASection;
@@ -62,6 +61,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -213,8 +213,7 @@ public class ResultParser {
                                      * make sure the result doesn't have a future date. if it does not, make sure
                                      *  result date is between date range specified in the xml
                                      */
-                                    if (testResultDate.isAfter(
-                                            LegacySpringUtils.getTimeManager().getCurrentDate().getTime())) {
+                                    if (testResultDate.isAfter(new Date().getTime())) {
                                         // add this test to corrupt tests list
                                         corruptNodes.add(new CorruptNode(testNode, NodeError.FUTURE_RESULT));
                                     } else if (dateRangeStart != null && dateRangeStop != null && !(new Interval(

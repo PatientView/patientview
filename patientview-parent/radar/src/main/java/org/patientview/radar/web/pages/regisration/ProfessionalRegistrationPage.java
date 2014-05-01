@@ -24,15 +24,6 @@
 package org.patientview.radar.web.pages.regisration;
 
 
-import org.patientview.radar.model.exception.InvalidSecurityQuestionAnswer;
-import org.patientview.radar.model.exception.RegistrationException;
-import org.patientview.radar.model.exception.UserEmailAlreadyExists;
-import org.patientview.radar.model.user.ProfessionalUser;
-import org.patientview.radar.service.UserManager;
-import org.patientview.radar.service.UtilityManager;
-import org.patientview.radar.web.components.RadarRequiredDropdownChoice;
-import org.patientview.radar.web.components.RadarTextFieldWithValidation;
-import org.patientview.radar.web.pages.BasePage;
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
@@ -53,6 +44,15 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.validation.validator.EmailAddressValidator;
+import org.patientview.radar.model.exception.InvalidSecurityQuestionAnswer;
+import org.patientview.radar.model.exception.RegistrationException;
+import org.patientview.radar.model.exception.UserEmailAlreadyExists;
+import org.patientview.radar.model.user.ProfessionalUser;
+import org.patientview.radar.service.UserManager;
+import org.patientview.radar.service.UtilityManager;
+import org.patientview.radar.web.components.RadarRequiredDropdownChoice;
+import org.patientview.radar.web.components.RadarTextFieldWithValidation;
+import org.patientview.radar.web.pages.BasePage;
 
 import java.util.ArrayList;
 import java.util.Arrays;

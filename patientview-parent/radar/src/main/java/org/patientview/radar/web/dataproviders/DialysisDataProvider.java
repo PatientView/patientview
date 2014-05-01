@@ -23,9 +23,9 @@
 
 package org.patientview.radar.web.dataproviders;
 
-import org.patientview.radar.model.Treatment;
 import org.apache.wicket.markup.repeater.data.IDataProvider;
 import org.apache.wicket.model.IModel;
+import org.patientview.radar.model.Treatment;
 
 import java.util.Iterator;
 

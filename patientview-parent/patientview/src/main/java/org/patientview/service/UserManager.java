@@ -23,9 +23,9 @@
 
 package org.patientview.service;
 
+import org.patientview.model.Specialty;
 import org.patientview.patientview.logon.PatientLogon;
 import org.patientview.patientview.logon.UnitAdmin;
-import org.patientview.model.Specialty;
 import org.patientview.patientview.model.SpecialtyUserRole;
 import org.patientview.patientview.model.User;
 import org.patientview.patientview.model.UserMapping;
@@ -74,17 +74,25 @@ public interface UserManager {
 
     List<User> getAllUsers();
 
+    List<User> getByEmailAddress(String emailAddress);
+
     void save(UserMapping userMapping);
 
     void deleteUserMappings(String username, String unitcode);
 
     List<UserMapping> getUserMappings(String username);
 
+    List<UserMapping> getUserMappingsIgnoreSpecialty(String username);
+
     List<UserMapping> getUserMappingsExcludeUnitcode(String username, String unitcode);
 
     List<UserMapping> getUserMappings(String username, String unitcode);
 
-    List<UserMapping> getUserMappingsForNhsNo(String nhsNo);
+    List<UserMapping> getUserMappingsAllSpecialties(String username, String unitcode);
+
+    List<UserMapping> getUserMappingsByNhsNo(String nhsNo);
+
+    List<UserMapping> getUserMappingsByNhsNoAllSpecialties(String nhsNo);
 
     String getUsersRealUnitcodeBestGuess(String username);
 

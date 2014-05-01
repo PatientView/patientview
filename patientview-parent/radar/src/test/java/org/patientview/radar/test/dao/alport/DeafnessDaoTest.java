@@ -24,10 +24,10 @@
 package org.patientview.radar.test.dao.alport;
 
 import org.apache.commons.lang.time.DateUtils;
+import org.junit.Test;
 import org.patientview.radar.dao.alport.DeafnessDao;
 import org.patientview.radar.model.alport.Deafness;
 import org.patientview.radar.test.dao.BaseDaoTest;
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;

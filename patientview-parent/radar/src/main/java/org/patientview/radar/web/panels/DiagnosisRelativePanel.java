@@ -23,10 +23,8 @@
 
 package org.patientview.radar.web.panels;
 
-import org.apache.wicket.markup.html.basic.Label;
-import org.patientview.radar.model.Relative;
-import org.patientview.radar.service.UtilityManager;
 import org.apache.wicket.Component;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.TextField;
@@ -34,6 +32,8 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.patientview.radar.model.Relative;
+import org.patientview.radar.service.UtilityManager;
 
 import java.util.HashMap;
 import java.util.List;

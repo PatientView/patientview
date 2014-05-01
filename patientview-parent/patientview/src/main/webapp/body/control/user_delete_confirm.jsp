@@ -45,6 +45,6 @@
         </tr>
     </table>
 
-    <p>From the unit called <strong><bean:write name="unit" property="shortname"/></strong></p>
+    <p>From the unit called <strong><bean:write name="unit" property="name"/></strong></p>
 </div>
 </div>

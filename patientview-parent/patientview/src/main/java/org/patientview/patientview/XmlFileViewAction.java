@@ -28,6 +28,7 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.patientview.util.CommonUtils;
 import org.patientview.utils.LegacySpringUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -47,7 +48,8 @@ public class XmlFileViewAction extends Action {
 
         String xmlFilename = request.getParameter("xmlfile");
 
-        String directory = LegacySpringUtils.getContextProperties().getProperty("xml.patient.data.load.directory");
+        String directory = LegacySpringUtils.getContextProperties().getProperty("xml.patient.data.load.directory")
+                + CommonUtils.getUnitCode(xmlFilename);
 
         File xmlFile = new File(directory, xmlFilename);
 

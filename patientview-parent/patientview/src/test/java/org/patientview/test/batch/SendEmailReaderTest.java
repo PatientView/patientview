@@ -23,21 +23,28 @@
 
 package org.patientview.test.batch;
 
+import org.junit.Test;
 import org.patientview.batch.SendEmailReader;
 import org.patientview.model.Specialty;
-import org.patientview.patientview.model.*;
+import org.patientview.patientview.model.Conversation;
+import org.patientview.patientview.model.EmailQueue;
+import org.patientview.patientview.model.Job;
+import org.patientview.patientview.model.Message;
+import org.patientview.patientview.model.User;
 import org.patientview.patientview.model.enums.GroupEnum;
 import org.patientview.patientview.model.enums.SendEmailEnum;
 import org.patientview.service.EmailQueueManager;
 import org.patientview.service.JobManager;
 import org.patientview.test.helpers.ServiceHelpers;
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.inject.Inject;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  *

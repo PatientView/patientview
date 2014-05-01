@@ -23,6 +23,7 @@
 
 package org.patientview.patientview.unit;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.patientview.model.Unit;
 import org.patientview.patientview.model.User;
@@ -31,7 +32,6 @@ import org.patientview.patientview.user.UserUtils;
 import org.patientview.service.UnitManager;
 import org.patientview.service.UserManager;
 import org.patientview.utils.LegacySpringUtils;
-import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -127,10 +127,13 @@ public final class UnitUtils {
     // update the unit by setting it's properties
     public static void buildUnit(Unit unit, Object form) throws Exception {
 
-        // set defaults for sourceType and country, note this runs for updates as well as creates
-        unit.setSourceType(BeanUtils.getProperty(form, "sourceType"));
-        if (unit.getSourceType() == null || unit.getSourceType().length() == 0) {
-            unit.setSourceType("renalunit");
+        // only change source type if set to null
+        if (unit.getSourceType() == null) {
+            // set defaults for sourceType and country, note this runs for updates as well as creates
+            unit.setSourceType(BeanUtils.getProperty(form, "sourceType"));
+            if (unit.getSourceType() == null || unit.getSourceType().length() == 0) {
+                unit.setSourceType("renalunit");
+            }
         }
 
         if (unit.getCountry() == null || unit.getCountry().length() == 0) {

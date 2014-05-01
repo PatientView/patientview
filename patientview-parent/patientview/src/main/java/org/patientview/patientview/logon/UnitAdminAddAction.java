@@ -23,113 +23,211 @@
 
 package org.patientview.patientview.logon;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.patientview.patientview.logging.AddLog;
 import org.patientview.model.Unit;
 import org.patientview.patientview.model.User;
 import org.patientview.patientview.model.UserMapping;
-import org.patientview.patientview.unit.UnitUtils;
 import org.patientview.patientview.user.EmailVerificationUtils;
-import org.patientview.utils.LegacySpringUtils;
+import org.patientview.service.PatientManager;
+import org.patientview.service.SecurityUserManager;
+import org.patientview.service.UnitManager;
+import org.patientview.service.UserManager;
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.springframework.web.struts.ActionSupport;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-public class UnitAdminAddAction extends Action {
+public class UnitAdminAddAction extends ActionSupport {
+
+    private UserManager userManager;
+    private PatientManager patientManager;
+    private SecurityUserManager securityUserManager;
+    private UnitManager unitManager;
 
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
                                  HttpServletResponse response) throws Exception {
+
+        userManager = getWebApplicationContext().getBean(UserManager.class);
+        patientManager = getWebApplicationContext().getBean(PatientManager.class);
+        securityUserManager = getWebApplicationContext().getBean(SecurityUserManager.class);
+        unitManager = getWebApplicationContext().getBean(UnitManager.class);
+
+        // get properties from form elements
         String username = BeanUtils.getProperty(form, "username");
-        String password = LogonUtils.generateNewPassword();
-        String firstName = BeanUtils.getProperty(form, "firstName");
-        String lastName = BeanUtils.getProperty(form, "lastName");
         String email = BeanUtils.getProperty(form, "email");
         String unitcode = BeanUtils.getProperty(form, "unitcode");
         String role = BeanUtils.getProperty(form, "role");
-        boolean isRecipient = "true".equals(BeanUtils.getProperty(form, "isrecipient"));
-        boolean isClinician = "true".equals(BeanUtils.getProperty(form, "isclinician"));
-        UnitAdmin unitAdmin = new UnitAdmin();
-        unitAdmin.setUsername(username);
-        unitAdmin.setPassword(password);
-        unitAdmin.setFirstName(firstName);
-        unitAdmin.setLastName(lastName);
-        unitAdmin.setEmail(email);
-        unitAdmin.setEmailverified(false);
-        unitAdmin.setRole(role);
-        unitAdmin.setFirstlogon(true);
-        unitAdmin.setIsrecipient(isRecipient);
-        unitAdmin.setIsclinician(isClinician);
 
         if ("unitstaff".equalsIgnoreCase(role)) {
-            Unit unit = LegacySpringUtils.getUnitManager().get(unitcode);
+            Unit unit = unitManager.get(unitcode);
             if ("radargroup".equalsIgnoreCase(unit.getSourceType())) {
                 request.setAttribute("roleInRadargroup", unit.getName());
-                request.setAttribute("adminuser", unitAdmin);
-                UnitUtils.setUserUnits(request);
                 return mapping.findForward("input");
             }
         }
 
-        List<UserMapping> usermappingList = LegacySpringUtils.getUserManager().getUserMappings(username);
+        // check if existing username is patient, only want to add admins with unique usernames
+        if (!CollectionUtils.isEmpty(patientManager.getByUsername(username))) {
+            request.setAttribute("patientAlreadyExists", username);
+            return mapping.findForward("input");
+        }
 
-        String mappingToFind;
-        if (!usermappingList.isEmpty()) {
+        // no existing patients with this username, get list of user mappings
+        List<UserMapping> usermappingsAllSpecialties = userManager.getUserMappingsIgnoreSpecialty(username);
+        List<UserMapping> usermappingsThisSpecialty = userManager.getUserMappings(username);
 
-            // Note: legacy code assumes that there is a unique results here
-            List<UserMapping> userMappings = LegacySpringUtils.getUserManager().getUserMappings(username, unitcode);
-            UserMapping userMapping = null;
-            if (userMappings != null && userMappings.size() > 0) {
-                userMapping = userMappings.get(0);
-            }
+        if (!usermappingsAllSpecialties.isEmpty()) {
 
-            if (userMapping != null) {
-                // user exists in unit requested
-                request.setAttribute(LogonUtils.USER_ALREADY_EXISTS, username);
-                unitAdmin.setUsername("");
-                UnitUtils.setUserUnits(request);
-                mappingToFind = "input";
-            } else {
-                // user exists but in other units
-                UserMapping userMappingNew = new UserMapping(username, unitcode, "");
+            // check if user exists has mapping in currently specialty
+            if (!usermappingsThisSpecialty.isEmpty()) {
+                // user has mappings in this specialty
+                UserMapping userMappingThisUnit = getUserMappingThisUnit(username, unitcode);
 
-                // get string list of current user unit mappings and format into string for information
-                StringBuilder currentUnitCodes = new StringBuilder();
-                for (UserMapping existingUserMapping : usermappingList) {
-                    if (existingUserMapping.getUnitcode().length() > 0) {
-                        currentUnitCodes.append(existingUserMapping.getUnitcode() + ", ");
-                    }
+                // check if user has mapping for current unit
+                if (userMappingThisUnit != null) {
+                    // user already exists in unit requested
+                    request.setAttribute(LogonUtils.USER_ALREADY_EXISTS, username);
+                    return mapping.findForward("input");
+                } else {
+                    // user exists in another unit
+                    request.setAttribute("currentUnitCodes", getUnitCodeDisplay(usermappingsAllSpecialties));
+                    request.setAttribute("usermapping", new UserMapping(username, unitcode, null));
+                    request.setAttribute(LogonUtils.USER_ALREADY_EXISTS, username);
+                    return mapping.findForward("existinguser");
                 }
 
-                request.setAttribute("currentUnitCodes", currentUnitCodes.substring(0,
-                        currentUnitCodes.length() - 2));
-                request.setAttribute("usermapping", userMappingNew);
-                mappingToFind = "existinguser";
+            } else {
+                // user has mappings in other specialties but not this one
+                request.setAttribute("currentUnitCodes"
+                        , "This user does not currently belong to any units in this specialty.");
+                request.setAttribute("usermapping", new UserMapping(username, unitcode, null));
+                request.setAttribute(LogonUtils.USER_ALREADY_EXISTS_OTHER_SPECIALTY, username);
+                return mapping.findForward("existinguser");
             }
         } else {
+            // no users exist with this username
+            // check if email already on system, means user already exists but no user mapping
+            List<User> existingUsersByEmail = userManager.getByEmailAddress(email);
+            if (!CollectionUtils.isEmpty(existingUsersByEmail)) {
+                // users exist with this email
+                User existingUserByEmail = existingUsersByEmail.get(0);
+                String existingUsername = existingUserByEmail.getUsername();
+                usermappingsThisSpecialty = userManager.getUserMappings(existingUsername);
+
+                // check if found user (by email) has mapping in currently specialty
+                if (!usermappingsThisSpecialty.isEmpty()) {
+                    // found user (by email) has mappings in this specialty
+                    UserMapping userMappingThisUnit = getUserMappingThisUnit(existingUsername, unitcode);
+
+                    // check if user has mapping for current unit
+                    if (userMappingThisUnit != null) {
+                        // found user (by email) already exists in unit requested
+                        request.setAttribute(LogonUtils.USER_ALREADY_EXISTS_WITH_EMAIL, email);
+                        return mapping.findForward("input");
+                    } else {
+                        // found user (by email) exists in another unit in this specialty
+                        request.setAttribute("currentUnitCodes", getUnitCodeDisplay(usermappingsThisSpecialty));
+                        request.setAttribute("usermapping", new UserMapping(existingUsername, unitcode, null));
+                        request.setAttribute(LogonUtils.USER_ALREADY_EXISTS_WITH_EMAIL, email);
+                        return mapping.findForward("existinguser");
+                    }
+                } else {
+                    // found user (by email) has mappings in other specialties but not this one
+                    request.setAttribute("usermapping", new UserMapping(existingUsername, unitcode, null));
+                    request.setAttribute("currentUnitCodes"
+                            , "This user does not currently belong to any units in this specialty.");
+                    request.setAttribute(LogonUtils.USER_ALREADY_EXISTS_WITH_EMAIL_OTHER_SPECIALTY, email);
+                    return mapping.findForward("existinguser");
+                }
+            }
+
+            // user doesn't exist already, get relevant details from form and generate password
+            String password = LogonUtils.generateNewPassword();
+            String firstName = BeanUtils.getProperty(form, "firstName");
+            String lastName = BeanUtils.getProperty(form, "lastName");
+            boolean isRecipient = "true".equals(BeanUtils.getProperty(form, "isrecipient"));
+            boolean isClinician = "true".equals(BeanUtils.getProperty(form, "isclinician"));
+
+            // create new UnitAdmin (extended from Logon but currently with no extra fields/methods)
+            UnitAdmin unitAdmin = new UnitAdmin();
+            unitAdmin.setUsername(username);
+            unitAdmin.setPassword(password);
+            unitAdmin.setFirstName(firstName);
+            unitAdmin.setLastName(lastName);
+            unitAdmin.setEmail(email);
+            unitAdmin.setEmailverified(false);
+            unitAdmin.setRole(role);
+            unitAdmin.setFirstlogon(true);
+            unitAdmin.setIsrecipient(isRecipient);
+            unitAdmin.setIsclinician(isClinician);
+            unitAdmin.setAccounthidden(false);
+            unitAdmin.setAccountlocked(false);
+
             // create the new user
             UnitAdmin hashedUnitAdmin = (UnitAdmin) unitAdmin.clone();
             hashedUnitAdmin.setPassword(LogonUtils.hashPassword(hashedUnitAdmin.getPassword()));
-            User user = LegacySpringUtils.getUserManager().saveUserFromUnitAdmin(hashedUnitAdmin, unitcode);
+            User user = userManager.saveUserFromUnitAdmin(hashedUnitAdmin, unitcode);
 
-            // create mappings in radar if they dont already exist
-            if (!LegacySpringUtils.getUserManager().userExistsInRadar(user.getId())) {
-                LegacySpringUtils.getUserManager().createProfessionalUserInRadar(user, unitcode);
+            // create mappings in radar if they don't already exist
+            if (!userManager.userExistsInRadar(user.getId())) {
+                userManager.createProfessionalUserInRadar(user, unitcode);
             }
 
-            AddLog.addLog(LegacySpringUtils.getSecurityUserManager().getLoggedInUsername(), AddLog.ADMIN_ADD,
-                    unitAdmin.getUsername(), "",
-                    unitcode, "");
+            // note this check is not necessarily required as user mapping should be created
+            // in userManager.saveUserFromUnitAdmin()
+            if (CollectionUtils.isEmpty(userManager.getUserMappings(username, unitcode))) {
+                UserMapping userMappingNew = new UserMapping(username, unitcode, null);
+                userManager.save(userMappingNew);
+                request.setAttribute("usermapping", userMappingNew);
+            }
+
+            AddLog.addLog(securityUserManager.getLoggedInUsername(), AddLog.ADMIN_ADD, unitAdmin.getUsername(),
+                    "", unitcode, "");
             EmailVerificationUtils.createEmailVerification(hashedUnitAdmin.getUsername(), hashedUnitAdmin.getEmail(),
                     request);
-            mappingToFind = "success";
+            request.setAttribute("adminuser", unitAdmin);
+            return mapping.findForward("success");
         }
-        request.setAttribute("adminuser", unitAdmin);
-        return mapping.findForward(mappingToFind);
     }
 
+    /**
+     * Gets a single UserMapping based on a user's username and a unitcode
+     * @param username The user's username
+     * @param unitcode The unitcode of the Unit to search for
+     * @return UserMapping if exists, otherwise null
+     */
+    private UserMapping getUserMappingThisUnit(String username, String unitcode) {
+        List<UserMapping> userMappingsThisUnit = userManager.getUserMappings(username, unitcode);
+        UserMapping userMappingThisUnit = null;
+        if (!CollectionUtils.isEmpty(userMappingsThisUnit)) {
+            userMappingThisUnit = userMappingsThisUnit.get(0);
+        }
+        return userMappingThisUnit;
+    }
+
+    /**
+     * Gets correctly formatted list of unit codes given a List of UserMapping
+     * @param userMappings List of user mappings
+     * @return Correctly formatted list of unit codes
+     */
+    private String getUnitCodeDisplay(List<UserMapping> userMappings) {
+        // get string list of current user unit mappings and format into string for information
+        StringBuilder unitCodes = new StringBuilder();
+        for (UserMapping userMap : userMappings) {
+            if (userMap.getUnitcode().length() > 0) {
+                unitCodes.append(userMap.getUnitcode());
+                unitCodes.append(" (");
+                unitCodes.append(userMap.getSpecialty().getName());
+                unitCodes.append("), ");
+            }
+        }
+
+        return unitCodes.substring(0, unitCodes.length() - 2);
+    }
 }

@@ -30,6 +30,7 @@ import org.patientview.utils.LegacySpringUtils;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+//Class needs deleting
 public final class UserUtils {
 
     private static final int NHSNO_LENGTH = 10;
@@ -75,14 +76,20 @@ public final class UserUtils {
         LegacySpringUtils.getPatientManager().removePatientFromSystem(nhsno, unitcode);
     }
 
+    // use CommonUtils
+    @Deprecated
     public static boolean isNhsNumberValid(String nhsNumber) {
         return isNhsNumberValid(nhsNumber, false);
     }
 
+    // use CommonUtils
+    @Deprecated
     public static boolean isNhsNumberValidWhenUppercaseLettersAreAllowed(String nhsNumber) {
         return isNhsNumberValid(nhsNumber, true);
     }
 
+    // use CommonUtils
+    @Deprecated
     private static boolean isNhsNumberValid(String nhsNumber, boolean ignoreUppercaseLetters) {
 
         // Remove all whitespace and non-visible characters such as tab, new line etc
@@ -103,6 +110,8 @@ public final class UserUtils {
         return isNhsChecksumValid(nhsNumber);
     }
 
+    // use CommonUtils
+    @Deprecated
     private static boolean isNhsChecksumValid(String nhsNumber) {
         /**
          * Generate the checksum using modulus 11 algorithm

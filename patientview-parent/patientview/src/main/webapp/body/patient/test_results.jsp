@@ -38,6 +38,7 @@
     </ul>
 </div>
 
+<logic:notEmpty name="resultsHeadings">
 <h3>Select test result to graph</h3>
 <div class="btn-toolbar">
     <div class="btn-group">
@@ -49,7 +50,6 @@
             </logic:iterate>
         </ul>
     </div>
-
 </div>
 
 <div class="alert alert-error" id="errorMsg" style="display: none">Test result doesn't exist.</div>
@@ -71,8 +71,10 @@
         <button type="button" class="btn btn-default" id="ALL" onclick="changePeriod(this,0)">All</button>
     </div>
 </div>
-
-
+</logic:notEmpty>
+<logic:empty name="resultsHeadings">
+    <div class="alert alert-error" id="errorMsg">No test results available.</div>
+</logic:empty>
 
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script src="/js/testresults.js" type="text/javascript"></script>

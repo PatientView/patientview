@@ -49,6 +49,7 @@ public abstract class Logon {
     private Date lastlogon;
     private int failedlogons;
     private boolean accountlocked;
+    private boolean accounthidden;
     private boolean isrecipient;
     private boolean isclinician;
     private Date lastverificationdate;
@@ -199,6 +200,14 @@ public abstract class Logon {
 
     public void setAccountlocked(boolean accountlocked) {
         this.accountlocked = accountlocked;
+    }
+
+    public boolean isAccounthidden() {
+        return accounthidden;
+    }
+
+    public void setAccounthidden(boolean accounthidden) {
+        this.accounthidden = accounthidden;
     }
 
     public boolean isIsrecipient() {

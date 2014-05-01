@@ -30,7 +30,10 @@
 <div class="span9">
 
     <div class="page-header">
-        <h1>Units</h1>
+        <h1>
+            <logic:equal name="isRadarGroup" value="true">Radar Groups</logic:equal>
+            <logic:notEqual name="isRadarGroup" value="true">Units</logic:notEqual>
+        </h1>
     </div>
 
 <table cellpadding="3" border="0" class="table table-striped table-bordered table-condensed">

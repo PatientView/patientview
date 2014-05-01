@@ -24,10 +24,10 @@
 package org.patientview.radar.test.dao;
 
 import org.junit.Before;
+import org.junit.Test;
 import org.patientview.radar.dao.ImmunosuppressionDao;
 import org.patientview.radar.model.Immunosuppression;
 import org.patientview.radar.model.ImmunosuppressionTreatment;
-import org.junit.Test;
 import org.patientview.radar.test.TestDataHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 

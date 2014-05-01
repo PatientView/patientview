@@ -53,7 +53,7 @@
                     }
                 %>
 
-                <li><html:link action="/help" styleClass="<%= ("help".equals(request.getAttribute("currentNav"))) ? "navlinkon" : "navlink" %>">Need help <i class="icon-question-sign icon-white"></i></html:link></li>
+                <li><html:link action="/help" styleClass='<%= ("help".equals(request.getAttribute("currentNav"))) ? "navlinkon" : "navlink" %>'>Need help <i class="icon-question-sign icon-white"></i></html:link></li>
 
             </ul>
 

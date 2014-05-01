@@ -23,28 +23,45 @@
 
 package org.patientview.patientview;
 
-import org.patientview.actionutils.ActionUtils;
-import org.patientview.model.enums.SourceType;
-import org.patientview.patientview.edtacode.EdtaCodeUtils;
-import org.patientview.patientview.logon.LogonUtils;
-import org.patientview.patientview.model.User;
-import org.patientview.patientview.news.NewsUtils;
-import org.patientview.patientview.user.UserUtils;
-import org.patientview.utils.LegacySpringUtils;
-import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.DynaActionForm;
-
+import org.patientview.actionutils.ActionUtils;
+import org.patientview.model.Unit;
+import org.patientview.model.enums.SourceType;
+import org.patientview.patientview.edtacode.EdtaCodeUtils;
+import org.patientview.patientview.logon.LogonUtils;
+import org.patientview.patientview.model.EdtaCode;
+import org.patientview.patientview.model.User;
+import org.patientview.patientview.model.UserMapping;
+import org.patientview.patientview.news.NewsUtils;
+import org.patientview.patientview.user.UserUtils;
+import org.patientview.service.EdtaCodeManager;
+import org.patientview.service.PatientManager;
+import org.patientview.service.UnitManager;
+import org.patientview.service.UserManager;
+import org.springframework.web.struts.ActionSupport;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 
-public class PatientDetailsAction extends Action {
+public class PatientDetailsAction extends ActionSupport {
+
+    private EdtaCodeManager edtaCodeManager;
+    private UserManager userManager;
+    private PatientManager patientManager;
+    private UnitManager unitManager;
 
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
                                  HttpServletResponse response) throws Exception {
+
+        edtaCodeManager = getWebApplicationContext().getBean(EdtaCodeManager.class);
+        userManager = getWebApplicationContext().getBean(UserManager.class);
+        patientManager = getWebApplicationContext().getBean(PatientManager.class);
+        unitManager = getWebApplicationContext().getBean(UnitManager.class);
+
         NewsUtils.putAppropriateNewsForViewingInRequest(request);
 
         // allow the logged in user to be overridden when viewing the site as a patient using an admin account
@@ -57,18 +74,14 @@ public class PatientDetailsAction extends Action {
         } else  if ("controlDemographics".equals(param)) {
             isRadarGroup = true;
             String username = (String) request.getSession().getAttribute("userBeingViewedUsername");
-            user = LegacySpringUtils.getUserManager().get(username);
+            user = userManager.get(username);
         } else {
             user = UserUtils.retrieveUser(request);
         }
 
-        List<PatientDetails> patientDetails = LegacySpringUtils.getPatientManager().getPatientDetails(
-                user.getUsername());
+        List<PatientDetails> patientDetails = patientManager.getPatientDetails(user.getUsername());
         PatientDetails patientDetail = getRadarPatientDetails(patientDetails);
-
         request.setAttribute("patientDetails", patientDetails);
-
-
 
         // this form is only used for ibd for now, so just check it exist before trying to use it
         if (form != null && form instanceof DynaActionForm && patientDetail != null) {
@@ -77,10 +90,28 @@ public class PatientDetailsAction extends Action {
             // let's just store this info against the first patient object if there are many for this nhsno
             dynaForm.set("patientId", patientDetail.getPatient().getId());
             dynaForm.set("otherConditions", patientDetail.getPatient().getOtherConditions());
-            dynaForm.set("email", LegacySpringUtils.getUserManager().getLoggedInUser().getEmail());
+            dynaForm.set("email", userManager.getLoggedInUser().getEmail());
         }
 
         EdtaCodeUtils.addEdtaCodeToRequest("static", "staticLinks", request);
+
+        // get unit links (EdtaCode) for each unit
+        List<EdtaCode> unitLinks = new ArrayList<EdtaCode>();
+
+        for (UserMapping userMapping : userManager.getUserMappings(user.getUsername())) {
+            Unit unit = unitManager.get(userMapping.getUnitcode());
+            if (unit != null) {
+                EdtaCode unitLink = edtaCodeManager.getUnitLinks(unit);
+                if (unitLink != null) {
+                    unitLink.setDescription(unit.getName());
+                    unitLinks.add(unitLink);
+                }
+            }
+        }
+
+        if (unitLinks.size() > 0) {
+            request.setAttribute("unitLinks", unitLinks);
+        }
 
         ActionUtils.setUpNavLink(mapping.getParameter(), request);
 

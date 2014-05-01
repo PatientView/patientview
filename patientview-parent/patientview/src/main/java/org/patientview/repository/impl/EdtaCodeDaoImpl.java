@@ -23,13 +23,13 @@
 
 package org.patientview.repository.impl;
 
+import org.patientview.model.Specialty;
+import org.patientview.model.Unit;
 import org.patientview.patientview.model.EdtaCode;
 import org.patientview.patientview.model.EdtaCode_;
-import org.patientview.model.Specialty;
 import org.patientview.repository.AbstractHibernateDAO;
 import org.patientview.repository.EdtaCodeDao;
 import org.springframework.stereotype.Repository;
-
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -89,5 +89,22 @@ public class EdtaCodeDaoImpl extends AbstractHibernateDAO<EdtaCode> implements E
         criteria.orderBy(builder.asc(edtaCodeRoot.get(EdtaCode_.edtaCode)));
 
         return getEntityManager().createQuery(criteria).getResultList();
+    }
+
+    @Override
+    public EdtaCode getUnitLinks(Unit unit) {
+        CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<EdtaCode> criteria = builder.createQuery(EdtaCode.class);
+        Root<EdtaCode> edtaCodeRoot = criteria.from(EdtaCode.class);
+        List<Predicate> wherePredicates = new ArrayList<Predicate>();
+
+        wherePredicates.add(builder.equal(edtaCodeRoot.get(EdtaCode_.edtaCode), unit.getUnitcode()));
+        buildWhereClause(criteria, wherePredicates);
+
+        try {
+            return getEntityManager().createQuery(criteria).getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 }

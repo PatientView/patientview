@@ -23,8 +23,8 @@
 
 package org.patientview.repository;
 
-import org.patientview.patientview.model.LogEntry;
 import org.patientview.model.Specialty;
+import org.patientview.patientview.model.LogEntry;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,7 +46,7 @@ public interface LogEntryDao {
     List<LogEntry> getWithNhsNo(String nhsno, Calendar startdate, Calendar enddate, String action, Specialty specialty);
 
     List<LogEntry> getWithNhsNo(String nhsno, String user, String actor, String action, String unitcode,
-                                Calendar startdate, Calendar enddate, Specialty specialty);
+                                Calendar startdate, Calendar enddate, Boolean orderByAsc, Specialty specialty);
 
     List<LogEntry> getWithUnitCode(String unitcode, Calendar startdate, Calendar enddate, Specialty specialty);
 }

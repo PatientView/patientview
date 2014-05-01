@@ -23,8 +23,9 @@
 
 package org.patientview.repository;
 
-import org.patientview.patientview.model.EdtaCode;
 import org.patientview.model.Specialty;
+import org.patientview.model.Unit;
+import org.patientview.patientview.model.EdtaCode;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,4 +44,6 @@ public interface EdtaCodeDao {
     void delete(String edtaCode, Specialty specialty);
 
     List<EdtaCode> get(String linkType, Specialty specialty);
+
+    EdtaCode getUnitLinks(Unit unit);
 }

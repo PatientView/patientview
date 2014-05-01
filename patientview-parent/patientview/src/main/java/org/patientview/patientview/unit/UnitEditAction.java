@@ -23,28 +23,45 @@
 
 package org.patientview.patientview.unit;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.patientview.model.Unit;
-import org.patientview.utils.LegacySpringUtils;
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.patientview.model.Unit;
 import org.patientview.patientview.logon.LogonUtils;
+import org.patientview.patientview.model.EdtaCode;
+import org.patientview.service.EdtaCodeManager;
+import org.patientview.service.UnitManager;
+import org.springframework.web.struts.ActionSupport;
 
-public class UnitEditAction extends Action {
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class UnitEditAction extends ActionSupport {
+
+    private UnitManager unitManager;
+    private EdtaCodeManager edtaCodeManager;
 
     public ActionForward execute(
         ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
+
+        unitManager = getWebApplicationContext().getBean(UnitManager.class);
+        edtaCodeManager = getWebApplicationContext().getBean(EdtaCodeManager.class);
+
         String unitcode = BeanUtils.getProperty(form, "unitcode");
-
-        Unit unit = LegacySpringUtils.getUnitManager().get(unitcode);
-
+        Unit unit = unitManager.get(unitcode);
         request.getSession().setAttribute("unit", unit);
+
+        // get EdtaCode which will contain the static links for this unit only for Radargroup type units
+        if (unit.getSourceType().equals("Radargroup")) {
+            EdtaCode edtaCode = edtaCodeManager.getEdtaCode(unitcode);
+            if (edtaCode == null) {
+                edtaCode = new EdtaCode(unit.getUnitcode());
+                edtaCode.setLinkType("unitLinks");
+            }
+            request.setAttribute(EdtaCode.getIdentifier(), edtaCode);
+        }
 
         return LogonUtils.logonChecks(mapping, request);
     }

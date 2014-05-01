@@ -416,13 +416,81 @@
       <td><b>Visible for user to join</b></td>
       <td><html:checkbox name="unit" property="visible" /></td>
     </tr>
-
-
-    <tr>
-      <td><html:submit value="Update" styleClass="btn"/></td>
-    </tr>
-
   </table>
+  <br/><br/>
+  <logic:present name="edtaCode">
+
+  <h2>Disease Group Specific Information</h2>
+  <table cellpadding="3" class="table table-bordered table-striped">
+      <tr>
+          <td></td>
+          <td align="center"><b>Link (e.g. http:// etc.)</b></td>
+          <td align="center"><b>Text Description</b></td>
+      </tr>
+      <tr>
+          <td><b>Medical Link 1</b></td>
+          <td><html:text name="edtaCode" property="medicalLink01" /></td>
+          <td><html:text name="edtaCode" property="medicalLinkText01" /></td>
+      </tr>
+      <tr>
+          <td><b>Medical Link 2</b></td>
+          <td><html:text name="edtaCode" property="medicalLink02" /></td>
+          <td><html:text name="edtaCode" property="medicalLinkText02" /></td>
+      </tr>
+      <tr>
+          <td><b>Medical Link 3</b></td>
+          <td><html:text name="edtaCode" property="medicalLink03" /></td>
+          <td><html:text name="edtaCode" property="medicalLinkText03" /></td>
+      </tr>
+      <tr>
+          <td><b>Medical Link 4</b></td>
+          <td><html:text name="edtaCode" property="medicalLink04" /></td>
+          <td><html:text name="edtaCode" property="medicalLinkText04" /></td>
+      </tr>
+      <tr>
+          <td><b>Medical Link 5</b></td>
+          <td><html:text name="edtaCode" property="medicalLink05" /></td>
+          <td><html:text name="edtaCode" property="medicalLinkText05" /></td>
+      </tr>
+      <tr>
+          <td><b>Medical Link 6</b></td>
+          <td><html:text name="edtaCode" property="medicalLink06" /></td>
+          <td><html:text name="edtaCode" property="medicalLinkText06" /></td>
+      </tr>
+      <tr>
+          <td><b>Patient Link 1</b></td>
+          <td><html:text name="edtaCode" property="patientLink01" /></td>
+          <td><html:text name="edtaCode" property="patientLinkText01" /></td>
+      </tr>
+      <tr>
+          <td><b>Patient Link 2</b></td>
+          <td><html:text name="edtaCode" property="patientLink02" /></td>
+          <td><html:text name="edtaCode" property="patientLinkText02" /></td>
+      </tr>
+      <tr>
+          <td><b>Patient Link 3</b></td>
+          <td><html:text name="edtaCode" property="patientLink03" /></td>
+          <td><html:text name="edtaCode" property="patientLinkText03" /></td>
+      </tr>
+      <tr>
+          <td><b>Patient Link 4</b></td>
+          <td><html:text name="edtaCode" property="patientLink04" /></td>
+          <td><html:text name="edtaCode" property="patientLinkText04" /></td>
+      </tr>
+      <tr>
+          <td><b>Patient Link 5</b></td>
+          <td><html:text name="edtaCode" property="patientLink05" /></td>
+          <td><html:text name="edtaCode" property="patientLinkText05" /></td>
+      </tr>
+      <tr>
+          <td><b>Patient Link 6</b></td>
+          <td><html:text name="edtaCode" property="patientLink06" /></td>
+          <td><html:text name="edtaCode" property="patientLinkText06" /></td>
+      </tr>
+  </table>
+  </logic:present>
+
+  <html:submit value="Update" styleClass="btn"/>
 
 </html:form>
 </div>

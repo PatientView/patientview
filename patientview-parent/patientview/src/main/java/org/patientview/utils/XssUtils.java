@@ -33,8 +33,8 @@ import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
-import java.util.TreeMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Use reflection and Jsoup to clean and reset the entity's input data.

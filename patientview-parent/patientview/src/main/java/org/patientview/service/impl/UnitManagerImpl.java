@@ -23,14 +23,14 @@
 
 package org.patientview.service.impl;
 
+import org.patientview.model.Specialty;
+import org.patientview.model.Unit;
 import org.patientview.patientview.logging.AddLog;
 import org.patientview.patientview.logon.UnitAdmin;
-import org.patientview.model.Specialty;
-import org.patientview.patientview.model.UserMapping;
 import org.patientview.patientview.model.PatientCount;
-import org.patientview.model.Unit;
-import org.patientview.patientview.model.User;
 import org.patientview.patientview.model.UnitStat;
+import org.patientview.patientview.model.User;
+import org.patientview.patientview.model.UserMapping;
 import org.patientview.repository.PatientCountDao;
 import org.patientview.repository.UnitDao;
 import org.patientview.repository.UnitStatDao;
@@ -78,6 +78,11 @@ public class UnitManagerImpl implements UnitManager {
     @Override
     public boolean checkDuplicateUnitCode(String unitCode) {
         return unitDao.get(unitCode, securityUserManager.getLoggedInSpecialty()) != null;
+    }
+
+    @Override
+    public Unit get(String unitcode, Specialty specialty) {
+        return unitDao.get(unitcode, specialty);
     }
 
     @Override
@@ -217,5 +222,10 @@ public class UnitManagerImpl implements UnitManager {
     @Override
     public List<User> getUnitPatientUsers(String unitcode, Specialty specialty) {
         return unitDao.getUnitPatientUsers(unitcode, securityUserManager.getLoggedInSpecialty());
+    }
+
+    @Override
+    public List<User> getUnitPatientUsers(String unitcode, String name, Specialty specialty) {
+        return unitDao.getUnitPatientUsers(unitcode, name, securityUserManager.getLoggedInSpecialty());
     }
 }

@@ -140,7 +140,7 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                 <h3>New message</h3>
                             </div>
-                            <div class="modal-body">
+                            <div class="modal-body-message">
                                 <fieldset>
                                     <input type="hidden" class="js-message-redirect" value="/<%=actionPrefix%>/conversation.do" />
 
@@ -163,8 +163,13 @@
                                         </div>
                                     </logic:present>
 
+
                                     <div class="control-group js-recipient-container" <logic:present name="<%=Messaging.UNITS_PARAM%>">style="display: none"</logic:present>>
+
                                         <label class="control-label">To</label>
+                                        <input type="text" class="search-query" placeholder="Filter" id="search" name="search" size="8" style="display: none"/>
+                                        <button class="js-filter-button control-group">...</button>
+
                                         <div class="controls">
                                             <select name="recipientId" class="js-message-recipient-id">
                                                 <option value="">Select</option>
@@ -215,6 +220,7 @@
                                                     </optgroup>
                                                 </logic:notEmpty>
                                             </select>
+                                            <span class="js-message-filtered" style="display: none"/>
                                         </div>
                                     </div>
 

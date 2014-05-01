@@ -94,7 +94,8 @@
         <logic:present name="user">
 
             <tr valign="top">
-                <td class="tableheader" colspan="14"><b>Test results for <bean:write name="user" property="name"/></b></td>
+                <td class="tableheader" colspan="14"><b>Test results for <bean:write name="user" property="name"/></b>
+                    <br/><html:link action="/patient/testresults">See these results as a graph</html:link></td>
             </tr>
 
             <tr>

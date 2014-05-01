@@ -32,7 +32,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class EdtaCode extends BaseModel {
+public class EdtaCode extends BaseModel implements Cloneable {
 
     @Column(nullable = false, unique = true)
     private String edtaCode;
@@ -354,5 +354,9 @@ public class EdtaCode extends BaseModel {
 
     public void setLinkType(String linkType) {
         this.linkType = linkType;
+    }
+
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

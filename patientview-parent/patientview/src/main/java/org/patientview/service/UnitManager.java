@@ -23,9 +23,9 @@
 
 package org.patientview.service;
 
-import org.patientview.patientview.logon.UnitAdmin;
 import org.patientview.model.Specialty;
 import org.patientview.model.Unit;
+import org.patientview.patientview.logon.UnitAdmin;
 import org.patientview.patientview.model.UnitStat;
 import org.patientview.patientview.model.User;
 import org.springframework.security.access.annotation.Secured;
@@ -60,6 +60,9 @@ public interface UnitManager {
      * @return true if duplicate
      */
     boolean checkDuplicateUnitCode(String unitCode);
+
+    // This bypasses #get(String unitCode) one refactor for the future.
+    Unit get(String unitcode, Specialty specialty);
 
     void save(Unit unit);
 
@@ -97,4 +100,6 @@ public interface UnitManager {
     List<UnitAdmin> getAllUnitUsers();
 
     List<User> getUnitPatientUsers(String unitcode, Specialty specialty);
+
+    List<User> getUnitPatientUsers(String unitcode, String name, Specialty specialty);
 }

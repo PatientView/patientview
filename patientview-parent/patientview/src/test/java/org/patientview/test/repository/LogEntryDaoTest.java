@@ -23,15 +23,14 @@
 
 package org.patientview.test.repository;
 
-import org.patientview.patientview.model.LogEntry;
-import org.patientview.model.Specialty;
-import org.patientview.repository.LogEntryDao;
-import org.patientview.test.helpers.RepositoryHelpers;
 import org.junit.Before;
 import org.junit.Test;
+import org.patientview.model.Specialty;
+import org.patientview.patientview.model.LogEntry;
+import org.patientview.repository.LogEntryDao;
+import org.patientview.test.helpers.RepositoryHelpers;
 
 import javax.inject.Inject;
-
 import java.util.Calendar;
 import java.util.List;
 
@@ -265,7 +264,8 @@ public class LogEntryDaoTest extends BaseDaoTest {
 
         // So we now expect back entry 1 and not 2
         List<LogEntry> checkLogEntries = logEntryDao.getWithNhsNo(logEntry1.getNhsno(), logEntry1.getUser(),
-                logEntry1.getActor(), logEntry1.getAction(), logEntry1.getUnitcode(), startDate, endDate, specialty);
+                logEntry1.getActor(), logEntry1.getAction(), logEntry1.getUnitcode(), startDate, endDate, null,
+                specialty);
 
         assertNotNull(checkLogEntries);
         assertTrue("No log entries found", !checkLogEntries.isEmpty() && checkLogEntries.size() > 0);
