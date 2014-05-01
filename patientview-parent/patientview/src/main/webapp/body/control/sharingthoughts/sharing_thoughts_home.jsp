@@ -64,6 +64,7 @@
     <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript">
         $('#tableSharedThoughts').dataTable({
+            "bSort" : false,
             "iDisplayLength": 10
         });
     </script>
