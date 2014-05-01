@@ -134,7 +134,7 @@ sharedThought.addMessage = function() {
         data: responderData,
         success: function() {
             sharedThought.responderMessageTrNoComments.remove();
-            sharedThought.responderMessageBtn.parent().parent().before("<tr><td colspan='2'><strong>" + sharedThought.userFullName + ": </strong>&nbsp;&nbsp;" + responderData.message + "</td></tr>")
+            sharedThought.responderMessageBtn.parent().parent().before("<tr><td colspan='2'><span class='sharingThoughtsMessageAuthor'>" + sharedThought.userFullName + ": </span><span class='sharingThoughtsMessageContent'>" + responderData.message + "</span><span class='pull-right sharingThoughtsMessageDate'>added just now</span></td></tr>")
             sharedThought.responderMessageTextarea.val("");
         },
         error: function() {
