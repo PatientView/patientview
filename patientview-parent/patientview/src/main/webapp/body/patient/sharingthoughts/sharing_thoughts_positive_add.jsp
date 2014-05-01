@@ -53,20 +53,20 @@
     </tr>
 
     <tr >
-      <td>Start date (dd-mm-yyyy)</td>
-      <td><div class="date datePicker controls">
-          <input name="<%=SharingThoughts.START_DATE%>" readonly="readonly" style="background:white;" class="datepicker" size="16" type="text"/>
-          <span class="add-on"><i class="icon-th"></i></span>
-          <span class="help-inline">(click on date at top to change month & year)</span>
-      </div></td>
+        <td>Start date (dd-mm-yyyy)</td>
+        <td><div class="date datePicker controls">
+            <html:text name="sharingThoughtsForm" property="<%=SharingThoughts.START_DATE%>" styleClass="datepicker"/>
+            <span class="add-on"><i class="icon-th"></i></span>
+            <span class="help-inline">(click on date at top to change month & year)</span>
+        </div></td>
     </tr>
     <tr >
-      <td>End date (dd-mm-yyyy)</td>
-      <td><div class="date datePicker controls">
-          <input name="<%=SharingThoughts.END_DATE%>" readonly="readonly" style="background:white;" class="datepicker" size="16" type="text"/>
-          <span class="add-on"><i class="icon-th"></i></span>
-          <span class="help-inline">(click on date at top to change month & year)</span>
-      </div></td>
+        <td>End date (dd-mm-yyyy)</td>
+        <td><div class="date datePicker controls">
+            <html:text name="sharingThoughtsForm" property="<%=SharingThoughts.END_DATE%>" styleClass="datepicker"/>
+            <span class="add-on"><i class="icon-th"></i></span>
+            <span class="help-inline">(click on date at top to change month & year)</span>
+        </div></td>
     </tr>
 
     <tr >
