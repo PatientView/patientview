@@ -781,6 +781,8 @@ td.auditUser {
 div#tableAuditEvents_length,
 div#tableAuditEvents_filter,
 div#tableSubmittedThoughts_length,
-div#tableSubmittedThoughts_filter {
+div#tableSubmittedThoughts_filter,
+div#tablePartialThoughts_length,
+div#tablePartialThoughts_filter {
     display: none;
 }

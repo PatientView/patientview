@@ -11,7 +11,8 @@
 
 <logic:present name="<%=SharingThoughts.USERS_THOUGHTS_DRAFT_PARAM%>">
     <logic:notEmpty name="<%=SharingThoughts.USERS_THOUGHTS_DRAFT_PARAM%>">
-        <table border="0" cellspacing="1" cellpadding="3" class="table table-bordered table-striped">
+        <table border="0" cellspacing="1" cellpadding="3" class="table table-bordered table-striped" id="tablePartialThoughts">
+            <thead>
             <tr>
                 <th>Last Updated</th>
                 <th>Positive/Negative</th>
@@ -22,6 +23,7 @@
                 <th></th>
                 <th></th>
             </tr>
+            </thead><tbody>
             <logic:iterate id="thought" name="<%=SharingThoughts.USERS_THOUGHTS_DRAFT_PARAM%>">
                 <tr>
                     <td><bean:write name="thought" property="<%=SharingThoughts.DATE_LAST_SAVED_FORMATTED_DATE_TIME%>" /></td>
@@ -40,7 +42,7 @@
                     <td><html:form action="/patient/sharingThoughtsEditThought"><html:hidden name="thought" property="id" /><html:submit value="Edit" styleClass="btn"/></html:form></td>
                     <td><html:form action="/patient/sharingThoughtsDeleteThought"><html:hidden name="thought" property="id" /><html:submit value="Delete" styleClass="btn"/></html:form></td>
                 </tr>
-            </logic:iterate>
+            </logic:iterate></tbody>
         </table>
     </logic:notEmpty>
     <logic:empty name="<%=SharingThoughts.USERS_THOUGHTS_DRAFT_PARAM%>">
@@ -106,6 +108,10 @@
 <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript">
     $('#tableSubmittedThoughts').dataTable({
+        "bSort": false,
+        "iDisplayLength": 10
+    });
+    $('#tablePartialThoughts').dataTable({
         "bSort": false,
         "iDisplayLength": 10
     });
