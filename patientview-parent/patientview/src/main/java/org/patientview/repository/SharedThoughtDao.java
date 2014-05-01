@@ -11,17 +11,15 @@ import java.util.List;
 @Transactional(propagation = Propagation.MANDATORY)
 public interface SharedThoughtDao {
 
-    List<SharedThought> getAll();
+    List<SharedThought> getAll(boolean orderBySubmitDate);
 
     SharedThought get(Long id);
 
-    List<SharedThought> getUsersThoughts(Long userId, boolean isSubmitted);
+    List<SharedThought> getUsersThoughts(User user, boolean isSubmitted);
 
     List<SharedThought> getStaffThoughtList(User user);
 
     void save(SharedThought thought);
-
-    void submit(SharedThought thought);
 
     void delete(Long id);
 

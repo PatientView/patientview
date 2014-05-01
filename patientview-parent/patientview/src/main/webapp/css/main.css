@@ -778,6 +778,9 @@ td.auditAction {
 td.auditUser {
 
 }
-div#tableAuditEvents_length, div#tableAuditEvents_filter {
-    display:none;
+div#tableAuditEvents_length,
+div#tableAuditEvents_filter,
+div#tableSubmittedThoughts_length,
+div#tableSubmittedThoughts_filter {
+    display: none;
 }

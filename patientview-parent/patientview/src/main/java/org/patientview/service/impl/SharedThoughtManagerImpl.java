@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -33,8 +32,8 @@ public class SharedThoughtManagerImpl implements SharedThoughtManager {
     private SecurityUserManager securityUserManager;
 
     @Override
-    public List<SharedThought> getAll() {
-        return sharedThoughtDao.getAll();
+    public List<SharedThought> getAll(boolean orderBySubmitDate) {
+        return sharedThoughtDao.getAll(orderBySubmitDate);
     }
 
     @Override
@@ -61,8 +60,8 @@ public class SharedThoughtManagerImpl implements SharedThoughtManager {
     }
 
     @Override
-    public List<SharedThought> getUsersThoughts(Long userId, boolean isSubmitted) {
-        return sharedThoughtDao.getUsersThoughts(userId, isSubmitted);
+    public List<SharedThought> getUsersThoughts(User user, boolean isSubmitted) {
+        return sharedThoughtDao.getUsersThoughts(user, isSubmitted);
     }
 
     @Override
@@ -77,29 +76,23 @@ public class SharedThoughtManagerImpl implements SharedThoughtManager {
 
     @Override
     public void save(SharedThought thought, boolean isSubmitted) {
-        thought.setDateLastSaved(GregorianCalendar.getInstance().getTime());
+        thought.setDateLastSaved(new Date());
+
+        // audit
+        SharedThoughtAudit audit = new SharedThoughtAudit();
+        audit.setSharedThought(thought);
+        audit.setDate(new Date());
+        audit.setUser(securityUserManager.getLoggedInUser());
 
         if (isSubmitted) {
-            sharedThoughtDao.submit(thought);
-
-            // audit
-            SharedThoughtAudit audit = new SharedThoughtAudit();
-            audit.setSharedThought(thought);
-            audit.setDate(new Date());
+            thought.setSubmitDate(new Date());
             audit.setAction(SharedThoughtAuditAction.SUBMIT);
-            audit.setUser(securityUserManager.getLoggedInUser());
-            sharedThoughtAuditDao.save(audit);
         } else {
-            sharedThoughtDao.save(thought);
-
-            // audit
-            SharedThoughtAudit audit = new SharedThoughtAudit();
-            audit.setSharedThought(thought);
-            audit.setDate(new Date());
             audit.setAction(SharedThoughtAuditAction.SAVE);
-            audit.setUser(securityUserManager.getLoggedInUser());
-            sharedThoughtAuditDao.save(audit);
         }
+
+        sharedThoughtDao.save(thought);
+        sharedThoughtAuditDao.save(audit);
     }
 
     @Override

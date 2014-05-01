@@ -3,24 +3,14 @@ package org.patientview.repository.impl;
 import org.patientview.patientview.model.Conversation;
 import org.patientview.patientview.model.Message;
 import org.patientview.patientview.model.SharedThought;
-import org.patientview.patientview.model.SharedThought_;
 import org.patientview.patientview.model.User;
 import org.patientview.patientview.model.enums.ConversationType;
 import org.patientview.repository.AbstractHibernateDAO;
 import org.patientview.repository.SharedThoughtDao;
-import org.patientview.utils.XssUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.inject.Inject;
-import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -29,30 +19,16 @@ import java.util.List;
 @Repository(value = "sharedThoughtDao")
 public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> implements SharedThoughtDao {
 
-    @Inject
-    private XssUtils xssUtils;
-
     @Override
-    public void submit(SharedThought sharedThought) {
-        // add submission date
-        sharedThought.setSubmitDate(new Date());
-
-        // save SharedThought
-        xssUtils.cleanObjectForXss(sharedThought);
-        if (!sharedThought.hasValidId()) {
-            getEntityManager().persist(sharedThought);
-        } else {
-            getEntityManager().merge(sharedThought);
-        }
-
-        getEntityManager().flush();
-    }
-
-    @Override
-    public List<SharedThought> getAll() {
+    public List<SharedThought> getAll(boolean orderBySubmitDate) {
         StringBuilder queryText = new StringBuilder();
         queryText.append("FROM      SharedThought ");
-        queryText.append("ORDER BY  dateLastSaved DESC");
+
+        if (orderBySubmitDate) {
+            queryText.append("ORDER BY submitDate DESC");
+        } else {
+            queryText.append("ORDER BY dateLastSaved DESC");
+        }
 
         TypedQuery<SharedThought> query = getEntityManager().createQuery(queryText.toString(), SharedThought.class);
 
@@ -64,25 +40,31 @@ public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> im
     }
 
     @Override
-    public List<SharedThought> getUsersThoughts(Long userId, boolean isSubmitted) {
-        CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<SharedThought> criteria = builder.createQuery(SharedThought.class);
-        Root<SharedThought> root = criteria.from(SharedThought.class);
-        List<Predicate> wherePredicates = new ArrayList<Predicate>();
-        wherePredicates.add(builder.equal(root.get(SharedThought_.user), userId));
-        wherePredicates.add(builder.equal(root.get(SharedThought_.isSubmitted), isSubmitted));
-        buildWhereClause(criteria, wherePredicates);
+    public List<SharedThought> getUsersThoughts(User user, boolean isSubmitted) {
+        StringBuilder queryText = new StringBuilder();
+        queryText.append("FROM      SharedThought ");
+        queryText.append("WHERE     user = :user ");
+        queryText.append("AND       isSubmitted = :isSubmitted ");
+
+        if (isSubmitted) {
+            queryText.append("ORDER BY submitDate DESC ");
+        } else {
+            queryText.append("ORDER BY dateLastSaved DESC ");
+        }
+
+        TypedQuery<SharedThought> query = getEntityManager().createQuery(queryText.toString(), SharedThought.class);
+        query.setParameter("user", user);
+        query.setParameter("isSubmitted", isSubmitted);
 
         try {
-            return getEntityManager().createQuery(criteria).getResultList();
-        } catch (NoResultException e) {
-            return null;
+            return query.getResultList();
+        } catch (Exception e) {
+            return Collections.emptyList();
         }
     }
 
     @Override
     public List<SharedThought> getStaffThoughtList(User user) {
-
         // only show shared thought if user is member of shared thought's unit and user is in either the list of
         // shared thought responders or is a shared thought administrator for that unit
         StringBuilder queryText = new StringBuilder();
@@ -98,6 +80,7 @@ public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> im
         queryText.append("AND       :username = usr.username ");
         queryText.append("AND       ((:user MEMBER OF sth.responders) OR (usr.sharedThoughtAdministrator = true)) ");
         queryText.append("GROUP BY  sth.id ");
+        queryText.append("ORDER BY  sth.dateLastSaved DESC ");
 
         TypedQuery<SharedThought> query = getEntityManager().createQuery(queryText.toString(), SharedThought.class);
         query.setParameter("username", user.getUsername());

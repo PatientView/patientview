@@ -5,13 +5,14 @@
 
 <html:xhtml/>
 
-<div class="page-header">
+<div class="page-header-noline">
     <logic:equal value="1" property="<%=SharingThoughts.POSITIVE_NEGATIVE%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" >
         <h1>Positive Comment</h1>
     </logic:equal>
     <logic:notEqual value="1" property="<%=SharingThoughts.POSITIVE_NEGATIVE%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" >
         <h1>Quality or Safety Concern</h1>
     </logic:notEqual>
+    <div class="sharedThoughtSubmitDate pull-right">Submitted <bean:write name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.SUBMIT_DATE%>"/></div>
 </div>
 
 <table border="0" cellspacing="1" cellpadding="3" class="table table-bordered table-striped">

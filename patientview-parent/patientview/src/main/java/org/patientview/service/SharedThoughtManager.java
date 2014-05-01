@@ -7,7 +7,12 @@ import java.util.List;
 
 public interface SharedThoughtManager {
 
-    List<SharedThought> getAll();
+    /**
+     * Get list of shared thoughts, ordering by submit date if required
+     * @param orderBySubmitDate true if ordering by submit date
+     * @return list of SharedThought
+     */
+    List<SharedThought> getAll(boolean orderBySubmitDate);
 
     /**
      * Get a single shared thought, auditing view if necessary
@@ -18,7 +23,7 @@ public interface SharedThoughtManager {
      */
     SharedThought get(Long sharedThoughtId, boolean auditEnabled, boolean staffUser);
 
-    List<SharedThought> getUsersThoughts(Long userId, boolean isSubmitted);
+    List<SharedThought> getUsersThoughts(User user, boolean isSubmitted);
 
     /**
      * Get list of shared thoughts that this staff user can view as a responder

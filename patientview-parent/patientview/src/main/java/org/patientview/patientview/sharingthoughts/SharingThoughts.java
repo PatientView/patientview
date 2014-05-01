@@ -51,7 +51,7 @@ public final class SharingThoughts {
                 : SharingThoughts.USERS_THOUGHTS_DRAFT_PARAM;
 
         List<SharedThought> usersSharedThoughtsDrafts =
-                LegacySpringUtils.getSharedThoughtManager().getUsersThoughts(user.getId(), submitted);
+                LegacySpringUtils.getSharedThoughtManager().getUsersThoughts(user, submitted);
         request.setAttribute(attributeName, usersSharedThoughtsDrafts);
     }
 

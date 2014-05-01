@@ -13,12 +13,14 @@
     <logic:notEmpty name="<%=SharingThoughts.USERS_THOUGHTS_DRAFT_PARAM%>">
         <table border="0" cellspacing="1" cellpadding="3" class="table table-bordered table-striped">
             <tr>
-                <th>Date Updated</th>
+                <th>Last Updated</th>
                 <th>Positive/Negative</th>
                 <th>Start Date</th>
                 <th>End Date</th>
                 <th>Location</th>
                 <th>Description</th>
+                <th></th>
+                <th></th>
             </tr>
             <logic:iterate id="thought" name="<%=SharingThoughts.USERS_THOUGHTS_DRAFT_PARAM%>">
                 <tr>
@@ -54,18 +56,24 @@
 
 <logic:present name="<%=SharingThoughts.USERS_THOUGHTS_SUBMITTED_PARAM%>">
     <logic:notEmpty name="<%=SharingThoughts.USERS_THOUGHTS_SUBMITTED_PARAM%>">
-        <table border="0" cellspacing="1" cellpadding="3" class="table table-bordered table-striped">
+        <table border="0" cellspacing="1" cellpadding="3" class="table table-bordered table-striped" id="tableSubmittedThoughts">
+        <thead>
         <tr>
-            <th>Date Updated</th>
+            <th class="hidden">Id</th>
+            <th>Submitted</th>
             <th>Positive/Negative</th>
             <th>Start Date</th>
             <th>End Date</th>
             <th>Location</th>
             <th>Description</th>
+            <th></th>
         </tr>
+        </thead>
+        <tbody>
         <logic:iterate id="thought" name="<%=SharingThoughts.USERS_THOUGHTS_SUBMITTED_PARAM%>">
             <tr>
-                <td><bean:write name="thought" property="<%=SharingThoughts.DATE_LAST_SAVED_FORMATTED_DATE_TIME%>" /></td>
+                <td class="hidden"><bean:write name="thought" property="<%=SharingThoughts.ID%>"/></td>
+                <td><bean:write name="thought" property="<%=SharingThoughts.SUBMIT_DATE%>" /></td>
                 <td>
                     <logic:equal value="1" name="thought" property="<%=SharingThoughts.POSITIVE_NEGATIVE%>">
                         Positive
@@ -81,6 +89,7 @@
                 <td><html:form action="/patient/sharingThoughtsViewThought"><html:hidden name="thought" property="id" /><html:submit value="View" styleClass="btn"/></html:form></td>
             </tr>
         </logic:iterate>
+        </tbody>
         </table>
     </logic:notEmpty>
     <logic:empty name="<%=SharingThoughts.USERS_THOUGHTS_SUBMITTED_PARAM%>">
@@ -93,3 +102,11 @@
     <html:link action="/patient/sharingThoughtsPositiveNegative"><html:submit value="Share a thought" styleClass="btn btn-primary formbutton" /></html:link>
     &nbsp;&nbsp;<html:link action="/patient/sharingThoughts"><html:submit value="Home" styleClass="btn formbutton" /></html:link>
 </p>
+
+<script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+    $('#tableSubmittedThoughts').dataTable({
+        "bSort": false,
+        "iDisplayLength": 10
+    });
+</script>

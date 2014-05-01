@@ -27,7 +27,7 @@ public class SharingThoughtsAdminHomeAction extends ActionSupport {
         User loggedInUser = securityUserManager.getLoggedInUser();
 
         if (userManager.getCurrentSpecialtyRole(loggedInUser).equalsIgnoreCase("superadmin")) {
-            request.setAttribute("sharedThoughts", sharedThoughtManager.getAll());
+            request.setAttribute("sharedThoughts", sharedThoughtManager.getAll(false));
         } else {
             request.setAttribute("sharedThoughts", sharedThoughtManager.getStaffThoughtList(loggedInUser));
         }
