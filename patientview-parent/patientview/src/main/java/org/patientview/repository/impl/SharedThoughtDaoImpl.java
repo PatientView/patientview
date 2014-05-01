@@ -179,7 +179,7 @@ public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> im
     }
 
     @Override
-    public boolean createSharedThoughtMessage(SharedThought sharedThought, String content, User sender) {
+    public Message createSharedThoughtMessage(SharedThought sharedThought, String content, User sender) {
         try {
             if (sharedThought.getConversation() == null) {
                 Conversation conversation = new Conversation();
@@ -204,9 +204,9 @@ public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> im
             getEntityManager().persist(message);
             getEntityManager().flush();
 
-            return true;
+            return message;
         } catch (Exception ex) {
-            return false;
+            return null;
         }
     }
 

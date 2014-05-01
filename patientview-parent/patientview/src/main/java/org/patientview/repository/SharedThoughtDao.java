@@ -1,5 +1,6 @@
 package org.patientview.repository;
 
+import org.patientview.patientview.model.Message;
 import org.patientview.patientview.model.SharedThought;
 import org.patientview.patientview.model.User;
 import org.springframework.transaction.annotation.Propagation;
@@ -30,7 +31,7 @@ public interface SharedThoughtDao {
 
     boolean removeResponder(SharedThought sharedThought, User responder);
 
-    boolean createSharedThoughtMessage(SharedThought sharedThought, String content, User sender);
+    Message createSharedThoughtMessage(SharedThought sharedThought, String content, User sender);
 
     boolean checkAccessSharingThoughts(User user);
 }

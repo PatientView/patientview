@@ -1,7 +1,11 @@
 package org.patientview.service.impl;
 
+import org.patientview.patientview.model.Message;
 import org.patientview.patientview.model.SharedThought;
+import org.patientview.patientview.model.SharedThoughtAudit;
 import org.patientview.patientview.model.User;
+import org.patientview.patientview.model.enums.SharedThoughtAuditAction;
+import org.patientview.repository.SharedThoughtAuditDao;
 import org.patientview.repository.SharedThoughtDao;
 import org.patientview.repository.UserDao;
 import org.patientview.service.SecurityUserManager;
@@ -11,6 +15,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -20,6 +25,8 @@ public class SharedThoughtManagerImpl implements SharedThoughtManager {
 
     @Inject
     private SharedThoughtDao sharedThoughtDao;
+    @Inject
+    private SharedThoughtAuditDao sharedThoughtAuditDao;
     @Inject
     private UserDao userDao;
     @Inject
@@ -56,8 +63,24 @@ public class SharedThoughtManagerImpl implements SharedThoughtManager {
 
         if (isSubmitted) {
             sharedThoughtDao.submit(thought);
+
+            // audit
+            SharedThoughtAudit audit = new SharedThoughtAudit();
+            audit.setSharedThought(thought);
+            audit.setDate(new Date());
+            audit.setAction(SharedThoughtAuditAction.SUBMIT);
+            audit.setUser(securityUserManager.getLoggedInUser());
+            sharedThoughtAuditDao.save(audit);
         } else {
             sharedThoughtDao.save(thought);
+
+            // audit
+            SharedThoughtAudit audit = new SharedThoughtAudit();
+            audit.setSharedThought(thought);
+            audit.setDate(new Date());
+            audit.setAction(SharedThoughtAuditAction.SAVE);
+            audit.setUser(securityUserManager.getLoggedInUser());
+            sharedThoughtAuditDao.save(audit);
         }
     }
 
@@ -72,6 +95,16 @@ public class SharedThoughtManagerImpl implements SharedThoughtManager {
         User responder = userDao.get(responderId);
 
         if (sharedThought != null && responder != null) {
+
+            // audit
+            SharedThoughtAudit audit = new SharedThoughtAudit();
+            audit.setSharedThought(sharedThought);
+            audit.setDate(new Date());
+            audit.setAction(SharedThoughtAuditAction.ADD_RESPONDER);
+            audit.setResponder(responder);
+            audit.setUser(securityUserManager.getLoggedInUser());
+            sharedThoughtAuditDao.save(audit);
+
             return sharedThoughtDao.addResponder(sharedThought, responder);
         } else {
             return false;
@@ -84,6 +117,16 @@ public class SharedThoughtManagerImpl implements SharedThoughtManager {
         User responder = userDao.get(responderId);
 
         if (sharedThought != null && responder != null) {
+
+            // audit
+            SharedThoughtAudit audit = new SharedThoughtAudit();
+            audit.setSharedThought(sharedThought);
+            audit.setDate(new Date());
+            audit.setAction(SharedThoughtAuditAction.REMOVE_RESPONDER);
+            audit.setResponder(responder);
+            audit.setUser(securityUserManager.getLoggedInUser());
+            sharedThoughtAuditDao.save(audit);
+
             return sharedThoughtDao.removeResponder(sharedThought, responder);
         } else {
             return false;
@@ -93,13 +136,27 @@ public class SharedThoughtManagerImpl implements SharedThoughtManager {
     @Override
     public boolean addMessage(Long sharedThoughtId, String message) {
         SharedThought sharedThought = get(sharedThoughtId);
+        User loggedInUser = securityUserManager.getLoggedInUser();
 
         if (sharedThought != null) {
-            return sharedThoughtDao.createSharedThoughtMessage(
-                    sharedThought, message, securityUserManager.getLoggedInUser());
-        } else {
-            return false;
+
+            Message savedMessage = sharedThoughtDao.createSharedThoughtMessage(sharedThought, message, loggedInUser);
+
+            if (savedMessage != null) {
+                // audit
+                SharedThoughtAudit audit = new SharedThoughtAudit();
+                audit.setSharedThought(sharedThought);
+                audit.setDate(new Date());
+                audit.setAction(SharedThoughtAuditAction.ADD_MESSAGE);
+                audit.setMessage(savedMessage);
+                audit.setUser(loggedInUser);
+                sharedThoughtAuditDao.save(audit);
+
+                return true;
+            }
         }
+
+        return false;
     }
 
     @Override

@@ -40,6 +40,17 @@ CREATE TABLE `user_sharedthought` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `sharedthought_audit` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `sharedthought_id` bigint(20) NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `message_id` bigint(20) DEFAULT NULL,
+  `responder_id` bigint(20) DEFAULT NULL,
+  `date` datetime NOT NULL,
+  `action` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 ALTER TABLE unit ADD COLUMN `sharedThoughtEnabled` tinyint(1) DEFAULT '0';
 ALTER TABLE user ADD COLUMN `sharedThoughtAdministrator` tinyint(1) NOT NULL DEFAULT '0';
 ALTER TABLE user ADD COLUMN `sharedThoughtResponder` tinyint(1) NOT NULL DEFAULT '0';

@@ -33,6 +33,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Transient;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -99,6 +100,7 @@ public class Conversation extends BaseModel {
     private boolean clinicianClosed = false;
 
     @OneToMany(mappedBy = "conversation", fetch = FetchType.EAGER)
+    @OrderBy("date")
     private Set<Message> messages;
 
     public boolean isDeleted() {

@@ -64,7 +64,7 @@
     <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript">
         $('#tableSharedThoughts').dataTable({
-            "aaSorting": [[ 7, "desc" ]]
+            "iDisplayLength": 10
         });
     </script>
 

@@ -30,20 +30,28 @@ import org.patientview.model.Unit;
 import org.patientview.ibd.Ibd;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.CascadeType;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class SharedThought extends BaseModel {
 
     public static final int SHORT_DESCRIPTION_LENGTH = 49;
+
+    @OneToMany(mappedBy = "sharedThought", fetch = FetchType.EAGER)
+    @OrderBy("date")
+    private Set<SharedThoughtAudit> audits;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id")
@@ -152,6 +160,14 @@ public class SharedThought extends BaseModel {
 
     public SharedThought() {
         responders = new ArrayList<User>();
+    }
+
+    public Set<SharedThoughtAudit> getAudits() {
+        return audits;
+    }
+
+    public void setAudits(Set<SharedThoughtAudit> audits) {
+        this.audits = audits;
     }
 
     public User getUser() {

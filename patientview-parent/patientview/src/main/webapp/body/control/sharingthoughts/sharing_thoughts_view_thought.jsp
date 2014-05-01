@@ -233,6 +233,52 @@
     </tbody>
 </table>
 
+<logic:equal value="true" name="user" property="<%=SharingThoughts.SHARED_THOUGHT_ADMINISTRATOR%>" >
+    <h2>Audit Events</h2>
+    <br/>
+    <table border="0" cellspacing="1" cellpadding="3" class="table table-bordered table-striped" id="tableAuditEvents">
+        <thead>
+            <th>Date</th>
+            <th>User</th>
+            <th>Action</th>
+            <th>Extra Info</th>
+        </thead>
+        <tbody>
+        <logic:notEmpty name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.AUDITS%>">
+            <bean:define id="audits" name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.AUDITS%>"/>
+            <logic:iterate name="audits" id="audit">
+                <tr>
+                    <td class="auditDate"><bean:write name="audit" property="dateFormatted"/></td>
+                    <td class="auditUser"><bean:write name="audit" property="user.name"/></td>
+                    <td class="auditAction"><bean:write name="audit" property="action"/></td>
+                    <td class="auditExtraInfo">
+                        <logic:notEmpty name="audit" property="message">
+                            '<bean:write name="audit" property="message.content"/>'
+                        </logic:notEmpty>
+                        <logic:notEmpty name="audit" property="responder">
+                            <bean:write name="audit" property="responder.name"/>
+                        </logic:notEmpty>
+                    </td>
+                </tr>
+            </logic:iterate>
+        </logic:notEmpty>
+        <logic:empty name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.AUDITS%>">
+            <tr id="trNoAuditEvents"><td colspan="4">No events recorded</td></tr>
+        </logic:empty>
+        </tbody>
+    </table>
+
+    <logic:notEmpty name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.AUDITS%>">
+        <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript">
+            $('#tableAuditEvents').dataTable({
+                "iDisplayLength": 10
+            });
+        </script>
+    </logic:notEmpty>
+
+</logic:equal>
+
 <br/>
 
 <html:link action="/control/sharingThoughts"><html:submit value="Back" styleClass="btn formbutton" /></html:link>

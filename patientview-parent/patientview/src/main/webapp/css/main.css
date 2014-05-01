@@ -767,3 +767,17 @@ table.tableInvisible{
     margin: 18px 0;
     padding-bottom: 17px;
 }
+
+/* audit event table */
+td.auditDate {
+    width: 110px;
+}
+td.auditAction {
+
+}
+td.auditUser {
+
+}
+div#tableAuditEvents_length, div#tableAuditEvents_filter {
+    display:none;
+}
