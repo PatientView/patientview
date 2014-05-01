@@ -3,6 +3,7 @@
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <html:xhtml/>
 <div class="span9">
@@ -251,18 +252,33 @@
                 <tr>
                     <td class="auditDate"><bean:write name="audit" property="dateFormatted"/></td>
                     <td class="auditUser">
-                        <%-- for PATIENT_VIEW only show name if thought is not anonymous --%>
-                        <logic:equal value="<%=SharedThoughtAuditAction.PATIENT_VIEW.toString()%>" name="audit" property="action">
-                            <logic:equal value="false" property="<%=SharingThoughts.IS_ANONYMOUS%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" >
-                                <bean:write name="audit" property="user.name"/>
-                            </logic:equal>
-                            <logic:equal value="true" property="<%=SharingThoughts.IS_ANONYMOUS%>" name="<%=SharingThoughts.THOUGHT_PARAM%>">
+                        <%-- for PATIENT_VIEW, SAVE, SUBMIT only show name if thought is not anonymous --%>
+                        <logic:equal value="true" property="<%=SharingThoughts.IS_ANONYMOUS%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" >
+                            <logic:equal value="<%=SharedThoughtAuditAction.PATIENT_VIEW.toString()%>" name="audit" property="action">
                                 Anonymous
                             </logic:equal>
+                            <logic:equal value="<%=SharedThoughtAuditAction.SAVE.toString()%>" name="audit" property="action">
+                                Anonymous
+                            </logic:equal>
+                            <logic:equal value="<%=SharedThoughtAuditAction.SUBMIT.toString()%>" name="audit" property="action">
+                                Anonymous
+                            </logic:equal>
+                            <logic:equal value="<%=SharedThoughtAuditAction.STAFF_VIEW.toString()%>" name="audit" property="action">
+                                <bean:write name="audit" property="user.name"/>
+                            </logic:equal>
+                            <logic:equal value="<%=SharedThoughtAuditAction.ADD_MESSAGE.toString()%>" name="audit" property="action">
+                                <bean:write name="audit" property="user.name"/>
+                            </logic:equal>
+                            <logic:equal value="<%=SharedThoughtAuditAction.ADD_RESPONDER.toString()%>" name="audit" property="action">
+                                <bean:write name="audit" property="user.name"/>
+                            </logic:equal>
+                            <logic:equal value="<%=SharedThoughtAuditAction.REMOVE_RESPONDER.toString()%>" name="audit" property="action">
+                                <bean:write name="audit" property="user.name"/>
+                            </logic:equal>
                         </logic:equal>
-                        <logic:notEqual value="<%=SharedThoughtAuditAction.PATIENT_VIEW.toString()%>" name="audit" property="action">
+                        <logic:equal value="false" property="<%=SharingThoughts.IS_ANONYMOUS%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" >
                             <bean:write name="audit" property="user.name"/>
-                        </logic:notEqual>
+                        </logic:equal>
                     </td>
                     <td class="auditAction"><bean:write name="audit" property="action"/></td>
                     <td class="auditExtraInfo">
