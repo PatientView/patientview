@@ -740,6 +740,30 @@ div.sharingThoughtsHome2 {
     width: 200px;
 }
 
+span.sharingThoughtsMessageDate, div.sharedThoughtSubmitDate {
+    color: #888888;
+}
+
+span.sharingThoughtsMessageDate {
+    margin-left: 10px;
+}
+span.sharingThoughtsMessageAuthor {
+    margin-right: 5px;
+    color: #0066CC;
+    font-weight: bold;
+}
+span.sharingThoughtsMessageContent {
+}
+
+div.sharedThoughtSubmitDate {
+    font-size: 18px;
+}
+
 table.tableInvisible{
     width: 100%;
+}
+
+.page-header-noline {
+    margin: 18px 0;
+    padding-bottom: 17px;
 }

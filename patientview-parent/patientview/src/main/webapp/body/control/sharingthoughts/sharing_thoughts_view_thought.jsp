@@ -5,29 +5,28 @@
 
 <html:xhtml/>
 <div class="span9">
-<div class="page-header">
+<div class="page-header-noline">
     <logic:equal value="1" property="<%=SharingThoughts.POSITIVE_NEGATIVE%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" >
         <h1>Positive Comment</h1>
     </logic:equal>
     <logic:notEqual value="1" property="<%=SharingThoughts.POSITIVE_NEGATIVE%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" >
         <h1>Quality or Safety Concern</h1>
     </logic:notEqual>
+    <div class="sharedThoughtSubmitDate pull-right">Submitted <bean:write name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.SUBMIT_DATE%>"/></div>
 </div>
 
 <html:hidden name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.ID%>" styleId="sharedThoughtId"/>
 
 <logic:equal value="false" property="<%=SharingThoughts.IS_ANONYMOUS%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" >
     <table border="0" cellspacing="1" cellpadding="3" class="table table-bordered table-striped">
-        <tr >
-            <th colspan="2">Patient Details</th>
-        </tr>
-        <tr >
+        <tr><th colspan="2">Patient Details</th></tr>
+        <tr>
             <td width="300">Name</td><td>
             <bean:write name="<%=SharingThoughts.THOUGHT_PARAM%>" property="user.firstName"/>
             <bean:write name="<%=SharingThoughts.THOUGHT_PARAM%>" property="user.lastName"/>
         </td>
         </tr>
-        <tr >
+        <tr>
             <td>NHS Number</td><td>
             <bean:define id="userMappings" name="<%=SharingThoughts.THOUGHT_PARAM%>" property="user.userMappings"/>
             <logic:iterate name="userMappings" id="userMapping" length="1">
@@ -39,12 +38,12 @@
 </logic:equal>
 
 <table border="0" cellspacing="1" cellpadding="3" class="table table-bordered table-striped">
-    <tr >
+    <tr>
         <th width="300">Question asked</th>
         <th>Response</th>
     </tr>
 
-    <tr >
+    <tr>
         <td width="300">Are you the patient on this Renal PatientView login?</td>
         <td>
             <logic:equal value="true" property="<%=SharingThoughts.IS_PATIENT%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" >
@@ -56,7 +55,7 @@
         </td>
     </tr>
 
-    <tr >
+    <tr>
         <td width="300">If no, which of these are you?<br />(You may tick more than one)</td><td>
         <logic:equal value="true" property="<%=SharingThoughts.IS_PRINCIPAL_CARER%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" >
             Principal carer
@@ -70,7 +69,7 @@
     </td>
     </tr>
 
-    <tr >
+    <tr>
         <td width="300">Who is this feedback form about?<br />(You may tick more than one)</td>
         <td>
             <logic:equal value="true" property="<%=SharingThoughts.IS_ABOUT_ME%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" >
@@ -82,7 +81,7 @@
         </td>
     </tr>
 
-    <tr >
+    <tr>
         <td width="300">Would you prefer to remain anonymous?</td>
         <td>
             <logic:equal value="true" property="<%=SharingThoughts.IS_ANONYMOUS%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" >
@@ -94,17 +93,17 @@
         </td>
     </tr>
 
-    <tr >
+    <tr>
         <td>Start date (dd-mm-yyyy)</td>
         <td><bean:write name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.START_DATE_FORMATTED_DATE%>" /></td>
     </tr>
 
-    <tr >
+    <tr>
         <td>End date (dd-mm-yyyy)</td>
         <td><bean:write name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.END_DATE_FORMATTED_DATE%>" /></td>
     </tr>
 
-    <tr >
+    <tr>
         <td width="300">Is this still ongoing?</td>
         <td>
             <logic:equal value="true" property="<%=SharingThoughts.IS_ONGOING%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" >
@@ -116,15 +115,10 @@
         </td>
     </tr>
 
-    <tr >
-        <td>Where did this happen?</td><td><bean:write name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.LOCATION%>"/></td>
-    </tr>
+    <tr><td>Where did this happen?</td><td><bean:write name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.LOCATION%>"/></td></tr>
+    <tr><td>Which unit does this relate to?</td><td><bean:write name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.UNIT_NAME%>"/></td></tr>
 
-    <tr >
-        <td>Which unit does this relate to?</td><td><bean:write name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.UNIT_NAME%>"/></td>
-    </tr>
-
-    <tr >
+    <tr>
         <logic:equal value="1" property="<%=SharingThoughts.POSITIVE_NEGATIVE%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" >
             <td width="300">Please describe what was good about the care that you or others have received</td>
         </logic:equal>
@@ -135,7 +129,7 @@
     </tr>
 
     <logic:notEmpty property="<%=SharingThoughts.CONCERN_REASON%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" >
-        <tr >
+        <tr>
             <td width="300">Why do you feel this was a concern for you?</td>
             <td><bean:write property="<%=SharingThoughts.CONCERN_REASON%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" /></td>
         </tr>
@@ -165,7 +159,7 @@
     </logic:notEqual>
 
     <logic:notEmpty property="<%=SharingThoughts.SUGGESTED_ACTION%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" >
-        <tr >
+        <tr>
             <logic:equal value="1" property="<%=SharingThoughts.POSITIVE_NEGATIVE%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" >
                 <td width="300">What can be done to make sure that patients always receive this quality of care?</td>
             </logic:equal>
@@ -179,9 +173,7 @@
     <logic:notEqual value="0"  property="<%=SharingThoughts.HOW_SERIOUS%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" >
         <tr>
             <td width="300">On a scale of 1-5, how serious do you think your concern was?<br />1 = Less Serious, 5 = More Serious</td>
-            <td>
-                <bean:write property="<%=SharingThoughts.HOW_SERIOUS%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" />
-            </td>
+            <td><bean:write property="<%=SharingThoughts.HOW_SERIOUS%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" /></td>
         </tr>
     </logic:notEqual>
 </table>
@@ -223,8 +215,9 @@
         <logic:iterate name="messages" id="message">
             <tr>
                 <td colspan="2">
-                    <strong><bean:write name="message" property="sender.name"/>: </strong> &nbsp;
-                    <bean:write name="message" property="content"/>
+                    <span class="sharingThoughtsMessageAuthor"><bean:write name="message" property="sender.name"/>: </span>
+                    <span class="sharingThoughtsMessageContent"><bean:write name="message" property="content"/></span>
+                    <span class="pull-right sharingThoughtsMessageDate"><bean:write name="message" property="formattedDate"/></span>
                 </td>
             </tr>
         </logic:iterate>

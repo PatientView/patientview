@@ -16,20 +16,20 @@
     <table class="table table-bordered table-striped" id="tableSharedThoughts">
         <thead>
         <tr>
-            <th>Updated</th>
             <th>Positive/Negative</th>
             <th>Start Date</th>
             <th>End Date</th>
             <th>Location</th>
             <th>Description</th>
             <th>Messages</th>
+            <th>Submitted</th>
+            <th>Updated</th>
             <th></th>
         </tr>
         </thead>
         <tbody>
         <logic:iterate name="sharedThoughts" id="thought">
         <tr>
-            <td class="tablecell"><bean:write name="thought" property="dateLastSavedFormattedDateTime"/></td>
             <td class="tablecell">
                 <logic:equal value="1" name="thought" property="positiveNegative">
                     <span class="yesTick">&#10004; Positive</span>
@@ -51,6 +51,8 @@
             <logic:notPresent name="thought" property="conversation">
                 <td class="tablecell">0</td>
             </logic:notPresent>
+            <td class="tablecell"><bean:write name="thought" property="submitDateFormattedDateTime"/></td>
+            <td class="tablecell"><bean:write name="thought" property="dateLastSavedFormattedDateTime"/></td>
             <logic:present role="unitstaff,unitadmin,superadmin">
                 <td class="tablecell"><html:form action="/control/sharingThoughtsViewThought"><html:hidden name="thought" property="id"/><html:submit value="View/Respond" styleClass="btn" /></html:form></td>
             </logic:present>
@@ -62,7 +64,7 @@
     <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript">
         $('#tableSharedThoughts').dataTable({
-            "aaSorting": [[ 0, "desc" ]]
+            "aaSorting": [[ 7, "desc" ]]
         });
     </script>
 

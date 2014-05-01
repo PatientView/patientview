@@ -418,6 +418,10 @@ public class SharedThought extends BaseModel {
         return getDateFormattedDateTime(endDate);
     }
 
+    public String getSubmitDateFormattedDateTime() {
+        return getDateFormattedDateTime(submitDate);
+    }
+
     private String getDateFormattedDate(Date date) {
         if (date != null) {
             return Ibd.DATE_FORMAT.format(date);
