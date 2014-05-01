@@ -214,24 +214,24 @@ public class SharedThought extends BaseModel {
         return isPrincipalCarer;
     }
 
-    public void setPrincipalCarer(Boolean getPrincipalCarer) {
-        this.isPrincipalCarer = isPrincipalCarer;
+    public void setPrincipalCarer(Boolean principalCarer) {
+        this.isPrincipalCarer = principalCarer;
     }
 
     public Boolean getRelative() {
         return isRelative;
     }
 
-    public void setRelative(Boolean getRelative) {
-        this.isRelative = isRelative;
+    public void setRelative(Boolean relative) {
+        this.isRelative = relative;
     }
 
     public Boolean getFriend() {
         return isFriend;
     }
 
-    public void setFriend(Boolean getFriend) {
-        this.isFriend = isFriend;
+    public void setFriend(Boolean friend) {
+        this.isFriend = friend;
     }
 
     public Boolean getAboutMe() {

@@ -31,26 +31,7 @@ public class SharingThoughtsSaveAction extends BaseAction {
         User user = UserUtils.retrieveUser(request);
         int positiveNegative = (Integer) dynaForm.get(SharingThoughts.POSITIVE_NEGATIVE);
         boolean isSubmitted = (null != request.getParameter(SharingThoughts.SUBMIT));
-
-        if (isSubmitted) {
-            if (positiveNegative == 1) {
-                if (validatePositiveThought(dynaForm)) {
-                    forwardMapping = "submit";
-                } else {
-                    request.setAttribute(SharingThoughts.ERRORS_PARAM, errors);
-                    return mapping.findForward("input_positive");
-                }
-            } else {
-                if (validateNegativeThought(dynaForm)) {
-                    forwardMapping = "submit";
-                } else {
-                    request.setAttribute(SharingThoughts.ERRORS_PARAM, errors);
-                    return mapping.findForward("input_negative");
-                }
-            }
-        } else {
-            forwardMapping = "savedraft";
-        }
+        Long thoughtId = (dynaForm.get(SharingThoughts.ID) == null) ? null : (Long) dynaForm.get(SharingThoughts.ID);
 
         SharedThought thought = new SharedThought();
         thought.setUser(user);
@@ -58,7 +39,7 @@ public class SharingThoughtsSaveAction extends BaseAction {
         thought.setSubmitted(isSubmitted);
 
         // ID
-        thought.setId((dynaForm.get(SharingThoughts.ID) == null) ? null : (Long) dynaForm.get(SharingThoughts.ID));
+        thought.setId(thoughtId);
 
         // radio buttons Yes/No, null if not set
         thought.setPatient((dynaForm.get(SharingThoughts.IS_PATIENT) == null) ? null
@@ -111,6 +92,36 @@ public class SharingThoughtsSaveAction extends BaseAction {
             unit = LegacySpringUtils.getUnitManager().get(unitId);
         } catch (Exception ignored) { ignored = null; }
         thought.setUnit(unit);
+
+        if (isSubmitted) {
+            if (positiveNegative == 1) {
+                if (validatePositiveThought(dynaForm)) {
+                    forwardMapping = "submit";
+                } else {
+                    request.setAttribute(SharingThoughts.ERRORS_PARAM, errors);
+                    if (thoughtId == null) {
+                        return mapping.findForward("input_positive");
+                    } else {
+                        request.setAttribute(SharingThoughts.THOUGHT_PARAM, thought);
+                        return mapping.findForward("input_edit_positive");
+                    }
+                }
+            } else {
+                if (validateNegativeThought(dynaForm)) {
+                    forwardMapping = "submit";
+                } else {
+                    request.setAttribute(SharingThoughts.ERRORS_PARAM, errors);
+                    if (thoughtId == null) {
+                        return mapping.findForward("input_negative");
+                    } else {
+                        request.setAttribute(SharingThoughts.THOUGHT_PARAM, thought);
+                        return mapping.findForward("input_edit_negative");
+                    }
+                }
+            }
+        } else {
+            forwardMapping = "savedraft";
+        }
 
         getSharedThoughtManager().save(thought, isSubmitted);
 
