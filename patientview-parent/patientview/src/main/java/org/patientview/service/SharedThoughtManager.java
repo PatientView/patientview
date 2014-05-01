@@ -9,7 +9,14 @@ public interface SharedThoughtManager {
 
     List<SharedThought> getAll();
 
-    SharedThought get(Long sharedThoughtId);
+    /**
+     * Get a single shared thought, auditing view if necessary
+     * @param sharedThoughtId Id of the shared thought to get
+     * @param auditEnabled true if audit required
+     * @param staffUser true if staff user, false otherwise (used for auditing purposes)
+     * @return
+     */
+    SharedThought get(Long sharedThoughtId, boolean auditEnabled, boolean staffUser);
 
     List<SharedThought> getUsersThoughts(Long userId, boolean isSubmitted);
 

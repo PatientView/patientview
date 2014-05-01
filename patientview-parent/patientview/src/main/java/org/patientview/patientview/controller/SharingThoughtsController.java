@@ -54,7 +54,8 @@ public class SharingThoughtsController extends BaseController {
     public HashMap<Long, String> getResponders(@RequestParam("sharedThoughtId") String sharedThoughtId) {
 
         List<User> responders
-                = sharedThoughtManager.getOtherResponders(sharedThoughtManager.get(Long.parseLong(sharedThoughtId)));
+                = sharedThoughtManager.getOtherResponders(
+                sharedThoughtManager.get(Long.parseLong(sharedThoughtId), false, true));
 
         if (!responders.isEmpty()) {
             HashMap<Long, String> responderData = new HashMap<Long, String>();

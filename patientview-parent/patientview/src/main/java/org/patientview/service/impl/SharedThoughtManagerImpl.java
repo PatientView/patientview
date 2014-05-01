@@ -38,8 +38,26 @@ public class SharedThoughtManagerImpl implements SharedThoughtManager {
     }
 
     @Override
-    public SharedThought get(Long sharedThoughtId) {
-        return sharedThoughtDao.get(sharedThoughtId);
+    public SharedThought get(Long sharedThoughtId, boolean auditEnabled, boolean staffUser) {
+        SharedThought thought = sharedThoughtDao.get(sharedThoughtId);
+
+        // audit view/get
+        if (auditEnabled) {
+            SharedThoughtAudit audit = new SharedThoughtAudit();
+            audit.setSharedThought(thought);
+            audit.setDate(new Date());
+            audit.setUser(securityUserManager.getLoggedInUser());
+
+            if (staffUser) {
+                audit.setAction(SharedThoughtAuditAction.STAFF_VIEW);
+            } else {
+                audit.setAction(SharedThoughtAuditAction.PATIENT_VIEW);
+            }
+
+            sharedThoughtAuditDao.save(audit);
+        }
+
+        return thought;
     }
 
     @Override
@@ -91,7 +109,7 @@ public class SharedThoughtManagerImpl implements SharedThoughtManager {
 
     @Override
     public boolean addResponder(Long sharedThoughtId, Long responderId) {
-        SharedThought sharedThought = get(sharedThoughtId);
+        SharedThought sharedThought = get(sharedThoughtId, false, true);
         User responder = userDao.get(responderId);
 
         if (sharedThought != null && responder != null) {
@@ -113,7 +131,7 @@ public class SharedThoughtManagerImpl implements SharedThoughtManager {
 
     @Override
     public boolean removeResponder(Long sharedThoughtId, Long responderId) {
-        SharedThought sharedThought = get(sharedThoughtId);
+        SharedThought sharedThought = get(sharedThoughtId, false, true);
         User responder = userDao.get(responderId);
 
         if (sharedThought != null && responder != null) {
@@ -135,7 +153,7 @@ public class SharedThoughtManagerImpl implements SharedThoughtManager {
 
     @Override
     public boolean addMessage(Long sharedThoughtId, String message) {
-        SharedThought sharedThought = get(sharedThoughtId);
+        SharedThought sharedThought = get(sharedThoughtId, false, true);
         User loggedInUser = securityUserManager.getLoggedInUser();
 
         if (sharedThought != null) {

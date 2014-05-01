@@ -19,7 +19,7 @@ public class SharingThoughtsRetrieveThoughtAction extends BaseAction {
 
         DynaActionForm dynaForm = (DynaActionForm) form;
         long thoughtId = (Long) dynaForm.get(SharingThoughts.ID);
-        SharedThought thought = getSharedThoughtManager().get(thoughtId);
+        SharedThought thought = getSharedThoughtManager().get(thoughtId, true, false);
 
         request.setAttribute(SharingThoughts.THOUGHT_PARAM, thought);
 

@@ -20,7 +20,7 @@ public class SharingThoughtsAdminViewThoughtAction extends BaseAction {
 
         DynaActionForm dynaForm = (DynaActionForm) form;
         long thoughtId = (Long) dynaForm.get(SharingThoughts.ID);
-        SharedThought thought = getSharedThoughtManager().get(thoughtId);
+        SharedThought thought = getSharedThoughtManager().get(thoughtId, true, true);
         User loggedInUser = getSecurityUserManager().getLoggedInUser();
 
         request.setAttribute(SharingThoughts.THOUGHT_PARAM, thought);

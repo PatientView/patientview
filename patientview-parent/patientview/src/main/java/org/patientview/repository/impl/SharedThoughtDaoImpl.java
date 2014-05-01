@@ -49,22 +49,6 @@ public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> im
     }
 
     @Override
-    public SharedThought get(Long id) {
-        CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<SharedThought> criteria = builder.createQuery(SharedThought.class);
-        Root<SharedThought> root = criteria.from(SharedThought.class);
-        List<Predicate> wherePredicates = new ArrayList<Predicate>();
-        wherePredicates.add(builder.equal(root.get(SharedThought_.id), id));
-        buildWhereClause(criteria, wherePredicates);
-
-        try {
-            return getEntityManager().createQuery(criteria).getSingleResult();
-        } catch (NoResultException e) {
-            return null;
-        }
-    }
-
-    @Override
     public List<SharedThought> getAll() {
         StringBuilder queryText = new StringBuilder();
         queryText.append("FROM      SharedThought ");

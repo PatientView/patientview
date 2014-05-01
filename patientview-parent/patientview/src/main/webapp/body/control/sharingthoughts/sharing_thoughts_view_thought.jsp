@@ -1,4 +1,5 @@
 <%@ page import="org.patientview.patientview.sharingthoughts.SharingThoughts" %>
+<%@ page import="org.patientview.patientview.model.enums.SharedThoughtAuditAction" %>
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
@@ -249,7 +250,20 @@
             <logic:iterate name="audits" id="audit">
                 <tr>
                     <td class="auditDate"><bean:write name="audit" property="dateFormatted"/></td>
-                    <td class="auditUser"><bean:write name="audit" property="user.name"/></td>
+                    <td class="auditUser">
+                        <%-- for PATIENT_VIEW only show name if thought is not anonymous --%>
+                        <logic:equal value="<%=SharedThoughtAuditAction.PATIENT_VIEW.toString()%>" name="audit" property="action">
+                            <logic:equal value="false" property="<%=SharingThoughts.IS_ANONYMOUS%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" >
+                                <bean:write name="audit" property="user.name"/>
+                            </logic:equal>
+                            <logic:equal value="true" property="<%=SharingThoughts.IS_ANONYMOUS%>" name="<%=SharingThoughts.THOUGHT_PARAM%>">
+                                Anonymous
+                            </logic:equal>
+                        </logic:equal>
+                        <logic:notEqual value="<%=SharedThoughtAuditAction.PATIENT_VIEW.toString()%>" name="audit" property="action">
+                            <bean:write name="audit" property="user.name"/>
+                        </logic:notEqual>
+                    </td>
                     <td class="auditAction"><bean:write name="audit" property="action"/></td>
                     <td class="auditExtraInfo">
                         <logic:notEmpty name="audit" property="message">
