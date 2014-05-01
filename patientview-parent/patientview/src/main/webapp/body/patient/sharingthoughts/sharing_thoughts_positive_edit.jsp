@@ -6,7 +6,7 @@
 <html:xhtml/>
 
 <div class="page-header">
-    <h1>Positive comment</h1>
+    <h1>Edit ositive comment</h1>
     <p align="right"><html:link action="/patient/sharingThoughts"><html:submit value="Home" styleClass="btn formbutton" /></html:link></p>
 </div>
 
@@ -88,7 +88,7 @@
     </tr>
 
       <tr >
-          <td>Which unit does this relate to?</td><td><html:select property="unitId"><html:options collection="units" property="id" labelProperty="name" /></html:select></td>
+          <td>Which unit does this relate to?</td><td><html:select name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.UNIT_ID%>"><html:options collection="units" property="id" labelProperty="name" /></html:select></td>
       </tr>
 
       <tr >

@@ -467,4 +467,9 @@ public class SharedThought extends BaseModel {
     public void setResponders(List<User> responders) {
         this.responders = responders;
     }
+
+    // required for dynaform
+    public Long getUnitId() {
+        return getUnit().getId();
+    }
 }
