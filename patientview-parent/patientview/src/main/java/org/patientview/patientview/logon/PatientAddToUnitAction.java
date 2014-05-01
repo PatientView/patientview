@@ -88,4 +88,5 @@ public class PatientAddToUnitAction extends ActionSupport {
         User user = userManager.get(username + "-GP");
         return null != user;
     }
+
 }

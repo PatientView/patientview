@@ -56,7 +56,7 @@ public class PatientCentreDropDown extends DropDownChoice<Centre> {
     private UtilityManager utilityManager;
 
     public PatientCentreDropDown(String id, User viewingUser, Patient patient, WebMarkupContainer parent,
-                                    List<Component> componentsToUpdateList) {
+                                 List<Component> componentsToUpdateList) {
         super(id);
 
         // work out the list of centres to show based on the viewing user and viewed patient
