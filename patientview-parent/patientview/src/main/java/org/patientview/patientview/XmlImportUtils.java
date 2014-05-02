@@ -45,7 +45,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 @Component(value = "xmlImportUtils")
-public final class XmlImportUtils {
+public class XmlImportUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(XmlImportUtils.class);
 
@@ -63,10 +63,6 @@ public final class XmlImportUtils {
 
     @Inject
     private UnitDao unitDao;
-
-    private XmlImportUtils() {
-
-    }
 
 
     public void sendEmptyFileEmailToUnitAdmin(File file, ServletContext context) {
