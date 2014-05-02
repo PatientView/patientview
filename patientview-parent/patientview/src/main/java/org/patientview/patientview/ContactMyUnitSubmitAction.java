@@ -35,7 +35,6 @@ import org.patientview.ibd.action.BaseAction;
 import org.patientview.model.Unit;
 import org.patientview.patientview.logon.LogonUtils;
 import org.patientview.patientview.model.JoinRequest;
-import org.patientview.patientview.unit.UnitUtils;
 import org.patientview.patientview.user.UserUtils;
 import org.patientview.utils.LegacySpringUtils;
 
@@ -91,8 +90,9 @@ public class ContactMyUnitSubmitAction extends BaseAction {
         String fromAddress = LegacySpringUtils.getContextProperties().getProperty("noreply.email");
 
         // to
-        Unit unit = UnitUtils.retrieveUnit(unitcode);
-        String toAddress = EmailUtils.getUnitOrSystemAdminEmailAddress(request.getSession().getServletContext(), unit);
+        Unit unit = getUnitManager().get(unitcode, null);
+        String toAddress = getWebApplicationContext().getBean(XmlImportUtils.class)
+                .getUnitOrSystemAdminEmailAddress(unit);
 
         // subject
         String subject = "[PatientView] Reset password request from patient";
