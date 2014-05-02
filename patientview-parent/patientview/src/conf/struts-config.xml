@@ -707,7 +707,7 @@
             <forward name="input_negative" path="/patient/sharingthoughts/sharing_thoughts_negative_add.jsp"/>
             <forward name="input_edit_positive" path="/patient/sharingthoughts/sharing_thoughts_positive_edit.jsp"/>
             <forward name="input_edit_negative" path="/patient/sharingthoughts/sharing_thoughts_negative_edit.jsp"/>
-            <forward name="savedraft" path="/patient/sharingthoughts/sharing_thoughts_thought_list.jsp"/>
+            <forward name="savedraft" path="/patient/sharingthoughts/sharing_thoughts.jsp"/>
             <forward name="submit" path="/patient/sharingthoughts/sharing_thoughts_thank_you.jsp"/>
         </action>
 
