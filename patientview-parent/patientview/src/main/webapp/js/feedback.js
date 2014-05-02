@@ -73,7 +73,9 @@ feedback.showDialog = function() {
     $('.container').css({opacity:0.2});
 
     // clone page and take screenshot of cloned page
-    $('#screenshot').html($('.container').clone());
+    var cloned = $('.container').clone();
+    cloned.find('script').remove();
+    $('#screenshot').html(cloned);
     $('#screenshot').find('a.btn-navbar').remove();
     $('#screenshot').find('a.brand').remove();
 
