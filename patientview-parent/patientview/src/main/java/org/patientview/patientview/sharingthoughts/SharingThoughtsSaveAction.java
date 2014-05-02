@@ -119,9 +119,12 @@ public class SharingThoughtsSaveAction extends BaseAction {
                 }
             }
         } else {
+            forwardMapping = "savedraft";
+        }
+
+        if (!isSubmitted) {
             SharingThoughts.putThoughtListInRequest(request, user, true);
             SharingThoughts.putThoughtListInRequest(request, user, false);
-            forwardMapping = "savedraft";
         }
 
         getSharedThoughtManager().save(thought, isSubmitted);
