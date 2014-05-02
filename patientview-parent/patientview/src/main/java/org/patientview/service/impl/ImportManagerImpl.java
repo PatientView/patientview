@@ -41,6 +41,7 @@ import org.patientview.patientview.model.TestResult;
 import org.patientview.patientview.model.UserMapping;
 import org.patientview.patientview.parser.ResultParser;
 import org.patientview.patientview.utils.TimestampUtils;
+import org.patientview.quartz.exception.PatientNotMappedException;
 import org.patientview.quartz.exception.ProcessException;
 import org.patientview.quartz.exception.ResultParserException;
 import org.patientview.quartz.handler.ErrorHandler;
@@ -111,11 +112,6 @@ public class ImportManagerImpl implements ImportManager {
     @Inject
     private ErrorHandler errorHandler;
 
-    @Override
-    public Unit retrieveUnit(String unitCode) {
-        unitCode = unitCode.toUpperCase();
-        return unitDao.get(unitCode, null);
-    }
 
     public void process(File xmlFile) throws ProcessException {
 
@@ -201,7 +197,7 @@ public class ImportManagerImpl implements ImportManager {
     }
 
     private void markLastImportDateOnUnit(Unit unit) {
-        Unit persistedUnit = retrieveUnit(unit.getUnitcode());
+        Unit persistedUnit = unitDao.get(unit.getUnitcode(), null);
         if (persistedUnit != null) {
             persistedUnit.setLastImportDate(new Date());
             unitDao.save(persistedUnit);
@@ -332,7 +328,7 @@ public class ImportManagerImpl implements ImportManager {
             units = unitDao.getAll(null, new String[]{"radargroup"});
 
             if (!doesPatientHaveMapping(userMappings, units)) {
-                throw new ProcessException("This patient has not been added to your unit,"
+                throw new PatientNotMappedException("This patient has not been added to your unit,"
                         + " please register patient in PatientView using 'Add Patient'");
             }
 

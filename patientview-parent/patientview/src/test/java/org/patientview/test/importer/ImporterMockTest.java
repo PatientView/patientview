@@ -15,6 +15,7 @@ import org.patientview.model.Patient;
 import org.patientview.model.Specialty;
 import org.patientview.model.Unit;
 import org.patientview.patientview.model.UserMapping;
+import org.patientview.quartz.exception.PatientNotMappedException;
 import org.patientview.quartz.exception.ProcessException;
 import org.patientview.quartz.handler.ErrorHandler;
 import org.patientview.quartz.handler.impl.ErrorHandlerImpl;
@@ -189,7 +190,7 @@ public class ImporterMockTest {
      * Fail: The test does not throw a ProcessException
      */
     @Test
-    public void testProcessWithThePatientNotInTheUnit() {
+    public void testProcessWithThePatientNotInTheUnit() throws ProcessException{
 
         File testXml = getFile("A_00794_1234567890.gpg.xml");
 
@@ -199,11 +200,12 @@ public class ImporterMockTest {
         try {
             importManager.process(testXml);
             Assert.fail("This process should not complete with no user mappings returned for the patient");
-        } catch (ProcessException pe) {
+        } catch (PatientNotMappedException pe) {
             verify(patientManager, Mockito.times(0)).save(any(Patient.class));
             LOGGER.info(pe.getMessage());
+        } catch (ProcessException pe) {
+            Assert.fail("Incorrect exception has been thrown");
         }
-
 
     }
 
@@ -227,6 +229,7 @@ public class ImporterMockTest {
             verify(patientManager, Mockito.times(0)).save(any(Patient.class));
             LOGGER.info(pe.getMessage());
         }
+
     }
 
     /**
@@ -246,8 +249,11 @@ public class ImporterMockTest {
         try {
             importManager.process(testXml);
             verify(patientManager, Mockito.times(1)).save(any(Patient.class));;
-        } catch (ProcessException pe) {
+        } catch (PatientNotMappedException pe) {
             Assert.fail("This process should not raise an exception for a radar patient with mapping");
+            LOGGER.info(pe.getMessage());
+        }catch (ProcessException pe) {
+            Assert.fail("This process should not raise an exception");
             LOGGER.info(pe.getMessage());
         }
 

@@ -34,6 +34,7 @@ import org.apache.struts.action.DynaActionForm;
 import org.patientview.ibd.action.BaseAction;
 import org.patientview.model.Unit;
 import org.patientview.patientview.EmailUtils;
+import org.patientview.patientview.XmlImportUtils;
 import org.patientview.patientview.logon.LogonUtils;
 import org.patientview.patientview.model.JoinRequest;
 import org.patientview.patientview.unit.UnitUtils;
@@ -92,7 +93,7 @@ public class JoinRequestSubmitAction extends BaseAction {
         return LogonUtils.logonChecks(mapping, request);
     }
 
-    private static void sendJoinRequestEmailToRPVAdmin(HttpServletRequest request, String unitcode,
+    private void sendJoinRequestEmailToRPVAdmin(HttpServletRequest request, String unitcode,
                                                        JoinRequest joinRequest) {
         /**
          * from
@@ -103,7 +104,8 @@ public class JoinRequestSubmitAction extends BaseAction {
          * to
          */
         Unit unit = UnitUtils.retrieveUnit(unitcode);
-        String toAddress = EmailUtils.getUnitOrSystemAdminEmailAddress(request.getSession().getServletContext(), unit);
+        String toAddress = getWebApplicationContext().getBean(XmlImportUtils.class)
+                .getUnitOrSystemAdminEmailAddress(unit);
 
         /**
          * subject
