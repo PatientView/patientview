@@ -24,6 +24,13 @@
 messages = {};
 
 messages.init = function() {
+
+    // set up conversations table for pagination using dataTables (requires jquery.dataTables.min.js)
+    $('#tableConversations').dataTable({
+        "bSort" : false,
+        "iDisplayLength": 5
+    });
+
     var messageModal = $('#messageModal');
 
     // loop through any message forms on set submit

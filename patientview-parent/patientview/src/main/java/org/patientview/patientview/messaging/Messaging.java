@@ -53,4 +53,6 @@ public final class Messaging {
     public static final String CONVERSATION_STATUS_PARAM = "conversationStatusOptions";
 
     public static final String FEEDBACK_ENABLED = "FEEDBACK_ENABLED";
+    public static final String SHARING_THOUGHTS_ENABLED = "SHARING_THOUGHTS_ENABLED";
+    public static final String SHARING_THOUGHTS_UNVIEWED_COUNT = "unViewedSharedThoughtCount";
 }

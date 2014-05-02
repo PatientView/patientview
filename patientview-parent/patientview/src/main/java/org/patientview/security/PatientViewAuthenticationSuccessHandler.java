@@ -30,6 +30,7 @@ import org.patientview.patientview.model.User;
 import org.patientview.security.model.SecurityUser;
 import org.patientview.service.MessageManager;
 import org.patientview.service.SecurityUserManager;
+import org.patientview.service.SharedThoughtManager;
 import org.patientview.service.UserManager;
 import org.patientview.utils.LegacySpringUtils;
 import org.springframework.security.core.Authentication;
@@ -52,6 +53,9 @@ public class PatientViewAuthenticationSuccessHandler extends SavedRequestAwareAu
 
     @Inject
     private MessageManager messageManager;
+
+    @Inject
+    private SharedThoughtManager sharedThoughtManager;
 
     @Inject
     private SecurityUserManager securityUserManager;
@@ -88,6 +92,16 @@ public class PatientViewAuthenticationSuccessHandler extends SavedRequestAwareAu
             if (!messageManager.getFeedbackRecipients(user).isEmpty()) {
                 request.getSession().setAttribute(Messaging.FEEDBACK_ENABLED, true);
             }
+
+            // check if patient user member of unit with sharing thoughts enabled
+            if (sharedThoughtManager.checkAccessSharingThoughts(user)) {
+                request.getSession().setAttribute(Messaging.SHARING_THOUGHTS_ENABLED, true);
+            }
+
+            // check how many unviewed shared thoughts and put in session (only applies to staff)
+            Integer unviewedCount = sharedThoughtManager.getStaffThoughtList(user, true).size();
+            request.getSession().setAttribute(Messaging.SHARING_THOUGHTS_UNVIEWED_COUNT, unviewedCount.toString());
+
 
             // if this user has only a single specialty route to the home page : /<specialty-context>/logged_in.do
             response.sendRedirect("/" + specialty.getContext() + "/logged_in.do");

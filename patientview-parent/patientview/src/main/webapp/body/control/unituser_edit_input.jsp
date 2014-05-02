@@ -59,8 +59,8 @@
             <div class="control-group">
                 <label class="control-label">Email Address Verified</label>
                 <div class="controls">
-                    <logic:equal name="unitUser" property="emailverified" value="true"><big><font color="green">&#10004;</font></big></logic:equal>
-                    <logic:equal name="unitUser" property="emailverified" value="false"><big><font color="red">&#10008;</font></big></logic:equal>
+                    <logic:equal name="unitUser" property="emailverified" value="true"><span class="yesTick">&#10004;</span></logic:equal>
+                    <logic:equal name="unitUser" property="emailverified" value="false"><span class="noCross">&#10008;</span></logic:equal>
 
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <% String context = LegacySpringUtils.getSecurityUserManager().getLoggedInSpecialty().getContext();
@@ -99,6 +99,18 @@
                 <label class="control-label">Feedback Recipient</label>
                 <div class="controls">
                     <html:checkbox property="feedbackRecipient" name="unitUser" value="true"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Sharing Thoughts Administrator</label>
+                <div class="controls">
+                    <html:checkbox property="sharedThoughtAdministrator" name="unitUser" value="true"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Sharing Thoughts Responder</label>
+                <div class="controls">
+                    <html:checkbox property="sharedThoughtResponder" name="unitUser" value="true"/>
                 </div>
             </div>
             <div class="control-group">

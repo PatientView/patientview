@@ -26,5 +26,6 @@ package org.patientview.patientview.model.enums;
 public enum ConversationType {
     MESSAGE,
     BULK,
-    FEEDBACK
+    FEEDBACK,
+    SHARED_THOUGHT
 }

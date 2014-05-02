@@ -99,6 +99,8 @@
             <form-property name="overrideInvalidNhsno" type="java.lang.String"/>
             <form-property name="isrecipient" type="java.lang.String"/>
             <form-property name="feedbackRecipient" type="java.lang.String"/>
+            <form-property name="sharedThoughtAdministrator" type="java.lang.String"/>
+            <form-property name="sharedThoughtResponder" type="java.lang.String"/>
             <form-property name="isclinician" type="java.lang.String"/>
             <form-property name="patientId" type="java.lang.String"/>
         </form-bean>
@@ -175,6 +177,7 @@
             <form-property name="filename" type="java.lang.String"/>
             <form-property name="visible" type="java.lang.Boolean"/>
             <form-property name="feedbackEnabled" type="java.lang.Boolean"/>
+            <form-property name="sharedThoughtEnabled" type="java.lang.Boolean"/>
 
             <!-- used by radar add form -->
             <form-property name="medicalLink01" type="java.lang.String"/>
@@ -308,6 +311,29 @@
         </form-bean>
 
         <form-bean name="aboutmeImageUploadForm" type="org.patientview.patientview.aboutme.AboutmeImageUploadForm"/>
+
+        <form-bean name="sharingThoughtsForm" type="org.apache.struts.action.DynaActionForm">
+            <form-property name="id"                      type="java.lang.Long"/>
+            <form-property name="unitId"                  type="java.lang.Long"/>
+            <form-property name="positiveNegative"        type="java.lang.Integer"/>
+            <form-property name="patient"                 type="java.lang.Boolean"/>
+            <form-property name="principalCarer"          type="java.lang.Boolean"/>
+            <form-property name="relative"                type="java.lang.Boolean"/>
+            <form-property name="friend"                  type="java.lang.Boolean"/>
+            <form-property name="aboutMe"                 type="java.lang.Boolean"/>
+            <form-property name="aboutOther"              type="java.lang.Boolean"/>
+            <form-property name="anonymous"               type="java.lang.Boolean"/>
+            <form-property name="startDate"               type="java.lang.String"/>
+            <form-property name="endDate"                 type="java.lang.String"/>
+            <form-property name="ongoing"                 type="java.lang.Boolean"/>
+            <form-property name="location"                type="java.lang.String"/>
+            <form-property name="description"             type="java.lang.String"/>
+            <form-property name="suggestedAction"         type="java.lang.String"/>
+            <form-property name="concernReason"           type="java.lang.String"/>
+            <form-property name="likelihoodOfRecurrence"  type="java.lang.Integer"/>
+            <form-property name="howSerious"              type="java.lang.Integer"/>
+            <form-property name="isSubmitted"             type="java.lang.Boolean"/>
+        </form-bean>
 
         <form-bean name="sendMessageForm" type="org.apache.struts.action.DynaActionForm">
             <form-property name="content" type="java.lang.String"/>
@@ -653,6 +679,70 @@
                 name="feedbackForm"
                 >
             <forward name="success" path="/patient/feedback_for_unit.jsp"/>
+        </action>
+
+        <action path="/patient/sharingThoughts" type="org.patientview.patientview.sharingthoughts.SharingThoughtsHomeAction" parameter="sharing_thoughts">
+            <forward name="success" path="/patient/sharingthoughts/sharing_thoughts.jsp"/>
+            <forward name="noPermission" path="/body/patient/sharingthoughts/no_permission.jsp"/>
+        </action>
+
+        <action path="/patient/sharingThoughtsPositiveNegative" type="org.patientview.patientview.sharingthoughts.SharingThoughtsPositiveNegativeAction" parameter="sharing_thoughts">
+            <forward name="success" path="/patient/sharingthoughts/sharing_thoughts_positive_negative.jsp"/>
+        </action>
+
+        <action path="/patient/sharingThoughtsPositive" type="org.patientview.patientview.sharingthoughts.SharingThoughtsAddThoughtAction" parameter="sharing_thoughts"
+                name="sharingThoughtsForm">
+            <forward name="success" path="/patient/sharingthoughts/sharing_thoughts_positive_add.jsp"/>
+        </action>
+
+        <action path="/patient/sharingThoughtsNegative" type="org.patientview.patientview.sharingthoughts.SharingThoughtsAddThoughtAction" parameter="sharing_thoughts"
+                name="sharingThoughtsForm">
+            <forward name="success" path="/patient/sharingthoughts/sharing_thoughts_negative_add.jsp"/>
+        </action>
+
+        <action path="/patient/sharingThoughtSave" type="org.patientview.patientview.sharingthoughts.SharingThoughtsSaveAction" parameter="sharing_thoughts"
+                name="sharingThoughtsForm"
+                scope="request">
+            <forward name="input_positive" path="/patient/sharingthoughts/sharing_thoughts_positive_add.jsp"/>
+            <forward name="input_negative" path="/patient/sharingthoughts/sharing_thoughts_negative_add.jsp"/>
+            <forward name="input_edit_positive" path="/patient/sharingthoughts/sharing_thoughts_positive_edit.jsp"/>
+            <forward name="input_edit_negative" path="/patient/sharingthoughts/sharing_thoughts_negative_edit.jsp"/>
+            <forward name="savedraft" path="/patient/sharingthoughts/sharing_thoughts_thought_list.jsp"/>
+            <forward name="submit" path="/patient/sharingthoughts/sharing_thoughts_thank_you.jsp"/>
+        </action>
+
+        <action path="/patient/sharingThoughtsEditThought" type="org.patientview.patientview.sharingthoughts.SharingThoughtsRetrieveThoughtAction" parameter="sharing_thoughts"
+                name="sharingThoughtsForm">
+            <forward name="positive" path="/patient/sharingthoughts/sharing_thoughts_positive_edit.jsp"/>
+            <forward name="negative" path="/patient/sharingthoughts/sharing_thoughts_negative_edit.jsp"/>
+        </action>
+
+        <action path="/patient/sharingThoughtsDeleteThought" type="org.patientview.patientview.sharingthoughts.SharingThoughtsDeleteThoughtAction" parameter="sharing_thoughts"
+                name="sharingThoughtsForm">
+            <forward name="success" path="/patient/sharingthoughts/sharing_thoughts_thought_list.jsp"/>
+        </action>
+
+        <action path="/patient/sharingThoughtsViewThought" type="org.patientview.patientview.sharingthoughts.SharingThoughtsRetrieveThoughtAction" parameter="sharing_thoughts"
+                name="sharingThoughtsForm">
+            <forward name="positive" path="/patient/sharingthoughts/sharing_thoughts_view_thought.jsp"/>
+            <forward name="negative" path="/patient/sharingthoughts/sharing_thoughts_view_thought.jsp"/>
+        </action>
+
+        <action path="/patient/sharingThoughtsUserList" type="org.patientview.patientview.sharingthoughts.SharingThoughtsUserListAction" parameter="sharing_thoughts">
+            <forward name="success" path="/patient/sharingthoughts/sharing_thoughts_thought_list.jsp"/>
+        </action>
+
+        <action path="/patient/sharingThoughtsSummary" type="org.patientview.patientview.sharingthoughts.SharingThoughtsSummaryAction" parameter="sharing_thoughts">
+            <forward name="success" path="/patient/sharingthoughts/sharing_thoughts_summary.jsp"/>
+        </action>
+
+        <action path="/control/sharingThoughts" type="org.patientview.patientview.sharingthoughts.SharingThoughtsAdminHomeAction" parameter="sharing_thoughts">
+            <forward name="success" path="/control/sharingthoughts/sharing_thoughts_home.jsp"/>
+        </action>
+
+        <action path="/control/sharingThoughtsViewThought" type="org.patientview.patientview.sharingthoughts.SharingThoughtsAdminViewThoughtAction" parameter="sharing_thoughts"
+                name="sharingThoughtsForm">
+            <forward name="success" path="/control/sharingthoughts/sharing_thoughts_view_thought.jsp"/>
         </action>
 
         <action path="/joinSubmit"

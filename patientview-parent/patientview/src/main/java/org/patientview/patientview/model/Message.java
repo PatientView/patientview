@@ -24,6 +24,7 @@
 package org.patientview.patientview.model;
 
 import org.apache.commons.lang.StringUtils;
+import org.patientview.ibd.Ibd;
 import org.patientview.model.BaseModel;
 import org.patientview.model.Unit;
 import org.patientview.patientview.model.enums.ConversationType;
@@ -182,5 +183,23 @@ public class Message extends BaseModel {
 
     public void setUnit(Unit unit) {
         this.unit = unit;
+    }
+
+    public String getFormattedDate() {
+        return getDateFormattedDateTime(date);
+    }
+
+    private String getDateFormattedDate(Date date) {
+        if (date != null) {
+            return Ibd.DATE_FORMAT.format(date);
+        }
+        return "";
+    }
+
+    private String getDateFormattedDateTime(Date date) {
+        if (date != null) {
+            return Ibd.DATE_TIME_FORMAT.format(date);
+        }
+        return "";
     }
 }

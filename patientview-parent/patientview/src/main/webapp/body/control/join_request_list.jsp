@@ -103,10 +103,10 @@
                 <td class="tablecell"><c:out value="${item.dateOfRequestFormatted}"/></td>
                 <td class="tablecell">
                     <logic:equal value="false" name="item" property="isComplete">
-                        <big><font color="red">&#10008;</font></big>
+                        <span class="noCross">&#10008;</span>
                     </logic:equal>
                     <logic:equal value="true" name="item" property="isComplete">
-                        <big><font color="green">&#10004;</font></big>
+                        <span class="yesTick">&#10004;</span>
                     </logic:equal>
                 </td>
                 <td class="tablecell"><bean:write name="item" property="notes"/></td>

@@ -54,11 +54,18 @@ public final class Routes {
 
     public static final String EMAIL_VERIFICATION_URL = "/control/emailverification";
 
+    // feedback
     public static final String GET_FEEDBACK_RECIPIENTS = "/feedback/getFeedbackRecipients";
     public static final String SUBMIT_FEEDBACK = "/feedback/submitFeedback";
     public static final String RATE_CONVERSATION = "/feedback/rateConversation";
     public static final String SET_CONVERSATION_STATUS = "/feedback/setConversationStatus";
     public static final String DOWNLOAD_IMAGE = "/feedback/downloadImage";
+
+    // sharing thoughts
+    public static final String SHARING_THOUGHTS_GET_OTHER_RESPONDERS = "/sharingThoughts/getOtherResponders";
+    public static final String SHARING_THOUGHTS_ADD_RESPONDER = "/sharingThoughts/addResponder";
+    public static final String SHARING_THOUGHTS_REMOVE_RESPONDER = "/sharingThoughts/removeResponder";
+    public static final String SHARING_THOUGHTS_ADD_MESSAGE = "/sharingThoughts/addMessage";
 
     private Routes() { }
 }

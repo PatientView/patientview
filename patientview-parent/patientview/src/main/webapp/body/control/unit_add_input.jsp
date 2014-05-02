@@ -400,6 +400,11 @@
         <td><html:checkbox property="feedbackEnabled" value="true"/></td>
     </tr>
 
+    <tr>
+        <td><b>Sharing Thoughts enabled</b></td>
+        <td><html:checkbox property="sharedThoughtEnabled" value="true"/></td>
+    </tr>
+
   </table>
 
     <br/>

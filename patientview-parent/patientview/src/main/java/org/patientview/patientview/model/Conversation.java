@@ -29,12 +29,16 @@ import org.patientview.patientview.model.enums.GroupEnum;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Transient;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 public class Conversation extends BaseModel {
@@ -94,6 +98,10 @@ public class Conversation extends BaseModel {
 
     @Column(nullable = false)
     private boolean clinicianClosed = false;
+
+    @OneToMany(mappedBy = "conversation", fetch = FetchType.EAGER)
+    @OrderBy("date")
+    private Set<Message> messages;
 
     public boolean isDeleted() {
         return deleted;
@@ -208,4 +216,12 @@ public class Conversation extends BaseModel {
     public boolean isClinicianClosed() { return clinicianClosed; }
 
     public void setClinicianClosed(boolean clinicianClosed) { this.clinicianClosed = clinicianClosed; }
+
+    public Set<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(Set<Message> messages) {
+        this.messages = messages;
+    }
 }

@@ -171,3 +171,4 @@
     </div>
 </div>
 <script src="/js/messages.js" type="text/javascript"></script>
+<script src="/js/jquery.dataTables.min.js" type="text/javascript"></script>

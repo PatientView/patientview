@@ -448,7 +448,17 @@ h3{
 }
 
 /** MESSAGES **/
+#tableConversations_length, #tableConversations_filter{
+    display: none;
+}
 
+#tableConversations_info{
+    margin-top:10px;
+}
+
+#tableConversations{
+
+}
 
 section article.conversation, section article.message{
     /*padding:18px 18px;*/
@@ -462,7 +472,7 @@ section article.conversation.odd{
 
 section article.conversation .badge, section article.message .badge{
     position:relative;
-    top:-15px;
+    top:-5px;
 }
 
 section article.message{
@@ -607,6 +617,14 @@ section article.conversation .dull, section article.message .dull, .dull{
     margin-left: 2px;
 }
 
+.label-conversationStatus-closed,
+.label-conversationStatus-open,
+.label-conversationStatus-feedback,
+.conversation-date{
+    position: relative;
+    top: 10px;
+}
+
 .label-conversationStatus-open {
     background-color: #c94c29;
 }
@@ -618,4 +636,155 @@ section article.conversation .dull, section article.message .dull, .dull{
 #selectConversationStatus {
     position: relative;
     top: 5px;
+}
+
+#selectOtherSharedThoughtResponders {
+    margin-bottom: 0px;
+}
+
+td.tdUserSharedThought {
+    width: 70px;
+}
+
+#textareaMessage {
+    width: 555px;
+    margin-bottom: 0;
+}
+
+.yesTick, .noCross {
+    font-size: 20px;
+}
+
+.yesTick {
+    color: #008000;
+}
+
+.noCross {
+    color: #ae0000;
+}
+
+form {
+    margin: 0;
+}
+
+div.previousNext {
+    font-weight: bold;
+    float: left;
+    font-size: 14px;
+    margin-bottom: 10px;
+    color: #0088CC;
+}
+
+/* sharing thoughts */
+
+input.btn-success-sharingthoughts, input.btn-primary-sharingthoughts
+, input.btn-danger-sharingthoughts, input.btn-sharingthoughts {
+    height: 40px;
+    width:  200px;
+}
+
+.btn-primary-sharingthoughts:hover {
+    -webkit-box-shadow: 0px 0px 28px 0px rgba(0, 116, 204, 0.47);
+    -moz-box-shadow:    0px 0px 28px 0px rgba(0, 116, 204, 0.47);
+    box-shadow:         0px 0px 28px 0px rgba(0, 116, 204, 0.47);
+}
+
+.btn-success-sharingthoughts:hover {
+    -webkit-box-shadow: 0px 0px 28px 0px rgba(0, 128, 0, 0.47);
+    -moz-box-shadow:    0px 0px 28px 0px rgba(0, 128, 0, 0.47);
+    box-shadow:         0px 0px 28px 0px rgba(0, 128, 0, 0.47);
+}
+
+.btn-danger-sharingthoughts:hover {
+    -webkit-box-shadow: 0px 0px 28px 0px rgba(174, 0, 0, 0.47);
+    -moz-box-shadow:    0px 0px 28px 0px rgba(174, 0, 0, 0.47);
+    box-shadow:         0px 0px 28px 0px rgba(174, 0, 0, 0.47);
+}
+
+textarea.textareaSharingThoughts {
+    width: 600px;
+}
+
+/* sharing thoughts table */
+div#tableSharedThoughts_filter, div#tableSharedThoughts_length {
+    display: none;
+}
+
+div#tableSharedThoughts_length {
+    float: left;
+    margin-right: 20px;
+}
+
+select[name="tableSharedThoughts_length"] {
+    width: 60px;
+}
+
+.paginate_disabled_previous, .paginate_disabled_next{
+    display: none;
+}
+
+.paginate_enabled_previous, .paginate_enabled_next{
+     margin-right: 5px;
+ }
+
+.paginate_enabled_previous:hover, .paginate_enabled_next:hover,
+th.sorting:hover, th.sorting_asc:hover, th.sorting_desc:hover{
+     cursor: pointer;
+ }
+
+div.sharingThoughtsHome1 {
+    float: left;
+    width: 670px;
+}
+
+div.sharingThoughtsHome2 {
+    float: right;
+    width: 200px;
+}
+
+span.sharingThoughtsMessageDate, div.sharedThoughtSubmitDate {
+    color: #888888;
+}
+
+span.sharingThoughtsMessageDate {
+    margin-left: 10px;
+}
+span.sharingThoughtsMessageAuthor {
+    margin-right: 5px;
+    color: #0066CC;
+    font-weight: bold;
+}
+span.sharingThoughtsMessageContent {
+}
+
+div.sharedThoughtSubmitDate {
+    font-size: 18px;
+}
+
+table.tableInvisible{
+    width: 100%;
+}
+
+.page-header-noline {
+    margin: 18px 0;
+    padding-bottom: 17px;
+}
+
+/* audit event table */
+td.auditDate {
+    width: 110px;
+}
+td.auditAction {
+
+}
+td.auditUser {
+
+}
+div#tableAuditEvents_length,
+div#tableAuditEvents_filter,
+div#tableSubmittedThoughts_length,
+div#tableSubmittedThoughts_filter,
+div#tablePartialThoughts_length,
+div#tablePartialThoughts_filter {
+    display: none;
 }
