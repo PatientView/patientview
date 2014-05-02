@@ -37,6 +37,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
+import javax.persistence.Transient;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -123,6 +124,7 @@ public class SharedThought extends BaseModel {
     @Column(name = "date_last_saved")
     private Date dateLastSaved;
 
+    // not in use
     @ManyToOne
     @JoinColumn(name = "allocation_user_id")
     private User allocationUser;
@@ -149,6 +151,9 @@ public class SharedThought extends BaseModel {
     @OneToMany(mappedBy = "sharedThought", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @LazyCollection(LazyCollectionOption.FALSE)
     private Set<UserSharedThought> responders = new HashSet<UserSharedThought>();
+
+    @Transient
+    private Boolean loggedInUserViewed = false;
 
     public SharedThought() {
     }
@@ -460,5 +465,12 @@ public class SharedThought extends BaseModel {
     // required for dynaform
     public Long getUnitId() {
         return getUnit().getId();
+    }
+
+    public boolean isLoggedInUserViewed() {
+        return loggedInUserViewed;
+    }
+    public void setLoggedInUserViewed(boolean loggedInUserViewed) {
+        this.loggedInUserViewed = loggedInUserViewed;
     }
 }

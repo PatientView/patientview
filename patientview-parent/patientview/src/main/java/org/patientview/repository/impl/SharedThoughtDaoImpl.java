@@ -21,6 +21,17 @@ import java.util.List;
 public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> implements SharedThoughtDao {
 
     @Override
+    public boolean checkUserViewedThought(SharedThought sharedThought, User user) {
+
+        for (UserSharedThought userSharedThought : sharedThought.getResponders()) {
+            if (userSharedThought.getUser().equals(user) && userSharedThought.isViewed()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
     public void setUnviewed(SharedThought sharedThought, User ignoreUser) {
         for (UserSharedThought userSharedThought : sharedThought.getResponders()) {
             if (!userSharedThought.getUser().equals(ignoreUser)) {

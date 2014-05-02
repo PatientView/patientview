@@ -19,6 +19,8 @@ public interface SharedThoughtDao {
 
     List<SharedThought> getStaffThoughtList(User user, boolean unViewedOnly);
 
+    boolean checkUserViewedThought(SharedThought sharedThought, User user);
+
     void save(SharedThought sharedThought);
 
     void setUnviewed(SharedThought sharedThought, User ignoreUser);

@@ -102,7 +102,6 @@
                 </logic:present>
             </logic:present>
 
-
             <logic:present specialty="renal">
                 <li class="divider"></li>
                 <li>
@@ -112,8 +111,8 @@
 
                         if (user.isSharedThoughtResponder()) {
                             if (session.getAttribute(Messaging.SHARING_THOUGHTS_UNVIEWED_COUNT) != null) {
-                               String unViewedSharedThoughtCount = session.getAttribute(Messaging.SHARING_THOUGHTS_UNVIEWED_COUNT).toString();
-                               if (Integer.parseInt(unViewedSharedThoughtCount) > 0) {
+                                String unViewedSharedThoughtCount = session.getAttribute(Messaging.SHARING_THOUGHTS_UNVIEWED_COUNT).toString();
+                                if (Integer.parseInt(unViewedSharedThoughtCount) > 0) {
                     %>
                                     <span class="badge badge-important"><%= unViewedSharedThoughtCount %></span>
                     <%          }

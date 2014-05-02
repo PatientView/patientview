@@ -66,7 +66,16 @@ public class SharedThoughtManagerImpl implements SharedThoughtManager {
 
     @Override
     public List<SharedThought> getStaffThoughtList(User user, boolean unViewedOnly) {
-        return sharedThoughtDao.getStaffThoughtList(user, unViewedOnly);
+        List<SharedThought> sharedThoughts = sharedThoughtDao.getStaffThoughtList(user, unViewedOnly);
+
+        // set non DB property for whether current logged in user has viewed or not
+        for (SharedThought thought : sharedThoughts) {
+            thought.setLoggedInUserViewed(
+                sharedThoughtDao.checkUserViewedThought(thought, securityUserManager.getLoggedInUser())
+            );
+        }
+
+        return sharedThoughts;
     }
 
     @Override

@@ -57,8 +57,12 @@
                 <td class="tablecell">
                     <html:form action="/control/sharingThoughtsViewThought">
                         <html:hidden name="thought" property="id"/>
-
-                        <html:submit value="View" styleClass="btn" />
+                        <logic:equal value="true" name="thought" property="loggedInUserViewed">
+                            <html:submit value="View" styleClass="btn" />
+                        </logic:equal>
+                        <logic:equal value="false" name="thought" property="loggedInUserViewed">
+                            <html:submit value="View (NEW)" styleClass="btn" />
+                        </logic:equal>
                     </html:form>
                 </td>
             </logic:present>
