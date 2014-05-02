@@ -77,12 +77,13 @@ public class SharedThoughtManagerImpl implements SharedThoughtManager {
     @Override
     public void save(SharedThought thought, boolean isSubmitted) {
         thought.setDateLastSaved(new Date());
+        User loggedInUser = securityUserManager.getLoggedInUser();
 
         // audit
         SharedThoughtAudit audit = new SharedThoughtAudit();
         audit.setSharedThought(thought);
         audit.setDate(new Date());
-        audit.setUser(securityUserManager.getLoggedInUser());
+        audit.setUser(loggedInUser);
 
         if (isSubmitted) {
             thought.setSubmitDate(new Date());
@@ -93,6 +94,16 @@ public class SharedThoughtManagerImpl implements SharedThoughtManager {
 
         sharedThoughtDao.save(thought);
         sharedThoughtAuditDao.save(audit);
+    }
+
+    @Override
+    public void setUnviewed(SharedThought sharedThought) {
+        sharedThoughtDao.setUnviewed(sharedThought, securityUserManager.getLoggedInUser());
+    }
+
+    @Override
+    public void setViewed(SharedThought sharedThought, User user) {
+        sharedThoughtDao.setViewed(sharedThought, user);
     }
 
     @Override
@@ -163,6 +174,7 @@ public class SharedThoughtManagerImpl implements SharedThoughtManager {
                 audit.setUser(loggedInUser);
                 sharedThoughtAuditDao.save(audit);
 
+                setUnviewed(sharedThought);
                 return true;
             }
         }

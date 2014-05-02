@@ -50,7 +50,6 @@ sharedThought.init = function() {
 
     $(document.body).on("click", sharedThought.responderRemoveBtn, function(event) {
         event.preventDefault();
-        console.log($(sharedThought.responderRemoveBtn));
         sharedThought.removeResponder($(this));
     });
 

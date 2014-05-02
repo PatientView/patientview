@@ -32,16 +32,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.CascadeType;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -149,17 +146,11 @@ public class SharedThought extends BaseModel {
     @Column(name = "is_viewed")
     private Boolean isViewed = false;
 
-    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @OneToMany(mappedBy = "sharedThought", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @LazyCollection(LazyCollectionOption.FALSE)
-    @JoinTable(
-            name = "user_sharedthought",
-            joinColumns = { @JoinColumn(name = "sharedthought_id") },
-            inverseJoinColumns = { @JoinColumn(name = "user_id") }
-    )
-    private List<User> responders;
+    private Set<UserSharedThought> responders = new HashSet<UserSharedThought>();
 
     public SharedThought() {
-        responders = new ArrayList<User>();
     }
 
     public Set<SharedThoughtAudit> getAudits() {
@@ -459,12 +450,10 @@ public class SharedThought extends BaseModel {
                 : description;
     }
 
-    public List<User> getResponders() {
+    public Set<UserSharedThought> getResponders() {
         return responders;
     }
-
-
-    public void setResponders(List<User> responders) {
+    public void setResponders(Set<UserSharedThought> responders) {
         this.responders = responders;
     }
 

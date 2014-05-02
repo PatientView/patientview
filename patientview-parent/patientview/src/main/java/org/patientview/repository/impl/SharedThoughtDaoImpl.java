@@ -4,6 +4,7 @@ import org.patientview.patientview.model.Conversation;
 import org.patientview.patientview.model.Message;
 import org.patientview.patientview.model.SharedThought;
 import org.patientview.patientview.model.User;
+import org.patientview.patientview.model.UserSharedThought;
 import org.patientview.patientview.model.enums.ConversationType;
 import org.patientview.repository.AbstractHibernateDAO;
 import org.patientview.repository.SharedThoughtDao;
@@ -18,6 +19,30 @@ import java.util.List;
 @Transactional(propagation = Propagation.MANDATORY)
 @Repository(value = "sharedThoughtDao")
 public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> implements SharedThoughtDao {
+
+    @Override
+    public void setUnviewed(SharedThought sharedThought, User ignoreUser) {
+        for (UserSharedThought userSharedThought : sharedThought.getResponders()) {
+            if (!userSharedThought.getUser().equals(ignoreUser)) {
+                userSharedThought.setViewed(false);
+            }
+        }
+
+        getEntityManager().merge(sharedThought);
+        getEntityManager().flush();
+    }
+
+    @Override
+    public void setViewed(SharedThought sharedThought, User user) {
+        for (UserSharedThought userSharedThought : sharedThought.getResponders()) {
+            if (userSharedThought.getUser().equals(user)) {
+                userSharedThought.setViewed(true);
+            }
+        }
+
+        getEntityManager().merge(sharedThought);
+        getEntityManager().flush();
+    }
 
     @Override
     public List<SharedThought> getAll(boolean orderBySubmitDate) {
@@ -73,18 +98,25 @@ public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> im
         queryText.append(",         UserMapping AS ump ");
         queryText.append(",         Unit AS uni ");
         queryText.append(",         SharedThought AS sth ");
+        queryText.append(",         UserSharedThought AS ust ");
         queryText.append("WHERE     ump.username = usr.username ");
         queryText.append("AND       ump.unitcode = uni.unitcode ");
         queryText.append("AND       uni.sharedThoughtEnabled = true ");
         queryText.append("AND       ump.unitcode = sth.unit.unitcode ");
         queryText.append("AND       :username = usr.username ");
-        queryText.append("AND       ((:user MEMBER OF sth.responders) OR (usr.sharedThoughtAdministrator = true)) ");
+
+        // check user is in list of responders
+        queryText.append("AND       (((");
+        queryText.append("SELECT ust2 FROM UserSharedThought ust2 WHERE ust2.user = usr AND ust2.sharedThought = sth");
+        queryText.append(") MEMBER OF sth.responders) ");
+
+        // or is a sharedThoughtAdministrator
+        queryText.append("          OR (usr.sharedThoughtAdministrator = true)) ");
         queryText.append("GROUP BY  sth.id ");
         queryText.append("ORDER BY  sth.dateLastSaved DESC ");
 
         TypedQuery<SharedThought> query = getEntityManager().createQuery(queryText.toString(), SharedThought.class);
         query.setParameter("username", user.getUsername());
-        query.setParameter("user", user);
 
         try {
             return query.getResultList();
@@ -112,7 +144,10 @@ public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> im
 
         try {
             List<User> users = query.getResultList();
-            users.removeAll(sharedThought.getResponders());
+            for (UserSharedThought userSharedThought : sharedThought.getResponders()) {
+                users.remove(userSharedThought.getUser());
+            }
+
             return users;
         } catch (Exception e) {
             return Collections.emptyList();
@@ -123,7 +158,10 @@ public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> im
     public boolean addResponder(SharedThought sharedThought, User responder) {
 
         try {
-            sharedThought.getResponders().add(responder);
+            UserSharedThought responderSharedThought = new UserSharedThought();
+            responderSharedThought.setUser(responder);
+            responderSharedThought.setSharedThought(sharedThought);
+            sharedThought.getResponders().add(responderSharedThought);
             getEntityManager().merge(sharedThought);
             getEntityManager().flush();
             return true;
@@ -136,7 +174,19 @@ public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> im
     public boolean removeResponder(SharedThought sharedThought, User responder) {
 
         try {
-            sharedThought.getResponders().remove(responder);
+            StringBuilder queryText = new StringBuilder();
+            queryText.append("SELECT    ust ");
+            queryText.append("FROM      UserSharedThought AS ust ");
+            queryText.append("WHERE     ust.user = :user ");
+            queryText.append("AND       ust.sharedThought = :sharedThought ");
+            TypedQuery<UserSharedThought> query
+                    = getEntityManager().createQuery(queryText.toString(), UserSharedThought.class);
+            query.setParameter("user", responder);
+            query.setParameter("sharedThought", sharedThought);
+
+            UserSharedThought userSharedThoughtToRemove = query.getSingleResult();
+            sharedThought.getResponders().remove(userSharedThoughtToRemove);
+            getEntityManager().remove(userSharedThoughtToRemove);
             getEntityManager().merge(sharedThought);
             getEntityManager().flush();
             return true;

@@ -39,6 +39,19 @@ public interface SharedThoughtManager {
      */
     void save(SharedThought thought, boolean isSubmitted);
 
+    /**
+     * Set all responders (except current user) view status to false for this shared thought (used when updating)
+     * @param sharedThought Shared Thought to update viewed status
+     */
+    void setUnviewed(SharedThought sharedThought);
+
+    /**
+     * Set shared thought as viewed by a user (user in responder list)
+     * @param sharedThought Shared Thought to set as viewed
+     * @param user User viewing
+     */
+    void setViewed(SharedThought sharedThought, User user);
+
     void delete(Long sharedThoughtId);
 
     /**

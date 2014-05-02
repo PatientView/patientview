@@ -19,7 +19,11 @@ public interface SharedThoughtDao {
 
     List<SharedThought> getStaffThoughtList(User user);
 
-    void save(SharedThought thought);
+    void save(SharedThought sharedThought);
+
+    void setUnviewed(SharedThought sharedThought, User ignoreUser);
+
+    void setViewed(SharedThought sharedThought, User user);
 
     void delete(Long id);
 

@@ -191,9 +191,9 @@
         <bean:define id="responders" name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.RESPONDERS%>"/>
         <logic:iterate name="responders" id="responder">
             <tr>
-                <td><bean:write name="responder" property="name"/></td>
+                <td><bean:write name="responder" property="user.name"/></td>
                 <logic:equal value="true" name="user" property="<%=SharingThoughts.SHARED_THOUGHT_ADMINISTRATOR%>" >
-                    <td class='tdUserSharedThought'><a class="btn removeUserSharedThought" data-userId="<bean:write name="responder" property="id"/>">Remove</a></td>
+                    <td class='tdUserSharedThought'><a class="btn removeUserSharedThought" data-userId="<bean:write name="responder" property="user.id"/>">Remove</a></td>
                 </logic:equal>
             </tr>
         </logic:iterate>
