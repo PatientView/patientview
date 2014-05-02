@@ -23,10 +23,13 @@
 
 package org.patientview.patientview;
 
+import org.apache.commons.lang.StringUtils;
 import org.patientview.model.BaseModel;
 import org.patientview.model.Unit;
 import org.patientview.model.enums.XmlImportNotification;
 import org.patientview.patientview.parser.ResultParser;
+import org.patientview.repository.UnitDao;
+import org.patientview.service.AdminNotificationManager;
 import org.patientview.utils.LegacySpringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +37,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.xml.sax.SAXParseException;
 
+import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
@@ -54,6 +58,12 @@ public final class XmlImportUtils {
     @Value("${support.email}")
     private String supportEmail;
 
+    @Inject
+    private AdminNotificationManager adminNotificationManager;
+
+    @Inject
+    private UnitDao unitDao;
+
     private XmlImportUtils() {
 
     }
@@ -63,12 +73,11 @@ public final class XmlImportUtils {
 
         String fileName = file.getName();
         String unitCode = fileName.substring(0, fileName.indexOf("_"));
-        Unit unit = LegacySpringUtils.getImportManager().retrieveUnit(unitCode);
+        Unit unit = unitDao.get(unitCode, null);
         String emailBody = EmailUtils.createEmailBodyForEmptyXML(fileName);
-        String toAddress = EmailUtils.getUnitOrSystemAdminEmailAddress(context, unit);
+        String toAddress = getUnitOrSystemAdminEmailAddress(unit);
 
-        List<String> ccAddresses = LegacySpringUtils.getAdminNotificationManager().getEmailAddresses(
-                XmlImportNotification.FAILED_IMPORT);
+        List<String> ccAddresses = adminNotificationManager.getEmailAddresses(XmlImportNotification.FAILED_IMPORT);
 
         EmailUtils.sendEmail(LegacySpringUtils.getContextProperties().getProperty("noreply.email"),
                 new String[]{toAddress}, ccAddresses.toArray(new String[ccAddresses.size()]),
@@ -78,12 +87,11 @@ public final class XmlImportUtils {
     public void sendEmptyFileEmailToUnitAdmin(String filename) {
 
         String unitCode = getUnitCode(filename);
-        Unit unit = LegacySpringUtils.getImportManager().retrieveUnit(unitCode);
+        Unit unit = unitDao.get(unitCode, null);
         String emailBody = EmailUtils.createEmailBodyForEmptyXML(filename);
-        String toAddress = EmailUtils.getUnitOrSystemAdminEmailAddress(unit);
+        String toAddress = getUnitOrSystemAdminEmailAddress(unit);
 
-        List<String> ccAddresses = LegacySpringUtils.getAdminNotificationManager().getEmailAddresses(
-                XmlImportNotification.FAILED_IMPORT);
+        List<String> ccAddresses = adminNotificationManager.getEmailAddresses(XmlImportNotification.FAILED_IMPORT);
 
         EmailUtils.sendEmail(noReplyEmail, new String[]{toAddress},
                 ccAddresses.toArray(new String[ccAddresses.size()]),
@@ -95,14 +103,13 @@ public final class XmlImportUtils {
         String xmlFileName = xmlFile.getName();
         String xsdFileName = xsdFile.getName();
         String unitCode = xmlFileName.substring(0, xmlFileName.indexOf("_"));
-        Unit unit = LegacySpringUtils.getImportManager().retrieveUnit(unitCode);
-        String rpvAdminEmailAddress = EmailUtils.getUnitOrSystemAdminEmailAddress(context, unit);
+        Unit unit = unitDao.get(unitCode, null);
+        String rpvAdminEmailAddress = getUnitOrSystemAdminEmailAddress(unit);
 
         String[] toAddresses = new String[]{LegacySpringUtils.getContextProperties().getProperty("warning.email"),
                 rpvAdminEmailAddress};
 
-        List<String> ccAddresses = LegacySpringUtils.getAdminNotificationManager().getEmailAddresses(
-                XmlImportNotification.FAILED_IMPORT);
+        List<String> ccAddresses = adminNotificationManager.getEmailAddresses(XmlImportNotification.FAILED_IMPORT);
 
         String emailBody = EmailUtils.createEmailBodyForXMLValidationErrors(exceptions, xmlFileName, xsdFileName,
                 context);
@@ -120,13 +127,12 @@ public final class XmlImportUtils {
         String xsdFileName = xsdFile.getName();
 
         String unitCode = xmlFileName.substring(0, xmlFileName.indexOf("_"));
-        Unit unit = LegacySpringUtils.getImportManager().retrieveUnit(unitCode);
-        String rpvAdminEmailAddress = EmailUtils.getUnitOrSystemAdminEmailAddress(unit);
+        Unit unit = unitDao.get(unitCode, null);
+        String rpvAdminEmailAddress = getUnitOrSystemAdminEmailAddress(unit);
 
         String[] toAddresses = new String[]{warningEmail, rpvAdminEmailAddress};
 
-        List<String> ccAddresses = LegacySpringUtils.getAdminNotificationManager().getEmailAddresses(
-                XmlImportNotification.FAILED_IMPORT);
+        List<String> ccAddresses = adminNotificationManager.getEmailAddresses(XmlImportNotification.FAILED_IMPORT);
 
         String emailBody = EmailUtils.createEmailBodyForXMLValidationErrors(exceptions, xmlFileName, xsdFileName,
                 supportEmail);
@@ -145,11 +151,10 @@ public final class XmlImportUtils {
         String fileName = resultParser.getFilename();
         String unitCode = fileName.substring(0, fileName.indexOf("_"));
 
-        Unit unit = LegacySpringUtils.getImportManager().retrieveUnit(unitCode);
-        String toAddress = EmailUtils.getUnitOrSystemAdminEmailAddress(unit);
+        Unit unit = unitDao.get(unitCode, null);
+        String toAddress = getUnitOrSystemAdminEmailAddress(unit);
 
-        List<String> ccAddresses = LegacySpringUtils.getAdminNotificationManager().getEmailAddresses(
-                XmlImportNotification.FAILED_IMPORT);
+        List<String> ccAddresses = adminNotificationManager.getEmailAddresses(XmlImportNotification.FAILED_IMPORT);
 
         String emailBody = EmailUtils.createEmailBody(stackTrace, fileName, supportEmail);
 
@@ -166,17 +171,42 @@ public final class XmlImportUtils {
 
         Unit unit = null;
         try {
-             unit = LegacySpringUtils.getImportManager().retrieveUnit(unitCode);
+             unit = unitDao.get(unitCode, null);
         } catch (Exception ee) {
             LOGGER.debug("Cannot find unit, using default support email address");
         }
 
-        String toAddress = EmailUtils.getUnitOrSystemAdminEmailAddress(unit);
+        String toAddress = getUnitOrSystemAdminEmailAddress(unit);
 
-        List<String> ccAddresses = LegacySpringUtils.getAdminNotificationManager().getEmailAddresses(
+        List<String> ccAddresses = adminNotificationManager.getEmailAddresses(
                 XmlImportNotification.FAILED_IMPORT);
 
         String emailBody = EmailUtils.createEmailBody(stackTrace, fileName, supportEmail);
+
+        EmailUtils.sendEmail(noReplyEmail, new String[]{toAddress},
+                ccAddresses.toArray(new String[ccAddresses.size()]),
+                "[PatientView] File import failed: " + fileName, emailBody);
+
+    }
+
+    public void sendEmailOfUnmappingPatientUnitAdmin(Exception e, File xmlFile) {
+
+        String fileName = xmlFile.getName();
+        String unitCode = fileName.substring(0, fileName.indexOf("_"));
+
+        Unit unit = null;
+        try {
+            unit = unitDao.get(unitCode, null);
+        } catch (Exception ee) {
+            LOGGER.debug("Cannot find unit, using default support email address");
+        }
+
+        String toAddress = getUnitOrSystemAdminEmailAddress(unit);
+
+        List<String> ccAddresses = adminNotificationManager.getEmailAddresses(
+                XmlImportNotification.FAILED_IMPORT);
+
+        String emailBody = EmailUtils.createEmailBodyForUnmapppedPatientXML(e, fileName);
 
         EmailUtils.sendEmail(noReplyEmail, new String[]{toAddress},
                 ccAddresses.toArray(new String[ccAddresses.size()]),
@@ -202,6 +232,18 @@ public final class XmlImportUtils {
         } catch (Exception e) {
             return "";
         }
+    }
+
+    public String getUnitOrSystemAdminEmailAddress(Unit unit) {
+        String toAddress = null;
+
+        if (unit == null || StringUtils.isBlank(unit.getRenaladminemail())) {
+            toAddress = adminNotificationManager.getSupportEmailAddress();
+        } else {
+            toAddress = unit.getRenaladminemail();
+        }
+
+        return toAddress;
     }
 
     /**
