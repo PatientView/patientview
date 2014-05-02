@@ -16,7 +16,7 @@
     <table class="table table-bordered table-striped" id="tableSharedThoughts">
         <thead>
         <tr>
-            <th>Positive/Negative</th>
+            <th style="padding-right: 80px;">Type</th>
             <th>Start Date</th>
             <th>End Date</th>
             <th>Location</th>
@@ -54,7 +54,7 @@
             <td class="tablecell"><bean:write name="thought" property="submitDateFormattedDateTime"/></td>
             <td class="tablecell"><bean:write name="thought" property="dateLastSavedFormattedDateTime"/></td>
             <logic:present role="unitstaff,unitadmin,superadmin">
-                <td class="tablecell"><html:form action="/control/sharingThoughtsViewThought"><html:hidden name="thought" property="id"/><html:submit value="View/Respond" styleClass="btn" /></html:form></td>
+                <td class="tablecell"><html:form action="/control/sharingThoughtsViewThought"><html:hidden name="thought" property="id"/><html:submit value="View" styleClass="btn" /></html:form></td>
             </logic:present>
         </tr>
         </logic:iterate>

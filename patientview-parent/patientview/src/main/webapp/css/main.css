@@ -675,6 +675,8 @@ div.previousNext {
     color: #0088CC;
 }
 
+/* sharing thoughts */
+
 input.btn-success-sharingthoughts, input.btn-primary-sharingthoughts
 , input.btn-danger-sharingthoughts, input.btn-sharingthoughts {
     height: 40px;
