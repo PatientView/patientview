@@ -1,7 +1,6 @@
 package org.patientview.patientview.sharingthoughts;
 
 import org.patientview.ibd.action.BaseAction;
-import org.patientview.patientview.logging.AddLog;
 import org.patientview.patientview.model.SharedThought;
 import org.patientview.model.Unit;
 import org.patientview.patientview.model.User;

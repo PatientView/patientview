@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class SharingThoughtsAdminViewThoughtAction extends BaseAction {
 
-    SharedThoughtManager sharedThoughtManager;
+    private SharedThoughtManager sharedThoughtManager;
 
     public ActionForward execute(
             ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
