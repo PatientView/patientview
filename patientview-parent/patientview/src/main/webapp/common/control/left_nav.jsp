@@ -108,12 +108,16 @@
                 <li>
                     <a href="/<%=LegacySpringUtils.getSecurityUserManager().getLoggedInSpecialty().getContext()%>/control/sharingThoughts.do">Sharing Thoughts
                     <%
-                        if (session.getAttribute(Messaging.SHARING_THOUGHTS_UNVIEWED_COUNT) != null) {
-                            String unViewedSharedThoughtCount = session.getAttribute(Messaging.SHARING_THOUGHTS_UNVIEWED_COUNT).toString();
-                            if (Integer.parseInt(unViewedSharedThoughtCount) > 0) {
+                        User user = UserUtils.retrieveUser(request);
+
+                        if (user.isSharedThoughtResponder()) {
+                            if (session.getAttribute(Messaging.SHARING_THOUGHTS_UNVIEWED_COUNT) != null) {
+                               String unViewedSharedThoughtCount = session.getAttribute(Messaging.SHARING_THOUGHTS_UNVIEWED_COUNT).toString();
+                               if (Integer.parseInt(unViewedSharedThoughtCount) > 0) {
                     %>
-                                <span class="badge badge-important"><%= unViewedSharedThoughtCount %></span>
-                    <%      }
+                                    <span class="badge badge-important"><%= unViewedSharedThoughtCount %></span>
+                    <%          }
+                            }
                         }
                     %>
                     </a>
