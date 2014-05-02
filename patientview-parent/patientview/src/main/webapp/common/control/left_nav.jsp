@@ -3,6 +3,7 @@
 <%@ page import="org.patientview.patientview.user.UserUtils" %>
 <%@ page import="org.patientview.utils.LegacySpringUtils" %>
 <%@ page import="java.util.List" %>
+<%@ page import="org.patientview.patientview.messaging.Messaging" %>
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
 <%--
@@ -104,7 +105,19 @@
 
             <logic:present specialty="renal">
                 <li class="divider"></li>
-                <li><html:link action="/control/sharingThoughts">Sharing Thoughts</html:link></li>
+                <li>
+                    <a href="/<%=LegacySpringUtils.getSecurityUserManager().getLoggedInSpecialty().getContext()%>/control/sharingThoughts.do">Sharing Thoughts
+                    <%
+                        if (session.getAttribute(Messaging.SHARING_THOUGHTS_UNVIEWED_COUNT) != null) {
+                            String unViewedSharedThoughtCount = session.getAttribute(Messaging.SHARING_THOUGHTS_UNVIEWED_COUNT).toString();
+                            if (Integer.parseInt(unViewedSharedThoughtCount) > 0) {
+                    %>
+                                <span class="badge badge-important"><%= unViewedSharedThoughtCount %></span>
+                    <%      }
+                        }
+                    %>
+                    </a>
+                </li>
             </logic:present>
 
             <logic:present feature="messaging">

@@ -89,7 +89,7 @@ public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> im
     }
 
     @Override
-    public List<SharedThought> getStaffThoughtList(User user) {
+    public List<SharedThought> getStaffThoughtList(User user, boolean unViewedOnly) {
         // only show shared thought if user is member of shared thought's unit and user is in either the list of
         // shared thought responders or is a shared thought administrator for that unit
         StringBuilder queryText = new StringBuilder();
@@ -107,7 +107,8 @@ public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> im
 
         // check user is in list of responders
         queryText.append("AND       (((");
-        queryText.append("SELECT ust2 FROM UserSharedThought ust2 WHERE ust2.user = usr AND ust2.sharedThought = sth");
+        queryText.append("SELECT ust2 FROM UserSharedThought ust2 WHERE ust2.user = usr AND ust2.sharedThought = sth ");
+        if (unViewedOnly) { queryText.append("AND ust2.viewed = false "); }
         queryText.append(") MEMBER OF sth.responders) ");
 
         // or is a sharedThoughtAdministrator

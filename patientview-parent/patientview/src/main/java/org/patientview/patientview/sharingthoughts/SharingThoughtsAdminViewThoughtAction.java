@@ -5,6 +5,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.DynaActionForm;
 import org.patientview.ibd.action.BaseAction;
+import org.patientview.patientview.messaging.Messaging;
 import org.patientview.patientview.model.SharedThought;
 import org.patientview.patientview.model.User;
 import org.patientview.service.SharedThoughtManager;
@@ -31,6 +32,8 @@ public class SharingThoughtsAdminViewThoughtAction extends BaseAction {
         request.setAttribute("user", loggedInUser);
 
         sharedThoughtManager.setViewed(thought, loggedInUser);
+        request.getSession().setAttribute(Messaging.SHARING_THOUGHTS_UNVIEWED_COUNT
+                , sharedThoughtManager.getStaffThoughtList(loggedInUser, true).size());
 
         return mapping.findForward("success");
     }

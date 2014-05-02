@@ -29,7 +29,7 @@ public class SharingThoughtsAdminHomeAction extends ActionSupport {
         if (userManager.getCurrentSpecialtyRole(loggedInUser).equalsIgnoreCase("superadmin")) {
             request.setAttribute("sharedThoughts", sharedThoughtManager.getAll(false));
         } else {
-            request.setAttribute("sharedThoughts", sharedThoughtManager.getStaffThoughtList(loggedInUser));
+            request.setAttribute("sharedThoughts", sharedThoughtManager.getStaffThoughtList(loggedInUser, false));
         }
 
         return mapping.findForward("success");

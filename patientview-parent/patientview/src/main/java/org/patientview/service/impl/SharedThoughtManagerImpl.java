@@ -65,8 +65,8 @@ public class SharedThoughtManagerImpl implements SharedThoughtManager {
     }
 
     @Override
-    public List<SharedThought> getStaffThoughtList(User user) {
-        return sharedThoughtDao.getStaffThoughtList(user);
+    public List<SharedThought> getStaffThoughtList(User user, boolean unViewedOnly) {
+        return sharedThoughtDao.getStaffThoughtList(user, unViewedOnly);
     }
 
     @Override

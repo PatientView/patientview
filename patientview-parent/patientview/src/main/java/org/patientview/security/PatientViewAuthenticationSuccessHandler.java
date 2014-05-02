@@ -98,6 +98,11 @@ public class PatientViewAuthenticationSuccessHandler extends SavedRequestAwareAu
                 request.getSession().setAttribute(Messaging.SHARING_THOUGHTS_ENABLED, true);
             }
 
+            // check how many unviewed shared thoughts and put in session (only applies to staff)
+            Integer unviewedCount = sharedThoughtManager.getStaffThoughtList(user, true).size();
+            request.getSession().setAttribute(Messaging.SHARING_THOUGHTS_UNVIEWED_COUNT, unviewedCount.toString());
+
+
             // if this user has only a single specialty route to the home page : /<specialty-context>/logged_in.do
             response.sendRedirect("/" + specialty.getContext() + "/logged_in.do");
         }
