@@ -3,6 +3,7 @@ CREATE TABLE `sharedthought` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) NOT NULL,
   `unit_id` bigint(20) NOT NULL,
+  `conversation_id` bigint(20) DEFAULT NULL,
   `positive_negative` int(11) NOT NULL,
   `is_patient` tinyint(1) DEFAULT '0',
   `is_principal_carer` tinyint(1) NOT NULL DEFAULT '0',
