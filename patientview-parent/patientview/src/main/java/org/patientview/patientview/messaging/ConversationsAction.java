@@ -93,4 +93,5 @@ public class ConversationsAction extends BaseAction {
 
         return mapping.findForward(SUCCESS);
     }
+
 }
