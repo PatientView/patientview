@@ -31,6 +31,7 @@ CREATE TABLE `sharedthought` (
   `status` text,
   `is_viewed` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `user_sharedthought` (
@@ -38,7 +39,9 @@ CREATE TABLE `user_sharedthought` (
   `user_id` bigint(20) NOT NULL,
   `sharedthought_id` bigint(20) NOT NULL,
   `viewed` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `sharedthought_id` (`sharedthought_id`),
+  CONSTRAINT `user_sharedthought_ibfk_1` FOREIGN KEY (`sharedthought_id`) REFERENCES `sharedthought` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `sharedthought_audit` (
@@ -49,7 +52,9 @@ CREATE TABLE `sharedthought_audit` (
   `responder_id` bigint(20) DEFAULT NULL,
   `date` datetime NOT NULL,
   `action` text NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `sharedthought_id` (`sharedthought_id`),
+  CONSTRAINT `sharedthought_audit_ibfk_1` FOREIGN KEY (`sharedthought_id`) REFERENCES `sharedthought` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ALTER TABLE unit ADD COLUMN `sharedThoughtEnabled` tinyint(1) DEFAULT '0';
