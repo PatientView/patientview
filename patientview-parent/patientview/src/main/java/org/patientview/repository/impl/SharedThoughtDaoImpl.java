@@ -88,6 +88,27 @@ public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> im
     }
 
     @Override
+    public List<SharedThought> getSubmitted(boolean orderBySubmitDate) {
+        StringBuilder queryText = new StringBuilder();
+        queryText.append("FROM      SharedThought ");
+        queryText.append("WHERE     isSubmitted = true ");
+
+        if (orderBySubmitDate) {
+            queryText.append("ORDER BY submitDate DESC");
+        } else {
+            queryText.append("ORDER BY dateLastSaved DESC");
+        }
+
+        TypedQuery<SharedThought> query = getEntityManager().createQuery(queryText.toString(), SharedThought.class);
+
+        try {
+            return query.getResultList();
+        } catch (Exception e) {
+            return Collections.emptyList();
+        }
+    }
+
+    @Override
     public List<SharedThought> getUsersThoughts(User user, boolean isSubmitted) {
         StringBuilder queryText = new StringBuilder();
         queryText.append("FROM      SharedThought ");

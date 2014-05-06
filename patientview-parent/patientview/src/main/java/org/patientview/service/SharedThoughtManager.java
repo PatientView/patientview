@@ -16,6 +16,13 @@ public interface SharedThoughtManager {
     List<SharedThought> getAll(boolean orderBySubmitDate);
 
     /**
+     * Get list of submitted shared thoughts, ordering by submit date if required
+     * @param orderBySubmitDate true if ordering by submit date
+     * @return list of SharedThought
+     */
+    List<SharedThought> getSubmitted(boolean orderBySubmitDate);
+
+    /**
      * Get a single shared thought, auditing view if necessary
      * @param sharedThoughtId Id of the shared thought to get
      * @param auditEnabled true if audit required

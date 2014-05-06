@@ -38,6 +38,11 @@ public class SharedThoughtManagerImpl implements SharedThoughtManager {
     }
 
     @Override
+    public List<SharedThought> getSubmitted(boolean orderBySubmitDate) {
+        return sharedThoughtDao.getSubmitted(orderBySubmitDate);
+    }
+
+    @Override
     public SharedThought get(Long sharedThoughtId, boolean auditEnabled, boolean staffUser) {
         SharedThought thought = sharedThoughtDao.get(sharedThoughtId);
 

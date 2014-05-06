@@ -14,6 +14,8 @@ public interface SharedThoughtDao {
 
     List<SharedThought> getAll(boolean orderBySubmitDate);
 
+    List<SharedThought> getSubmitted(boolean orderBySubmitDate);
+
     SharedThought get(Long id);
 
     List<SharedThought> getUsersThoughts(User user, boolean isSubmitted);
