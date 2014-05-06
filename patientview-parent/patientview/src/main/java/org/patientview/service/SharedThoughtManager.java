@@ -1,5 +1,6 @@
 package org.patientview.service;
 
+import org.patientview.model.Unit;
 import org.patientview.patientview.model.SharedThought;
 import org.patientview.patientview.model.User;
 
@@ -99,4 +100,10 @@ public interface SharedThoughtManager {
      * @return True if success, else false
      */
     boolean openCloseSharedThought(Long sharedThoughtId);
+
+    /**
+     * Get a list of units the current logged in user is a member of that are also shared thoughts enabled
+     * @return List of Unit that have shared thoughts enabled
+     */
+    List<Unit> getLoggedInUsersUnits();
 }

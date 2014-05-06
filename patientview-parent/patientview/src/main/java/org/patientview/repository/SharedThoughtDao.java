@@ -1,5 +1,6 @@
 package org.patientview.repository;
 
+import org.patientview.model.Unit;
 import org.patientview.patientview.model.Message;
 import org.patientview.patientview.model.SharedThought;
 import org.patientview.patientview.model.User;
@@ -47,4 +48,6 @@ public interface SharedThoughtDao {
     boolean checkAccessSharingThoughts(User user);
 
     boolean openCloseSharedThought(SharedThought sharedThought);
+
+    List<Unit> getUsersUnits(User user);
 }

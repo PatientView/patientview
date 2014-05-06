@@ -1,5 +1,6 @@
 package org.patientview.repository.impl;
 
+import org.patientview.model.Unit;
 import org.patientview.patientview.model.Conversation;
 import org.patientview.patientview.model.Message;
 import org.patientview.patientview.model.SharedThought;
@@ -359,5 +360,28 @@ public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> im
             return false;
         }
         return true;
+    }
+
+    @Override
+    public List<Unit> getUsersUnits(User user) {
+        StringBuilder queryText = new StringBuilder();
+        queryText.append("SELECT    uni ");
+        queryText.append("FROM      User AS usr ");
+        queryText.append(",         UserMapping AS ump ");
+        queryText.append(",         Unit AS uni ");
+        queryText.append("WHERE     ump.username = usr.username ");
+        queryText.append("AND       ump.unitcode = uni.unitcode ");
+        queryText.append("AND       uni.sharedThoughtEnabled = true ");
+        queryText.append("AND       usr = :user ");
+        queryText.append("GROUP BY  uni.id ");
+
+        TypedQuery<Unit> query = getEntityManager().createQuery(queryText.toString(), Unit.class);
+        query.setParameter("user", user);
+
+        try {
+            return query.getResultList();
+        } catch (Exception e) {
+            return Collections.emptyList();
+        }
     }
 }

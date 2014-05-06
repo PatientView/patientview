@@ -1,5 +1,6 @@
 package org.patientview.service.impl;
 
+import org.patientview.model.Unit;
 import org.patientview.patientview.model.Message;
 import org.patientview.patientview.model.SharedThought;
 import org.patientview.patientview.model.SharedThoughtAudit;
@@ -205,5 +206,11 @@ public class SharedThoughtManagerImpl implements SharedThoughtManager {
     public boolean openCloseSharedThought(Long sharedThoughtId) {
         SharedThought sharedThought = get(sharedThoughtId, false, true);
         return sharedThoughtDao.openCloseSharedThought(sharedThought);
+    }
+
+    @Override
+    public List<Unit> getLoggedInUsersUnits() {
+        User loggedInUser = securityUserManager.getLoggedInUser();
+        return sharedThoughtDao.getUsersUnits(loggedInUser);
     }
 }
