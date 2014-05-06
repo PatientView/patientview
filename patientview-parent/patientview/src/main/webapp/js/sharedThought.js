@@ -33,6 +33,7 @@ sharedThought.responderMessageTrNoComments = $('#trNoComments');
 sharedThought.responderAddMessage = $('#messageAddOtherSharedThoughtResponder');
 sharedThought.id = $('#sharedThoughtId').val();
 sharedThought.userFullName = $('#userFullName').val();
+sharedThought.closeBtn = $('#btnOpenCloseSharedThought');
 
 /**
  * Set up buttons
@@ -51,6 +52,11 @@ sharedThought.init = function() {
     $(document.body).on("click", sharedThought.responderRemoveBtn, function(event) {
         event.preventDefault();
         sharedThought.removeResponder($(this));
+    });
+
+    sharedThought.closeBtn.click(function(event) {
+        event.preventDefault();
+        sharedThought.openCloseSharedThought();
     });
 
     sharedThought.responderAddMessage.empty();
@@ -172,6 +178,35 @@ sharedThought.removeResponder = function(removeButton) {
     });
 
     removeButton.removeAttr('disabled');
+}
+
+/**
+ * close/open shared thought and return to list (avoids logic/redraw of message input)
+ */
+sharedThought.openCloseSharedThought = function() {
+
+    var confirmMsg = "Are you sure you want to close this Shared Thought and stop staff adding to the conversation?";
+    if (sharedThought.closeBtn.val().contains("Open")) {
+        confirmMsg = "Are you sure you want to open this Shared Thought and allow staff to add to the conversation?"
+    }
+
+    if(confirm(confirmMsg)) {
+        var data = {};
+        data.sharedThoughtId = sharedThought.id;
+
+        $.ajax({
+            type: "POST",
+            url: "/web/sharingThoughts/openCloseSharedThought",
+            data: data,
+            success: function() {
+                window.location = "/renal/control/sharingThoughts.do";
+            },
+            error: function() {
+                alert("There was an error changing the status of this Shared Thought");
+            },
+            dataType: 'json'
+        });
+    }
 }
 
 // add in a dom ready to fire init

@@ -92,4 +92,11 @@ public interface SharedThoughtManager {
      * @return True if user can use Sharing Thoughts, false if not
      */
     boolean checkAccessSharingThoughts(User user);
+
+    /**
+     * Change shared thought between open/closed
+     * @param sharedThoughtId Id of shared thought to change between open/closed
+     * @return True if success, else false
+     */
+    boolean openCloseSharedThought(Long sharedThoughtId);
 }

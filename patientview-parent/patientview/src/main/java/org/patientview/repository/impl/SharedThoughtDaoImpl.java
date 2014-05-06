@@ -336,4 +336,28 @@ public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> im
             return false;
         }
     }
+
+    @Override
+    public boolean openCloseSharedThought(SharedThought sharedThought) {
+        try {
+            SharedThoughtAudit audit = new SharedThoughtAudit();
+            audit.setSharedThought(sharedThought);
+            audit.setDate(new Date());
+            audit.setUser(securityUserManager.getLoggedInUser());
+
+            if (sharedThought.getClosed()) {
+                sharedThought.setClosed(false);
+                audit.setAction(SharedThoughtAuditAction.OPEN);
+            } else {
+                sharedThought.setClosed(true);
+                audit.setAction(SharedThoughtAuditAction.CLOSE);
+            }
+
+            sharedThoughtAuditDao.save(audit);
+
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
 }

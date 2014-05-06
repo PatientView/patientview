@@ -31,6 +31,7 @@ CREATE TABLE `sharedthought` (
   `notes` text,
   `status` text,
   `is_viewed` tinyint(1) NOT NULL DEFAULT '0',
+  `closed` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

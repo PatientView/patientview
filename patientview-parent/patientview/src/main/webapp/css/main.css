@@ -788,3 +788,7 @@ div#tablePartialThoughts_length,
 div#tablePartialThoughts_filter {
     display: none;
 }
+
+td.sharedThoughtClosed {
+    text-align: center;
+}

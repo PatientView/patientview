@@ -45,4 +45,6 @@ public interface SharedThoughtDao {
     Message createSharedThoughtMessage(SharedThought sharedThought, String content, User sender);
 
     boolean checkAccessSharingThoughts(User user);
+
+    boolean openCloseSharedThought(SharedThought sharedThought);
 }

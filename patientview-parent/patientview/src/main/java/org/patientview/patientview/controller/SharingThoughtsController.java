@@ -116,4 +116,18 @@ public class SharingThoughtsController extends BaseController {
             } else { return new ResponseEntity<String>(HttpStatus.BAD_REQUEST); }
         } catch (Exception ex) { return new ResponseEntity<String>(HttpStatus.BAD_REQUEST); }
     }
+
+    /**
+     * Deal with the URIs "/sharingThoughts/openCloseSharedThought"
+     * switch status of shared thought open/closed
+     */
+    @RequestMapping(value = Routes.SHARING_THOUGHTS_OPEN_CLOSE, method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<String> openCloseSharedThought(@RequestParam("sharedThoughtId") String sharedThoughtId) {
+        try {
+            if (sharedThoughtManager.openCloseSharedThought(Long.parseLong(sharedThoughtId))) {
+                return new ResponseEntity<String>(HttpStatus.OK);
+            } else { return new ResponseEntity<String>(HttpStatus.BAD_REQUEST); }
+        } catch (Exception ex) { return new ResponseEntity<String>(HttpStatus.BAD_REQUEST); }
+    }
 }

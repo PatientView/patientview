@@ -45,6 +45,7 @@ public final class SharingThoughts {
     public static final String SHARED_THOUGHT_ADMINISTRATOR = "sharedThoughtAdministrator";
     public static final String SUBMIT_DATE = "submitDateFormattedDateTime";
     public static final String AUDITS = "audits";
+    public static final String CLOSED = "closed";
 
     static void putThoughtListInRequest(HttpServletRequest request, User user, boolean submitted) {
         String attributeName = (submitted) ? SharingThoughts.USERS_THOUGHTS_SUBMITTED_PARAM

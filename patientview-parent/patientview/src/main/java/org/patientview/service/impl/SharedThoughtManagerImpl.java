@@ -200,4 +200,10 @@ public class SharedThoughtManagerImpl implements SharedThoughtManager {
     public boolean checkAccessSharingThoughts(User user) {
         return sharedThoughtDao.checkAccessSharingThoughts(user);
     }
+
+    @Override
+    public boolean openCloseSharedThought(Long sharedThoughtId) {
+        SharedThought sharedThought = get(sharedThoughtId, false, true);
+        return sharedThoughtDao.openCloseSharedThought(sharedThought);
+    }
 }

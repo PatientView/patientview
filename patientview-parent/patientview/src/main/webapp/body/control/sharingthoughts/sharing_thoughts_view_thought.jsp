@@ -227,11 +227,18 @@
     <logic:empty name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.CONVERSATION%>">
         <tr id="trNoComments"><td colspan="2">No messages from responding staff yet</td></tr>
     </logic:empty>
-    <tr>
-        <td><textarea id="textareaMessage"></textarea></td>
-        <td><html:submit value="Add Message" styleClass="btn formbutton" styleId="btnAddMessage"/></td>
-        <input type="hidden" id="userFullName" value="<bean:write name="user" property="name"/>"/>
-    </tr>
+    <logic:equal value="false" name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.CLOSED%>" >
+        <tr>
+            <td><textarea id="textareaMessage"></textarea></td>
+            <td><html:submit value="Add Message" styleClass="btn formbutton" styleId="btnAddMessage"/></td>
+            <input type="hidden" id="userFullName" value="<bean:write name="user" property="name"/>"/>
+        </tr>
+    </logic:equal>
+    <logic:equal value="true" name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.CLOSED%>" >
+        <tr>
+            <td colspan="2" class="sharedThoughtClosed">This Shared Thought has been closed, no more messages can be added</td>
+        </tr>
+    </logic:equal>
     </tbody>
 </table>
 
@@ -275,6 +282,12 @@
                             <logic:equal value="<%=SharedThoughtAuditAction.REMOVE_RESPONDER.toString()%>" name="audit" property="action">
                                 <bean:write name="audit" property="user.name"/>
                             </logic:equal>
+                            <logic:equal value="<%=SharedThoughtAuditAction.OPEN.toString()%>" name="audit" property="action">
+                                <bean:write name="audit" property="user.name"/>
+                            </logic:equal>
+                            <logic:equal value="<%=SharedThoughtAuditAction.CLOSE.toString()%>" name="audit" property="action">
+                                <bean:write name="audit" property="user.name"/>
+                            </logic:equal>
                         </logic:equal>
                         <logic:equal value="false" property="<%=SharingThoughts.IS_ANONYMOUS%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" >
                             <bean:write name="audit" property="user.name"/>
@@ -311,7 +324,17 @@
 
 <br/>
 
-<html:link action="/control/sharingThoughts"><html:submit value="Back" styleClass="btn formbutton" /></html:link>
+<html:link action="/control/sharingThoughts"><html:submit value="Back" styleClass="btn formbutton" /></html:link> &nbsp;
+
+<logic:equal value="true" name="user" property="<%=SharingThoughts.SHARED_THOUGHT_ADMINISTRATOR%>" >
+    <logic:equal value="false" name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.CLOSED%>" >
+        <html:submit value="Close Shared Thought" styleClass="btn formbutton" styleId="btnOpenCloseSharedThought"/>
+    </logic:equal>
+    <logic:equal value="true" name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.CLOSED%>" >
+        <html:submit value="Open Shared Thought" styleClass="btn formbutton" styleId="btnOpenCloseSharedThought"/>
+    </logic:equal>
+</logic:equal>
+
 </div>
 
 <script type="text/javascript" src="/js/sharedThought.js"></script>
