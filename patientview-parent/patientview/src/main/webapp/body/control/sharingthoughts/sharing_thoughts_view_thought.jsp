@@ -181,8 +181,8 @@
 </table>
 
 <h2>Responders</h2>
-<p>Must be members of the unit referred to in the Shared Thought and either a Sharing Thoughts Administrator or
-    Responder. Staff members who are Sharing Thoughts Administrators can see all Shared Thoughts in their units.
+<p>Staff must be members of the unit referred to in the Shared Thought and either a Sharing Thoughts Administrator or
+    Responder. Sharing Thoughts Administrators are added as Responders to all new Shared Thoughts in their units.
     Responders can only see the Shared Thought if listed below.</p>
 <br/>
 <table border="0" cellspacing="1" cellpadding="3" class="table table-bordered table-striped" id="tableOtherSharedThoughtResponders">
@@ -270,7 +270,7 @@
                                 <bean:write name="audit" property="user.name"/>
                             </logic:equal>
                             <logic:equal value="<%=SharedThoughtAuditAction.ADD_RESPONDER.toString()%>" name="audit" property="action">
-                                <bean:write name="audit" property="user.name"/>
+                                Anonymous
                             </logic:equal>
                             <logic:equal value="<%=SharedThoughtAuditAction.REMOVE_RESPONDER.toString()%>" name="audit" property="action">
                                 <bean:write name="audit" property="user.name"/>

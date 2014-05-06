@@ -109,7 +109,7 @@
                     <%
                         User user = UserUtils.retrieveUser(request);
 
-                        if (user.isSharedThoughtResponder()) {
+                        if (user.isSharedThoughtResponder() || user.isSharedThoughtAdministrator()) {
                             if (session.getAttribute(Messaging.SHARING_THOUGHTS_UNVIEWED_COUNT) != null) {
                                 String unViewedSharedThoughtCount = session.getAttribute(Messaging.SHARING_THOUGHTS_UNVIEWED_COUNT).toString();
                                 if (Integer.parseInt(unViewedSharedThoughtCount) > 0) {

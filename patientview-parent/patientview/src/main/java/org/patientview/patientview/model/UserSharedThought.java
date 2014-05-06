@@ -48,6 +48,12 @@ public class UserSharedThought extends BaseModel {
     public UserSharedThought() {
     }
 
+    public UserSharedThought(User user, SharedThought sharedThought, boolean viewed) {
+        setUser(user);
+        setSharedThought(sharedThought);
+        setViewed(viewed);
+    }
+
     public User getUser() {
         return user;
     }
