@@ -103,6 +103,11 @@ public class SharedThoughtManagerImpl implements SharedThoughtManager {
 
         sharedThoughtDao.save(thought);
         sharedThoughtAuditDao.save(audit);
+
+        // add Shared Thought Administrators as initial responders
+        if (isSubmitted) {
+            sharedThoughtDao.addAllSharedThoughtAdministrators(thought);
+        }
     }
 
     @Override

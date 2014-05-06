@@ -35,6 +35,13 @@ public interface SharedThoughtDao {
 
     boolean removeResponder(SharedThought sharedThought, User responder);
 
+    /**
+     * Adds all available shared thought administrators to a shared thought as responders, dependant on unit and if
+     * they are already a responder
+     * @param sharedThought Thought to add administrators to as responders
+     */
+    void addAllSharedThoughtAdministrators(SharedThought sharedThought);
+
     Message createSharedThoughtMessage(SharedThought sharedThought, String content, User sender);
 
     boolean checkAccessSharingThoughts(User user);

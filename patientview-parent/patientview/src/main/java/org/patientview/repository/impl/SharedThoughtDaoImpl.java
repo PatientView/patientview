@@ -3,14 +3,20 @@ package org.patientview.repository.impl;
 import org.patientview.patientview.model.Conversation;
 import org.patientview.patientview.model.Message;
 import org.patientview.patientview.model.SharedThought;
+import org.patientview.patientview.model.SharedThoughtAudit;
 import org.patientview.patientview.model.User;
 import org.patientview.patientview.model.UserSharedThought;
 import org.patientview.patientview.model.enums.ConversationType;
+import org.patientview.patientview.model.enums.SharedThoughtAuditAction;
 import org.patientview.repository.AbstractHibernateDAO;
+import org.patientview.repository.SharedThoughtAuditDao;
 import org.patientview.repository.SharedThoughtDao;
+import org.patientview.service.SecurityUserManager;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.inject.Inject;
 import javax.persistence.TypedQuery;
 import java.util.Collections;
 import java.util.Date;
@@ -19,6 +25,11 @@ import java.util.List;
 @Transactional(propagation = Propagation.MANDATORY)
 @Repository(value = "sharedThoughtDao")
 public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> implements SharedThoughtDao {
+
+    @Inject
+    private SharedThoughtAuditDao sharedThoughtAuditDao;
+    @Inject
+    private SecurityUserManager securityUserManager;
 
     @Override
     public boolean checkUserViewedThought(SharedThought sharedThought, User user) {
@@ -122,8 +133,8 @@ public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> im
         if (unViewedOnly) { queryText.append("AND ust2.viewed = false "); }
         queryText.append(") MEMBER OF sth.responders) ");
 
-        // or is a sharedThoughtAdministrator
-        queryText.append("          OR (usr.sharedThoughtAdministrator = true)) ");
+        // or is a sharedThoughtAdministrator (todo: null check required for correct sql)
+        queryText.append("          OR (usr.sharedThoughtAdministrator = null)) ");
         queryText.append("GROUP BY  sth.id ");
         queryText.append("ORDER BY  sth.dateLastSaved DESC ");
 
@@ -145,7 +156,7 @@ public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> im
         queryText.append(",         UserMapping AS ump ");
         queryText.append(",         Unit AS uni ");
         queryText.append("WHERE     ump.username = usr.username ");
-        queryText.append("AND       usr.sharedThoughtResponder = true ");
+        queryText.append("AND       ((usr.sharedThoughtResponder = true) OR (usr.sharedThoughtAdministrator = true)) ");
         queryText.append("AND       ump.unitcode = uni.unitcode ");
         queryText.append("AND       uni.sharedThoughtEnabled = true ");
         queryText.append("AND       ump.unitcode = :unitCode ");
@@ -156,6 +167,8 @@ public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> im
 
         try {
             List<User> users = query.getResultList();
+
+            // remove existing responders from list
             for (UserSharedThought userSharedThought : sharedThought.getResponders()) {
                 users.remove(userSharedThought.getUser());
             }
@@ -170,9 +183,7 @@ public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> im
     public boolean addResponder(SharedThought sharedThought, User responder) {
 
         try {
-            UserSharedThought responderSharedThought = new UserSharedThought();
-            responderSharedThought.setUser(responder);
-            responderSharedThought.setSharedThought(sharedThought);
+            UserSharedThought responderSharedThought = new UserSharedThought(responder, sharedThought, false);
             sharedThought.getResponders().add(responderSharedThought);
             getEntityManager().merge(sharedThought);
             getEntityManager().flush();
@@ -204,6 +215,70 @@ public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> im
             return true;
         } catch (Exception e) {
             return false;
+        }
+    }
+
+    @Override
+    public void addAllSharedThoughtAdministrators(SharedThought sharedThought) {
+        // get list of current responders where usr.sharedThoughtAdministrator is true
+        List<User> currentAdministrators = getCurrentSharedThoughtAdministrators(sharedThought);
+
+        // get list of all usr.sharedThoughtAdministrator for this thought's unit
+        List<User> possibleAdministrators = getPossibleSharedThoughtAdministrators(sharedThought);
+
+        // remove existing from possible list and add to thought
+        possibleAdministrators.removeAll(currentAdministrators);
+
+        for (User user : possibleAdministrators) {
+            UserSharedThought responderSharedThought = new UserSharedThought(user, sharedThought, false);
+            sharedThought.getResponders().add(responderSharedThought);
+
+            // audit
+            SharedThoughtAudit audit = new SharedThoughtAudit();
+            audit.setSharedThought(sharedThought);
+            audit.setDate(new Date());
+            audit.setAction(SharedThoughtAuditAction.ADD_RESPONDER);
+            audit.setResponder(user);
+            audit.setUser(securityUserManager.getLoggedInUser());
+            sharedThoughtAuditDao.save(audit);
+        }
+
+        getEntityManager().merge(sharedThought);
+        getEntityManager().flush();
+    }
+
+    private List<User> getCurrentSharedThoughtAdministrators(SharedThought sharedThought) {
+        List<User> currentAdministrators = Collections.emptyList();
+        for (UserSharedThought userSharedThought : sharedThought.getResponders()) {
+            User user = userSharedThought.getUser();
+            if (user.isSharedThoughtAdministrator()) {
+                currentAdministrators.add(user);
+            }
+        }
+        return currentAdministrators;
+    }
+
+
+    private List<User> getPossibleSharedThoughtAdministrators(SharedThought sharedThought) {
+        StringBuilder queryText = new StringBuilder();
+        queryText.append("SELECT    usr ");
+        queryText.append("FROM      User AS usr ");
+        queryText.append(",         UserMapping AS ump ");
+        queryText.append(",         Unit AS uni ");
+        queryText.append("WHERE     ump.username = usr.username ");
+        queryText.append("AND       usr.sharedThoughtAdministrator = true ");
+        queryText.append("AND       ump.unitcode = uni.unitcode ");
+        queryText.append("AND       uni.sharedThoughtEnabled = true ");
+        queryText.append("AND       ump.unitcode = :unitCode ");
+        queryText.append("GROUP BY  usr.id");
+
+        TypedQuery<User> query = getEntityManager().createQuery(queryText.toString(), User.class);
+        query.setParameter("unitCode", sharedThought.getUnit().getUnitcode());
+
+        try {
+            return query.getResultList();
+        } catch (Exception e) {
+            return Collections.emptyList();
         }
     }
 
