@@ -61,7 +61,7 @@
                             <html:submit value="View" styleClass="btn" />
                         </logic:equal>
                         <logic:equal value="false" name="thought" property="loggedInUserViewed">
-                            <html:submit value="View (NEW)" styleClass="btn" />
+                            <html:submit value="View (updated)" styleClass="btn" />
                         </logic:equal>
                     </html:form>
                 </td>
