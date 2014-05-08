@@ -6,6 +6,43 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <html:xhtml/>
+<%-- Message to patient dialog --%>
+
+<div id="messageBackground"></div>
+<div id="messageModal" class="boxShadow1">
+    <form id="js-message-form">
+        <h2>Send Message to Patient</h2>
+        <p id="messageSubtitle"/><br/>
+        <div class="alert alert-error" id="js-message-error-found"></div>
+        <div class="control-group">
+            <label class="control-label">Subject</label>
+            <div class="controls"><input name="subject" id="js-message-subject"/></div>
+            <div class="alert alert-error" id="js-message-subject-error"></div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Message</label>
+            <div class="controls"><textarea name="message" id="js-message-message"></textarea></div>
+            <div class="alert alert-error" id="js-message-message-error"></div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <input type="submit" value="Send message" id="js-message-submit-btn" class="btn btn-primary"/>&nbsp;
+                <input type="submit" value="Cancel" id="js-message-cancel-btn" class="btn"/>
+            </div>
+        </div>
+    </form>
+    <div id="js-message-loading">
+        <h2>Sending message</h2>
+        <p>Please wait for your message to be sent</p>
+    </div>
+    <div id="js-message-success">
+        <h2>Message Sent</h2>
+        <br/>
+        <div class="alert alert-success">Your message has been sent</div>
+        <input type="submit" value="Close" id="js-message-close-btn" class="btn"/>
+    </div>
+</div>
+
 <div class="span9">
 <div class="page-header-noline">
     <logic:equal value="1" property="<%=SharingThoughts.POSITIVE_NEGATIVE%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" >
@@ -14,10 +51,16 @@
     <logic:notEqual value="1" property="<%=SharingThoughts.POSITIVE_NEGATIVE%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" >
         <h1>Quality or Safety Concern</h1>
     </logic:notEqual>
-    <div class="sharedThoughtSubmitDate pull-right">Submitted <bean:write name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.SUBMIT_DATE%>"/></div>
+    <div class="sharedThoughtSubmitDate pull-left">
+        Submitted <bean:write name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.SUBMIT_DATE%>"/>
+    </div>
+    <div class="pull-right">
+        <html:submit value="Send Message to Patient" styleClass="btn btn-primary formbutton" styleId="btnSendMessage"/>
+    </div>
 </div>
 
 <html:hidden name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.ID%>" styleId="sharedThoughtId"/>
+<html:hidden name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.IS_ANONYMOUS%>" styleId="sharedThoughtIsAnonymous"/>
 
 <logic:equal value="false" property="<%=SharingThoughts.IS_ANONYMOUS%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" >
     <table border="0" cellspacing="1" cellpadding="3" class="table table-bordered table-striped">

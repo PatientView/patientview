@@ -99,6 +99,12 @@ public class Conversation extends BaseModel {
     @Column(nullable = false)
     private boolean clinicianClosed = false;
 
+    @Column(nullable = false)
+    private boolean participant1Anonymous = false;
+
+    @Column(nullable = false)
+    private boolean participant2Anonymous = false;
+
     @OneToMany(mappedBy = "conversation", fetch = FetchType.EAGER)
     @OrderBy("date")
     private Set<Message> messages;
@@ -216,6 +222,22 @@ public class Conversation extends BaseModel {
     public boolean isClinicianClosed() { return clinicianClosed; }
 
     public void setClinicianClosed(boolean clinicianClosed) { this.clinicianClosed = clinicianClosed; }
+
+    public boolean isParticipant1Anonymous() {
+        return participant1Anonymous;
+    }
+
+    public void setParticipant1Anonymous(boolean participant1Anonymous) {
+        this.participant1Anonymous = participant1Anonymous;
+    }
+
+    public boolean isParticipant2Anonymous() {
+        return participant2Anonymous;
+    }
+
+    public void setParticipant2Anonymous(boolean participant2Anonymous) {
+        this.participant2Anonymous = participant2Anonymous;
+    }
 
     public Set<Message> getMessages() {
         return messages;
