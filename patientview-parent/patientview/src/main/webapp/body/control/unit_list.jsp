@@ -31,7 +31,7 @@
 
     <div class="page-header">
         <h1>
-            <logic:equal name="isRadarGroup" value="true">Radar Groups</logic:equal>
+            <logic:equal name="isRadarGroup" value="true">RaDaR Groups</logic:equal>
             <logic:notEqual name="isRadarGroup" value="true">Units</logic:notEqual>
         </h1>
     </div>
@@ -44,8 +44,10 @@
         <th class="tableheader">Unit Code</th>
         <th class="tableheader">Name</th>
         <th class="tableheader">Last Imported Date</th>
-        <th class="tableheader">Feedback Enabled</th>
-        <th class="tableheader">Sharing Thoughts Enabled</th>
+        <logic:equal name="isRadarGroup" value="false">
+            <th class="tableheader">Feedback Enabled</th>
+            <th class="tableheader">Sharing Thoughts Enabled</th>
+        </logic:equal>
         <th></th>
         <th></th>
       </tr>
@@ -54,6 +56,8 @@
           <td class="tablecell"><bean:write name="unit" property="unitcode"/></td>
           <td class="tablecell"><bean:write name="unit" property="name"/></td>
           <td class="tablecell"><bean:write name="unit" property="formattedLastImportDate"/></td>
+
+          <logic:equal name="isRadarGroup" value="false">
           <td class="tablecell">
               <logic:equal name="unit" property="feedbackEnabled" value="false"><span class="noCross">&#10008;</span></logic:equal>
               <logic:equal name="unit" property="feedbackEnabled" value="true"><span class="yesTick">&#10004;</span></logic:equal>
@@ -62,6 +66,7 @@
               <logic:equal name="unit" property="sharedThoughtEnabled" value="false"><span class="noCross">&#10008;</span></logic:equal>
               <logic:equal name="unit" property="sharedThoughtEnabled" value="true"><span class="yesTick">&#10004;</span></logic:equal>
           </td>
+          </logic:equal>
 
           <logic:present role="superadmin,unitadmin">
             <td>

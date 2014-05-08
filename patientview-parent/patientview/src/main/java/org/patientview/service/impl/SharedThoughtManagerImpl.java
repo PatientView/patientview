@@ -1,5 +1,6 @@
 package org.patientview.service.impl;
 
+import org.patientview.model.Unit;
 import org.patientview.patientview.model.Message;
 import org.patientview.patientview.model.SharedThought;
 import org.patientview.patientview.model.SharedThoughtAudit;
@@ -34,6 +35,11 @@ public class SharedThoughtManagerImpl implements SharedThoughtManager {
     @Override
     public List<SharedThought> getAll(boolean orderBySubmitDate) {
         return sharedThoughtDao.getAll(orderBySubmitDate);
+    }
+
+    @Override
+    public List<SharedThought> getSubmitted(boolean orderBySubmitDate) {
+        return sharedThoughtDao.getSubmitted(orderBySubmitDate);
     }
 
     @Override
@@ -199,5 +205,30 @@ public class SharedThoughtManagerImpl implements SharedThoughtManager {
     @Override
     public boolean checkAccessSharingThoughts(User user) {
         return sharedThoughtDao.checkAccessSharingThoughts(user);
+    }
+
+    @Override
+    public boolean openCloseSharedThought(Long sharedThoughtId) {
+        SharedThought sharedThought = get(sharedThoughtId, false, true);
+        return sharedThoughtDao.openCloseSharedThought(sharedThought);
+    }
+
+    @Override
+    public List<Unit> getLoggedInUsersUnits() {
+        User loggedInUser = securityUserManager.getLoggedInUser();
+        return sharedThoughtDao.getUsersUnits(loggedInUser);
+    }
+
+    @Override
+    public boolean sendMessageToPatient(Long sharedThoughtId, String subject, String message) {
+        SharedThought sharedThought = get(sharedThoughtId, false, true);
+        User loggedInUser = securityUserManager.getLoggedInUser();
+
+        if (sharedThought != null) {
+            if (sharedThoughtDao.sendMessageToPatient(sharedThought, subject, message, loggedInUser) != null) {
+                return true;
+            }
+        }
+        return false;
     }
 }

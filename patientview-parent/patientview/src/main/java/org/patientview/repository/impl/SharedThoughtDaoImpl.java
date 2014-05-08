@@ -1,5 +1,6 @@
 package org.patientview.repository.impl;
 
+import org.patientview.model.Unit;
 import org.patientview.patientview.model.Conversation;
 import org.patientview.patientview.model.Message;
 import org.patientview.patientview.model.SharedThought;
@@ -70,6 +71,27 @@ public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> im
     public List<SharedThought> getAll(boolean orderBySubmitDate) {
         StringBuilder queryText = new StringBuilder();
         queryText.append("FROM      SharedThought ");
+
+        if (orderBySubmitDate) {
+            queryText.append("ORDER BY submitDate DESC");
+        } else {
+            queryText.append("ORDER BY dateLastSaved DESC");
+        }
+
+        TypedQuery<SharedThought> query = getEntityManager().createQuery(queryText.toString(), SharedThought.class);
+
+        try {
+            return query.getResultList();
+        } catch (Exception e) {
+            return Collections.emptyList();
+        }
+    }
+
+    @Override
+    public List<SharedThought> getSubmitted(boolean orderBySubmitDate) {
+        StringBuilder queryText = new StringBuilder();
+        queryText.append("FROM      SharedThought ");
+        queryText.append("WHERE     isSubmitted = true ");
 
         if (orderBySubmitDate) {
             queryText.append("ORDER BY submitDate DESC");
@@ -334,6 +356,84 @@ public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> im
             return !query.getResultList().isEmpty();
         } catch (Exception e) {
             return false;
+        }
+    }
+
+    @Override
+    public boolean openCloseSharedThought(SharedThought sharedThought) {
+        try {
+            SharedThoughtAudit audit = new SharedThoughtAudit();
+            audit.setSharedThought(sharedThought);
+            audit.setDate(new Date());
+            audit.setUser(securityUserManager.getLoggedInUser());
+
+            if (sharedThought.getClosed()) {
+                sharedThought.setClosed(false);
+                audit.setAction(SharedThoughtAuditAction.OPEN);
+            } else {
+                sharedThought.setClosed(true);
+                audit.setAction(SharedThoughtAuditAction.CLOSE);
+            }
+
+            sharedThoughtAuditDao.save(audit);
+
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public List<Unit> getUsersUnits(User user) {
+        StringBuilder queryText = new StringBuilder();
+        queryText.append("SELECT    uni ");
+        queryText.append("FROM      User AS usr ");
+        queryText.append(",         UserMapping AS ump ");
+        queryText.append(",         Unit AS uni ");
+        queryText.append("WHERE     ump.username = usr.username ");
+        queryText.append("AND       ump.unitcode = uni.unitcode ");
+        queryText.append("AND       uni.sharedThoughtEnabled = true ");
+        queryText.append("AND       usr = :user ");
+        queryText.append("GROUP BY  uni.id ");
+
+        TypedQuery<Unit> query = getEntityManager().createQuery(queryText.toString(), Unit.class);
+        query.setParameter("user", user);
+
+        try {
+            return query.getResultList();
+        } catch (Exception e) {
+            return Collections.emptyList();
+        }
+    }
+
+    @Override
+    public Message sendMessageToPatient(SharedThought sharedThought, String subject, String messageBody, User sender) {
+        try {
+
+            // create conversation, anonymous patient if required
+            Conversation conversation = new Conversation();
+            conversation.setParticipant1(sender);
+            conversation.setParticipant2(sharedThought.getUser());
+            conversation.setSubject(subject);
+            conversation.setType(ConversationType.SHARED_THOUGHT_MESSAGE_TO_PATIENT);
+            conversation.setParticipant2Anonymous(sharedThought.getAnonymous());
+            conversation.setStarted(new Date());
+            getEntityManager().persist(conversation);
+            getEntityManager().flush();
+
+            // add message to conversation
+            Message message = new Message();
+            message.setConversation(conversation);
+            message.setSender(sender);
+            message.setContent(messageBody);
+            message.setType(ConversationType.SHARED_THOUGHT_MESSAGE_TO_PATIENT);
+            message.setDate(new Date());
+            getEntityManager().persist(message);
+            getEntityManager().flush();
+
+            return message;
+        } catch (Exception ex) {
+            return null;
         }
     }
 }

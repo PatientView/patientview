@@ -1,5 +1,6 @@
 package org.patientview.repository;
 
+import org.patientview.model.Unit;
 import org.patientview.patientview.model.Message;
 import org.patientview.patientview.model.SharedThought;
 import org.patientview.patientview.model.User;
@@ -12,6 +13,8 @@ import java.util.List;
 public interface SharedThoughtDao {
 
     List<SharedThought> getAll(boolean orderBySubmitDate);
+
+    List<SharedThought> getSubmitted(boolean orderBySubmitDate);
 
     SharedThought get(Long id);
 
@@ -45,4 +48,18 @@ public interface SharedThoughtDao {
     Message createSharedThoughtMessage(SharedThought sharedThought, String content, User sender);
 
     boolean checkAccessSharingThoughts(User user);
+
+    boolean openCloseSharedThought(SharedThought sharedThought);
+
+    List<Unit> getUsersUnits(User user);
+
+    /**
+     * Send a message from the current logged in user to the patient, anonymously if shared thought is anonymous
+     * @param sharedThought Shared thought this relates to
+     * @param subject Subject of message
+     * @param messageBody Message body
+     * @param sender The user sending the message
+     * @return Message sent to patient
+     */
+    Message sendMessageToPatient(SharedThought sharedThought, String subject, String messageBody, User sender);
 }

@@ -554,24 +554,39 @@ section article.conversation .dull, section article.message .dull, .dull{
     display:none;
 }
 
-#feedbackModal {
+/* feedback and message (in shared thoughts) dialog */
+#feedbackModal, #messageModal {
     border: 1px solid #999;
     display: none;
 }
 
-#feedbackModal form, #js-feedback-success, #js-feedback-loading{
+#messageBackground {
+    background-color: white;
+    display: none;
+    opacity: 0.8;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+#messageSubtitle {
+    margin-bottom: 20px;
+}
+
+#feedbackModal form, #js-feedback-success, #js-feedback-loading,
+#messageModal form, #js-message-success, #js-message-loading {
     background-color: white;
     padding: 20px;
     margin: 0px;
 }
 
-#js-feedback-message {
+#js-feedback-message, #js-message-message {
     height: 150px;
     width: 300px;
     margin-bottom: 0px;
 }
 
-#js-feedback-subject {
+#js-feedback-subject, #js-message-subject {
     width: 304px;
 }
 
@@ -581,11 +596,13 @@ section article.conversation .dull, section article.message .dull, .dull{
 }
 
 #js-feedback-recipient-error, #js-feedback-subject-error, #js-feedback-message-error,
-#js-feedback-error-found, #js-feedback-success, #js-feedback-loading{
+#js-feedback-error-found, #js-feedback-success, #js-feedback-loading,
+#js-message-subject-error, #js-message-message-error,
+#js-message-error-found, #js-message-success, #js-message-loading{
     display:none;
 }
 
-#feedbackModal {
+#feedbackModal, #messageModal {
     position: absolute;
     top: 20px;
     left: 50%;
@@ -617,9 +634,7 @@ section article.conversation .dull, section article.message .dull, .dull{
     margin-left: 2px;
 }
 
-.label-conversationStatus-closed,
-.label-conversationStatus-open,
-.label-conversationStatus-feedback,
+.label-conversation
 .conversation-date{
     position: relative;
     top: 10px;
@@ -631,6 +646,14 @@ section article.conversation .dull, section article.message .dull, .dull{
 
 .label-conversationStatus-closed {
     background-color: #189c41;
+}
+
+.label-conversationStatus-sharingthoughts {
+    background-color: #9c0054;
+}
+
+.label-conversationStatus-anonymous {
+    background-color: #000000;
 }
 
 #selectConversationStatus {
@@ -787,4 +810,8 @@ div#tableSubmittedThoughts_filter,
 div#tablePartialThoughts_length,
 div#tablePartialThoughts_filter {
     display: none;
+}
+
+td.sharedThoughtClosed {
+    text-align: center;
 }

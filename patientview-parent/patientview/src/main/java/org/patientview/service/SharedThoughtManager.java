@@ -1,5 +1,6 @@
 package org.patientview.service;
 
+import org.patientview.model.Unit;
 import org.patientview.patientview.model.SharedThought;
 import org.patientview.patientview.model.User;
 
@@ -13,6 +14,13 @@ public interface SharedThoughtManager {
      * @return list of SharedThought
      */
     List<SharedThought> getAll(boolean orderBySubmitDate);
+
+    /**
+     * Get list of submitted shared thoughts, ordering by submit date if required
+     * @param orderBySubmitDate true if ordering by submit date
+     * @return list of SharedThought
+     */
+    List<SharedThought> getSubmitted(boolean orderBySubmitDate);
 
     /**
      * Get a single shared thought, auditing view if necessary
@@ -92,4 +100,26 @@ public interface SharedThoughtManager {
      * @return True if user can use Sharing Thoughts, false if not
      */
     boolean checkAccessSharingThoughts(User user);
+
+    /**
+     * Change shared thought between open/closed
+     * @param sharedThoughtId Id of shared thought to change between open/closed
+     * @return True if success, else false
+     */
+    boolean openCloseSharedThought(Long sharedThoughtId);
+
+    /**
+     * Get a list of units the current logged in user is a member of that are also shared thoughts enabled
+     * @return List of Unit that have shared thoughts enabled
+     */
+    List<Unit> getLoggedInUsersUnits();
+
+    /**
+     * Send a message from the current logged in user to the patient, anonymously if shared thought is anonymous
+     * @param sharedThoughtId Id of shared thought
+     * @param subject Subject of message
+     * @param message Message body
+     * @return True if success, else false
+     */
+    boolean sendMessageToPatient(Long sharedThoughtId, String subject, String message);
 }

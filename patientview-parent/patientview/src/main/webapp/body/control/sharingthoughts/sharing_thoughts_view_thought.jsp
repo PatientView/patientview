@@ -6,6 +6,43 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <html:xhtml/>
+<%-- Message to patient dialog --%>
+
+<div id="messageBackground"></div>
+<div id="messageModal" class="boxShadow1">
+    <form id="js-message-form">
+        <h2>Send Message to Patient</h2>
+        <p id="messageSubtitle"/><br/>
+        <div class="alert alert-error" id="js-message-error-found"></div>
+        <div class="control-group">
+            <label class="control-label">Subject</label>
+            <div class="controls"><input name="subject" id="js-message-subject"/></div>
+            <div class="alert alert-error" id="js-message-subject-error"></div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Message</label>
+            <div class="controls"><textarea name="message" id="js-message-message"></textarea></div>
+            <div class="alert alert-error" id="js-message-message-error"></div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <input type="submit" value="Send message" id="js-message-submit-btn" class="btn btn-primary"/>&nbsp;
+                <input type="submit" value="Cancel" id="js-message-cancel-btn" class="btn"/>
+            </div>
+        </div>
+    </form>
+    <div id="js-message-loading">
+        <h2>Sending message</h2>
+        <p>Please wait for your message to be sent</p>
+    </div>
+    <div id="js-message-success">
+        <h2>Message Sent</h2>
+        <br/>
+        <div class="alert alert-success">Your message has been sent</div>
+        <input type="submit" value="Close" id="js-message-close-btn" class="btn"/>
+    </div>
+</div>
+
 <div class="span9">
 <div class="page-header-noline">
     <logic:equal value="1" property="<%=SharingThoughts.POSITIVE_NEGATIVE%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" >
@@ -14,10 +51,16 @@
     <logic:notEqual value="1" property="<%=SharingThoughts.POSITIVE_NEGATIVE%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" >
         <h1>Quality or Safety Concern</h1>
     </logic:notEqual>
-    <div class="sharedThoughtSubmitDate pull-right">Submitted <bean:write name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.SUBMIT_DATE%>"/></div>
+    <div class="sharedThoughtSubmitDate pull-left">
+        Submitted <bean:write name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.SUBMIT_DATE%>"/>
+    </div>
+    <div class="pull-right">
+        <html:submit value="Send Message to Patient" styleClass="btn btn-primary formbutton" styleId="btnSendMessage"/>
+    </div>
 </div>
 
 <html:hidden name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.ID%>" styleId="sharedThoughtId"/>
+<html:hidden name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.IS_ANONYMOUS%>" styleId="sharedThoughtIsAnonymous"/>
 
 <logic:equal value="false" property="<%=SharingThoughts.IS_ANONYMOUS%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" >
     <table border="0" cellspacing="1" cellpadding="3" class="table table-bordered table-striped">
@@ -227,11 +270,18 @@
     <logic:empty name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.CONVERSATION%>">
         <tr id="trNoComments"><td colspan="2">No messages from responding staff yet</td></tr>
     </logic:empty>
-    <tr>
-        <td><textarea id="textareaMessage"></textarea></td>
-        <td><html:submit value="Add Message" styleClass="btn formbutton" styleId="btnAddMessage"/></td>
-        <input type="hidden" id="userFullName" value="<bean:write name="user" property="name"/>"/>
-    </tr>
+    <logic:equal value="false" name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.CLOSED%>" >
+        <tr>
+            <td><textarea id="textareaMessage"></textarea></td>
+            <td><html:submit value="Add Message" styleClass="btn formbutton" styleId="btnAddMessage"/></td>
+            <input type="hidden" id="userFullName" value="<bean:write name="user" property="name"/>"/>
+        </tr>
+    </logic:equal>
+    <logic:equal value="true" name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.CLOSED%>" >
+        <tr>
+            <td colspan="2" class="sharedThoughtClosed">This Shared Thought has been closed, no more messages can be added</td>
+        </tr>
+    </logic:equal>
     </tbody>
 </table>
 
@@ -275,6 +325,12 @@
                             <logic:equal value="<%=SharedThoughtAuditAction.REMOVE_RESPONDER.toString()%>" name="audit" property="action">
                                 <bean:write name="audit" property="user.name"/>
                             </logic:equal>
+                            <logic:equal value="<%=SharedThoughtAuditAction.OPEN.toString()%>" name="audit" property="action">
+                                <bean:write name="audit" property="user.name"/>
+                            </logic:equal>
+                            <logic:equal value="<%=SharedThoughtAuditAction.CLOSE.toString()%>" name="audit" property="action">
+                                <bean:write name="audit" property="user.name"/>
+                            </logic:equal>
                         </logic:equal>
                         <logic:equal value="false" property="<%=SharingThoughts.IS_ANONYMOUS%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" >
                             <bean:write name="audit" property="user.name"/>
@@ -311,7 +367,17 @@
 
 <br/>
 
-<html:link action="/control/sharingThoughts"><html:submit value="Back" styleClass="btn formbutton" /></html:link>
+<html:link action="/control/sharingThoughts"><html:submit value="Back" styleClass="btn formbutton" /></html:link> &nbsp;
+
+<logic:equal value="true" name="user" property="<%=SharingThoughts.SHARED_THOUGHT_ADMINISTRATOR%>" >
+    <logic:equal value="false" name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.CLOSED%>" >
+        <html:submit value="Close Shared Thought" styleClass="btn formbutton" styleId="btnOpenCloseSharedThought"/>
+    </logic:equal>
+    <logic:equal value="true" name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.CLOSED%>" >
+        <html:submit value="Open Shared Thought" styleClass="btn formbutton" styleId="btnOpenCloseSharedThought"/>
+    </logic:equal>
+</logic:equal>
+
 </div>
 
 <script type="text/javascript" src="/js/sharedThought.js"></script>

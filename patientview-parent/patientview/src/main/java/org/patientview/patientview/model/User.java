@@ -23,6 +23,7 @@
 
 package org.patientview.patientview.model;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.patientview.model.BaseModel;
 import org.patientview.utils.LegacySpringUtils;
 import org.slf4j.Logger;
@@ -42,7 +43,6 @@ import java.util.Set;
 
 @Entity
 public class User extends BaseModel {
-
     private static final Logger LOGGER = LoggerFactory.getLogger(User.class);
 
     @Column(nullable = false, unique = true)
@@ -111,6 +111,7 @@ public class User extends BaseModel {
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Set<SpecialtyUserRole> specialtyUserRoles;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private Set<UserSharedThought> sharedThoughts = new HashSet<UserSharedThought>();
 
@@ -310,5 +311,11 @@ public class User extends BaseModel {
     }
     public void setSharedThoughts(Set<UserSharedThought> sharedThoughts) {
         this.sharedThoughts = sharedThoughts;
+    }
+
+    public void makeAnonymous() {
+        setFirstName("Anonymous");
+        setLastName("User");
+        setEmail(null);
     }
 }

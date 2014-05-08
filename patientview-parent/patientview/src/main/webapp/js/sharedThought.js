@@ -32,12 +32,28 @@ sharedThought.responderMessageTextarea = $('#textareaMessage');
 sharedThought.responderMessageTrNoComments = $('#trNoComments');
 sharedThought.responderAddMessage = $('#messageAddOtherSharedThoughtResponder');
 sharedThought.id = $('#sharedThoughtId').val();
+sharedThought.isAnonymous = $('#sharedThoughtIsAnonymous').val();
 sharedThought.userFullName = $('#userFullName').val();
+sharedThought.closeBtn = $('#btnOpenCloseSharedThought');
+
+// message to patient
+sharedThought.sendMessageBtn = $('#btnSendMessage')
+sharedThought.messageModal = $('#messageModal');
+sharedThought.messageSubtitle = $('#messageSubtitle');
+sharedThought.messageBackground = $('#messageBackground');
+sharedThought.messageForm = $('#js-message-form');
+sharedThought.messageSuccessDiv = $('#js-message-success');
+sharedThought.messageLoadingDiv = $('#js-message-loading');
+sharedThought.submitMessageBtn = $('#js-message-submit-btn');
+sharedThought.cancelMessageBtn = $('#js-message-cancel-btn');
+sharedThought.closeMessageBtn = $('#js-message-close-btn');
 
 /**
  * Set up buttons
  */
 sharedThought.init = function() {
+
+    // conversation
     sharedThought.responderMessageBtn.click(function(event) {
         event.preventDefault();
         sharedThought.addMessage();
@@ -53,37 +69,136 @@ sharedThought.init = function() {
         sharedThought.removeResponder($(this));
     });
 
+    // set thought open/closed
+    sharedThought.closeBtn.click(function(event) {
+        event.preventDefault();
+        sharedThought.openCloseSharedThought();
+    });
+
+    // sending message to patient
+    sharedThought.sendMessageBtn.click(function(event) {
+        event.preventDefault();
+        sharedThought.showMessageToPatientDialog();
+    });
+
+    sharedThought.cancelMessageBtn.click(function(event) {
+        event.preventDefault();
+        sharedThought.hideMessageToPatientDialog();
+    });
+
+    sharedThought.submitMessageBtn.click(function(event) {
+        event.preventDefault();
+        if (sharedThought.sendMessageToPatient()) {
+            sharedThought.hideMessageToPatientDialog();
+        }
+    });
+
+    sharedThought.closeMessageBtn.click(function(event) {
+        event.preventDefault();
+        sharedThought.hideMessageToPatientDialog();
+        sharedThought.messageForm.show();
+        sharedThought.messageSuccessDiv.hide();
+    });
+
     sharedThought.responderAddMessage.empty();
     sharedThought.responderMessageTextarea.empty();
-    sharedThought.getOtherResponders();
 };
 
 /**
- * Get list of responders who are not already attached to this shared thought, add to select
+ * Show message to patient dialog
  */
-sharedThought.getOtherResponders = function() {
-    sharedThought.responderSelect.empty();
-    sharedThought.responderAddBtn.attr('disabled','disabled');
-    sharedThought.responderSelect.attr('disabled','disabled');
+sharedThought.showMessageToPatientDialog = function() {
 
-    $.ajax({
-        type: "POST",
-        url: "/web/sharingThoughts/getOtherResponders",
-        data: {sharedThoughtId : sharedThought.id},
-        success: function(data) {
-            if (data != null) {
-                $.each(data, function(id, name) {
-                    sharedThought.responderSelect.append("<option value='" + id + "'>" + name + "</option>");
-                });
-                sharedThought.responderAddBtn.removeAttr('disabled');
-                sharedThought.responderSelect.removeAttr('disabled');
-            }
-        },
-        error: function() {
-            sharedThought.responderAddMessage.text("No additional responders available");
-        },
-        dataType: 'json'
-    });
+    // set subtitle to different text if anonymous
+    if (sharedThought.isAnonymous == "true") {
+        sharedThought.messageSubtitle.text("The patient will be kept anonymous and receive your message as normal, you will not be able to see the patient's details when looking at the conversation.");
+    } else {
+        sharedThought.messageSubtitle.text("The patient will receive your message as a normal message.");
+    }
+
+    // fade background and show dialog
+    sharedThought.messageBackground.css('height',$(document).height());
+    sharedThought.messageBackground.css('width',$(window).width());
+    sharedThought.messageBackground.show();
+    sharedThought.messageModal.show();
+}
+
+/**
+ * Get user data from message form, check for errors, send to server
+ */
+sharedThought.sendMessageToPatient = function() {
+
+    sharedThought.clearErrorMessages();
+
+    var messageData = {};
+    messageData.sharedThoughtId = sharedThought.id;
+    messageData.subject = $('#js-message-subject').val();
+    messageData.message = $('#js-message-message').val();
+
+    var errors = false;
+
+    if (!messageData.subject.length > 0) {
+        $('#js-message-subject-error').text("Please enter a subject");
+        $('#js-message-subject-error').show();
+        errors = true;
+    }
+
+    if (!messageData.message.length > 0) {
+        $('#js-message-message-error').text("Please enter a message");
+        $('#js-message-message-error').show();
+        errors = true;
+    }
+
+    if (errors) {
+        return false;
+    } else {
+
+        sharedThought.messageForm.hide();
+        sharedThought.messageLoadingDiv.show();
+
+        $.ajax({
+            type: "POST",
+            url: "/web/sharingThoughts/sendMessageToPatient",
+            data: messageData,
+            success: function(data) {
+                sharedThought.messageLoadingDiv.hide();
+                sharedThought.messageSuccessDiv.show();
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                $('#js-message-error-found').text("Sorry, there was an error sending your message to the patient");
+                $('#js-message-error-found').show();
+                sharedThought.messageLoadingDiv.hide();
+                sharedThought.messageForm.show();
+            },
+            dataType: 'json'
+        });
+    }
+}
+
+/**
+ * Hide message dialog, clear the form of user entered data
+ */
+sharedThought.hideMessageToPatientDialog = function() {
+    // hide dialog
+    sharedThought.messageBackground.hide();
+    sharedThought.messageModal.hide();
+
+    // clear form
+    $('#js-message-subject').val("");
+    $('#js-message-message').val("");
+    sharedThought.clearErrorMessages();
+}
+
+/**
+ * clear error messages, hide alerts
+ */
+sharedThought.clearErrorMessages = function() {
+    $('#js-message-subject-error').text("");
+    $('#js-message-subject-error').hide();
+    $('#js-message-message-error').text("");
+    $('#js-message-message-error').hide();
+    $('#js-message-error-found').text("");
+    $('#js-message-error-found').hide();
 }
 
 /**
@@ -172,6 +287,35 @@ sharedThought.removeResponder = function(removeButton) {
     });
 
     removeButton.removeAttr('disabled');
+}
+
+/**
+ * close/open shared thought and return to list (avoids logic/redraw of message input)
+ */
+sharedThought.openCloseSharedThought = function() {
+
+    var confirmMsg = "Are you sure you want to close this Shared Thought and stop staff adding to the conversation?";
+    if (sharedThought.closeBtn.val().contains("Open")) {
+        confirmMsg = "Are you sure you want to open this Shared Thought and allow staff to add to the conversation?"
+    }
+
+    if(confirm(confirmMsg)) {
+        var data = {};
+        data.sharedThoughtId = sharedThought.id;
+
+        $.ajax({
+            type: "POST",
+            url: "/web/sharingThoughts/openCloseSharedThought",
+            data: data,
+            success: function() {
+                window.location = "/renal/control/sharingThoughts.do";
+            },
+            error: function() {
+                alert("There was an error changing the status of this Shared Thought");
+            },
+            dataType: 'json'
+        });
+    }
 }
 
 // add in a dom ready to fire init

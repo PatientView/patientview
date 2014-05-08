@@ -31,6 +31,7 @@ CREATE TABLE `sharedthought` (
   `notes` text,
   `status` text,
   `is_viewed` tinyint(1) NOT NULL DEFAULT '0',
+  `closed` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -61,4 +62,7 @@ CREATE TABLE `sharedthought_audit` (
 ALTER TABLE unit ADD COLUMN `sharedThoughtEnabled` tinyint(1) DEFAULT '0';
 ALTER TABLE user ADD COLUMN `sharedThoughtAdministrator` tinyint(1) NOT NULL DEFAULT '0';
 ALTER TABLE user ADD COLUMN `sharedThoughtResponder` tinyint(1) NOT NULL DEFAULT '0';
+
+ALTER TABLE conversation ADD COLUMN `participant1Anonymous` tinyint(1) DEFAULT '0';
+ALTER TABLE conversation ADD COLUMN `participant2Anonymous` tinyint(1) DEFAULT '0';
 

@@ -30,5 +30,7 @@ public enum SharedThoughtAuditAction {
     SUBMIT,
     ADD_MESSAGE,
     ADD_RESPONDER,
-    REMOVE_RESPONDER
+    REMOVE_RESPONDER,
+    OPEN,
+    CLOSE
 }

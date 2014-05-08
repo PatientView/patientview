@@ -53,7 +53,7 @@
             </logic:notPresent>
             <td class="tablecell"><bean:write name="thought" property="submitDateFormattedDateTime"/></td>
             <td class="tablecell"><bean:write name="thought" property="dateLastSavedFormattedDateTime"/></td>
-            <logic:present role="unitstaff,unitadmin,superadmin">
+            <logic:present role="unitstaff,unitadmin">
                 <td class="tablecell">
                     <html:form action="/control/sharingThoughtsViewThought">
                         <html:hidden name="thought" property="id"/>
@@ -63,6 +63,14 @@
                         <logic:equal value="false" name="thought" property="loggedInUserViewed">
                             <html:submit value="View (updated)" styleClass="btn" />
                         </logic:equal>
+                    </html:form>
+                </td>
+            </logic:present>
+            <logic:present role="superadmin">
+                <td class="tablecell">
+                    <html:form action="/control/sharingThoughtsViewThought">
+                        <html:hidden name="thought" property="id"/>
+                        <html:submit value="View" styleClass="btn" />
                     </html:form>
                 </td>
             </logic:present>

@@ -1,5 +1,8 @@
 <%@ page import="org.patientview.patientview.messaging.Messaging" %>
 <%@ page import="org.patientview.patientview.model.enums.ConversationType" %>
+<%@ page import="org.patientview.patientview.model.User" %>
+<%@ page import="org.patientview.utils.LegacySpringUtils" %>
+<%@ page import="org.patientview.patientview.model.Conversation" %>
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
@@ -111,7 +114,7 @@
                                 <a href="/<%=actionPrefix%>/conversation.do?conversationId=<bean:write name="conversation" property="id" />#response">
                                     <article class="conversation <%=even ? "" : "odd"%>">
                                         <h2 class="title">
-                                            <bean:write name="conversation" property="otherUser.name" />
+                                            With: <bean:write name="conversation" property="otherUser.name" />
                                             <logic:greaterThan value="0" name="conversation" property="numberUnread">
                                                 <span class="badge badge-important">
                                                     <bean:write name="conversation" property="numberUnread" />
@@ -120,22 +123,33 @@
                                             <span class="pull-right conversation-date label label-inverse"><bean:write name="conversation" property="friendlyLatestMessageDate" /></span>
                                             <logic:equal value="<%=ConversationType.FEEDBACK.toString()%>" name="conversation" property="type">
                                                 <!-- show Feedback label -->
-                                                <span class="pull-right label label-conversationStatus-feedback">Feedback</span>
+                                                <span class="pull-right label label-conversation label-conversationStatus-feedback">Feedback</span>
                                                 <logic:equal value="false" name="conversation" property="clinicianClosed">
-                                                    <span class="pull-right label-conversationStatus-open label">Open</span>
+                                                    <span class="pull-right label label-conversation label-conversationStatus-open">Open</span>
                                                 </logic:equal>
                                                 <logic:equal value="true" name="conversation" property="clinicianClosed">
-                                                    <span class="pull-right label-conversationStatus-closed label">Closed</span>
+                                                    <span class="pull-right label label-conversation label-conversationStatus-closed">Closed</span>
                                                 </logic:equal>
                                             </logic:equal>
+                                            <logic:equal value="<%=ConversationType.SHARED_THOUGHT_MESSAGE_TO_PATIENT.toString()%>" name="conversation" property="type">
+                                                <!-- show from shared thought -->
+                                                <span class="pull-right label label-conversation label-conversationStatus-sharingthoughts">Sharing Thoughts</span>
+                                            </logic:equal>
+                                            <logic:equal value="true" name="conversation" property="participant1Anonymous">
+                                                <span class="pull-right label label-conversation label-conversationStatus-anonymous">Anonymous</span>
+                                            </logic:equal>
+                                            <logic:equal value="true" name="conversation" property="participant2Anonymous">
+                                                <span class="pull-right label label-conversation label-conversationStatus-anonymous">Anonymous</span>
+                                            </logic:equal>
+
                                             <span class="action-test dull">Click to open</span>
                                         </h2>
                                         <h4>
-                                            <logic:equal value="<%=ConversationType.FEEDBACK.toString()%>" name="conversation" property="type">Feedback: </logic:equal>
+                                            Subject: <logic:equal value="<%=ConversationType.FEEDBACK.toString()%>" name="conversation" property="type">Feedback: </logic:equal>
                                             <bean:write name="conversation" property="subject" />
                                         </h4>
                                         <div class="content dull">
-                                            <bean:write name="conversation" property="latestMessageSummary" />
+                                            Latest: <bean:write name="conversation" property="latestMessageSummary" />
                                         </div>
                                     </article>
                                 </a>

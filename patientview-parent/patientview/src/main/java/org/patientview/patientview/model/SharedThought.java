@@ -148,6 +148,9 @@ public class SharedThought extends BaseModel {
     @Column(name = "is_viewed")
     private Boolean isViewed = false;
 
+    @Column(name = "closed")
+    private Boolean closed = false;
+
     @OneToMany(mappedBy = "sharedThought", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @LazyCollection(LazyCollectionOption.FALSE)
     private Set<UserSharedThought> responders = new HashSet<UserSharedThought>();
@@ -404,6 +407,14 @@ public class SharedThought extends BaseModel {
 
     public void setViewed(Boolean viewed) {
         isViewed = viewed;
+    }
+
+    public Boolean getClosed() {
+        return closed;
+    }
+
+    public void setClosed(Boolean closed) {
+        this.closed = closed;
     }
 
     public String getDateLastSavedFormattedDate() {
