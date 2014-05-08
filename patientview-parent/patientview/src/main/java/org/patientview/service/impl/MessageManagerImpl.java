@@ -23,6 +23,7 @@
 
 package org.patientview.service.impl;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.joda.time.DateTime;
 import org.patientview.model.Unit;
 import org.patientview.patientview.logon.UnitAdmin;
@@ -680,7 +681,7 @@ public class MessageManagerImpl implements MessageManager {
             if (conversation.getParticipant1().getId().equals(participantId)) {
                 User otherUser = conversation.getParticipant2();
                 if (conversation.isParticipant2Anonymous()) {
-                    User anonUser = (User) otherUser.clone();
+                    User anonUser = (User) BeanUtils.cloneBean(otherUser);
                     anonUser.makeAnonymous();
                     return anonUser;
                 } else {
@@ -689,14 +690,14 @@ public class MessageManagerImpl implements MessageManager {
             } else {
                 User otherUser = conversation.getParticipant1();
                 if (conversation.isParticipant1Anonymous()) {
-                    User anonUser = (User) otherUser.clone();
+                    User anonUser = (User) BeanUtils.cloneBean(otherUser);
                     anonUser.makeAnonymous();
                     return anonUser;
                 } else {
                     return otherUser;
                 }
             }
-        } catch (CloneNotSupportedException ex) {
+        } catch (Exception ex) {
             return null;
         }
     }

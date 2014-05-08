@@ -42,7 +42,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class User extends BaseModel implements Cloneable {
+public class User extends BaseModel {
     private static final Logger LOGGER = LoggerFactory.getLogger(User.class);
 
     @Column(nullable = false, unique = true)
@@ -317,10 +317,5 @@ public class User extends BaseModel implements Cloneable {
         setFirstName("Anonymous");
         setLastName("User");
         setEmail(null);
-    }
-
-    @Override
-    public Object clone() throws CloneNotSupportedException {
-        return super.clone();
     }
 }
