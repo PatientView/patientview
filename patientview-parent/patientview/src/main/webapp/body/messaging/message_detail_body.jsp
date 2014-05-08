@@ -55,8 +55,8 @@
                     <a href="/<%=actionPrefix%>/conversations.do" class="btn">Back to Messages</a>
                 </div>
 
-                <h1><br /><bean:write name="conversation" property="subject" /></h1>
-                <h4 class="author"><bean:write name="conversation" property="otherUser.name" /></h4>
+                <h1><br />Subject: <bean:write name="conversation" property="subject" /></h1>
+                <h4 class="author">With: <bean:write name="conversation" property="otherUser.name" /></h4>
 
                 <logic:equal value="<%=ConversationType.FEEDBACK.toString()%>" name="conversation" property="type">
                     <!-- only shown for conversations with type ConversationType.FEEDBACK.toString() -->
@@ -109,7 +109,22 @@
                         <logic:iterate name="messages" id="message" indexId="index" type="org.patientview.patientview.model.Message">
                             <article class="message" id="message-<bean:write name="message" property="id" />">
                                 <h4 class="author">
-                                    <bean:write name="message" property="sender.name" />
+                                    <%
+                                        // only show other persons name if not anonymous conversation
+                                        User participant1 = message.getConversation().getParticipant1();
+                                        User participant2 = message.getConversation().getParticipant2();
+
+                                        if ((user.equals(participant1)
+                                                && message.getConversation().isParticipant2Anonymous()
+                                                && message.getSender().equals(participant2))
+                                         || (user.equals(participant2)
+                                                && message.getConversation().isParticipant1Anonymous()
+                                                && message.getSender().equals(participant1))) {
+                                    %>
+                                        Anonymous User
+                                    <% } else { %>
+                                        <bean:write name="message" property="sender.name" />
+                                    <% } %>
 
                                     <%
                                     // check to see if they are the recipient of this message and if they have seen before

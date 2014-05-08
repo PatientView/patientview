@@ -405,4 +405,35 @@ public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> im
             return Collections.emptyList();
         }
     }
+
+    @Override
+    public Message sendMessageToPatient(SharedThought sharedThought, String subject, String messageBody, User sender) {
+        try {
+
+            // create conversation, anonymous patient if required
+            Conversation conversation = new Conversation();
+            conversation.setParticipant1(sender);
+            conversation.setParticipant2(sharedThought.getUser());
+            conversation.setSubject(subject);
+            conversation.setType(ConversationType.SHARED_THOUGHT_MESSAGE_TO_PATIENT);
+            conversation.setParticipant2Anonymous(sharedThought.getAnonymous());
+            conversation.setStarted(new Date());
+            getEntityManager().persist(conversation);
+            getEntityManager().flush();
+
+            // add message to conversation
+            Message message = new Message();
+            message.setConversation(conversation);
+            message.setSender(sender);
+            message.setContent(messageBody);
+            message.setType(ConversationType.SHARED_THOUGHT_MESSAGE_TO_PATIENT);
+            message.setDate(new Date());
+            getEntityManager().persist(message);
+            getEntityManager().flush();
+
+            return message;
+        } catch (Exception ex) {
+            return null;
+        }
+    }
 }

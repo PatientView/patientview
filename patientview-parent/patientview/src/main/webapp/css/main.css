@@ -634,9 +634,7 @@ section article.conversation .dull, section article.message .dull, .dull{
     margin-left: 2px;
 }
 
-.label-conversationStatus-closed,
-.label-conversationStatus-open,
-.label-conversationStatus-feedback,
+.label-conversation
 .conversation-date{
     position: relative;
     top: 10px;
@@ -648,6 +646,14 @@ section article.conversation .dull, section article.message .dull, .dull{
 
 .label-conversationStatus-closed {
     background-color: #189c41;
+}
+
+.label-conversationStatus-sharingthoughts {
+    background-color: #9c0054;
+}
+
+.label-conversationStatus-anonymous {
+    background-color: #000000;
 }
 
 #selectConversationStatus {

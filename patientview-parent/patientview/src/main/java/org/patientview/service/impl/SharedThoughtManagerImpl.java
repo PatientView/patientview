@@ -218,4 +218,17 @@ public class SharedThoughtManagerImpl implements SharedThoughtManager {
         User loggedInUser = securityUserManager.getLoggedInUser();
         return sharedThoughtDao.getUsersUnits(loggedInUser);
     }
+
+    @Override
+    public boolean sendMessageToPatient(Long sharedThoughtId, String subject, String message) {
+        SharedThought sharedThought = get(sharedThoughtId, false, true);
+        User loggedInUser = securityUserManager.getLoggedInUser();
+
+        if (sharedThought != null) {
+            if (sharedThoughtDao.sendMessageToPatient(sharedThought, subject, message, loggedInUser) != null) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

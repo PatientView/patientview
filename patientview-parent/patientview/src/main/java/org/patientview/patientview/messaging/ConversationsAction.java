@@ -91,6 +91,9 @@ public class ConversationsAction extends BaseAction {
 
         request.setAttribute(Messaging.CONVERSATIONS_PARAM, getMessageManager().getConversations(user.getId()));
 
+        // add logged in user to request
+        request.setAttribute("user", user);
+
         return mapping.findForward(SUCCESS);
     }
 }

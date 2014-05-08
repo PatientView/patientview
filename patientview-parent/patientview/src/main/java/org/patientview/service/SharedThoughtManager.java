@@ -113,4 +113,13 @@ public interface SharedThoughtManager {
      * @return List of Unit that have shared thoughts enabled
      */
     List<Unit> getLoggedInUsersUnits();
+
+    /**
+     * Send a message from the current logged in user to the patient, anonymously if shared thought is anonymous
+     * @param sharedThoughtId Id of shared thought
+     * @param subject Subject of message
+     * @param message Message body
+     * @return True if success, else false
+     */
+    boolean sendMessageToPatient(Long sharedThoughtId, String subject, String message);
 }

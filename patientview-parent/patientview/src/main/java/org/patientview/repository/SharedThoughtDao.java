@@ -52,4 +52,14 @@ public interface SharedThoughtDao {
     boolean openCloseSharedThought(SharedThought sharedThought);
 
     List<Unit> getUsersUnits(User user);
+
+    /**
+     * Send a message from the current logged in user to the patient, anonymously if shared thought is anonymous
+     * @param sharedThought Shared thought this relates to
+     * @param subject Subject of message
+     * @param messageBody Message body
+     * @param sender The user sending the message
+     * @return Message sent to patient
+     */
+    Message sendMessageToPatient(SharedThought sharedThought, String subject, String messageBody, User sender);
 }

@@ -592,7 +592,8 @@ public class MessageManagerImpl implements MessageManager {
         Message message = new Message();
         message.setConversation(conversation);
         message.setSender(sender);
-        message.setRecipient(recipient);
+        // do userManager.get to avoid issues with anonymous users
+        message.setRecipient(userManager.get(recipient.getId()));
         message.setContent(content);
         messageDao.save(message);
 
@@ -668,11 +669,35 @@ public class MessageManagerImpl implements MessageManager {
         }
     }
 
+    /**
+     * Gets other user in a conversation given participant ID, will make other user anonymous if required
+     * @param conversation Conversation to get recipients for
+     * @param participantId The current participant
+     * @return User, the other participant
+     */
     private User getOtherUser(Conversation conversation, Long participantId) {
-        if (conversation.getParticipant1().getId().equals(participantId)) {
-            return conversation.getParticipant2();
-        } else {
-            return conversation.getParticipant1();
+        try {
+            if (conversation.getParticipant1().getId().equals(participantId)) {
+                User otherUser = conversation.getParticipant2();
+                if (conversation.isParticipant2Anonymous()) {
+                    User anonUser = (User) otherUser.clone();
+                    anonUser.makeAnonymous();
+                    return anonUser;
+                } else {
+                    return otherUser;
+                }
+            } else {
+                User otherUser = conversation.getParticipant1();
+                if (conversation.isParticipant1Anonymous()) {
+                    User anonUser = (User) otherUser.clone();
+                    anonUser.makeAnonymous();
+                    return anonUser;
+                } else {
+                    return otherUser;
+                }
+            }
+        } catch (CloneNotSupportedException ex) {
+            return null;
         }
     }
 

@@ -27,5 +27,6 @@ public enum ConversationType {
     MESSAGE,
     BULK,
     FEEDBACK,
-    SHARED_THOUGHT
+    SHARED_THOUGHT,
+    SHARED_THOUGHT_MESSAGE_TO_PATIENT
 }

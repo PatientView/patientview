@@ -131,7 +131,6 @@ sharedThought.sendMessageToPatient = function() {
     sharedThought.clearErrorMessages();
 
     var messageData = {};
-    messageData.isAnonymous = sharedThought.isAnonymous;
     messageData.sharedThoughtId = sharedThought.id;
     messageData.subject = $('#js-message-subject').val();
     messageData.message = $('#js-message-message').val();
@@ -159,7 +158,7 @@ sharedThought.sendMessageToPatient = function() {
 
         $.ajax({
             type: "POST",
-            url: "/web/sharingThoughts/submitMessageToPatient",
+            url: "/web/sharingThoughts/sendMessageToPatient",
             data: messageData,
             success: function(data) {
                 sharedThought.messageLoadingDiv.hide();

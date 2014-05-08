@@ -130,4 +130,23 @@ public class SharingThoughtsController extends BaseController {
             } else { return new ResponseEntity<String>(HttpStatus.BAD_REQUEST); }
         } catch (Exception ex) { return new ResponseEntity<String>(HttpStatus.BAD_REQUEST); }
     }
+
+    /**
+     * Deal with the URIs "/sharingThoughts/sendMessageToPatient"
+     * send a message (anonymous or otherwise) from current user to patient
+     */
+    @RequestMapping(value = Routes.SHARING_THOUGHTS_SEND_MESSAGE_TO_PATIENT, method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<String> sendMessageToPatient(
+            @RequestParam("sharedThoughtId") String sharedThoughtId,
+            @RequestParam("subject") String subject,
+            @RequestParam("message") String message) {
+
+        try {
+            if (sharedThoughtManager.sendMessageToPatient(Long.parseLong(sharedThoughtId), subject, message)) {
+                return new ResponseEntity<String>(HttpStatus.OK);
+            } else { return new ResponseEntity<String>(HttpStatus.BAD_REQUEST); }
+        } catch (Exception ex) { return new ResponseEntity<String>(HttpStatus.BAD_REQUEST); }
+    }
+
 }
