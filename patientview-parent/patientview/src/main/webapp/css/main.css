@@ -555,7 +555,7 @@ section article.conversation .dull, section article.message .dull, .dull{
 }
 
 /* feedback and message (in shared thoughts) dialog */
-#feedbackModal, #messageModal {
+#feedbackModal, #messageModalSharingThoughts {
     border: 1px solid #999;
     display: none;
 }
@@ -574,7 +574,7 @@ section article.conversation .dull, section article.message .dull, .dull{
 }
 
 #feedbackModal form, #js-feedback-success, #js-feedback-loading,
-#messageModal form, #js-message-success, #js-message-loading {
+#messageModalSharingThoughts form, #js-message-success, #js-message-loading {
     background-color: white;
     padding: 20px;
     margin: 0px;
@@ -602,7 +602,7 @@ section article.conversation .dull, section article.message .dull, .dull{
     display:none;
 }
 
-#feedbackModal, #messageModal {
+#feedbackModal, #messageModalSharingThoughts {
     position: absolute;
     top: 20px;
     left: 50%;

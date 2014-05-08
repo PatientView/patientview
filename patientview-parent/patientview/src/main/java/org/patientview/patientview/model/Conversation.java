@@ -23,6 +23,7 @@
 
 package org.patientview.patientview.model;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.patientview.model.BaseModel;
 import org.patientview.patientview.model.enums.ConversationType;
 import org.patientview.patientview.model.enums.GroupEnum;
@@ -105,6 +106,7 @@ public class Conversation extends BaseModel {
     @Column(nullable = false)
     private boolean participant2Anonymous = false;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "conversation", fetch = FetchType.EAGER)
     @OrderBy("date")
     private Set<Message> messages;
