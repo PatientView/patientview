@@ -38,7 +38,7 @@ sharedThought.closeBtn = $('#btnOpenCloseSharedThought');
 
 // message to patient
 sharedThought.sendMessageBtn = $('#btnSendMessage')
-sharedThought.messageModal = $('#messageModal');
+sharedThought.messageModal = $('#messageModalSharingThoughts');
 sharedThought.messageSubtitle = $('#messageSubtitle');
 sharedThought.messageBackground = $('#messageBackground');
 sharedThought.messageForm = $('#js-message-form');

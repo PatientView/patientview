@@ -24,7 +24,6 @@
 package org.patientview.patientview.model;
 
 import org.apache.commons.lang.StringUtils;
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.patientview.ibd.Ibd;
 import org.patientview.model.BaseModel;
 import org.patientview.model.Unit;
@@ -47,7 +46,6 @@ public class Message extends BaseModel {
     @Column(nullable = false)
     private boolean deleted;
 
-    @JsonIgnore
     @ManyToOne(optional = false)
     @JoinColumn(name = "conversation_id")
     private Conversation conversation;

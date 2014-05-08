@@ -9,7 +9,7 @@
 <%-- Message to patient dialog --%>
 
 <div id="messageBackground"></div>
-<div id="messageModal" class="boxShadow1">
+<div id="messageModalSharingThoughts" class="boxShadow1">
     <form id="js-message-form">
         <h2>Send Message to Patient</h2>
         <p id="messageSubtitle"/><br/>
