@@ -102,6 +102,7 @@ sharedThought.init = function() {
 
     sharedThought.responderAddMessage.empty();
     sharedThought.responderMessageTextarea.empty();
+    sharedThought.getOtherResponders();
 };
 
 /**
@@ -121,6 +122,34 @@ sharedThought.showMessageToPatientDialog = function() {
     sharedThought.messageBackground.css('width',$(window).width());
     sharedThought.messageBackground.show();
     sharedThought.messageModal.show();
+}
+
+/**
+ * Get list of responders who are not already attached to this shared thought, add to select
+ */
+sharedThought.getOtherResponders = function() {
+    sharedThought.responderSelect.empty();
+    sharedThought.responderAddBtn.attr('disabled','disabled');
+    sharedThought.responderSelect.attr('disabled','disabled');
+
+    $.ajax({
+        type: "POST",
+        url: "/web/sharingThoughts/getOtherResponders",
+        data: {sharedThoughtId : sharedThought.id},
+        success: function(data) {
+            if (data != null) {
+                $.each(data, function(id, name) {
+                    sharedThought.responderSelect.append("<option value='" + id + "'>" + name + "</option>");
+                });
+                sharedThought.responderAddBtn.removeAttr('disabled');
+                sharedThought.responderSelect.removeAttr('disabled');
+            }
+        },
+        error: function() {
+            sharedThought.responderAddMessage.text("No additional responders available");
+        },
+        dataType: 'json'
+    });
 }
 
 /**

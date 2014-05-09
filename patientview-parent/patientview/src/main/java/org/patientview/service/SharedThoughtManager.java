@@ -122,4 +122,11 @@ public interface SharedThoughtManager {
      * @return True if success, else false
      */
     boolean sendMessageToPatient(Long sharedThoughtId, String subject, String message);
+
+    /**
+     * Send a notification email to a newly added responder
+     * @param sharedThoughtId Id of shared thought
+     * @param responderId Id of the responder to email
+     */
+    void sendEmailToResponder(Long sharedThoughtId, Long responderId);
 }
