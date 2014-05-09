@@ -1,7 +1,7 @@
 /* example nhsnumber change script */
 UPDATE testresult SET nhsno = '1111111111' WHERE nhsno = '2222222222';
 UPDATE usermapping SET nhsno = '1111111111' WHERE nhsno = '2222222222';
-UPDATE uktstatus SET nhsno = '1111111111' WHERE nhsno = '2222222222'; 
+UPDATE uktstatus SET nhsno = '1111111111' WHERE nhsno = '2222222222';
 UPDATE treatment SET nhsno = '1111111111' WHERE nhsno = '2222222222';
 UPDATE pv_user_log SET nhsno = '1111111111' WHERE nhsno = '2222222222';
 UPDATE pv_procedure SET nhsno = '1111111111' WHERE nhsno = '2222222222';

@@ -42,6 +42,7 @@ import java.util.List;
  */
 @Controller
 public class SharingThoughtsController extends BaseController {
+
     @Inject
     private SharedThoughtManager sharedThoughtManager;
 
@@ -53,8 +54,7 @@ public class SharingThoughtsController extends BaseController {
     @ResponseBody
     public HashMap<Long, String> getResponders(@RequestParam("sharedThoughtId") String sharedThoughtId) {
 
-        List<User> responders
-                = sharedThoughtManager.getOtherResponders(
+        List<User> responders = sharedThoughtManager.getOtherResponders(
                 sharedThoughtManager.get(Long.parseLong(sharedThoughtId), false, true));
 
         if (!responders.isEmpty()) {
@@ -78,6 +78,8 @@ public class SharingThoughtsController extends BaseController {
 
         try {
             if (sharedThoughtManager.addResponder(Long.parseLong(sharedThoughtId), Long.parseLong(responderId))) {
+                // successfully added responder to list, now email notification
+                sharedThoughtManager.sendEmailToResponder(Long.parseLong(sharedThoughtId), Long.parseLong(responderId));
                 return new ResponseEntity<String>(HttpStatus.OK);
             } else { return new ResponseEntity<String>(HttpStatus.BAD_REQUEST); }
         } catch (Exception ex) { return new ResponseEntity<String>(HttpStatus.BAD_REQUEST); }
