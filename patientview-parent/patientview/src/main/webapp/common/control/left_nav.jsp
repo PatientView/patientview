@@ -39,7 +39,6 @@
             <logic:present role="superadmin">
                 <li><html:link action="/control/edtaCodeDisplay">Diagnosis Codes</html:link></li>
                 <li><html:link action="/control/treatmentCodeDisplay">Treatment Codes</html:link></li>
-                <li><html:link action="/control/radarGroupDisplay">Radar Groups</html:link></li>
                 <li><html:link action="/control/staticLinkEdit">Static Links</html:link></li>
                 <li><html:link action="/control/resultHeadingDisplay">Result Headings</html:link></li>
                 <li class="divider"></li>
@@ -100,6 +99,27 @@
                     <li><html:link action="/control/splashPageList">Splash Pages</html:link></li>
                 </logic:present>
 
+            </logic:present>
+
+            <logic:present specialty="renal">
+                <li class="divider"></li>
+                <li>
+                    <a href="/<%=LegacySpringUtils.getSecurityUserManager().getLoggedInSpecialty().getContext()%>/control/sharingThoughts.do">Sharing Thoughts
+                    <%
+                        User user = UserUtils.retrieveUser(request);
+
+                        if (user.isSharedThoughtResponder() || user.isSharedThoughtAdministrator()) {
+                            if (session.getAttribute(Messaging.SHARING_THOUGHTS_UNVIEWED_COUNT) != null) {
+                                String unViewedSharedThoughtCount = session.getAttribute(Messaging.SHARING_THOUGHTS_UNVIEWED_COUNT).toString();
+                                if (Integer.parseInt(unViewedSharedThoughtCount) > 0) {
+                    %>
+                                    <span class="badge badge-important"><%= unViewedSharedThoughtCount %></span>
+                    <%          }
+                            }
+                        }
+                    %>
+                    </a>
+                </li>
             </logic:present>
 
 

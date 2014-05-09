@@ -23,18 +23,22 @@
 
 package org.patientview.service.impl;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.joda.time.DateTime;
 import org.patientview.model.Unit;
 import org.patientview.patientview.logon.UnitAdmin;
 import org.patientview.patientview.model.Conversation;
+import org.patientview.patientview.model.ConversationStatus;
 import org.patientview.patientview.model.Job;
 import org.patientview.patientview.model.Message;
 import org.patientview.patientview.model.MessageRecipient;
 import org.patientview.patientview.model.User;
+import org.patientview.patientview.model.enums.ConversationType;
 import org.patientview.patientview.model.enums.GroupEnum;
 import org.patientview.patientview.model.enums.SendEmailEnum;
 import org.patientview.repository.job.JobDao;
 import org.patientview.repository.messaging.ConversationDao;
+import org.patientview.repository.messaging.ConversationStatusDao;
 import org.patientview.repository.messaging.MessageDao;
 import org.patientview.service.EmailManager;
 import org.patientview.service.FeatureManager;
@@ -69,6 +73,9 @@ public class MessageManagerImpl implements MessageManager {
     private ConversationDao conversationDao;
 
     @Inject
+    private ConversationStatusDao conversationStatusDao;
+
+    @Inject
     private FeatureManager featureManager;
 
     @Inject
@@ -93,20 +100,29 @@ public class MessageManagerImpl implements MessageManager {
     private SecurityUserManager securityUserManager;
 
     @Override
-    public Conversation getConversation(Long conversationId) {
-        return conversationDao.get(conversationId);
+    public Conversation getConversation(Long conversationId, User user) {
+        Conversation conversation = conversationDao.get(conversationId);
+
+        if (user != null) {
+            if (userHasAccessToConversation(conversation, user.getId())) {
+                return conversationDao.get(conversationId);
+            }
+        }
+
+        return null;
+
     }
 
     @Override
     public Conversation getConversationForUser(Long conversationId, Long participantId) {
         Conversation conversation = conversationDao.get(conversationId);
 
-        if (conversation.getType() == null) {
+        // only check if conversation type is non BULK
+        if (!conversation.getType().equals(ConversationType.BULK)) {
             if (!userHasAccessToConversation(conversation, participantId)) {
                 return null;
             }
         }
-
 
         populateConversation(conversation, participantId);
         return conversation;
@@ -140,6 +156,11 @@ public class MessageManagerImpl implements MessageManager {
         return conversations;
     }
 
+    @Override
+    public void saveConversation(Conversation conversation) {
+        conversationDao.save(conversation);
+    }
+
     public List<Conversation> canIncludeInConversations(List<Conversation> conversations, Long participantId) {
         List<Conversation> conversationList = new ArrayList<Conversation>();
         List<Message> messages;
@@ -148,21 +169,25 @@ public class MessageManagerImpl implements MessageManager {
 
         if (conversations != null) {
             for (Conversation conversation : conversations) {
+                if (conversation.getType() != null) {
+                    if (conversation.getType().equals(ConversationType.BULK)) {
+                        messages = getMessages(conversation.getId());
 
-                if (StringUtils.hasLength(conversation.getType())) {
-                    messages = getMessages(conversation.getId());
-
-                    if (messages != null && !messages.isEmpty()) {
-                        for (Unit unit : units) {
-                            Unit messageUnit = messages.get(0).getUnit();
-                            if (unit != null && messageUnit != null && unit.getId().equals(messageUnit.getId())) {
-                                if (user.getCreated() != null && !user.getCreated().equals(conversation.getStarted())
-                                        && conversation.getStarted().after(user.getCreated())) {
-                                    conversationList.add(conversation);
-                                    break;
+                        if (messages != null && !messages.isEmpty()) {
+                            for (Unit unit : units) {
+                                Unit messageUnit = messages.get(0).getUnit();
+                                if (unit != null && messageUnit != null && unit.getId().equals(messageUnit.getId())) {
+                                    if (user.getCreated() != null
+                                            && !user.getCreated().equals(conversation.getStarted())
+                                            && conversation.getStarted().after(user.getCreated())) {
+                                        conversationList.add(conversation);
+                                        break;
+                                    }
                                 }
                             }
                         }
+                    } else {
+                        conversationList.add(conversation);
                     }
                 } else {
                     conversationList.add(conversation);
@@ -183,6 +208,16 @@ public class MessageManagerImpl implements MessageManager {
         if (conversation != null) {
             conversationDao.delete(conversation);
         }
+    }
+
+    @Override
+    public List<ConversationStatus> getConversationStatus() {
+        return conversationStatusDao.getAll();
+    }
+
+    @Override
+    public ConversationStatus getConversationStatus(Long id) {
+        return conversationStatusDao.get(id);
     }
 
     @Override
@@ -225,8 +260,40 @@ public class MessageManagerImpl implements MessageManager {
     }
 
     @Override
+    public Message createMessage(ServletContext context, String subject, String content, User sender
+            , User recipient, String imageData, Boolean isFeedback) {
+        if (!StringUtils.hasText(subject)) {
+            throw new IllegalArgumentException("Invalid required parameter subject");
+        }
+
+        if (!StringUtils.hasText(content)) {
+            throw new IllegalArgumentException("Invalid required parameter content");
+        }
+
+        if (sender == null || !sender.hasValidId()) {
+            throw new IllegalArgumentException("Invalid required parameter sender");
+        }
+
+        if (recipient == null || !recipient.hasValidId()) {
+            throw new IllegalArgumentException("Invalid required parameter recipient");
+        }
+
+        Conversation conversation = new Conversation();
+        conversation.setParticipant1(sender);
+        conversation.setParticipant2(recipient);
+        conversation.setSubject(subject);
+        conversation.setImageData(imageData);
+        if (isFeedback) {
+            conversation.setType(ConversationType.FEEDBACK);
+        }
+        conversationDao.save(conversation);
+
+        return sendMessage(context, conversation, sender, recipient, content);
+    }
+
+    @Override
     public Message createGroupMessage(ServletContext context, String subject, String content, User sender,
-                                      String groupName, String type, Unit unit) throws Exception {
+                                      String groupName, ConversationType type, Unit unit) throws Exception {
         if (!StringUtils.hasText(subject)) {
             throw new IllegalArgumentException("Invalid required parameter subject");
         }
@@ -308,7 +375,7 @@ public class MessageManagerImpl implements MessageManager {
         }
 
         // check for the conversation
-        Conversation conversation = getConversation(conversationId);
+        Conversation conversation = conversationDao.get(conversationId);
 
         if (conversation == null) {
             throw new IllegalArgumentException("Invalid conversation");
@@ -369,7 +436,7 @@ public class MessageManagerImpl implements MessageManager {
         List<User> unitAdminRecipients = new ArrayList<User>();
 
         if (unit != null) {
-            unitAdminRecipients = getUnitAdminOrStaffRecipients("unitadmin", unit, requestingUser);
+            unitAdminRecipients = getUnitStaffRecipients("unitadmin", unit, requestingUser, true);
         }
 
         // sort by name
@@ -404,7 +471,7 @@ public class MessageManagerImpl implements MessageManager {
         List<User> unitStaffRecipients = new ArrayList<User>();
 
         if (unit != null) {
-            unitStaffRecipients = getUnitAdminOrStaffRecipients("unitstaff", unit, requestingUser);
+            unitStaffRecipients = getUnitStaffRecipients("unitstaff", unit, requestingUser, true);
         }
 
         // sort by name
@@ -491,35 +558,32 @@ public class MessageManagerImpl implements MessageManager {
         return loggedInUsersUnits;
     }
 
-    private List<User> getUnitAdminOrStaffRecipients(String adminOrStaff, Unit unit, User requestingUser) {
-        List<User> unitAdminRecipients = new ArrayList<User>();
+    private List<User> getUnitStaffRecipients(String role, Unit unit, User requestingUser, Boolean checkIsRecipient) {
+        List<User> recipients = new ArrayList<User>();
 
         if (unit != null) {
             if (!unit.getUnitcode().equalsIgnoreCase("patient")) {
                 List<UnitAdmin> unitAdmins = unitManager.getUnitUsers(unit.getUnitcode());
-
                 for (UnitAdmin unitAdmin : unitAdmins) {
                     User unitUser = userManager.get(unitAdmin.getUsername());
-
                     if (!unitUser.equals(requestingUser)) {
-                        if (unitAdmin.getRole().equals(adminOrStaff) && unitUser.isIsrecipient()) {
-                            unitAdminRecipients.add(unitUser);
+                        if (unitAdmin.getRole().equals(role) && (checkIsRecipient ? unitUser.isIsrecipient() : true)) {
+                            recipients.add(unitUser);
                         }
                     }
                 }
             }
         }
-
-        return unitAdminRecipients;
+        return recipients;
     }
 
     /**
      * exclude patients that have no got an email set
-     * exlude patients with '-gp' or 'dummy' in the name
+     * exclude patients with '-gp' or 'dummy' in the name
      */
     private boolean canIncludePatient(User patient) {
         return patient.getName() != null
-                && !patient.getName().toLowerCase().contains("-gp")
+                && !patient.getUsername().toLowerCase().contains("-gp")
                 && !patient.isDummypatient();
     }
 
@@ -529,7 +593,8 @@ public class MessageManagerImpl implements MessageManager {
         Message message = new Message();
         message.setConversation(conversation);
         message.setSender(sender);
-        message.setRecipient(recipient);
+        // do userManager.get to avoid issues with anonymous users
+        message.setRecipient(userManager.get(recipient.getId()));
         message.setContent(content);
         messageDao.save(message);
 
@@ -543,7 +608,7 @@ public class MessageManagerImpl implements MessageManager {
         return message;
     }
 
-    private boolean userHasAccessToConversation(Conversation conversation, Long participantId) {
+    public boolean userHasAccessToConversation(Conversation conversation, Long participantId) {
         return conversation.getParticipant1().getId().equals(participantId)
                 || conversation.getParticipant2().getId().equals(participantId);
     }
@@ -562,8 +627,7 @@ public class MessageManagerImpl implements MessageManager {
     // need to go through and show how many messages in a convo that user needs to read
     private void populateConversation(Conversation conversation, Long participantId) {
         if (conversation != null) {
-            // type is not null indicate the group message
-            if (conversation.getType() != null) {
+            if (conversation.getType().equals(ConversationType.BULK)) {
                 // the bulk message is not new for unitadmin who send it
                 if (!securityUserManager.isRolePresent("superadmin")
                         && !(securityUserManager.isRolePresent("unitadmin")
@@ -577,14 +641,13 @@ public class MessageManagerImpl implements MessageManager {
                     participantId, conversation.getId()).intValue());
             }
 
-
             // set the summary details for the convo to the last message
             Message latestMessage = messageDao.getLatestMessage(conversation.getId());
 
             if (latestMessage != null) {
                 conversation.setLatestMessageSummary(latestMessage.getSummary());
                 conversation.setLatestMessageDate(latestMessage.getDate());
-                // also wnat to make a friendly time like 2 secs ago - doing this in here in case it gets complicated
+                // also want to make a friendly time like 2 secs ago - doing this in here in case it gets complicated
                 conversation.setFriendlyLatestMessageDate(getFriendlyDateTime(latestMessage.getDate()));
             }
 
@@ -607,11 +670,35 @@ public class MessageManagerImpl implements MessageManager {
         }
     }
 
+    /**
+     * Gets other user in a conversation given participant ID, will make other user anonymous if required
+     * @param conversation Conversation to get recipients for
+     * @param participantId The current participant
+     * @return User, the other participant
+     */
     private User getOtherUser(Conversation conversation, Long participantId) {
-        if (conversation.getParticipant1().getId().equals(participantId)) {
-            return conversation.getParticipant2();
-        } else {
-            return conversation.getParticipant1();
+        try {
+            if (conversation.getParticipant1().getId().equals(participantId)) {
+                User otherUser = conversation.getParticipant2();
+                if (conversation.isParticipant2Anonymous()) {
+                    User anonUser = (User) BeanUtils.cloneBean(otherUser);
+                    anonUser.makeAnonymous();
+                    return anonUser;
+                } else {
+                    return otherUser;
+                }
+            } else {
+                User otherUser = conversation.getParticipant1();
+                if (conversation.isParticipant1Anonymous()) {
+                    User anonUser = (User) BeanUtils.cloneBean(otherUser);
+                    anonUser.makeAnonymous();
+                    return anonUser;
+                } else {
+                    return otherUser;
+                }
+            }
+        } catch (Exception ex) {
+            return null;
         }
     }
 
@@ -620,5 +707,10 @@ public class MessageManagerImpl implements MessageManager {
         public int compare(User o1, User o2) {
             return o1.getName().compareTo(o2.getName());
         }
+    }
+
+    @Override
+    public List<User> getFeedbackRecipients(User requestingUser) {
+        return messageDao.getFeedbackRecipients(requestingUser);
     }
 }

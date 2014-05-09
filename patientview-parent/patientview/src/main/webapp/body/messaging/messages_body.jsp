@@ -38,7 +38,7 @@
     }
 %>
 <div class="row">
-    <div class="<%= (actionPrefix.equals("patient") ? "span12" : "span9") %>">
+    <div class='<%= (actionPrefix.equals("patient") ? "span12" : "span9") %>'>
 
         <logic:present name="noEmailSet">
             <div class="page-header">
@@ -49,7 +49,7 @@
                 <div style="color: rgb(0, 136, 204)">
                     IMPORTANT: We are still testing messaging. Do not send urgent information or questions this way yet! Click on messages
                     to see the full conversation. To send a new message, click on "Create Message" above right. When you send a message,
-                    the recipient will receive and email asking them to log in to read it, if they have an email address in the system.
+                    the recipient will receive an email asking them to log in to read it, if they have an email address in the system.
                 </div>
             </div>
 
@@ -69,7 +69,7 @@
                 <div style="color: rgb(0, 136, 204)">
                     IMPORTANT: We are still testing messaging. Do not send urgent information or questions this way yet! Click on messages
                     to see the full conversation. To send a new message, click on "Create Message" above right. When you send a message,
-                    the recipient will receive and email asking them to log in to read it, if they have an email address in the system.
+                    the recipient will receive an email asking them to log in to read it, if they have an email address in the system.
                 </div>
             </div>
 
@@ -94,38 +94,64 @@
                     <div style="color: rgb(0, 136, 204)">
                         IMPORTANT: We are still testing messaging. Do not send urgent information or questions this way yet! Click on messages
                         to see the full conversation. To send a new message, click on "Create Message" above right. When you send a message,
-                        the recipient will receive and email asking them to log in to read it, if they have an email address in the system.
+                        the recipient will receive an email asking them to log in to read it, if they have an email address in the system.
                     </div>
                 </div>
 
                 <section class="conversation-container">
                     <logic:present name="conversations">
                         <logic:notEmpty name="conversations">
+                            <table class="tableInvisible" id="tableConversations"><thead><th></th></thead><tbody>
                             <logic:iterate name="conversations" id="conversation" indexId="index">
                                 <%
                                     boolean even = index % 2 == 0;
                                 %>
-
+                                <tr><td>
                                 <a href="/<%=actionPrefix%>/conversation.do?conversationId=<bean:write name="conversation" property="id" />#response">
                                     <article class="conversation <%=even ? "" : "odd"%>">
                                         <h2 class="title">
-                                            <bean:write name="conversation" property="otherUser.name" />
+                                            With: <bean:write name="conversation" property="otherUser.name" />
                                             <logic:greaterThan value="0" name="conversation" property="numberUnread">
                                                 <span class="badge badge-important">
                                                     <bean:write name="conversation" property="numberUnread" />
                                                 </span>
                                             </logic:greaterThan>
                                             <span class="pull-right conversation-date label label-inverse"><bean:write name="conversation" property="friendlyLatestMessageDate" /></span>
-                                            <span class="action-org.patientview.test dull">Click to open conversation</span>
-                                        </h2>
+                                            <logic:equal value="<%=ConversationType.FEEDBACK.toString()%>" name="conversation" property="type">
+                                                <!-- show Feedback label -->
+                                                <span class="pull-right label label-conversation label-conversationStatus-feedback">Feedback</span>
+                                                <logic:equal value="false" name="conversation" property="clinicianClosed">
+                                                    <span class="pull-right label label-conversation label-conversationStatus-open">Open</span>
+                                                </logic:equal>
+                                                <logic:equal value="true" name="conversation" property="clinicianClosed">
+                                                    <span class="pull-right label label-conversation label-conversationStatus-closed">Closed</span>
+                                                </logic:equal>
+                                            </logic:equal>
+                                            <logic:equal value="<%=ConversationType.SHARED_THOUGHT_MESSAGE_TO_PATIENT.toString()%>" name="conversation" property="type">
+                                                <!-- show from shared thought -->
+                                                <span class="pull-right label label-conversation label-conversationStatus-sharingthoughts">Sharing Thoughts</span>
+                                            </logic:equal>
+                                            <logic:equal value="true" name="conversation" property="participant1Anonymous">
+                                                <span class="pull-right label label-conversation label-conversationStatus-anonymous">Anonymous</span>
+                                            </logic:equal>
+                                            <logic:equal value="true" name="conversation" property="participant2Anonymous">
+                                                <span class="pull-right label label-conversation label-conversationStatus-anonymous">Anonymous</span>
+                                            </logic:equal>
 
-                                        <h4 class="user"><bean:write name="conversation" property="subject" /></h4>
+                                            <span class="action-test dull">Click to open</span>
+                                        </h2>
+                                        <h4>
+                                            Subject: <logic:equal value="<%=ConversationType.FEEDBACK.toString()%>" name="conversation" property="type">Feedback: </logic:equal>
+                                            <bean:write name="conversation" property="subject" />
+                                        </h4>
                                         <div class="content dull">
-                                            <bean:write name="conversation" property="latestMessageSummary" />
+                                            Latest: <bean:write name="conversation" property="latestMessageSummary" />
                                         </div>
                                     </article>
                                 </a>
+                                </td></tr>
                             </logic:iterate>
+                            </tbody></table>
                         </logic:notEmpty>
                         <logic:empty name="conversations">
                             <div class="alert">
@@ -168,7 +194,10 @@
 
                                         <label class="control-label">To</label>
                                         <input type="text" class="search-query" placeholder="Filter" id="search" name="search" size="8" style="display: none"/>
-                                        <button class="js-filter-button control-group">...</button>
+
+                                        <logic:present name='<%=Messaging.IS_UNIT_ADMIN_PARAM%>'>
+                                            <button class="js-filter-button control-group">click to filter</button>
+                                        </logic:present>
 
                                         <div class="controls">
                                             <select name="recipientId" class="js-message-recipient-id">
@@ -256,3 +285,4 @@
 </div>
 
 <script src="/js/messages.js" type="text/javascript"></script>
+<script src="/js/jquery.dataTables.min.js" type="text/javascript"></script>

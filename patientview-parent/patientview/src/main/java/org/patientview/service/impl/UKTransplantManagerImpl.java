@@ -140,7 +140,7 @@ public class UKTransplantManagerImpl implements UKTransplantManager {
 
     @Override
     public void exportPatientData() throws Exception {
-        List<Unit> units = returnAllTheUnits();
+        List<Unit> units = unitDao.getUnitsWithUser(securityUserManager.getLoggedInSpecialty());
 
         for (Unit unit : units) {
             List<Patient> patients = LegacySpringUtils.getPatientManager().get(unit.getUnitcode());
@@ -153,13 +153,6 @@ public class UKTransplantManagerImpl implements UKTransplantManager {
                 }
             }
         }
-    }
-
-    private List<Unit> returnAllTheUnits() {
-
-        List<Unit> units = null;
-        units = unitDao.getUnitsWithUser(securityUserManager.getLoggedInSpecialty());
-        return units;
     }
 
     private Document makePatientDataOutXml(Patient patient) throws Exception {

@@ -31,7 +31,6 @@ import org.patientview.ibd.action.BaseAction;
 import org.patientview.model.Unit;
 import org.patientview.patientview.model.MessageRecipient;
 import org.patientview.patientview.model.User;
-import org.patientview.patientview.user.UserUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -47,14 +46,13 @@ public class ConversationsAction extends BaseAction {
         // set current nav
         ActionUtils.setUpNavLink(mapping.getParameter(), request);
 
-        User user = UserUtils.retrieveUser(request);
+        User user = getUserManager().getLoggedInUser();
 
         List<Unit> units = getMessageManager().getMessagingEnabledUnitsForLoggedInUser();
 
         // if its a super admin then they get the unit list to filter what users they need
         // other users just get the available ones for their units
-        if (getSecurityUserManager().isRolePresent("superadmin")
-                || getSecurityUserManager().isRolePresent("unitadmin")) {
+        if (getSecurityUserManager().isRolePresent("superadmin", "unitadmin")) {
             // sort units alpha
             Collections.sort(units, new Comparator<Unit>() {
                 @Override
@@ -64,6 +62,7 @@ public class ConversationsAction extends BaseAction {
             });
 
             request.setAttribute(Messaging.UNITS_PARAM, units);
+            request.setAttribute(Messaging.IS_UNIT_ADMIN_PARAM, true);
         } else {
             // patients and unit staff/admin get addresses for unit admin and staff
             List<MessageRecipient> unitAdminRecipients = getMessageManager().getUnitAdminRecipients(units, user);
@@ -74,10 +73,6 @@ public class ConversationsAction extends BaseAction {
             if (getSecurityUserManager().isRolePresent("unitadmin")
                     || getSecurityUserManager().isRolePresent("unitstaff")) {
                 unitPatientRecipients = getMessageManager().getUnitPatientRecipients(units, user);
-            }
-
-            if (getSecurityUserManager().isRolePresent("unitadmin")) {
-                request.setAttribute(Messaging.IS_UNIT_ADMIN_PARAM, true);
             }
 
             if (unitAdminRecipients.isEmpty() && unitStaffRecipients.isEmpty() && unitPatientRecipients.isEmpty()) {
@@ -95,6 +90,9 @@ public class ConversationsAction extends BaseAction {
         }
 
         request.setAttribute(Messaging.CONVERSATIONS_PARAM, getMessageManager().getConversations(user.getId()));
+
+        // add logged in user to request
+        request.setAttribute("user", user);
 
         return mapping.findForward(SUCCESS);
     }

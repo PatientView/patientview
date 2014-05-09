@@ -27,52 +27,53 @@ var chart;
 
 function drawChart() {
 
-    if ($('#result_Type1').val() && $('#period').val()) {
-    $.ajax({
-        url: '/patient/graphic_testresult.do?resultType1=' + $('#result_Type1').val() + "&period=" + $('#period').val(),
-        dataType:"json",
-        async: false,
-        success: function(resultData){
-            if (resultData == null || resultData == "") {
-                $('#errorMsg').show();
-                return;
-            } else {
-                $('#errorMsg').hide();
+    if ($('#result_Type').val() && $('#period').val()) {
+        $.ajax({
+            url: '/patient/graphic_testresult.do?resultType=' + $('#result_Type').val() + "&period=" + $('#period').val(),
+            dataType:"json",
+            async: false,
+            success: function(resultData){
+                if (resultData == null || resultData == "") {
+                    $('#errorMsg').show();
+                    return;
+                } else {
+                    $('#errorMsg').hide();
+                }
+
+                var arrColors = ['red','blue'];
+                if ($('#heading').text() == "") {
+                    arrColors = ['blue','red'];
+                }
+
+                // convert returned data to Google chart format
+                var data = new google.visualization.DataTable(resultData);
+                var dataView = new google.visualization.DataView(data);
+
+                // get config options from data and use to set min and max range values on y-axis
+                var config = resultData.config;
+
+                var boolScale = false;
+                if (dataView.getViewRows().length == 1) {
+                    boolScale = false;
+                }
+
+                var chartVAxis = {baseline: config.minRangeValue, logScale: boolScale, viewWindow: {min: config.minRangeValue, max: config.maxRangeValue}, title: config.units};
+
+                var options = {
+                    title: config.titleText,
+                    colors: arrColors,
+                    tooltip: { isHtml: true, trigger: 'selection' },
+                    vAxis: chartVAxis,
+                    interpolateNulls: true
+                };
+                
+                chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+                chart.draw(dataView, options);
+
+                // Add mouse over handlers.
+                google.visualization.events.addListener(chart, 'onmouseover', mouseOver);
             }
-
-            var arrColors = ['red','blue'];
-            if ($('#heading1').text() == "") {
-                arrColors = ['blue','red'];
-            }
-
-            // convert returned data to Google chart format
-            var data = new google.visualization.DataTable(resultData);
-            var dataView = new google.visualization.DataView(data);
-
-            // get config options from data and use to set min and max range values on y-axis
-            var config = resultData.config;
-
-            var boolScale = true;
-            if (dataView.getViewRows().length == 1) {
-                boolScale = false;
-            }
-
-            var chartVAxis = {logScale: boolScale, viewWindow: {min: config.minRangeValue, max: config.maxRangeValue}, title: config.units};
-
-            var options = {
-                title: config.titleText,
-                colors: arrColors,
-                tooltip: { isHtml: true, trigger: 'selection' },
-                vAxis: chartVAxis,
-                interpolateNulls: true
-            };
-            chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
-            chart.draw(dataView, options);
-
-            // Add mouse over handlers.
-            google.visualization.events.addListener(chart, 'onmouseover', mouseOver);
-        }
-    });
+        });
     }
 }
 
@@ -82,13 +83,8 @@ function mouseOver(e) {
 
 function changeChart(obj, resultCode, resultHeading) {
     if (obj.id == "btn_1" || obj.id == "btn_1_none") {
-        $('#result_Type1').val(resultCode);
+        $('#result_Type').val(resultCode);
         $('#heading1').text(resultHeading);
-    }
-
-    if (obj.id == "btn_2" || obj.id == "btn_2_none") {
-        $('#result_Type2').val(resultCode);
-        $('#heading2').text(resultHeading);
     }
     $('#chart_div').empty();
     drawChart();

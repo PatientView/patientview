@@ -314,7 +314,8 @@ public class Patient extends BaseModel {
     }
 
     public String getDateOfBirthStr() {
-        return UK_DATE_FORMAT.format(dateofbirth);
+
+        return dateofbirth != null ? UK_DATE_FORMAT.format(dateofbirth) : null;
     }
 
     public void setDateofbirth(Date dateofbirth) {

@@ -228,7 +228,7 @@ public class TestResultDaoImpl extends AbstractHibernateDAO<TestResult> implemen
     public void deleteTestResultsWithinTimeRange(String nhsno, String unitcode, String testcode, Date startDate,
                                                  Date endDate) {
 
-        Query query = getEntityManager().createQuery("DELETE FROM testresult WHERE nhsno = :nhsno AND unitcode = "
+        Query query = getEntityManager().createNativeQuery("DELETE FROM testresult WHERE nhsno = :nhsno AND unitcode = "
                 + ":unitcode AND testcode = :testcode AND datestamp >= :startDate AND datestamp <= :endDate");
 
         query.setParameter("nhsno", nhsno);

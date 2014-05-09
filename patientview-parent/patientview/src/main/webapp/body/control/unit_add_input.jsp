@@ -175,6 +175,10 @@
         </tr>
 
 
+    <tr>
+      <td><b>Haemodialysis Unit 2 Name</b></td>
+      <td><html:text property="haemodialysisunitname2" /></td>
+    </tr>
 
         <tr>
           <td><b>Haemodialysis Unit 2 Name</b></td>
@@ -197,6 +201,10 @@
         </tr>
 
 
+    <tr>
+      <td><b>Haemodialysis Unit 3 Name</b></td>
+      <td><html:text property="haemodialysisunitname3" /></td>
+    </tr>
 
         <tr>
           <td><b>Haemodialysis Unit 3 Name</b></td>
@@ -219,6 +227,10 @@
         </tr>
 
 
+    <tr>
+      <td><b>Haemodialysis Unit 4 Name</b></td>
+      <td><html:text property="haemodialysisunitname4" /></td>
+    </tr>
 
         <tr>
           <td><b>Haemodialysis Unit 4 Name</b></td>
@@ -241,6 +253,10 @@
         </tr>
 
 
+    <tr>
+      <td><b>Haemodialysis Unit 5 Name</b></td>
+      <td><html:text property="haemodialysisunitname5" /></td>
+    </tr>
 
         <tr>
           <td><b>Haemodialysis Unit 5 Name</b></td>
@@ -263,6 +279,10 @@
         </tr>
 
 
+    <tr>
+      <td><b>Haemodialysis Unit 6 Name</b></td>
+      <td><html:text property="haemodialysisunitname6" /></td>
+    </tr>
 
         <tr>
           <td><b>Haemodialysis Unit 6 Name</b></td>
@@ -285,6 +305,10 @@
         </tr>
 
 
+    <tr>
+      <td><b>Haemodialysis Unit 7 Name</b></td>
+      <td><html:text property="haemodialysisunitname7" /></td>
+    </tr>
 
         <tr>
           <td><b>Haemodialysis Unit 7 Name</b></td>
@@ -307,6 +331,10 @@
         </tr>
 
 
+    <tr>
+      <td><b>Haemodialysis Unit 8 Name</b></td>
+      <td><html:text property="haemodialysisunitname8" /></td>
+    </tr>
 
         <tr>
           <td><b>Haemodialysis Unit 8 Name</b></td>
@@ -328,6 +356,10 @@
           <td><html:text property="haemodialysisuniturl8" /></td>
         </tr>
 
+    <tr>
+      <td><b>Haemodialysis Unit 9 Name</b></td>
+      <td><html:text property="haemodialysisunitname9" /></td>
+    </tr>
 
         <tr>
           <td><b>Haemodialysis Unit 9 Name</b></td>
@@ -350,6 +382,10 @@
         </tr>
 
 
+    <tr>
+      <td><b>Haemodialysis Unit 10 Name</b></td>
+      <td><html:text property="haemodialysisunitname10" /></td>
+    </tr>
 
         <tr>
           <td><b>Haemodialysis Unit 10 Name</b></td>
@@ -372,6 +408,10 @@
         </tr>
 
 
+    <tr>
+      <td><b>Haemodialysis Unit 11 Name</b></td>
+      <td><html:text property="haemodialysisunitname11" /></td>
+    </tr>
 
         <tr>
           <td><b>Haemodialysis Unit 11 Name</b></td>
@@ -387,11 +427,15 @@
           <td><b>Haemodialysis Unit 11 Location</b></td>
           <td><html:text property="haemodialysisunitlocation11" /></td>
         </tr>
+    <tr>
+        <td><b>Haemodialysis Unit 11 Web Address</b></td>
+        <td><html:text property="haemodialysisuniturl11" /></td>
+    </tr>
 
-        <tr>
-          <td><b>Haemodialysis Unit 11 Web Address</b></td>
-          <td><html:text property="haemodialysisuniturl11" /></td>
-        </tr>
+    <tr>
+      <td><b>Haemodialysis Unit 12 Name</b></td>
+      <td><html:text property="haemodialysisunitname12" /></td>
+    </tr>
 
 
 
@@ -422,10 +466,24 @@
     </tr>
 
     <tr>
-      <td><html:submit value="Add" styleClass="formButton"/></td>
+        <td><b>Visible for user to join</b></td>
+        <td><html:checkbox property="visible" value="true"/></td>
+    </tr>
+
+    <tr>
+        <td><b>Feedback enabled</b></td>
+        <td><html:checkbox property="feedbackEnabled" value="true"/></td>
+    </tr>
+
+    <tr>
+        <td><b>Sharing Thoughts enabled</b></td>
+        <td><html:checkbox property="sharedThoughtEnabled" value="true"/></td>
     </tr>
 
   </table>
+
+    <br/>
+    <html:submit value="Add" styleClass="btn"/>
 
 </html:form>
 </div>

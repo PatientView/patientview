@@ -27,6 +27,7 @@ import org.apache.commons.lang.ArrayUtils;
 import org.patientview.patientview.FindXmlFiles;
 import org.patientview.quartz.exception.ProcessException;
 import org.patientview.service.ImportManager;
+import org.patientview.util.CommonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,6 +40,8 @@ import java.io.File;
  * Quartz XmlImportTask Job
  */
 public class XmlImportTask {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(XmlImportTask.class);
 
     @Inject
     private ImportManager importManager;
@@ -54,7 +57,7 @@ public class XmlImportTask {
 
     private String[] fileEndings = {".xml", };
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(XmlImportTask.class);
+
 
     @PostConstruct
     public void init() {
@@ -100,9 +103,19 @@ public class XmlImportTask {
 
     public void archiveFile(File xmlFile) {
 
-        String directory = xmlPatientDataLoadDirectory;
+        String unitDirectoryName = xmlPatientDataLoadDirectory
+                + CommonUtils.getUnitCode(xmlFile.getName());
 
-        if (!xmlFile.renameTo(new File(directory, xmlFile.getName()))) {
+        File unitDirectory = new File(unitDirectoryName);
+
+        if (!unitDirectory.exists()) {
+            LOGGER.info("Creating subdirectory " + unitDirectoryName);
+            if (!unitDirectory.mkdir()) {
+                LOGGER.error("Failed to create subdirectory" + unitDirectoryName);
+            }
+        }
+
+        if (!xmlFile.renameTo(new File(unitDirectoryName, xmlFile.getName()))) {
             LOGGER.error("Unable to archive file after import, deleting instead: {}", xmlFile.getName());
 
             if (!xmlFile.delete()) {
@@ -131,5 +144,9 @@ public class XmlImportTask {
 
     public void setXmlDirectory(String xmlDirectory) {
         this.xmlDirectory = xmlDirectory;
+    }
+
+    public void setXmlPatientDataLoadDirectory(final String xmlPatientDataLoadDirectory) {
+        this.xmlPatientDataLoadDirectory = xmlPatientDataLoadDirectory;
     }
 }

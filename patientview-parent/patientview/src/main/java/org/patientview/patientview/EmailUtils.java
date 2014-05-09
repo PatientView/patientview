@@ -23,8 +23,6 @@
 
 package org.patientview.patientview;
 
-import org.apache.commons.lang.StringUtils;
-import org.patientview.model.Unit;
 import org.patientview.patientview.model.CorruptNode;
 import org.patientview.utils.LegacySpringUtils;
 import org.slf4j.Logger;
@@ -89,29 +87,6 @@ public final class EmailUtils {
         LegacySpringUtils.getEmailManager().sendEmail(fromAddress, toAddresses, subject, emailText);
     }
 
-    public static String getUnitOrSystemAdminEmailAddress(ServletContext servletContext, Unit unit) {
-        String toAddress = null;
-
-        if (unit == null || StringUtils.isBlank(unit.getRenaladminemail())) {
-            toAddress = LegacySpringUtils.getAdminNotificationManager().getSupportEmailAddress();
-        } else {
-            toAddress = unit.getRenaladminemail();
-        }
-
-        return toAddress;
-    }
-
-    public static String getUnitOrSystemAdminEmailAddress(Unit unit) {
-        String toAddress = null;
-
-        if (unit == null || StringUtils.isBlank(unit.getRenaladminemail())) {
-            toAddress = LegacySpringUtils.getAdminNotificationManager().getSupportEmailAddress();
-        } else {
-            toAddress = unit.getRenaladminemail();
-        }
-
-        return toAddress;
-    }
 
     public static String createEmailBody(String errors, String fileName, String supportEmail) {
 
@@ -222,6 +197,21 @@ public final class EmailUtils {
         emailBody.append(NEW_LINE).append("The file <" + xmlFileName + "> has not imported to RPV correctly. ");
         emailBody.append("This is because the file was empty. The most likely cause of that is "
                 + "that it has not been encrypted properly at the unit before sending. ");
+        emailBody.append(NEW_LINE);
+        emailBody.append(NEW_LINE).append("Please contact your IT department to ask them to check the encryption.");
+        emailBody.append(NEW_LINE);
+
+        return emailBody.toString();
+    }
+
+    public static  String createEmailBodyForUnmapppedPatientXML(Exception e, String xmlFileName) {
+
+        StringBuilder emailBody = new StringBuilder();
+        emailBody.append("[This is an automated email from Renal PatientView - do not reply to this email]");
+        emailBody.append(NEW_LINE);
+        emailBody.append(NEW_LINE).append("The file <" + xmlFileName + "> has not imported to RPV correctly. ");
+        emailBody.append(NEW_LINE);
+        emailBody.append(e.getMessage());
         emailBody.append(NEW_LINE);
         emailBody.append(NEW_LINE).append("Please contact your IT department to ask them to check the encryption.");
         emailBody.append(NEW_LINE);

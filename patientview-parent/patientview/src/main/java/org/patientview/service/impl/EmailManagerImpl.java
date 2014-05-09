@@ -37,6 +37,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.mail.Address;
 import javax.mail.Message;
@@ -57,10 +58,28 @@ public class EmailManagerImpl implements EmailManager {
     @Value("${noreply.email}")
     private String noReplyEmail;
 
+    @Value("${config.environment}")
+    private String environment;
+
+    private boolean redirect;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(EmailManagerImpl.class);
+
+    @PostConstruct
+    public void init() {
+        if (environment.equals("production-rpv")) {
+            LOGGER.warn("Production environment, mails will be sent outside of PatientView");
+            redirect = false;
+        } else {
+            LOGGER.warn("Emails will be redirected to test@patientview.org");
+            redirect = true;
+        }
+    }
 
     @Override
     public void sendUserMessage(ServletContext context, org.patientview.patientview.model.Message message) {
+
+
         String subject = "You have been sent a message from " + message.getSender().getName()
                 + " on Renal PatientView";
 
@@ -117,6 +136,12 @@ public class EmailManagerImpl implements EmailManager {
 
     @Async(value = "emailExecutor")
     public void sendEmail(String from, String[] to, String[] bcc, String subject, String body) {
+
+        if (redirect) {
+            to = new String[]{"test@patientview.org"};
+            bcc = new String[]{};
+        }
+
 
         if (!StringUtils.hasLength(from)) {
             throw new IllegalArgumentException("Cannot send mail missing 'from'");

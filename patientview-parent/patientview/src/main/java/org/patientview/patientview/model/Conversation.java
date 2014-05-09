@@ -23,17 +23,23 @@
 
 package org.patientview.patientview.model;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.patientview.model.BaseModel;
+import org.patientview.patientview.model.enums.ConversationType;
 import org.patientview.patientview.model.enums.GroupEnum;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Transient;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 public class Conversation extends BaseModel {
@@ -77,8 +83,33 @@ public class Conversation extends BaseModel {
     @Enumerated(EnumType.STRING)
     private GroupEnum groupEnum;
 
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private ConversationType type = ConversationType.MESSAGE;
+
     @Column(nullable = true)
-    private String type;
+    private String imageData;
+
+    @Column(nullable = true)
+    private Long rating;
+
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "status")
+    private ConversationStatus conversationStatus;
+
+    @Column(nullable = false)
+    private boolean clinicianClosed = false;
+
+    @Column(nullable = false)
+    private boolean participant1Anonymous = false;
+
+    @Column(nullable = false)
+    private boolean participant2Anonymous = false;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "conversation", fetch = FetchType.EAGER)
+    @OrderBy("date")
+    private Set<Message> messages;
 
     public boolean isDeleted() {
         return deleted;
@@ -164,15 +195,57 @@ public class Conversation extends BaseModel {
         return groupEnum;
     }
 
-    public String getType() {
-        return type;
-    }
-
     public void setGroupEnum(GroupEnum groupEnum) {
         this.groupEnum = groupEnum;
     }
 
-    public void setType(String type) {
+    public ConversationType getType() {
+        return type;
+    }
+
+    public void setType(ConversationType type) {
         this.type = type;
+    }
+
+    public String getImageData() { return imageData; }
+
+    public void setImageData(String imageData) { this.imageData = imageData; }
+
+    public Long getRating() { return rating; }
+
+    public void setRating(Long rating) { this.rating = rating; }
+
+    public ConversationStatus getConversationStatus() { return conversationStatus; }
+
+    public void setConversationStatus(ConversationStatus conversationStatus) {
+        this.conversationStatus = conversationStatus;
+    }
+
+    public boolean isClinicianClosed() { return clinicianClosed; }
+
+    public void setClinicianClosed(boolean clinicianClosed) { this.clinicianClosed = clinicianClosed; }
+
+    public boolean isParticipant1Anonymous() {
+        return participant1Anonymous;
+    }
+
+    public void setParticipant1Anonymous(boolean participant1Anonymous) {
+        this.participant1Anonymous = participant1Anonymous;
+    }
+
+    public boolean isParticipant2Anonymous() {
+        return participant2Anonymous;
+    }
+
+    public void setParticipant2Anonymous(boolean participant2Anonymous) {
+        this.participant2Anonymous = participant2Anonymous;
+    }
+
+    public Set<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(Set<Message> messages) {
+        this.messages = messages;
     }
 }

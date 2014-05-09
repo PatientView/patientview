@@ -23,21 +23,26 @@
 
 package org.patientview.patientview.model;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.patientview.model.BaseModel;
 import org.patientview.utils.LegacySpringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class User extends BaseModel {
-
     private static final Logger LOGGER = LoggerFactory.getLogger(User.class);
 
     @Column(nullable = false, unique = true)
@@ -70,17 +75,26 @@ public class User extends BaseModel {
     @Column(nullable = true)
     private int failedlogons;
 
-    @Column(nullable = true)
-    private boolean accountlocked;
+    @Column(nullable = false)
+    private boolean accountlocked = false;
 
-    @Column(nullable = true)
-    private boolean accounthidden;
+    @Column(nullable = false)
+    private boolean accounthidden = false;
 
-    @Column(nullable = true)
-    private boolean isrecipient;
+    @Column(nullable = false)
+    private boolean isrecipient = false;
 
-    @Column(nullable = true)
-    private boolean isclinician;
+    @Column(nullable = false)
+    private boolean feedbackRecipient = false;
+
+    @Column(nullable = false)
+    private boolean isclinician = false;
+
+    @Column(nullable = false)
+    private boolean sharedThoughtAdministrator = false;
+
+    @Column(nullable = false)
+    private boolean sharedThoughtResponder = false;
 
     @Column(nullable = true)
     private Date created;
@@ -90,6 +104,16 @@ public class User extends BaseModel {
 
     @Transient
     private Date dateofbirth;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private Set<UserMapping> userMappings;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    private Set<SpecialtyUserRole> specialtyUserRoles;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private Set<UserSharedThought> sharedThoughts = new HashSet<UserSharedThought>();
 
     public User() {
     }
@@ -112,7 +136,6 @@ public class User extends BaseModel {
     public String getFirstName() {
         return firstName;
     }
-
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -120,7 +143,6 @@ public class User extends BaseModel {
     public String getLastName() {
         return lastName;
     }
-
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
@@ -128,7 +150,6 @@ public class User extends BaseModel {
     public String getPassword() {
         return password;
     }
-
     public void setPassword(String password) {
         this.password = password;
     }
@@ -136,7 +157,6 @@ public class User extends BaseModel {
     public String getUsername() {
         return username;
     }
-
     public void setUsername(String username) {
         this.username = username;
     }
@@ -144,7 +164,6 @@ public class User extends BaseModel {
     public String getEmail() {
         return email;
     }
-
     public void setEmail(String email) {
         this.email = email;
     }
@@ -152,7 +171,6 @@ public class User extends BaseModel {
     public boolean isEmailverified() {
         return emailverified;
     }
-
     public void setEmailverified(boolean emailverified) {
         this.emailverified = emailverified;
     }
@@ -160,7 +178,6 @@ public class User extends BaseModel {
     public boolean isFirstlogon() {
         return firstlogon;
     }
-
     public void setFirstlogon(boolean firstlogon) {
         this.firstlogon = firstlogon;
     }
@@ -168,7 +185,6 @@ public class User extends BaseModel {
     public boolean isDummypatient() {
         return dummypatient;
     }
-
     public void setDummypatient(boolean dummypatient) {
         this.dummypatient = dummypatient;
     }
@@ -176,7 +192,6 @@ public class User extends BaseModel {
     public Date getLastlogon() {
         return lastlogon;
     }
-
     public void setLastlogon(Date lastlogon) {
         this.lastlogon = lastlogon;
     }
@@ -184,7 +199,6 @@ public class User extends BaseModel {
     public int getFailedlogons() {
         return failedlogons;
     }
-
     public void setFailedlogons(int failedlogons) {
         this.failedlogons = failedlogons;
     }
@@ -192,7 +206,6 @@ public class User extends BaseModel {
     public boolean isAccountlocked() {
         return accountlocked;
     }
-
     public void setAccountlocked(boolean accountlocked) {
         this.accountlocked = accountlocked;
     }
@@ -200,7 +213,6 @@ public class User extends BaseModel {
     public boolean isAccounthidden() {
         return accounthidden;
     }
-
     public void setAccounthidden(boolean accounthidden) {
         this.accounthidden = accounthidden;
     }
@@ -208,23 +220,41 @@ public class User extends BaseModel {
     public boolean isIsrecipient() {
         return isrecipient;
     }
-
     public void setIsrecipient(boolean isrecipient) {
         this.isrecipient = isrecipient;
+    }
+
+    public boolean isFeedbackRecipient() {
+        return feedbackRecipient;
+    }
+    public void setFeedbackRecipient(boolean feedbackRecipient) {
+        this.feedbackRecipient = feedbackRecipient;
     }
 
     public boolean isIsclinician() {
         return isclinician;
     }
-
     public void setIsclinician(boolean isclinician) {
         this.isclinician = isclinician;
+    }
+
+    public boolean isSharedThoughtAdministrator() {
+        return sharedThoughtAdministrator;
+    }
+    public void setSharedThoughtAdministrator(boolean sharedThoughtAdministrator) {
+        this.sharedThoughtAdministrator = sharedThoughtAdministrator;
+    }
+
+    public boolean isSharedThoughtResponder() {
+        return sharedThoughtResponder;
+    }
+    public void setSharedThoughtResponder(boolean sharedThoughtResponder) {
+        this.sharedThoughtResponder = sharedThoughtResponder;
     }
 
     public Date getCreated() {
         return created;
     }
-
     public void setCreated(Date created) {
         this.created = created;
     }
@@ -232,7 +262,6 @@ public class User extends BaseModel {
     public Date getUpdated() {
         return updated;
     }
-
     public void setUpdated(Date updated) {
         this.updated = updated;
     }
@@ -261,5 +290,32 @@ public class User extends BaseModel {
                 }
             }
         }
+    }
+
+    public Set<UserMapping> getUserMappings() {
+        return userMappings;
+    }
+    public void setUserMappings(final Set<UserMapping> userMappings) {
+        this.userMappings = userMappings;
+    }
+
+    public Set<SpecialtyUserRole> getSpecialtyUserRoles() {
+        return specialtyUserRoles;
+    }
+    public void setSpecialtyUserRoles(final Set<SpecialtyUserRole> specialtyUserRoles) {
+        this.specialtyUserRoles = specialtyUserRoles;
+    }
+
+    public Set<UserSharedThought> getSharedThoughts() {
+        return sharedThoughts;
+    }
+    public void setSharedThoughts(Set<UserSharedThought> sharedThoughts) {
+        this.sharedThoughts = sharedThoughts;
+    }
+
+    public void makeAnonymous() {
+        setFirstName("Anonymous");
+        setLastName("User");
+        setEmail(null);
     }
 }

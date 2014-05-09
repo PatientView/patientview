@@ -30,6 +30,7 @@ import org.patientview.model.Unit;
 import org.patientview.patientview.model.Conversation;
 import org.patientview.patientview.model.Message;
 import org.patientview.patientview.model.User;
+import org.patientview.patientview.model.enums.ConversationType;
 import org.patientview.patientview.model.enums.GroupEnum;
 import org.patientview.repository.UserDao;
 import org.patientview.service.MessageManager;
@@ -83,7 +84,7 @@ public class MessageManagerTest extends BaseServiceTest {
 
         assertTrue("Invalid id for message", conversation.getId() > 0);
 
-        Conversation checkConversation = messageManager.getConversation(conversation.getId());
+        Conversation checkConversation = messageManager.getConversation(conversation.getId(), user2);
         assertNotNull("Conversation nout found", checkConversation);
     }
 
@@ -96,7 +97,7 @@ public class MessageManagerTest extends BaseServiceTest {
         // now delete and try to pull back
         messageManager.deleteConversation(conversation);
 
-        Conversation checkConversation = messageManager.getConversation(conversation.getId());
+        Conversation checkConversation = messageManager.getConversation(conversation.getId(), user2);
 
         assertNull("Conversation was found after being deleted", checkConversation);
     }
@@ -110,7 +111,7 @@ public class MessageManagerTest extends BaseServiceTest {
         // now delete and try to pull back
         messageManager.deleteConversation(conversation.getId());
 
-        Conversation checkConversation = messageManager.getConversation(conversation.getId());
+        Conversation checkConversation = messageManager.getConversation(conversation.getId(), user2);
 
         assertNull("Conversation was found after being deleted", checkConversation);
     }
@@ -253,7 +254,7 @@ public class MessageManagerTest extends BaseServiceTest {
         unitManager.save(unitRm301);
 
         Message message = messageManager.createGroupMessage(mockHttpSession.getServletContext(), "Test subject",
-                "This is my first message", user, "allPatients", "BULK", unitRm301);
+                "This is my first message", user, "allPatients", ConversationType.BULK, unitRm301);
 
         assertTrue("Invalid id for message", message.getId() > 0);
 

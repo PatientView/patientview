@@ -39,12 +39,17 @@
             another user. <br/> You may override this using the checkbox below. But please use this with care!!</font></p>
     </logic:present>
 
+    <logic:present name="userAlreadyExists">
+        <p><font color="red">The Username <b><bean:write name="userAlreadyExists"/></b> you entered is already allocated to
+            another user.</font></p>
+    </logic:present>
+
     <div class="form-horizontal">
         <html:form action="/control/patientEditX">
             <div class="control-group">
                 <label class="control-label">User Name</label>
                 <div class="controls">
-                    <html:hidden name="patient" property="username" write="true"/>
+                    <html:text name="patient" property="username"/>
                 </div>
             </div>
             <div class="control-group">
@@ -86,16 +91,16 @@
             <div class="control-group">
                 <label class="control-label">Email Address Verified</label>
                 <div class="controls">
-                    <logic:equal name="patient" property="emailverified" value="true"><big><font color="green">&#10004;</font></big></logic:equal>
-                    <logic:equal name="patient" property="emailverified" value="false"><big><font color="red">&#10008;</font></big></logic:equal>
+                    <logic:equal name="patient" property="emailverified" value="true"><span class="yesTick">&#10004;</span></logic:equal>
+                    <logic:equal name="patient" property="emailverified" value="false"><span class="noCross">&#10008;</span></logic:equal>
                 </div>
             </div>
 
             <div class="control-group">
                 <label class="control-label">Account/Password Unlocked</label>
                 <div class="controls">
-                    <logic:equal name="patient" property="accountlocked" value="false"><big><font color="green">&#10004;</font></big></logic:equal>
-                    <logic:equal name="patient" property="accountlocked" value="true"><big><font color="red">&#10008;</font></big></logic:equal>
+                    <logic:equal name="patient" property="accountlocked" value="false"><span class="yesTick">&#10004;</span></logic:equal>
+                    <logic:equal name="patient" property="accountlocked" value="true"><span class="noCross">&#10008;</span></logic:equal>
                 </div>
             </div>
 
@@ -106,6 +111,7 @@
                 </div>
             </div>
 
+            <html:hidden name="patient" property="id"/>
             <html:hidden name="patient" property="emailverified"/>
             <html:hidden name="patient" property="firstlogon"/>
             <html:hidden name="patient" property="password"/>

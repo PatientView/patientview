@@ -24,8 +24,10 @@
 package org.patientview.patientview.model;
 
 import org.apache.commons.lang.StringUtils;
+import org.patientview.ibd.Ibd;
 import org.patientview.model.BaseModel;
 import org.patientview.model.Unit;
+import org.patientview.patientview.model.enums.ConversationType;
 import org.patientview.patientview.model.enums.GroupEnum;
 import org.patientview.utils.XssUtils;
 
@@ -73,8 +75,9 @@ public class Message extends BaseModel {
     @Enumerated(EnumType.STRING)
     private GroupEnum groupEnum;
 
-    @Column(nullable = true)
-    private String type;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private ConversationType type = ConversationType.MESSAGE;
 
     @ManyToOne(optional = true)
     @JoinColumn(name = "unit_id")
@@ -166,11 +169,11 @@ public class Message extends BaseModel {
         this.groupEnum = groupEnum;
     }
 
-    public String getType() {
+    public ConversationType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(ConversationType type) {
         this.type = type;
     }
 
@@ -180,5 +183,23 @@ public class Message extends BaseModel {
 
     public void setUnit(Unit unit) {
         this.unit = unit;
+    }
+
+    public String getFormattedDate() {
+        return getDateFormattedDateTime(date);
+    }
+
+    private String getDateFormattedDate(Date date) {
+        if (date != null) {
+            return Ibd.DATE_FORMAT.format(date);
+        }
+        return "";
+    }
+
+    private String getDateFormattedDateTime(Date date) {
+        if (date != null) {
+            return Ibd.DATE_TIME_FORMAT.format(date);
+        }
+        return "";
     }
 }

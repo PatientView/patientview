@@ -66,13 +66,11 @@ public class ResultsAction extends ActionSupport {
 
         User user = UserUtils.retrieveUser(request);
         List<String> resultCodes = new ArrayList<String>();
-        String resultType1 = ActionUtils.retrieveStringPropertyValue("resultType1", form, request);
-        String resultType2 = ActionUtils.retrieveStringPropertyValue("resultType2", form, request);
+        String resultType = ActionUtils.retrieveStringPropertyValue("resultType", form, request);
         String monthBeforeNow = ActionUtils.retrieveStringPropertyValue("period", form, request);
 
-        if (StringUtils.isNotEmpty(resultType1) || StringUtils.isNotEmpty(resultType2)) {
-            resultCodes.add(resultType1);
-            resultCodes.add(resultType2);
+        if (StringUtils.isNotEmpty(resultType)) {
+            resultCodes.add(resultType);
 
             // default show two years testresult data
             if (StringUtils.isEmpty(monthBeforeNow)) {
@@ -88,7 +86,8 @@ public class ResultsAction extends ActionSupport {
                 if (!results.isEmpty()) {
 
                     Collection<Result> resultsInRecords = turnResultsListIntoRecords(results);
-                    String jsonData = convertToJsonData(resultsInRecords, resultType1, resultType2);
+                    String jsonData = convertToJsonData(resultsInRecords, resultType,
+                            securityUserManager.getLoggedInSpecialty());
                     try {
                         PrintWriter printWriter = response.getWriter();
                         printWriter.write(jsonData);
@@ -110,21 +109,16 @@ public class ResultsAction extends ActionSupport {
 
     /**
      * Converts a set of patient results to JSON data suitable for Google Charts integration on clientside
-     * @param resultData A collection of Result objects containing patient org.patientview.test results
-     * @param resultType1 The name of the first set of results to convert
-     * @param resultType2 The name of the first set of results to convert (deprecated)
+     * @param resultData A collection of Result objects containing patient test results
+     * @param resultType The name of the set of results to convert
      * @return A JSON format string containing formatted results data suitable for Google Charts
      */
-    private String convertToJsonData(Collection<Result> resultData, String resultType1, String resultType2) {
+    private String convertToJsonData(Collection<Result> resultData, String resultType, Specialty specialty) {
 
         ResultHeadingManager resultHeadingManager = getWebApplicationContext().getBean(ResultHeadingManager.class);
-        SecurityUserManager securityUserManager = getWebApplicationContext().getBean(SecurityUserManager.class);
-        String resultValue1 = "";
-        String resultValue2 = "";
+        String resultValue = null;
 
-        Specialty specialty = securityUserManager.getLoggedInSpecialty();
-        ResultHeading heading1 = resultHeadingManager.get(resultType1, specialty);
-        ResultHeading heading2 = resultHeadingManager.get(resultType2, specialty);
+        ResultHeading heading = resultHeadingManager.get(resultType, specialty);
 
         StringBuffer sb = new StringBuffer();
         // cols header
@@ -132,79 +126,58 @@ public class ResultsAction extends ActionSupport {
         // DateTime
         sb.append("{\"id\":\"DateTime\",\"label\":\"DateTime\",\"type\":\"string\"},");
 
-        if (StringUtils.isNotEmpty(resultType1)) {
-            // result type 1
-            sb.append("{\"id\":\"").append(heading1.getHeading()).append("\",");
-            sb.append("\"label\":\"").append(heading1.getHeading()).append("\",");
+        if (StringUtils.isNotEmpty(resultType)) {
+            // result type
+            sb.append("{\"id\":\"").append(heading.getHeading()).append("\",");
+            sb.append("\"label\":\"").append(heading.getHeading()).append("\",");
             sb.append("\"type\":\"number\"},");
-            // tooltip for result type 1
-            sb.append("{\"id\":\"\",");
-            sb.append("\"role\":\"tooltip\",");
-            sb.append("\"type\":\"string\",");
-            sb.append("\"p\":{\"role\":\"tooltip\",\"html\":\"true\"}}");
-
-            if (StringUtils.isEmpty(resultType2)) {
-                sb.append("],");
-            } else {
-                sb.append(",");
-            }
-        }
-
-        if (StringUtils.isNotEmpty(resultType2)) {
-
-            // result type 2
-            sb.append("{\"id\":\"").append(heading2.getHeading()).append("\",");
-            sb.append("\"label\":\"").append(heading2.getHeading()).append("\",");
-            sb.append("\"type\":\"number\"},");
-            // tooltip result type 2
-            sb.append("{\"id\":\"\",");
-            sb.append("\"role\":\"tooltip\",");
-            sb.append("\"type\":\"string\",");
+            // tooltip for result type
+            sb.append("{\"id\":\"\",").append("\"role\":\"tooltip\",").append("\"type\":\"string\",");
             sb.append("\"p\":{\"role\":\"tooltip\",\"html\":\"true\"}}],");
         }
 
         // rows value
         sb.append("\"rows\":[");
 
-        Double resultHeadingMinValue = heading1.getMinRangeValue();
-        Double resultHeadingMaxValue = heading1.getMaxRangeValue();
+        Double resultHeadingMinValue = heading.getMinRangeValue();
+        Double resultHeadingMaxValue = heading.getMaxRangeValue();
         Double dataMinValue = Double.MAX_VALUE;
         Double dataMaxValue = Double.MIN_VALUE;
 
         for (Iterator iterator = resultData.iterator(); iterator.hasNext();) {
             Result result = (Result) iterator.next();
-            resultValue1 = result.getValue(resultType1);
-            resultValue2 = result.getValue(resultType2);
+            resultValue = result.getValue(resultType);
 
-            if (Double.parseDouble(resultValue1) < dataMinValue) {
-                dataMinValue = Double.parseDouble(resultValue1);
+            try {
+                if (Double.parseDouble(resultValue) < dataMinValue) {
+                    dataMinValue = Double.parseDouble(resultValue);
+                }
+            } catch (NumberFormatException e) {
+                LOGGER.trace("NumberFormatException: " + e.toString());
+            } catch (NullPointerException e) {
+                LOGGER.trace("NullPointerException: " + e.toString());
             }
 
-            if (Double.parseDouble(resultValue1) > dataMaxValue) {
-                dataMaxValue = Double.parseDouble(resultValue1);
+            try {
+                if (Double.parseDouble(resultValue) > dataMaxValue) {
+                    dataMaxValue = Double.parseDouble(resultValue);
+                }
+            } catch (NumberFormatException e) {
+                LOGGER.trace("NumberFormatException: " + e.toString());
+            } catch (NullPointerException e) {
+                LOGGER.trace("NullPointerException: " + e.toString());
             }
 
             sb.append("{\"c\":[");
             // DateTime
             sb.append("{\"v\":\"").append(dateFormat.format(result.getTimeStamp().getTime())).append("\"},");
 
-            if (StringUtils.isNotEmpty(resultType1)) {
-                // result type 1
-                sb.append("{\"v\":\"").append(resultValue1).append("\"},");
-                // tooltip for result type 1
-                sb.append("{\"v\":\"").append(getHtmlTooltip(result, heading1, resultValue1));
+            if (StringUtils.isNotEmpty(resultType)) {
+                // result type
+                sb.append("{\"v\":\"").append(resultValue).append("\"},");
+                // tooltip for result type
+                sb.append("{\"v\":\"").append(getHtmlTooltip(result, heading, resultValue));
                 sb.append("\"}");
-
-                if (StringUtils.isNotEmpty(resultType2)) {
-                    sb.append(",");
-                }
-            }
-
-            if (StringUtils.isNotEmpty(resultType2)) {
-                // column 3: result type 2
-                sb.append("{\"v\":\"").append(resultValue2).append("\"},");
-                // tooltip for result type 2
-                sb.append("{\"v\":\"").append(getHtmlTooltip(result, heading2, resultValue2)).append("\"}");
             }
 
             if (iterator.hasNext()) {
@@ -246,16 +219,16 @@ public class ResultsAction extends ActionSupport {
             sb.append(dataMaxValue);
         }
 
-        // title text (first result heading)
-        if (heading1.getHeading() != null) {
+        // title text (result heading)
+        if (heading.getHeading() != null) {
             sb.append("\", \"titleText\" : \"");
-            sb.append(heading1.getHeading());
+            sb.append(heading.getHeading());
         }
 
         // units (y-axis label)
-        if (heading1.getUnits() != null) {
+        if (heading.getUnits() != null) {
             sb.append("\", \"units\" : \"");
-            sb.append(heading1.getUnits());
+            sb.append(heading.getUnits());
         }
 
         sb.append("\"}}");

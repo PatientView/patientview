@@ -1,0 +1,65 @@
+package org.patientview.repository;
+
+import org.patientview.model.Unit;
+import org.patientview.patientview.model.Message;
+import org.patientview.patientview.model.SharedThought;
+import org.patientview.patientview.model.User;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+@Transactional(propagation = Propagation.MANDATORY)
+public interface SharedThoughtDao {
+
+    List<SharedThought> getAll(boolean orderBySubmitDate);
+
+    List<SharedThought> getSubmitted(boolean orderBySubmitDate);
+
+    SharedThought get(Long id);
+
+    List<SharedThought> getUsersThoughts(User user, boolean isSubmitted);
+
+    List<SharedThought> getStaffThoughtList(User user, boolean unViewedOnly);
+
+    boolean checkUserViewedThought(SharedThought sharedThought, User user);
+
+    void save(SharedThought sharedThought);
+
+    void setUnviewed(SharedThought sharedThought, User ignoreUser);
+
+    void setViewed(SharedThought sharedThought, User user);
+
+    void delete(Long id);
+
+    List<User> getOtherResponders(SharedThought sharedThought);
+
+    boolean addResponder(SharedThought sharedThought, User responder);
+
+    boolean removeResponder(SharedThought sharedThought, User responder);
+
+    /**
+     * Adds all available shared thought administrators to a shared thought as responders, dependant on unit and if
+     * they are already a responder
+     * @param sharedThought Thought to add administrators to as responders
+     */
+    void addAllSharedThoughtAdministrators(SharedThought sharedThought);
+
+    Message createSharedThoughtMessage(SharedThought sharedThought, String content, User sender);
+
+    boolean checkAccessSharingThoughts(User user);
+
+    boolean openCloseSharedThought(SharedThought sharedThought);
+
+    List<Unit> getUsersUnits(User user);
+
+    /**
+     * Send a message from the current logged in user to the patient, anonymously if shared thought is anonymous
+     * @param sharedThought Shared thought this relates to
+     * @param subject Subject of message
+     * @param messageBody Message body
+     * @param sender The user sending the message
+     * @return Message sent to patient
+     */
+    Message sendMessageToPatient(SharedThought sharedThought, String subject, String messageBody, User sender);
+}

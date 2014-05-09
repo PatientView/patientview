@@ -44,7 +44,7 @@ public class UnitAdminAddToUnitAction extends Action {
         String username = BeanUtils.getProperty(form, "username");
         String unitcode = BeanUtils.getProperty(form, "unitcode");
 
-        UserMapping userMapping = new UserMapping(username, unitcode, "");
+        UserMapping userMapping = new UserMapping(username, unitcode, null);
         LegacySpringUtils.getUserManager().save(userMapping);
 
         AddLog.addLog(LegacySpringUtils.getSecurityUserManager().getLoggedInUsername(), AddLog.ADMIN_ADD, username, "",

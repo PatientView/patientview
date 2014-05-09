@@ -1,5 +1,6 @@
 <%@ page import="org.patientview.patientview.model.User" %>
 <%@ page import="org.patientview.utils.LegacySpringUtils" %>
+<%@ page import="org.patientview.patientview.model.enums.ConversationType" %>
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
@@ -51,17 +52,55 @@
         <logic:present name="conversation">
             <div class="page-header">
                 <div>
-                    <a href="/<%=actionPrefix%>/conversations.do" class="btn">< back to Messages</a>
+                    <a href="/<%=actionPrefix%>/conversations.do" class="btn">Back to Messages</a>
                 </div>
 
-                <h1>
-                    <br />
-                    <bean:write name="conversation" property="subject" />
-                </h1>
+                <h1><br />Subject: <bean:write name="conversation" property="subject" /></h1>
+                <h4 class="author">With: <bean:write name="conversation" property="otherUser.name" /></h4>
 
-                <h4 class="author">
-                    <bean:write name="conversation" property="otherUser.name" />
-                </h4>
+                <logic:equal value="<%=ConversationType.FEEDBACK.toString()%>" name="conversation" property="type">
+                    <!-- only shown for conversations with type ConversationType.FEEDBACK.toString() -->
+                    <logic:present role="patient">
+                        <logic:present name="conversation" property="conversationStatus">
+                            <logic:equal value="true" name="conversation" property="clinicianClosed">
+                                <div id="conversationStatusText">Status: Closed</div>
+                            </logic:equal>
+                            <logic:equal value="false" name="conversation" property="clinicianClosed">
+                                <div id="conversationStatusText">Status: Open</div>
+                            </logic:equal>
+                        </logic:present>
+                        <logic:notPresent name="conversation" property="conversationStatus">
+                            <div id="conversationStatusText">Status: Open</div>
+                        </logic:notPresent>
+                        <logic:equal value="true" name="conversation" property="clinicianClosed">
+                            <div id="conversationRating">
+                                How would you rate this conversation? <div class="rateit" data-rateit-resetable="false" data-rateit-step="1" data-rateit-value="<bean:write name="conversation" property="rating" />"></div>
+                                <span id="conversationRatingInfo"></span>
+                            </div>
+                        </logic:equal>
+                    </logic:present>
+
+                    <logic:notPresent role="patient">
+                        <logic:notEmpty name="conversationStatusOptions">
+                            <logic:present name="conversation" property="conversationStatus">
+                                <input type="hidden" id="conversationStatusHidden" value="<bean:write name="conversation" property="conversationStatus.id" />"/>
+                            </logic:present>
+                            <div id="conversationStatus">Status: &nbsp;
+                                <select id="selectConversationStatus">
+                                    <option value="-1">Open</option>
+                                    <logic:iterate name="conversationStatusOptions" id="statusOption">
+                                        <option value="<bean:write name="statusOption" property="id" />"><bean:write name="statusOption" property="status"/></option>
+                                    </logic:iterate>
+                                </select>
+                                <a href="#" class="btn" id="btnSetConversationStatus">Set Status</a> &nbsp;&nbsp;<span id="conversationStatusInfo"></span>
+                            </div>
+                        </logic:notEmpty>
+                        <logic:present name="conversation" property="imageData">
+                            <img class="imageData boxShadow1" src="<bean:write name="conversation" property="imageData" />"/>
+                            <a href="../web/feedback/downloadImage?conversationId=<bean:write name="conversation" property="id"/>" target="_blank">Download Screenshot</a>
+                        </logic:present>
+                    </logic:notPresent>
+                </logic:equal>
             </div>
 
             <section class="js-messages">
@@ -70,7 +109,22 @@
                         <logic:iterate name="messages" id="message" indexId="index" type="org.patientview.patientview.model.Message">
                             <article class="message" id="message-<bean:write name="message" property="id" />">
                                 <h4 class="author">
-                                    <bean:write name="message" property="sender.name" />
+                                    <%
+                                        // only show other persons name if not anonymous conversation
+                                        User participant1 = message.getConversation().getParticipant1();
+                                        User participant2 = message.getConversation().getParticipant2();
+
+                                        if ((user.equals(participant1)
+                                                && message.getConversation().isParticipant2Anonymous()
+                                                && message.getSender().equals(participant2))
+                                         || (user.equals(participant2)
+                                                && message.getConversation().isParticipant1Anonymous()
+                                                && message.getSender().equals(participant1))) {
+                                    %>
+                                        Anonymous User
+                                    <% } else { %>
+                                        <bean:write name="message" property="sender.name" />
+                                    <% } %>
 
                                     <%
                                     // check to see if they are the recipient of this message and if they have seen before
@@ -103,7 +157,6 @@
             </section>
 
             <logic:notPresent name="isReaderTheRecipient">
-
                 <section class="new-message-container" id="response">
                     <form action="/send-message.do" class="js-message-form">
                         <input type="hidden" class="js-message-redirect" value="/patient/conversation.do" />
@@ -114,24 +167,23 @@
                         </div>
                         </logic:present>
                         <logic:notPresent name="isBulkMessage">
-                            <textarea rows="6" cols="3" name="content" class="<%= (actionPrefix.equals("patient") ? "span12" : "span9") %> new-message js-message-content"></textarea>
+                            <logic:equal value="false" name="conversation" property="clinicianClosed">
+                                <textarea rows="6" cols="3" name="content" class="<%= (actionPrefix.equals("patient") ? "span12" : "span9") %> new-message js-message-content"></textarea>
+                            </logic:equal>
                         </logic:notPresent>
                         <div class="alert alert-error js-message-errors" style="display: none">
                             <strong>You do not have any messages.</strong>
                         </div>
                         <logic:notPresent name="isBulkMessage">
-                            <input type="submit" value="Reply" class="pull-right btn btn-primary js-message-submit-btn" />
+                            <logic:equal value="false" name="conversation" property="clinicianClosed">
+                                <input type="submit" value="Reply" class="pull-right btn btn-primary js-message-submit-btn" />
+                            </logic:equal>
                         </logic:notPresent>
                     </form>
                 </section>
-
             </logic:notPresent>
-
         </logic:present>
     </div>
 </div>
-
 <script src="/js/messages.js" type="text/javascript"></script>
-
-
-
+<script src="/js/jquery.dataTables.min.js" type="text/javascript"></script>

@@ -32,6 +32,7 @@ import org.patientview.ibd.action.BaseAction;
 import org.patientview.model.Unit;
 import org.patientview.patientview.model.Message;
 import org.patientview.patientview.model.User;
+import org.patientview.patientview.model.enums.ConversationType;
 import org.patientview.patientview.user.UserUtils;
 import org.springframework.util.StringUtils;
 
@@ -84,7 +85,7 @@ public class SendMessageAction extends BaseAction {
                                 dynaForm.getString(Messaging.CONTENT_PARAM),
                                 user,
                                 dynaForm.getString(Messaging.RECIPIENT_ID_PARAM),
-                                "BULK",
+                                ConversationType.BULK,
                                 getUnit(dynaForm)
                         );
                     }

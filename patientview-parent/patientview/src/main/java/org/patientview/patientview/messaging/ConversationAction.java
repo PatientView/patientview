@@ -28,6 +28,7 @@ import org.patientview.ibd.action.BaseAction;
 import org.patientview.patientview.exception.MessagingException;
 import org.patientview.patientview.model.Conversation;
 import org.patientview.patientview.model.User;
+import org.patientview.patientview.model.enums.ConversationType;
 import org.patientview.patientview.model.enums.GroupEnum;
 import org.patientview.patientview.user.UserUtils;
 import org.apache.struts.action.ActionForm;
@@ -68,33 +69,37 @@ public class ConversationAction extends BaseAction {
 
         request.setAttribute(Messaging.CONVERSATION_PARAM, conversation);
         request.setAttribute(Messaging.MESSAGES_PARAM, getMessageManager().getMessages(conversation.getId()));
+        request.setAttribute(Messaging.CONVERSATION_STATUS_PARAM, getMessageManager().getConversationStatus());
 
-        // single message the type is null
-        if (conversation.getType() == null) {
-            getMessageManager().markMessagesAsReadForConversation(loggedInUser.getId(), conversation.getId());
-
-        } else {
-            try {
-                getGroupMessageManager().markGroupMessageAsReadForConversation(loggedInUser, conversation);
-            } catch (MessagingException e) {
-                LOGGER.error("Failed to mark group message as read for conversation: {}", e.getMessage());
-            }
-            request.setAttribute(Messaging.IS_BULK_MESSAGE_PARAM, true);
-            String userType = "";
-            if (GroupEnum.ALL_ADMINS.equals(conversation.getGroupEnum())) {
-                userType = "all admins";
-            } else if (GroupEnum.ALL_PATIENTS.equals(conversation.getGroupEnum())) {
-                userType = "all patients";
-            } else if (GroupEnum.ALL_STAFF.equals(conversation.getGroupEnum())) {
-                userType = "all staff";
+        // single message
+        if (conversation.getType() != null) {
+            if (!conversation.getType().equals(ConversationType.BULK)) {
+                getMessageManager().markMessagesAsReadForConversation(loggedInUser.getId(), conversation.getId());
             } else {
-                userType = "";
+                try {
+                    getGroupMessageManager().markGroupMessageAsReadForConversation(loggedInUser, conversation);
+                } catch (MessagingException e) {
+                    LOGGER.error("Failed to mark group message as read for conversation: {}", e.getMessage());
+                }
+                request.setAttribute(Messaging.IS_BULK_MESSAGE_PARAM, true);
+                String userType = "";
+                if (GroupEnum.ALL_ADMINS.equals(conversation.getGroupEnum())) {
+                    userType = "all admins";
+                } else if (GroupEnum.ALL_PATIENTS.equals(conversation.getGroupEnum())) {
+                    userType = "all patients";
+                } else if (GroupEnum.ALL_STAFF.equals(conversation.getGroupEnum())) {
+                    userType = "all staff";
+                } else {
+                    userType = "";
+                }
+
+                request.setAttribute(Messaging.BULK_MESSAGE_RECIPIENT, userType);
+                request.setAttribute(Messaging.RECIPIENT_UNIT_PARAM,
+                        getMessageManager().getMessages(conversation.getId()).get(0).getUnit().getName());
+
             }
-
-            request.setAttribute(Messaging.BULK_MESSAGE_RECIPIENT, userType);
-            request.setAttribute(Messaging.RECIPIENT_UNIT_PARAM,
-                    getMessageManager().getMessages(conversation.getId()).get(0).getUnit().getName());
-
+        } else {
+            getMessageManager().markMessagesAsReadForConversation(loggedInUser.getId(), conversation.getId());
         }
 
         request.setAttribute(Messaging.CONTENT_PARAM, "");

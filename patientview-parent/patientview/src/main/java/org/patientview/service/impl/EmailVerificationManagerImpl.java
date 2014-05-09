@@ -23,12 +23,15 @@
 
 package org.patientview.service.impl;
 
+import org.patientview.patientview.exception.UsernameExistsException;
 import org.patientview.patientview.logging.AddLog;
 import org.patientview.patientview.model.EmailVerification;
 import org.patientview.patientview.model.User;
 import org.patientview.repository.EmailVerificationDao;
 import org.patientview.service.EmailVerificationManager;
 import org.patientview.service.UserManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -39,6 +42,8 @@ import java.util.List;
  */
 @Service(value = "emailVerificationManager")
 public class EmailVerificationManagerImpl implements EmailVerificationManager {
+
+    private  static final Logger LOGGER = LoggerFactory.getLogger(EmailVerificationManager.class);
 
     @Inject
     private EmailVerificationDao emailVerificationDao;
@@ -74,7 +79,11 @@ public class EmailVerificationManagerImpl implements EmailVerificationManager {
                 if (null != user) {
                     if (emailVerification.getEmail().equals(user.getEmail())) {
                         user.setEmailverified(true);
-                        userManager.save(user);
+                        try {
+                            userManager.save(user);
+                        } catch (UsernameExistsException uee) {
+                            LOGGER.error("Could not save user validation exception", uee);
+                        }
                         emailVerificationDao.delete(emailVerification);
 
                         AddLog.addLog(emailVerification.getUsername(),

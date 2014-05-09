@@ -42,7 +42,7 @@
     </logic:present>
 
     <logic:present name="userAlreadyExistsWithEmail" >
-        <p><font color="red">The email address you have entered is already being used by another user in this unit. Please pick another.</font></p>
+        <p><font color="red">The email address '<b><bean:write name="userAlreadyExistsWithEmail" /></b>' you have entered is already being used by another user in this unit. Please pick another.</font></p>
     </logic:present>
 
     <logic:present name="roleInRadargroup" >
@@ -94,6 +94,18 @@
             <tr>
                 <td><b>Message Recipient</b></td>
                 <td><html:checkbox property="isrecipient" value="true"/></td>
+            </tr>
+            <tr>
+                <td><b>Feedback Recipient</b></td>
+                <td><html:checkbox property="feedbackRecipient" value="true"/></td>
+            </tr>
+            <tr>
+                <td><b>Sharing Thoughts Administrator</b></td>
+                <td><html:checkbox property="sharedThoughtAdministrator" value="true"/></td>
+            </tr>
+            <tr>
+                <td><b>Sharing Thoughts Responder</b></td>
+                <td><html:checkbox property="sharedThoughtResponder" value="true"/></td>
             </tr>
             <tr>
                 <td><b>Clinician</b></td>

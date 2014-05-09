@@ -25,16 +25,18 @@ package org.patientview.service;
 
 import org.patientview.model.Unit;
 import org.patientview.patientview.model.Conversation;
+import org.patientview.patientview.model.ConversationStatus;
 import org.patientview.patientview.model.Message;
 import org.patientview.patientview.model.MessageRecipient;
 import org.patientview.patientview.model.User;
+import org.patientview.patientview.model.enums.ConversationType;
 
 import javax.servlet.ServletContext;
 import java.util.List;
 
 public interface MessageManager {
 
-    Conversation getConversation(Long conversationId);
+    Conversation getConversation(Long conversationId, User user);
 
     /**
      * This will get the conversation but applied to the current user
@@ -47,18 +49,47 @@ public interface MessageManager {
 
     List<Conversation> getConversations(Long participantId);
 
+    void saveConversation(Conversation conversation);
+
     void deleteConversation(Long conversationId);
 
     void deleteConversation(Conversation conversation);
 
+    List<ConversationStatus> getConversationStatus();
+
+    ConversationStatus getConversationStatus(Long id);
+
     List<Message> getMessages(Long conversationId);
 
+    /**
+     * Create a new conversation between two participants and creates first message
+     * @param context The current session servlet context
+     * @param subject Subject of the conversation
+     * @param content Content of the first message in the conversation
+     * @param sender Sending user
+     * @param recipient User the message is being sent to
+     * @return
+     * @throws Exception
+     */
     Message createMessage(ServletContext context, String subject, String content, User sender, User recipient)
             throws Exception;
 
+    /**
+     * Create a new conversation with between two participants, including image data and creates first message
+     * @param context The current session servlet context
+     * @param subject Subject of the conversation
+     * @param content Content of the first message in the conversation
+     * @param sender Sending user
+     * @param recipient User the message is being sent to
+     * @param imageData Image data, usually a screenshot
+     * @return
+     * @throws Exception
+     */
+    Message createMessage(ServletContext context, String subject, String content, User sender, User recipient
+            , String imageData, Boolean isFeedback) throws Exception;
+
     Message createGroupMessage(ServletContext context, String subject, String content, User sender,
-                               String groupName, String type, Unit unit)
-            throws Exception;
+                               String groupName, ConversationType type, Unit unit) throws Exception;
 
     Message replyToMessage(ServletContext context, String content, Long conversationId, User sender) throws Exception;
 
@@ -84,4 +115,11 @@ public interface MessageManager {
     List<User> getUnitPatientRecipients(Unit unit, String name, User requestingUser);
 
     List<Unit> getMessagingEnabledUnitsForLoggedInUser();
+
+    /**
+     * Get list of suitable recipients for feedback based on current user
+     * @param user
+     * @return
+     */
+    List<User> getFeedbackRecipients(User user);
 }

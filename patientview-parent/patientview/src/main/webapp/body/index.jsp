@@ -78,7 +78,7 @@
         </p>
 
         <p>
-            RPV is funded by contributions from renal units in England and Wales and by the Scottish Government in
+            PatientView is funded by contributions from renal units in England and Wales and by the Scottish Government in
             Scotland. Development funding has come from the Department of Health in England, Scotland and Wales, and
             from NHS Kidney Care.
         </p>
@@ -108,7 +108,7 @@
                     <logic:iterate id="news" name="newses">
                         <li>
                             <html:link action="/newsView" paramId="id" paramName="news" paramProperty="id" styleClass="readMoreParagraph">
-                                &raquo; <bean:write name="news" property="headline" />
+                                &raquo; <bean:write name="news" property="headline" /> <span class="newsspecialty specialty-<bean:write name="news" property="specialty.id" />">- <bean:write name="news" property="specialty.name" /></span>
                             </html:link>
                         </li>
                     </logic:iterate>

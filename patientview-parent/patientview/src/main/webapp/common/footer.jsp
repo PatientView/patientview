@@ -1,3 +1,4 @@
+<%@ page import="org.patientview.patientview.messaging.Messaging" %>
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
 <%@ taglib prefix="logic" uri="http://struts.apache.org/tags-logic" %>
 
@@ -29,6 +30,9 @@
             <ul class="barSpeperatedNav">
                 <logic:present specialty="renal">
                     <li><a href="/disclaimer.do">Disclaimer</a></li>
+                    <logic:present name="<%=Messaging.FEEDBACK_ENABLED %>" scope="session">
+                        <li><a href="#" class="feedbackButton">Report Issue</a></li>
+                    </logic:present>
                 </logic:present>
             </ul>
         </div>
@@ -37,11 +41,10 @@
 
 <script type="text/javascript" src="/js/bootstrap.js"></script>
 <script type="text/javascript" src="/js/bootstrap-datepicker.js"></script>
-
 <script type="text/javascript" src="/ibd/js/ico.min.js"></script>
 <script type="text/javascript" src="/ibd/js/ibd.js"></script>
 <script type="text/javascript" src="/js/pwdmeter.js"></script>
-
+<script type="text/javascript" src="/js/jquery.rateit.min.js"></script>
 <%
     // todo tracking code should only be present on live...
 %>

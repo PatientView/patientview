@@ -26,6 +26,7 @@ package org.patientview.test.repository.messaging;
 import org.junit.Test;
 import org.patientview.patientview.model.Conversation;
 import org.patientview.patientview.model.User;
+import org.patientview.patientview.model.enums.ConversationType;
 import org.patientview.patientview.model.enums.GroupEnum;
 import org.patientview.repository.messaging.ConversationDao;
 import org.patientview.test.helpers.RepositoryHelpers;
@@ -137,11 +138,11 @@ public class ConversationDaoTest extends BaseDaoTest {
 
         Conversation conversation4 = repositoryHelpers.createConversation("Test subject", user3, user4, true);
 
-        conversation3.setType("BULK");
+        conversation3.setType(ConversationType.BULK);
         conversation3.setGroupEnum(GroupEnum.ALL_PATIENTS);
         conversationDao.save(conversation3);
 
-        conversation4.setType("BULK");
+        conversation4.setType(ConversationType.BULK);
         conversation4.setGroupEnum(GroupEnum.ALL_STAFF);
         conversationDao.save(conversation4);
 

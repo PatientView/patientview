@@ -25,6 +25,7 @@ package org.patientview.repository.impl.messaging;
 
 import org.patientview.patientview.model.Conversation;
 import org.patientview.patientview.model.Conversation_;
+import org.patientview.patientview.model.enums.ConversationType;
 import org.patientview.patientview.model.enums.GroupEnum;
 import org.patientview.repository.AbstractHibernateDAO;
 import org.patientview.repository.messaging.ConversationDao;
@@ -97,11 +98,12 @@ public class ConversationDaoImpl extends AbstractHibernateDAO<Conversation> impl
         Predicate predicate1 = builder.and(
                 builder.equal(root.get(Conversation_.deleted), false),
                 builder.or(builder.equal(root.get(Conversation_.participant1), participantId),
-                builder.equal(root.get(Conversation_.participant2), participantId)));
+                builder.equal(root.get(Conversation_.participant2), participantId)),
+                builder.notEqual(root.get(Conversation_.type), ConversationType.SHARED_THOUGHT));
 
         Predicate predicate2 = builder.and(
                 builder.equal(root.get(Conversation_.deleted), false),
-                builder.equal(root.get(Conversation_.type), "BULK"),
+                builder.equal(root.get(Conversation_.type), ConversationType.BULK),
                 builder.equal(root.get(Conversation_.groupEnum), groupEnum)
         );
 

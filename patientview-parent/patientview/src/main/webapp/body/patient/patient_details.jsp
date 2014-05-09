@@ -61,7 +61,7 @@
     Patient Details for
     <bean:write name="patientDetail" property="patient.forename"/>
     <bean:write name="patientDetail" property="patient.surname"/>
-    <logic:present specialty="renal">, uploaded by unit: <bean:write name="patientDetail" property="unit.shortname"/>
+    <logic:present specialty="renal">, provided by: <bean:write name="patientDetail" property="unit.name"/>
     (<bean:write name="patientDetail" property="patient.sourceType"/>)
     </logic:present>
 </p>

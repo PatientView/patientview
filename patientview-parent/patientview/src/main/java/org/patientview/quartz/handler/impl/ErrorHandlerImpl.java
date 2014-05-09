@@ -28,6 +28,7 @@ import org.patientview.patientview.XmlImportUtils;
 import org.patientview.patientview.logging.AddLog;
 import org.patientview.patientview.model.LogEntry;
 import org.patientview.patientview.parser.ResultParser;
+import org.patientview.quartz.exception.PatientNotMappedException;
 import org.patientview.quartz.exception.ResultParserException;
 import org.patientview.quartz.handler.ErrorHandler;
 import org.patientview.service.LogEntryManager;
@@ -48,7 +49,7 @@ import java.util.Calendar;
  * Date: 17/12/13
  * Time: 11:49
  */
-@Transactional(propagation = Propagation.REQUIRES_NEW)
+@Transactional(propagation = Propagation.REQUIRED)
 @Component
 public class ErrorHandlerImpl implements ErrorHandler {
 
@@ -65,7 +66,12 @@ public class ErrorHandlerImpl implements ErrorHandler {
     public void processingException(File xmlFile, Exception e) {
         createLogEntry(xmlFile, AddLog.PATIENT_DATA_FAIL, e.getMessage());
         try {
-            xmlImportUtils.sendEmailOfExpectionStackTraceToUnitAdmin(e, xmlFile);
+            if (e instanceof PatientNotMappedException) {
+                xmlImportUtils.sendEmailOfUnmappingPatientUnitAdmin(e, xmlFile);
+            } else {
+
+                xmlImportUtils.sendEmailOfExpectionStackTraceToUnitAdmin(e, xmlFile);
+            }
         } catch (Exception me) {
             LOGGER.error("Unable to send email {}", me.getMessage());
         }

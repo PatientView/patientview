@@ -41,6 +41,8 @@ public interface SecurityUserManager {
 
     String getLoggedInUsername();
 
+    User getLoggedInUser();
+
     String getLoggedInEmailAddress();
 
     boolean isFirstLogon();

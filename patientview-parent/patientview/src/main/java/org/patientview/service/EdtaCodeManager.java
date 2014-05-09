@@ -23,6 +23,7 @@
 
 package org.patientview.service;
 
+import org.patientview.model.Unit;
 import org.patientview.patientview.model.EdtaCode;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,4 +43,6 @@ public interface EdtaCodeManager {
     void delete(String edtaCode);
 
     List<EdtaCode> get(String linkType);
+
+    EdtaCode getUnitLinks(Unit unit);
 }

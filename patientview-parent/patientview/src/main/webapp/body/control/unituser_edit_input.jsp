@@ -33,11 +33,16 @@
         <h1>Unit User Edit</h1>
     </div>
     <html:errors/>
+    <logic:present name="userAlreadyExists">
+        <p><font color="red">The Username <b><bean:write name="userAlreadyExists"/></b> you entered is already allocated to
+            another user.</font></p>
+    </logic:present>
+
     <div class="form-horizontal">
         <html:form action="/control/unitUserEdit">
             <div class="control-group">
                 <label class="control-label">User Name</label>
-                <div class="controls"><html:hidden name="unitUser" property="username" write="true"/></div>
+                <div class="controls"><html:text name="unitUser" property="username"/></div>
             </div>
             <div class="control-group">
                 <label class="control-label">First Name</label>
@@ -54,8 +59,8 @@
             <div class="control-group">
                 <label class="control-label">Email Address Verified</label>
                 <div class="controls">
-                    <logic:equal name="unitUser" property="emailverified" value="true"><big><font color="green">&#10004;</font></big></logic:equal>
-                    <logic:equal name="unitUser" property="emailverified" value="false"><big><font color="red">&#10008;</font></big></logic:equal>
+                    <logic:equal name="unitUser" property="emailverified" value="true"><span class="yesTick">&#10004;</span></logic:equal>
+                    <logic:equal name="unitUser" property="emailverified" value="false"><span class="noCross">&#10008;</span></logic:equal>
 
                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <% String context = LegacySpringUtils.getSecurityUserManager().getLoggedInSpecialty().getContext();
@@ -91,6 +96,24 @@
                 </div>
             </div>
             <div class="control-group">
+                <label class="control-label">Feedback Recipient</label>
+                <div class="controls">
+                    <html:checkbox property="feedbackRecipient" name="unitUser" value="true"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Sharing Thoughts Administrator</label>
+                <div class="controls">
+                    <html:checkbox property="sharedThoughtAdministrator" name="unitUser" value="true"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Sharing Thoughts Responder</label>
+                <div class="controls">
+                    <html:checkbox property="sharedThoughtResponder" name="unitUser" value="true"/>
+                </div>
+            </div>
+            <div class="control-group">
                 <label class="control-label">Clinician</label>
                 <div class="controls">
                     <html:checkbox property="isclinician" name="unitUser" value="true"/>
@@ -98,6 +121,7 @@
             </div>
             <html:hidden name="unitcodeThing" property="unitcode"/>
             <html:hidden name="unitUser" property="emailverified"/>
+            <html:hidden name="unitUser" property="id"/>
             <html:hidden name="unitUser" property="firstlogon"/>
             <html:hidden name="unitUser" property="password"/>
             <html:hidden name="unitUser" property="lastlogon"/>

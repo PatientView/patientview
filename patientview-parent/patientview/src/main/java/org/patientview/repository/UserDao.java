@@ -38,6 +38,8 @@ public interface UserDao {
 
     User get(String username);
 
+    List<User> get(String nhsno, String unitcode);
+
     void save(User user);
 
     void delete(User user);

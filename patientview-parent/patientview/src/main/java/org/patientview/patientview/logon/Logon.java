@@ -51,7 +51,10 @@ public abstract class Logon {
     private boolean accountlocked;
     private boolean accounthidden;
     private boolean isrecipient;
+    private boolean feedbackRecipient;
     private boolean isclinician;
+    private boolean sharedThoughtAdministrator;
+    private boolean sharedThoughtResponder;
     private Date lastverificationdate;
     private int rrtModality;
     private Date lastdatadate;
@@ -218,12 +221,36 @@ public abstract class Logon {
         this.isrecipient = isrecipient;
     }
 
+    public boolean isFeedbackRecipient() {
+        return feedbackRecipient;
+    }
+
+    public void setFeedbackRecipient(boolean feedbackRecipient) {
+        this.feedbackRecipient = feedbackRecipient;
+    }
+
     public boolean isIsclinician() {
         return isclinician;
     }
 
     public void setIsclinician(boolean isclinician) {
         this.isclinician = isclinician;
+    }
+
+    public boolean isSharedThoughtAdministrator() {
+        return sharedThoughtAdministrator;
+    }
+
+    public void setSharedThoughtAdministrator(boolean sharedThoughtAdministrator) {
+        this.sharedThoughtAdministrator = sharedThoughtAdministrator;
+    }
+
+    public boolean isSharedThoughtResponder() {
+        return sharedThoughtResponder;
+    }
+
+    public void setSharedThoughtResponder(boolean sharedThoughtResponder) {
+        this.sharedThoughtResponder = sharedThoughtResponder;
     }
 
     public Date getLastverificationdate() {

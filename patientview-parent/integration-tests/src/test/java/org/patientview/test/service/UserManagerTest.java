@@ -99,7 +99,7 @@ public class UserManagerTest extends BaseServiceTest {
     }
 
     @Test
-    public void testSaveUserFromUnitAdmin() {
+    public void testSaveUserFromUnitAdmin() throws Exception {
 
         // create a new unit staff and their roles
         User newUser = userManager.saveUserFromUnitAdmin(unitAdmin, unitRm301.getUnitcode());
@@ -124,7 +124,7 @@ public class UserManagerTest extends BaseServiceTest {
     }
 
     @Test
-    public void testSaveUpdateUserFromUnitAdmin() {
+    public void testSaveUpdateUserFromUnitAdmin() throws Exception {
 
         User newUser = userManager.saveUserFromUnitAdmin(unitAdmin, unitRm301.getUnitcode());
 
@@ -147,7 +147,7 @@ public class UserManagerTest extends BaseServiceTest {
     }
 
     @Test
-    public void testDeleteUserFromUnitAdmin() {
+    public void testDeleteUserFromUnitAdmin() throws Exception {
 
         // create a new unit staff and their roles
         User newUser = userManager.saveUserFromUnitAdmin(unitAdmin, unitRm301.getUnitcode());

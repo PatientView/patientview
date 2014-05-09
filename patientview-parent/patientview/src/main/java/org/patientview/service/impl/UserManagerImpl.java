@@ -26,9 +26,11 @@ package org.patientview.service.impl;
 import org.apache.commons.beanutils.BeanUtils;
 import org.patientview.model.Specialty;
 import org.patientview.model.Unit;
+import org.patientview.patientview.exception.UsernameExistsException;
 import org.patientview.patientview.logon.LogonUtils;
 import org.patientview.patientview.logon.PatientLogon;
 import org.patientview.patientview.logon.UnitAdmin;
+import org.patientview.patientview.model.LogEntry;
 import org.patientview.patientview.model.PatientUser;
 import org.patientview.patientview.model.SpecialtyUserRole;
 import org.patientview.patientview.model.User;
@@ -42,6 +44,7 @@ import org.patientview.repository.SpecialtyUserRoleDao;
 import org.patientview.repository.UnitDao;
 import org.patientview.repository.UserDao;
 import org.patientview.repository.UserMappingDao;
+import org.patientview.service.LogEntryManager;
 import org.patientview.service.SecurityUserManager;
 import org.patientview.service.UserManager;
 import org.slf4j.Logger;
@@ -49,6 +52,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -78,6 +82,9 @@ public class UserManagerImpl implements UserManager {
     @Inject
     private UnitDao unitDao;
 
+    @Inject
+    private LogEntryManager logEntryManager;
+
     @Override
     public User getLoggedInUser() {
         return userDao.get(securityUserManager.getLoggedInUsername());
@@ -86,6 +93,11 @@ public class UserManagerImpl implements UserManager {
     @Override
     public User get(Long id) {
         return userDao.get(id);
+    }
+
+    @Override
+    public List<User> get(String nhsno, String unitcode) {
+        return userDao.get(nhsno, unitcode);
     }
 
     @Override
@@ -150,12 +162,49 @@ public class UserManagerImpl implements UserManager {
     }
 
     @Override
-    public void save(User user) {
+    public void save(User user) throws UsernameExistsException {
+
+        // If the username has changed we need to update the UserMapping as well
+        // Foreign key so a native call is required.
+        if (user.hasValidId()) {
+
+            User oldUser = userDao.get(user.getId());
+
+            if (!oldUser.getUsername().equalsIgnoreCase(user.getUsername())) {
+
+                if (userDao.get(user.getUsername()) != null) {
+                    throw new UsernameExistsException("Username already allocated");
+                }
+
+                LogEntry logEntry = createLogEntry(oldUser);
+                logEntry.setExtrainfo("Changing " + oldUser.getUsername() + " to " + user.getUsername());
+                logEntryManager.save(logEntry);
+                userMappingDao.updateUsername(user.getUsername(), oldUser.getUsername());
+
+            }
+
+        }
+
+        user.setUpdated(new Date());
         userDao.save(user);
     }
 
+
+    private LogEntry createLogEntry(User user) {
+        LogEntry logEntry = new LogEntry();
+        logEntry.setSpecialty(getCurrentSpecialty(getLoggedInUser()));
+        logEntry.setAction("username change");
+        logEntry.setActor(getLoggedInUser().getUsername());
+        logEntry.setUser(user.getUsername());
+        logEntry.setDate(Calendar.getInstance());
+
+        return logEntry;
+    }
+
+
+
     @Override
-    public User saveUserFromUnitAdmin(UnitAdmin unitAdmin, String unitcode) {
+    public User saveUserFromUnitAdmin(UnitAdmin unitAdmin, String unitcode) throws UsernameExistsException {
 
         // check for an existing user
         User user = get(unitAdmin.getUsername());
@@ -183,6 +232,8 @@ public class UserManagerImpl implements UserManager {
         user.setPassword(unitAdmin.getPassword());
         user.setUsername(unitAdmin.getUsername());
         user.setIsrecipient(unitAdmin.isIsrecipient());
+        user.setFeedbackRecipient(unitAdmin.isFeedbackRecipient());
+        user.setSharedThoughtAdministrator(unitAdmin.isSharedThoughtAdministrator());
         user.setIsclinician(unitAdmin.isIsclinician());
         if (isNewUser) {
             user.setCreated(new Date());
@@ -196,7 +247,7 @@ public class UserManagerImpl implements UserManager {
 
         if (isNewUser) {
 
-            UserMapping userMapping = new UserMapping(user.getUsername(), unitcode, "");
+            UserMapping userMapping = new UserMapping(user.getUsername(), unitcode, null);
             save(userMapping);
 
             // create mappings in radar if they don't already exist
@@ -211,7 +262,7 @@ public class UserManagerImpl implements UserManager {
 
 
     @Override
-    public User saveUserFromPatient(PatientLogon patientLogon) {
+    public User saveUserFromPatient(PatientLogon patientLogon)  throws UsernameExistsException  {
 
         // check for an existing user
         User user = get(patientLogon.getUsername());
@@ -336,44 +387,36 @@ public class UserManagerImpl implements UserManager {
         userMappingDao.save(userMapping);
     }
 
-    // Need moving to UserMappingManager
     @Override
     public void deleteUserMappings(String username, String unitcode) {
         userMappingDao.deleteUserMappings(username, unitcode, securityUserManager.getLoggedInSpecialty());
     }
 
-    // Need moving to UserMappingManager
     @Override
     public List<UserMapping> getUserMappings(String username) {
         return userMappingDao.getAll(username, securityUserManager.getLoggedInSpecialty());
     }
 
-    // Need moving to UserMappingManager
     @Override
     public List<UserMapping> getUserMappingsIgnoreSpecialty(String username) {
         return userMappingDao.getAll(username);
     }
 
-
-    // Need moving to UserMappingManager
     @Override
     public List<UserMapping> getUserMappingsExcludeUnitcode(String username, String unitcode) {
         return userMappingDao.getAllExcludeUnitcode(username, unitcode, securityUserManager.getLoggedInSpecialty());
     }
 
-    // Need moving to UserMappingManager
     @Override
     public List<UserMapping> getUserMappings(String username, String unitcode) {
         return userMappingDao.getAll(username, unitcode, securityUserManager.getLoggedInSpecialty());
     }
 
-    // Need moving to UserMappingManager
     @Override
     public List<UserMapping> getUserMappingsAllSpecialties(String username, String unitcode) {
         return userMappingDao.getAll(username, unitcode);
     }
 
-    // Need moving to UserMappingManager
     @Override
     public List<UserMapping> getUserMappingsByNhsNo(String nhsNo) {
         return userMappingDao.getAllByNhsNo(nhsNo, securityUserManager.getLoggedInSpecialty());

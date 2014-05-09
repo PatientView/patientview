@@ -34,6 +34,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -62,6 +63,61 @@ public class UserMappingDaoImpl extends AbstractHibernateDAO<UserMapping> implem
             LOGGER.error(e.getMessage());
             LOGGER.debug(e.getMessage(), e);
         }
+    }
+
+
+    /**
+     * Another native call to get round updateable and insertable flags on the entity. Need to swop Username for User_id
+     * in the model to solve this
+     *
+     * @param userMapping
+     */
+    public void save(UserMapping userMapping) {
+        if (userMapping.hasValidId()) {
+            super.save(userMapping);
+        } else {
+
+            StringBuilder sql = new StringBuilder();
+            sql.append("INSERT INTO   usermapping (username, unitcode, nhsno, specialty_id) ");
+            sql.append("VALUES (:username, :unitcode, :nhsno, :specialty_id)");
+
+
+            Query query = getEntityManager().createNativeQuery(sql.toString());
+
+            query.setParameter("username", userMapping.getUsername());
+            query.setParameter("unitcode", userMapping.getUnitcode());
+            query.setParameter("nhsno", userMapping.getNhsno());
+            if (userMapping.getSpecialty() != null) {
+                query.setParameter("specialty_id", userMapping.getSpecialty().getId());
+            } else {
+                query.setParameter("specialty_id", null);
+            }
+
+            query.executeUpdate();
+        }
+
+    }
+
+    /**
+     * This is because of the model. Hibernate will not let you update a foreign key
+     *
+     * @param newUsername
+     * @param oldUsername
+     */
+    @Override
+    public void updateUsername(String newUsername, String oldUsername) {
+        StringBuilder sql = new StringBuilder();
+        sql.append("UPDATE   usermapping ");
+        sql.append("SET      username = :newUsername ");
+        sql.append("WHERE    username = :oldUsername ");
+
+
+        Query query = getEntityManager().createNativeQuery(sql.toString());
+
+        query.setParameter("newUsername", newUsername);
+        query.setParameter("oldUsername", oldUsername);
+        query.executeUpdate();
+
     }
 
     @Override

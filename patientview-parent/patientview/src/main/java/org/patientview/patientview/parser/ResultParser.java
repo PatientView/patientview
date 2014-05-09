@@ -30,8 +30,8 @@ import org.patientview.ibd.model.MyIbd;
 import org.patientview.ibd.model.Procedure;
 import org.patientview.ibd.model.enums.DiseaseExtent;
 import org.patientview.model.Patient;
+import org.patientview.model.Unit;
 import org.patientview.patientview.TestResultDateRange;
-import org.patientview.patientview.model.Centre;
 import org.patientview.patientview.model.CorruptNode;
 import org.patientview.patientview.model.Diagnosis;
 import org.patientview.patientview.model.Diagnostic;
@@ -45,7 +45,6 @@ import org.patientview.patientview.model.enums.NodeError;
 import org.patientview.patientview.utils.TimestampUtils;
 import org.patientview.quartz.exception.ResultParserException;
 import org.patientview.util.CommonUtils;
-import org.patientview.utils.LegacySpringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.CDATASection;
@@ -64,6 +63,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -88,7 +88,7 @@ public class ResultParser {
     private List<Allergy> allergies = new ArrayList<Allergy>();
     private List<CorruptNode> corruptNodes = new ArrayList<CorruptNode>();
 
-    private Map xmlData = new HashMap();
+    private Map<String, String> xmlData = new HashMap<String, String>();
     private Document document;
     private String[] topLevelElements = new String[]{"flag", "centrecode", "centrename", "centreaddress1",
             "centreaddress2", "centreaddress3", "centreaddress4", "centrepostcode", "centretelephone", "centreemail",
@@ -143,7 +143,7 @@ public class ResultParser {
     }
 
     private void collectDateRanges(Document doc) {
-        NodeList testNodeList = doc.getElementsByTagName("org.patientview.test");
+        NodeList testNodeList = doc.getElementsByTagName("test");
         for (int i = 0; i < testNodeList.getLength(); i++) {
             Node testNode = testNodeList.item(i);
             NodeList testResultNodes = testNode.getChildNodes();
@@ -170,7 +170,7 @@ public class ResultParser {
 
     private void collectTestResults(Document doc) {
 
-        NodeList testNodeList = doc.getElementsByTagName("org.patientview.test");
+        NodeList testNodeList = doc.getElementsByTagName("test");
 
         for (int i = 0; i < testNodeList.getLength(); i++) {
             Node testNode = testNodeList.item(i);
@@ -219,8 +219,7 @@ public class ResultParser {
                                      * make sure the result doesn't have a future date. if it does not, make sure
                                      *  result date is between date range specified in the xml
                                      */
-                                    if (testResultDate.isAfter(
-                                            LegacySpringUtils.getTimeManager().getCurrentDate().getTime())) {
+                                    if (testResultDate.isAfter(new Date().getTime())) {
                                         // add this test to corrupt tests list
                                         corruptNodes.add(new CorruptNode(testNode, NodeError.FUTURE_RESULT));
                                     } else if (dateRangeStart != null && dateRangeStop != null && !(new Interval(
@@ -632,15 +631,15 @@ public class ResultParser {
 
 
     public String getData(String dataId) {
-        return (String) xmlData.get(dataId);
+        return xmlData.get(dataId);
     }
 
     public Patient getPatient() {
         Patient patient = new Patient();
-        patient.setNhsno((String) xmlData.get("nhsno"));
-        patient.setSurname((String) xmlData.get("surname"));
-        patient.setForename((String) xmlData.get("forename"));
-        String dateofbirth = (String) xmlData.get("dateofbirth");
+        patient.setNhsno(xmlData.get("nhsno"));
+        patient.setSurname(xmlData.get("surname"));
+        patient.setForename(xmlData.get("forename"));
+        String dateofbirth = xmlData.get("dateofbirth");
         if (dateofbirth != null) {
             try {
                 patient.setDateofbirth(IMPORT_DATE_FORMAT.parse(dateofbirth));
@@ -648,18 +647,18 @@ public class ResultParser {
                 LOGGER.error("Could not parse diagnosisDate {} {}", dateofbirth, e);
             }
         }
-        patient.setSex((String) xmlData.get("sex"));
-        patient.setAddress1((String) xmlData.get("address1"));
-        patient.setAddress2((String) xmlData.get("address2"));
-        patient.setAddress3((String) xmlData.get("address3"));
-        patient.setAddress4((String) xmlData.get("address4"));
-        patient.setPostcode((String) xmlData.get("postcode"));
-        patient.setTelephone1((String) xmlData.get("telephone1"));
-        patient.setTelephone2((String) xmlData.get("telephone2"));
-        patient.setMobile((String) xmlData.get("mobile"));
-        patient.setUnitcode((String) xmlData.get("centrecode"));
-        patient.setDiagnosis((String) xmlData.get("diagnosisedta"));
-        String diagnosisdate = (String) xmlData.get("diagnosisdate");
+        patient.setSex(xmlData.get("sex"));
+        patient.setAddress1(xmlData.get("address1"));
+        patient.setAddress2(xmlData.get("address2"));
+        patient.setAddress3(xmlData.get("address3"));
+        patient.setAddress4(xmlData.get("address4"));
+        patient.setPostcode(xmlData.get("postcode"));
+        patient.setTelephone1(xmlData.get("telephone1"));
+        patient.setTelephone2(xmlData.get("telephone2"));
+        patient.setMobile(xmlData.get("mobile"));
+        patient.setUnitcode(xmlData.get("centrecode"));
+        patient.setDiagnosis(xmlData.get("diagnosisedta"));
+        String diagnosisdate = xmlData.get("diagnosisdate");
         if (diagnosisdate != null) {
             try {
                 patient.setDiagnosisDate(IMPORT_DATE_FORMAT.parse(diagnosisdate));
@@ -667,17 +666,17 @@ public class ResultParser {
                 LOGGER.error("Could not parse diagnosisDate {} {}", diagnosisdate, e);
             }
         }
-        patient.setTreatment((String) xmlData.get("rrtstatus"));
-        patient.setTransplantstatus((String) xmlData.get("tpstatus"));
-        patient.setHospitalnumber((String) xmlData.get("hospitalnumber"));
-        patient.setGpname((String) xmlData.get("gpname"));
-        patient.setGpaddress1((String) xmlData.get("gpaddress1"));
-        patient.setGpaddress2((String) xmlData.get("gpaddress2"));
-        patient.setGpaddress3((String) xmlData.get("gpaddress3"));
-        patient.setGppostcode((String) xmlData.get("gppostcode"));
-        patient.setGptelephone((String) xmlData.get("gptelephone"));
-        patient.setGpemail((String) xmlData.get("gpemail"));
-        String bmdexam = (String) xmlData.get("bmdexam");
+        patient.setTreatment(xmlData.get("rrtstatus"));
+        patient.setTransplantstatus(xmlData.get("tpstatus"));
+        patient.setHospitalnumber(xmlData.get("hospitalnumber"));
+        patient.setGpname(xmlData.get("gpname"));
+        patient.setGpaddress1(xmlData.get("gpaddress1"));
+        patient.setGpaddress2(xmlData.get("gpaddress2"));
+        patient.setGpaddress3(xmlData.get("gpaddress3"));
+        patient.setGppostcode(xmlData.get("gppostcode"));
+        patient.setGptelephone(xmlData.get("gptelephone"));
+        patient.setGpemail(xmlData.get("gpemail"));
+        String bmdexam = xmlData.get("bmdexam");
         if (bmdexam != null) {
             try {
                 patient.setBmdexam(IMPORT_DATE_FORMAT.parse(bmdexam));
@@ -685,17 +684,17 @@ public class ResultParser {
                 LOGGER.error("Could not parse bmdexam {} {}", bmdexam, e);
             }
         }
-        patient.setBloodgroup((String) xmlData.get("bloodgroup"));
+        patient.setBloodgroup(xmlData.get("bloodgroup"));
 
         return patient;
     }
 
     public MyIbd getMyIbd() {
         MyIbd myIbd = new MyIbd();
-        myIbd.setNhsno((String) xmlData.get("nhsno"));
-        myIbd.setUnitcode((String) xmlData.get("centrecode"));
+        myIbd.setNhsno(xmlData.get("nhsno"));
+        myIbd.setUnitcode(xmlData.get("centrecode"));
         myIbd.setDiagnosis(org.patientview.ibd.model.enums.Diagnosis.getDiagnosisByXmlName(
-                (String) xmlData.get("diagnosis")));
+                xmlData.get("diagnosis")));
 
         Object diagnosisDate = xmlData.get("diagnosisdate");
         // this is an ibd only field so can be null
@@ -712,16 +711,16 @@ public class ResultParser {
         if (myIbd.getNhsno() != null && myIbd.getUnitcode() != null && myIbd.getDiagnosis() != null
                 && myIbd.getYearOfDiagnosis() != null) {
 
-            myIbd.setDiseaseExtent(DiseaseExtent.getDiseaseExtentByXmlName((String) xmlData.get("ibddiseaseextent")));
-            myIbd.setEiManifestations((String) xmlData.get("ibdeimanifestations"));
-            myIbd.setComplications((String) xmlData.get("ibddiseasecomplications"));
-            myIbd.setBodyPartAffected((String) xmlData.get("bodypartsaffected"));
-            myIbd.setFamilyHistory((String) xmlData.get("familyhistory"));
-            myIbd.setSmoking((String) xmlData.get("smokinghistory"));
-            myIbd.setSurgery((String) xmlData.get("surgicalhistory"));
-            myIbd.setVaccinationRecord((String) xmlData.get("vaccinationrecord"));
-            myIbd.setNamedConsultant((String) xmlData.get("namedconsultant"));
-            myIbd.setNurses((String) xmlData.get("ibdnurse"));
+            myIbd.setDiseaseExtent(DiseaseExtent.getDiseaseExtentByXmlName(xmlData.get("ibddiseaseextent")));
+            myIbd.setEiManifestations(xmlData.get("ibdeimanifestations"));
+            myIbd.setComplications(xmlData.get("ibddiseasecomplications"));
+            myIbd.setBodyPartAffected(xmlData.get("bodypartsaffected"));
+            myIbd.setFamilyHistory(xmlData.get("familyhistory"));
+            myIbd.setSmoking(xmlData.get("smokinghistory"));
+            myIbd.setSurgery(xmlData.get("surgicalhistory"));
+            myIbd.setVaccinationRecord(xmlData.get("vaccinationrecord"));
+            myIbd.setNamedConsultant(xmlData.get("namedconsultant"));
+            myIbd.setNurses(xmlData.get("ibdnurse"));
             if (xmlData.get("colonoscopysurveillance") != null) {
                 try {
                     myIbd.setYearForSurveillanceColonoscopy(
@@ -737,23 +736,23 @@ public class ResultParser {
         }
     }
 
-    public Centre getCentre() {
-        Centre centre = new Centre();
-        centre.setCentreCode((String) xmlData.get("centrecode"));
-        centre.setCentreName((String) xmlData.get("centrename"));
-        centre.setCentreAddress1((String) xmlData.get("centreaddress1"));
-        centre.setCentreAddress2((String) xmlData.get("centreaddress2"));
-        centre.setCentreAddress3((String) xmlData.get("centreaddress3"));
-        centre.setCentreAddress4((String) xmlData.get("centreaddress4"));
-        centre.setCentrePostCode((String) xmlData.get("centrepostcode"));
-        centre.setCentreTelephone((String) xmlData.get("centretelephone"));
-        centre.setCentreEmail((String) xmlData.get("centreemail"));
+    public Unit getUnit() {
+        Unit unit = new Unit();
+        unit.setUnitcode(xmlData.get("centrecode"));
+        unit.setName(xmlData.get("centrename"));
+        unit.setAddress1(String.valueOf(xmlData.get("centreaddress1")));
+        unit.setAddress2(String.valueOf(xmlData.get("centreaddress2")));
+        unit.setAddress3(xmlData.get("centreaddress3"));
+        unit.setCountry(xmlData.get("centreaddress4"));
+        unit.setPostcode(xmlData.get("centrepostcode"));
+        unit.setAppointmentphone(xmlData.get("centretelephone"));
+        unit.setAppointmentemail(xmlData.get("centreemail"));
 
-        return centre;
+        return unit;
     }
 
     public String getFlag() {
-        return (String) xmlData.get("flag");
+        return xmlData.get("flag");
     }
 
     public List<TestResult> getTestResults() {

@@ -3,7 +3,7 @@
     <parent>
         <artifactId>patientview-parent</artifactId>
         <groupId>org.patientview</groupId>
-        <version>1.2-SNAPSHOT</version>
+        <version>1.4-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -23,40 +23,6 @@
     </properties>
 
 
-
-    <profiles>
-        <profile>
-            <id>test</id>
-            <properties>
-                <env>test</env>
-                <tomcatmanagerurl>http://locahost:9080/manager/html</tomcatmanagerurl>
-                <warpath>/</warpath>
-                <!-- localhost is designed to build and run with war:inplace -->
-                <profile.build.output-webapp-dir>${project.basedir}/src/main/webapp</profile.build.output-webapp-dir>
-            </properties>
-        </profile>
-    </profiles>
-
-    <build>
-        <resources>
-            <!-- resource files with filtering to output to target/classes -->
-            <resource>
-                <directory>src/test/resources</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>integration-test.properties</include>
-                </includes>
-            </resource>
-        </resources>
-
-        <filters>
-            <!--Uses e.g. filters/<env>-filters.properties to overlay cms.properties, other property files -->
-            <filter>src/main/filters/${env}-filters.properties</filter>
-        </filters>
-
-
-    </build>
-
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -67,7 +33,7 @@
         <dependency>
             <groupId>org.patientview</groupId>
             <artifactId>patientview</artifactId>
-            <version>1.2-SNAPSHOT</version>
+            <version>1.4-SNAPSHOT</version>
             <type>jar</type>
             <classifier>classes</classifier>
         </dependency>
@@ -76,7 +42,7 @@
         <dependency>
             <groupId>org.patientview</groupId>
             <artifactId>common</artifactId>
-            <version>1.2-SNAPSHOT</version>
+            <version>1.4-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 

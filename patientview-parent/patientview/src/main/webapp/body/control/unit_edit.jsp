@@ -27,15 +27,17 @@
 <html:xhtml/>
 <div class="span9">
 <div class="page-header">
-    <h1>Unit Editing</h1>
+    <h1>
+        <logic:equal value="radargroup" name="unit" property="sourceType">RaDaR Group Editing</logic:equal>
+        <logic:notEqual value="radargroup" name="unit" property="sourceType">Unit Editing</logic:notEqual>
+    </h1>
 </div>
 
 <html:errors />
 
 <html:form action="/control/unitUpdate">
 
-  <table cellpadding="3" >
-
+  <table cellpadding="3">
     <tr>
       <td><img src="images/space.gif" height="10" /> </td>
     </tr>
@@ -54,88 +56,90 @@
       <td><html:text name="unit" property="shortname" maxlength="15"/></td>
     </tr>
 
-    <logic:present role="superadmin">
-    <tr>
-      <td><b>Unit sFTP User</b></td>
-      <td><html:text name="unit" property="unituser" maxlength="20"/></td>
-    </tr>
-    </logic:present>
+    <logic:notEqual value="radargroup" name="unit" property="sourceType">
+        <logic:present role="superadmin">
+        <tr>
+          <td><b>Unit sFTP User</b></td>
+          <td><html:text name="unit" property="unituser" maxlength="20"/></td>
+        </tr>
+        </logic:present>
 
-    <logic:notPresent role="superadmin">
-        <html:hidden name="unit" property="unituser"/>
-    </logic:notPresent>
+        <logic:notPresent role="superadmin">
+            <html:hidden name="unit" property="unituser"/>
+        </logic:notPresent>
+
+        <tr>
+          <td><b>Address 1</b></td>
+          <td><html:text name="unit" property="address1" /></td>
+        </tr>
+
+        <tr>
+          <td><b>Address 2</b></td>
+          <td><html:text name="unit" property="address2" /></td>
+        </tr>
+
+        <tr>
+          <td><b>Address 3</b></td>
+          <td><html:text name="unit" property="address3" /></td>
+        </tr>
+
+        <tr>
+          <td><b>Postcode</b></td>
+          <td><html:text name="unit" property="postcode" /></td>
+        </tr>
+
+        <tr>
+          <td><b>Unit Web Address</b></td>
+          <td><html:text name="unit" property="uniturl" /></td>
+        </tr>
+
+        <tr>
+          <td><b>Trust Web Address</b></td>
+          <td><html:text name="unit" property="trusturl" /></td>
+        </tr>
+
+    </logic:notEqual>
 
     <tr>
-      <td><b>Address 1</b></td>
-      <td><html:text name="unit" property="address1" /></td>
-    </tr>
-
-    <tr>
-      <td><b>Address 2</b></td>
-      <td><html:text name="unit" property="address2" /></td>
-    </tr>
-
-    <tr>
-      <td><b>Address 3</b></td>
-      <td><html:text name="unit" property="address3" /></td>
-    </tr>
-
-    <tr>
-      <td><b>Postcode</b></td>
-      <td><html:text name="unit" property="postcode" /></td>
-    </tr>
-
-    <tr>
-      <td><b>Unit Web Address</b></td>
-      <td><html:text name="unit" property="uniturl" /></td>
-    </tr>
-
-    <tr>
-      <td><b>Trust Web Address</b></td>
-      <td><html:text name="unit" property="trusturl" /></td>
-    </tr>
-
-    <tr>
-      <td><b>PatientView Admin Name</b></td>
+      <td><b>Admin Name</b></td>
       <td><html:text name="unit" property="renaladminname" /></td>
     </tr>
 
     <tr>
-      <td><b>PatientView Admin Phone</b></td>
+      <td><b>Admin Phone</b></td>
       <td><html:text name="unit" property="renaladminphone" /></td>
     </tr>
 
     <tr>
-      <td><b>PatientView Admin Email</b></td>
+      <td><b>Admin Email</b></td>
       <td><html:text name="unit" property="renaladminemail" /></td>
     </tr>
 
-    <tr>
-      <td><b>Unit Enquiries Phone</b></td>
-      <td><html:text name="unit" property="unitenquiriesphone" /></td>
-    </tr>
+    <logic:notEqual value="radargroup" name="unit" property="sourceType">
+        <tr>
+          <td><b>Unit Enquiries Phone</b></td>
+          <td><html:text name="unit" property="unitenquiriesphone" /></td>
+        </tr>
 
-    <tr>
-        <td><b>Unit Enquiries Email</b><br/>(This is where messages to the unit<br/>from patients will be sent)</td>
-      <td><html:text name="unit" property="unitenquiriesemail" /></td>
-    </tr>
+        <tr>
+          <td><b>Unit Enquiries Email</b><br/>(This is where messages to the unit<br/>from patients will be sent)</td>
+          <td><html:text name="unit" property="unitenquiriesemail" /></td>
+        </tr>
 
-    <tr>
-      <td><b>Appointment Phone</b></td>
-      <td><html:text name="unit" property="appointmentphone" /></td>
-    </tr>
+        <tr>
+          <td><b>Appointment Phone</b></td>
+          <td><html:text name="unit" property="appointmentphone" /></td>
+        </tr>
 
-    <tr>
-      <td><b>Appointment Email</b></td>
-      <td><html:text name="unit" property="appointmentemail" /></td>
-    </tr>
+        <tr>
+          <td><b>Appointment Email</b></td>
+          <td><html:text name="unit" property="appointmentemail" /></td>
+        </tr>
 
-    <tr>
-      <td><b>Out of Hours Info</b></td>
-      <td><html:text name="unit" property="outofhours" /></td>
-    </tr>
-
-    <logic:present specialty="renal">
+        <tr>
+          <td><b>Out of Hours Info</b></td>
+          <td><html:text name="unit" property="outofhours" /></td>
+        </tr>
 
         <tr>
           <td><b>Peritoneal Dialysis Phone</b></td>
@@ -147,9 +151,8 @@
           <td><html:text name="unit" property="peritonealdialysisemail" /></td>
         </tr>
 
-
-
         <tr><td>&nbsp;</td></tr>
+
         <tr>
           <td><b>Haemodialysis Unit 1 Name</b></td>
           <td><html:text name="unit" property="haemodialysisunitname1" /></td>
@@ -170,8 +173,8 @@
           <td><html:text name="unit" property="haemodialysisuniturl1" /></td>
         </tr>
 
-
         <tr><td>&nbsp;</td></tr>
+
         <tr>
           <td><b>Haemodialysis Unit 2 Name</b></td>
           <td><html:text name="unit" property="haemodialysisunitname2" /></td>
@@ -192,8 +195,8 @@
           <td><html:text name="unit" property="haemodialysisuniturl2" /></td>
         </tr>
 
-
         <tr><td>&nbsp;</td></tr>
+
         <tr>
           <td><b>Haemodialysis Unit 3 Name</b></td>
           <td><html:text name="unit" property="haemodialysisunitname3" /></td>
@@ -213,7 +216,6 @@
           <td><b>Haemodialysis Unit 3 Web Address</b></td>
           <td><html:text name="unit" property="haemodialysisuniturl3" /></td>
         </tr>
-
 
         <tr><td>&nbsp;</td></tr>
 
@@ -236,7 +238,6 @@
           <td><b>Haemodialysis Unit 4 Web Address</b></td>
           <td><html:text name="unit" property="haemodialysisuniturl4" /></td>
         </tr>
-
 
         <tr><td>&nbsp;</td></tr>
 
@@ -414,19 +415,96 @@
           <td><html:text name="unit" property="haemodialysisuniturl12" /></td>
         </tr>
 
-    </logic:present>
+        <tr>
+            <td><b>Visible for user to join</b></td>
+            <td><html:checkbox name="unit" property="visible" value="true"/></td>
+        </tr>
 
-    <tr>
-      <td><b>Visible for user to join</b></td>
-      <td><html:checkbox name="unit" property="visible" /></td>
-    </tr>
+        <tr>
+            <td><b>Feedback enabled</b></td>
+            <td><html:checkbox name="unit" property="feedbackEnabled" value="true"/></td>
+        </tr>
 
-
-    <tr>
-      <td><html:submit value="Update" styleClass="btn"/></td>
-    </tr>
-
+        <tr>
+            <td><b>Sharing Thoughts enabled</b></td>
+            <td><html:checkbox name="unit" property="sharedThoughtEnabled" value="true"/></td>
+        </tr>
+    </logic:notEqual>
   </table>
+  <br/><br/>
+  <logic:present name="edtaCode">
+      <h2>Disease Group Specific Information</h2>
+      <br/>
+      <table cellpadding="3" class="table table-bordered table-striped">
+          <tr>
+              <td></td>
+              <td align="center"><b>Link (e.g. http:// etc.)</b></td>
+              <td align="center"><b>Text Description</b></td>
+          </tr>
+          <tr>
+              <td><b>Medical Link 1</b></td>
+              <td><html:text name="edtaCode" property="medicalLink01" /></td>
+              <td><html:text name="edtaCode" property="medicalLinkText01" /></td>
+          </tr>
+          <tr>
+              <td><b>Medical Link 2</b></td>
+              <td><html:text name="edtaCode" property="medicalLink02" /></td>
+              <td><html:text name="edtaCode" property="medicalLinkText02" /></td>
+          </tr>
+          <tr>
+              <td><b>Medical Link 3</b></td>
+              <td><html:text name="edtaCode" property="medicalLink03" /></td>
+              <td><html:text name="edtaCode" property="medicalLinkText03" /></td>
+          </tr>
+          <tr>
+              <td><b>Medical Link 4</b></td>
+              <td><html:text name="edtaCode" property="medicalLink04" /></td>
+              <td><html:text name="edtaCode" property="medicalLinkText04" /></td>
+          </tr>
+          <tr>
+              <td><b>Medical Link 5</b></td>
+              <td><html:text name="edtaCode" property="medicalLink05" /></td>
+              <td><html:text name="edtaCode" property="medicalLinkText05" /></td>
+          </tr>
+          <tr>
+              <td><b>Medical Link 6</b></td>
+              <td><html:text name="edtaCode" property="medicalLink06" /></td>
+              <td><html:text name="edtaCode" property="medicalLinkText06" /></td>
+          </tr>
+          <tr>
+              <td><b>Patient Link 1</b></td>
+              <td><html:text name="edtaCode" property="patientLink01" /></td>
+              <td><html:text name="edtaCode" property="patientLinkText01" /></td>
+          </tr>
+          <tr>
+              <td><b>Patient Link 2</b></td>
+              <td><html:text name="edtaCode" property="patientLink02" /></td>
+              <td><html:text name="edtaCode" property="patientLinkText02" /></td>
+          </tr>
+          <tr>
+              <td><b>Patient Link 3</b></td>
+              <td><html:text name="edtaCode" property="patientLink03" /></td>
+              <td><html:text name="edtaCode" property="patientLinkText03" /></td>
+          </tr>
+          <tr>
+              <td><b>Patient Link 4</b></td>
+              <td><html:text name="edtaCode" property="patientLink04" /></td>
+              <td><html:text name="edtaCode" property="patientLinkText04" /></td>
+          </tr>
+          <tr>
+              <td><b>Patient Link 5</b></td>
+              <td><html:text name="edtaCode" property="patientLink05" /></td>
+              <td><html:text name="edtaCode" property="patientLinkText05" /></td>
+          </tr>
+          <tr>
+              <td><b>Patient Link 6</b></td>
+              <td><html:text name="edtaCode" property="patientLink06" /></td>
+              <td><html:text name="edtaCode" property="patientLinkText06" /></td>
+          </tr>
+      </table>
+  </logic:present>
+
+  <html:submit value="Update" styleClass="btn"/>
 
 </html:form>
 </div>
