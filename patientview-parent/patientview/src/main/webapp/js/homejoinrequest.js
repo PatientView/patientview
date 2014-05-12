@@ -21,26 +21,23 @@ joinrequest.init = function()  {
             });
 
             specialties.change(function() {
-                try {
-                    var units = $('.js-joinrequest-unit');
-                    var unitsUrl =  '/web/unitBySpecialty?specialtyId=' + specialties.val();
 
-                    units.empty();
+                var units = $('.js-joinrequest-unit');
+                var unitsUrl =  '/web/unitBySpecialty?specialtyId=' + specialties.val();
 
-                    $.getJSON(unitsUrl, function(data) {
-                        $.each(data, function(i, result) {
-                            units.append('<option value=' + result.id + '>' + result.name + '</option>');
-                        });
-                    });}
-                catch (e) {
-                    console.log(e);
-                }
+                units.empty();
+
+                $.getJSON(unitsUrl, function(data) {
+                    $.each(data, function(i, result) {
+                        units.append('<option value=' + result.id + '>' + result.name + '</option>');
+                    });
+                });
 
             });
 
             var joinForm = $('.js-joinrequest-form');
 
-            joinForm.click(function(event) {
+            joinForm.submit(function(event) {
                 event.preventDefault();
                 joinrequest.sendJoinRequest(joinForm);
             });
