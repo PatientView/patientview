@@ -3,6 +3,7 @@
 <%@ page import="org.patientview.patientview.user.UserUtils" %>
 <%@ page import="org.patientview.utils.LegacySpringUtils" %>
 <%@ page import="java.util.List" %>
+<%@ page import="org.patientview.patientview.messaging.Messaging" %>
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
 <%--
