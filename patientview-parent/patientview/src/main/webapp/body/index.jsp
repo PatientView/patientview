@@ -76,11 +76,7 @@
             You can view a <a href="/demo.do">demo</a> as if you were a
             patient.
         </p>
-
-        <p>
-            PatientView is funded by contributions from renal units in England and Wales and by the Scottish Government in
-            Scotland. Development funding has come from the Department of Health in England, Scotland and Wales, and
-            from NHS Kidney Care.
+            Support for development of PatientView has come from these <a href=http://www.rixg.org/developer/pages/supporters.php>sources</a>.
         </p>
 
         <h3 class="mediumBlueTitle titleSeperator">I Want To Join</h3>
