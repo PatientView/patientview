@@ -444,9 +444,9 @@ public class ResultParser {
                 e.printStackTrace();
             }
 
-            if (checkups.getFootCheckPlace() != null) {
-                footCheckupses.add(checkups);
-            }
+
+            footCheckupses.add(checkups);
+
         }
     }
 
@@ -515,9 +515,8 @@ public class ResultParser {
                 e.printStackTrace();
             }
 
-            if (checkups.getLastRetinalDate() != null) {
-                eyeCheckupses.add(checkups);
-            }
+
+            eyeCheckupses.add(checkups);
         }
     }
 
