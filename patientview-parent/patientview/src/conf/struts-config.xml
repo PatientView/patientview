@@ -755,6 +755,9 @@
             <forward name="success" path="/join-request-confirmation.jsp"/>
         </action>
 
+        <action path="/joinSuccess" forward="/join-request-confirmation.jsp">
+
+        </action>
         <action path="/join"
                 type="org.patientview.patientview.join.JoinRequestInputAction"
                 name="joinForm"

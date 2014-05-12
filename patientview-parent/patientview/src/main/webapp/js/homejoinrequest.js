@@ -98,14 +98,15 @@ joinrequest.sendJoinRequest = function(form) {
         $.ajax({
             type: "POST",
             url: $form.attr('action'),
-            data: data,
+            data: JSON.stringify(data),
             success: function(data) {
-                alert('Your join request has been sent');
+                window.location.href = '/joinSuccess.do';
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 onError(textStatus);
             },
-            dataType: 'json'
+            dataType: 'json',
+            contentType: "application/json; charset=UTF-8"
         });
     }
 

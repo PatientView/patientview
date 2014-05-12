@@ -25,8 +25,13 @@ package org.patientview.patientview.controller;
 
 import org.apache.commons.lang.StringUtils;
 import org.patientview.model.Specialty;
+import org.patientview.model.Unit;
+import org.patientview.patientview.controller.form.JoinRequestInput;
 import org.patientview.patientview.model.JoinRequest;
+import org.patientview.patientview.utils.FormUtils;
+import org.patientview.service.JoinRequestManager;
 import org.patientview.service.SpecialtyManager;
+import org.patientview.service.UnitManager;
 import org.patientview.utils.LegacySpringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,11 +39,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.beans.support.SortDefinition;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -58,6 +65,12 @@ public class JoinRequestsController extends BaseController {
     @Inject
     private SpecialtyManager specialtyManager;
 
+    @Inject
+    private UnitManager unitManager;
+
+    @Inject
+    private JoinRequestManager joinRequestManager;
+
 
     /**
      * Produce a list of all the specialties in the system
@@ -70,22 +83,31 @@ public class JoinRequestsController extends BaseController {
         return specialtyManager.getAll();
     }
 
+
     /**
-     * Needs refactor into a form.
+     * Process a join request form
      *
-     * @param nhsNumber
-     * @param firstName
-     * @param lastName
-     * @param dateOfBirth
-     * @param unitId
-     * @param email
-     * @param securityQuestion
+     * @param joinRequestInput
+     * @param request
      */
-    @RequestMapping(value = Routes.JOIN_REQUEST_SUBMIT)
-    public void submitJoinRequest(@RequestParam  String nhsNumber, @RequestParam  String firstName,
-                                  @RequestParam  String lastName, @RequestParam  String dateOfBirth,
-                                  @RequestParam  Long unitId, @RequestParam  String email,
-                                  @RequestParam  String securityQuestion) {
+    @RequestMapping(value = Routes.JOIN_REQUEST_SUBMIT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(value = HttpStatus.OK)
+    @ResponseBody
+    public void submitJoinRequest(JoinRequestInput joinRequestInput, HttpServletRequest request) {
+
+        try {
+            Integer correctAnswer = Integer.getInteger(String.valueOf(
+                    request.getSession().getAttribute("ANTI_SPAM_ANSWER")));
+            Unit unit = unitManager.get(joinRequestInput.getUnitId());
+            JoinRequest joinRequest = FormUtils.createJoinRequestFromInput(joinRequestInput, unit);
+
+            if (correctAnswer.equals(Integer.parseInt(joinRequest.getAntiSpamAnswer()))) {
+                joinRequestManager.save(joinRequest);
+            }
+
+        } catch (Exception e) {
+
+        }
 
         LOGGER.error("Executed endpoint");
     }
