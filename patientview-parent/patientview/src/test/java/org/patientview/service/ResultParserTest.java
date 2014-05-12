@@ -26,7 +26,7 @@ public class ResultParserTest {
             ResultParser resultParser = new ResultParser(testXml);
             resultParser.parse();
             Assert.assertTrue("There should be foot details from this file", CollectionUtils.isNotEmpty(resultParser.getFootCheckupses()));
-            //Assert.assertTrue("There should be eye details from this file",  CollectionUtils.isNotEmpty(resultParser.getEyeCheckupses()));
+            Assert.assertTrue("There should be test results from this file",  CollectionUtils.isNotEmpty(resultParser.getTestResults()));
         } catch (ResultParserException e) {
             Assert.fail("There should not be an error with this file");
         }

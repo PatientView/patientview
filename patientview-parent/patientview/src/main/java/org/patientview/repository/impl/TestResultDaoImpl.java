@@ -87,7 +87,7 @@ public class TestResultDaoImpl extends AbstractHibernateDAO<TestResult> implemen
         sql.append("AND      usr.username = usm.username ");
         sql.append("AND      usm.nhsno = trt.nhsno ");
 
-        if (!isRadarGroup) {
+        if (isRadarGroup) {
             sql.append("AND      unt.sourceType = 'radargroup' ");
         }
 
