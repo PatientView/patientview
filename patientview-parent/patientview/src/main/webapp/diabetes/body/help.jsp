@@ -86,7 +86,7 @@
     <dt><a name="Anchor-How-49575"></a>How does it work?</dt>
     <dd>
         <p>
-            PatientView takes information from your hospital's and GP’s computer system and links it to useful explanations about
+            PatientView takes information from your hospital's and GP's computer system and links it to useful explanations about
             your condition and its treatment. It shows blood test results, clinic letters (if they are on your hospital's computer
             system), and much more. It is updated at least once a day so that it should be up to date. Because it shows information
             from your local hospital's computer system, you should contact your diabetic clinic or GP if you see (or suspect) errors.
