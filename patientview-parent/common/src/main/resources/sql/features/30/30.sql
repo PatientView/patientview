@@ -1,6 +1,3 @@
-CREATE TABLE result_heading_bak AS
-SELECT  *
-FROM    result_heading;
 /* Feedback */
 
 ALTER TABLE unit ADD COLUMN `feedbackEnabled` tinyint(1) DEFAULT '0';
@@ -19,7 +16,7 @@ CREATE TABLE `conversation_status` (
 
 INSERT INTO conversation_status (id, status, closedStatus) VALUES (1, 'Open - Ongoing', 0), (2, 'Closed - Amended', 1), (3, 'Closed - Explained Records', 1), (4, 'Closed - Will Discuss in Clinic', 1);
 
-ALTER TABLE user ADD COLUMN `feedbackRecipient` tinyint(1) NOT NULL DEFAULT '0';ALTER TABLE user ADD COLUMN `feedbackRecipient` tinyint(1) NOT NULL DEFAULT '0';
+ALTER TABLE user ADD COLUMN `feedbackRecipient` tinyint(1) NOT NULL DEFAULT '0';
 
 UPDATE conversation SET type='MESSAGE' WHERE type IS NULL;
 UPDATE message SET type='MESSAGE' WHERE type IS NULL;

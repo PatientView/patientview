@@ -53,3 +53,5 @@ SET radar_no = (SELECT radarno FROM patient ptt WHERE ptt.id = dig.radar_no)
 WHERE dig.radar_no > 900;
 
 
+
+

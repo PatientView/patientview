@@ -978,7 +978,6 @@
                 input="input"
                 scope="request">
             <forward name="input" path="/control/patient_add_input.jsp"/>
-            <forward name="ibd" path="/control/patient_ibd_input.jsp"/>
             <forward name="samenhsno" path="/control/patient_add_samenhsno.jsp"/>
             <forward name="success" path="/control/patient_add_confirm.jsp"/>
         </action>

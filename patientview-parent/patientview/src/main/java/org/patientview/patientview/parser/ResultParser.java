@@ -225,7 +225,7 @@ public class ResultParser {
                                     } else if (dateRangeStart != null && dateRangeStop != null && !(new Interval(
                                             new DateTime(dateRangeStart), new DateTime(dateRangeStop)).contains(
                                             new DateTime(testResultDate)))) {
-                                        // add this org.patientview.test to corrupt tests list
+                                        // add this test to corrupt tests list
                                         corruptNodes.add(new CorruptNode(testNode, NodeError.WRONG_DATE_RANGE));
                                     }
                                 }
