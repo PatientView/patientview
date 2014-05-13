@@ -28,6 +28,10 @@
     <tiles:put name="left_nav" value="/common/left_nav_empty.jsp" />
 
 
+    <logic:present specialty="none">
+        <tiles:put name="body" value="/body/help_generic.jsp" />
+    </logic:present>
+
     <logic:present specialty="renal">
         <tiles:put name="body" value="/body/help.jsp" />
     </logic:present>

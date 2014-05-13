@@ -93,7 +93,7 @@ public class JoinRequestsController extends BaseController {
      */
     @RequestMapping(value = Routes.JOIN_REQUEST_SUBMIT, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
-    public @ResponseBody void submitJoinRequest(@RequestBody JoinRequestInput joinRequestInput
+    public void submitJoinRequest(@RequestBody JoinRequestInput joinRequestInput
             , HttpServletRequest request) {
 
         try {

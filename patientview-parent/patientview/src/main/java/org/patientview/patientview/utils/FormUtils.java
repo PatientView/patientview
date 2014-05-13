@@ -11,8 +11,11 @@ import java.util.Date;
 /**
  * Created by james@solidstategroup.com on 12/05/2014.
  */
-public class FormUtils {
+public final class FormUtils {
 
+    private FormUtils() {
+
+    }
 
     public static JoinRequest createJoinRequestFromInput(JoinRequestInput joinRequestInput, Unit unit)
             throws ParseException {
