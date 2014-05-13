@@ -42,6 +42,7 @@ import org.springframework.beans.support.SortDefinition;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -92,13 +93,13 @@ public class JoinRequestsController extends BaseController {
      */
     @RequestMapping(value = Routes.JOIN_REQUEST_SUBMIT, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
-    @ResponseBody
-    public void submitJoinRequest(JoinRequestInput joinRequestInput, HttpServletRequest request) {
+    public @ResponseBody void submitJoinRequest(@RequestBody JoinRequestInput joinRequestInput
+            , HttpServletRequest request) {
 
         try {
-            Integer correctAnswer = Integer.getInteger(String.valueOf(
+            Integer correctAnswer = Integer.parseInt(String.valueOf(
                     request.getSession().getAttribute("ANTI_SPAM_ANSWER")));
-            Unit unit = unitManager.get(joinRequestInput.getUnitId());
+            Unit unit = unitManager.get(Long.parseLong(joinRequestInput.getUnitId()));
             JoinRequest joinRequest = FormUtils.createJoinRequestFromInput(joinRequestInput, unit);
 
             if (correctAnswer.equals(Integer.parseInt(joinRequest.getAntiSpamAnswer()))) {
@@ -106,10 +107,10 @@ public class JoinRequestsController extends BaseController {
             }
 
         } catch (Exception e) {
-
+            LOGGER.error("Failed to create join request", e);
         }
 
-        LOGGER.error("Executed endpoint");
+        LOGGER.debug("Executed endpoint");
     }
 
 
