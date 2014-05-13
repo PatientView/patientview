@@ -92,16 +92,6 @@
             </properties>
         </profile>
         <profile>
-            <id>dev-diabetes</id>
-            <properties>
-                <env>dev-diabetes</env>
-                <tomcatmanagerurl>http://diabetes-pv.dev.solidstategroup.com/manager/text</tomcatmanagerurl>
-                <warpath>/</warpath>
-                <profile.build.output-webapp-dir>${project.build.directory}/${project.build.finalName}
-                </profile.build.output-webapp-dir>
-            </properties>
-        </profile>
-        <profile>
             <id>staging</id>
             <properties>
                 <env>staging</env>
@@ -304,20 +294,6 @@
                     <!--<webXml>${project.build.directory}/web.xml</webXml>-->
                     <!-- overwrite the default files with any build/environment specific ones -->
                 </configuration>
-            </plugin>
-
-            <plugin>
-                <!-- build the test JAR (test classes) -->
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.4</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
 
             <plugin>

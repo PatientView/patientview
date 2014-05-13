@@ -45,8 +45,8 @@ import org.patientview.service.NewsManager;
 import org.patientview.service.PatientManager;
 import org.patientview.service.ResultHeadingManager;
 import org.patientview.service.SecurityUserManager;
-import org.patientview.service.SpecialtyManager;
 import org.patientview.service.SharedThoughtManager;
+import org.patientview.service.SpecialtyManager;
 import org.patientview.service.SplashPageManager;
 import org.patientview.service.TestResultManager;
 import org.patientview.service.TimeManager;
@@ -291,6 +291,14 @@ public final class LegacySpringUtils {
         LegacySpringUtils.sharedThoughtManager = sharedThoughtManager;
     }
 
+    public static SharedThoughtManager getSharedThoughtManager() {
+        return sharedThoughtManager;
+    }
+
+    public static void setSharedThoughtManager(SharedThoughtManager sharedThoughtManager) {
+        LegacySpringUtils.sharedThoughtManager = sharedThoughtManager;
+    }
+
     public static SplashPageManager getSplashPageManager() {
         return splashPageManager;
     }
@@ -333,14 +341,6 @@ public final class LegacySpringUtils {
 
     public static UserManager getUserManager() {
         return userManager;
-    }
-
-    public static UserLogManager getUserLogManager() {
-        return userLogManager;
-    }
-
-    public static void setUserLogManager(UserLogManager userLogManager) {
-        LegacySpringUtils.userLogManager = userLogManager;
     }
 
     public static void setUserManager(UserManager userManager) {

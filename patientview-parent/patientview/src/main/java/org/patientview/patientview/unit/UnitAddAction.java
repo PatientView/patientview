@@ -23,6 +23,7 @@
 
 package org.patientview.patientview.unit;
 
+import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -42,15 +43,15 @@ import java.util.List;
 
 public class UnitAddAction extends ActionSupport {
 
-    private UnitManager unitManager;
-    private EdtaCodeManager edtaCodeManager;
-    private SecurityUserManager securityUserManager;
+
 
     public ActionForward execute(
         ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
-
+        UnitManager unitManager;
+        EdtaCodeManager edtaCodeManager;
+        SecurityUserManager securityUserManager;
 
         unitManager = getWebApplicationContext().getBean(UnitManager.class);
         edtaCodeManager = getWebApplicationContext().getBean(EdtaCodeManager.class);

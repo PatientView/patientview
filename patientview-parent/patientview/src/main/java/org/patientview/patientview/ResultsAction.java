@@ -28,7 +28,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.patientview.actionutils.ActionUtils;
-import org.patientview.model.Specialty;
 import org.patientview.patientview.logon.LogonUtils;
 import org.patientview.patientview.model.ResultHeading;
 import org.patientview.patientview.model.TestResultWithUnitShortname;
@@ -86,8 +85,7 @@ public class ResultsAction extends ActionSupport {
                 if (!results.isEmpty()) {
 
                     Collection<Result> resultsInRecords = turnResultsListIntoRecords(results);
-                    String jsonData = convertToJsonData(resultsInRecords, resultType,
-                            securityUserManager.getLoggedInSpecialty());
+                    String jsonData = convertToJsonData(resultsInRecords, resultType);
                     try {
                         PrintWriter printWriter = response.getWriter();
                         printWriter.write(jsonData);
@@ -113,12 +111,12 @@ public class ResultsAction extends ActionSupport {
      * @param resultType The name of the set of results to convert
      * @return A JSON format string containing formatted results data suitable for Google Charts
      */
-    private String convertToJsonData(Collection<Result> resultData, String resultType, Specialty specialty) {
+    private String convertToJsonData(Collection<Result> resultData, String resultType) {
 
         ResultHeadingManager resultHeadingManager = getWebApplicationContext().getBean(ResultHeadingManager.class);
         String resultValue = null;
 
-        ResultHeading heading = resultHeadingManager.get(resultType, specialty);
+        ResultHeading heading = resultHeadingManager.get(resultType);
 
         StringBuffer sb = new StringBuffer();
         // cols header

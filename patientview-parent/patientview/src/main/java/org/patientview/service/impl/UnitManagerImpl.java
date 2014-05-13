@@ -86,6 +86,11 @@ public class UnitManagerImpl implements UnitManager {
     }
 
     @Override
+    public Unit get(String unitcode, Specialty specialty) {
+        return unitDao.get(unitcode, specialty);
+    }
+
+    @Override
     public void save(Unit unit) {
 
         // set the Specialty against the unit if not already set

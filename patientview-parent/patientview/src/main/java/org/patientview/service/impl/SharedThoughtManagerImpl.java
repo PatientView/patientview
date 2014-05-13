@@ -5,12 +5,16 @@ import org.patientview.patientview.model.Message;
 import org.patientview.patientview.model.SharedThought;
 import org.patientview.patientview.model.SharedThoughtAudit;
 import org.patientview.patientview.model.User;
+import org.patientview.patientview.model.UserSharedThought;
 import org.patientview.patientview.model.enums.SharedThoughtAuditAction;
 import org.patientview.repository.SharedThoughtAuditDao;
 import org.patientview.repository.SharedThoughtDao;
 import org.patientview.repository.UserDao;
+import org.patientview.service.EmailManager;
 import org.patientview.service.SecurityUserManager;
 import org.patientview.service.SharedThoughtManager;
+import org.patientview.service.UserManager;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +35,14 @@ public class SharedThoughtManagerImpl implements SharedThoughtManager {
     private UserDao userDao;
     @Inject
     private SecurityUserManager securityUserManager;
+    @Inject
+    private UserManager userManager;
+    @Inject
+    private EmailManager emailManager;
+    @Value("${config.site.url}")
+    private String url;
+    @Value("${noreply.email}")
+    private String noReplyEmail;
 
     @Override
     public List<SharedThought> getAll(boolean orderBySubmitDate) {
@@ -113,6 +125,11 @@ public class SharedThoughtManagerImpl implements SharedThoughtManager {
         // add Shared Thought Administrators as initial responders
         if (isSubmitted) {
             sharedThoughtDao.addAllSharedThoughtAdministrators(thought);
+
+            // send email notifications
+            for (UserSharedThought responder : thought.getResponders()) {
+                sendEmailToResponder(thought.getId(), responder.getUser().getId());
+            }
         }
     }
 
@@ -230,5 +247,42 @@ public class SharedThoughtManagerImpl implements SharedThoughtManager {
             }
         }
         return false;
+    }
+
+    @Override
+    public void sendEmailToResponder(Long sharedThoughtId, Long responderId) {
+        User responder = userManager.get(responderId);
+        SharedThought sharedThought = get(sharedThoughtId, false, true);
+        StringBuilder body = new StringBuilder();
+        String emailAddress = responder.getEmail();
+        String newLine = System.getProperty("line.separator");
+
+        body.append("[This is an automated email from PatientView - do not reply to this email]");
+        body.append(newLine).append(newLine);
+        body.append("Dear ");
+        body.append(responder.getName());
+        body.append(", ");
+        body.append(newLine).append(newLine);
+        body.append("You have been added as a Responder to a ");
+        if (sharedThought.getPositiveNegative() == 1) {
+            body.append("'Positive Comment' ");
+        } else {
+            body.append("'Quality or Safety Concern' ");
+        }
+        body.append("Shared Thought.");
+        body.append(newLine).append(newLine);
+        body.append("Please visit the PatientView website at ");
+        body.append(url);
+        body.append(" and log in with you usual details. ");
+        body.append(newLine);
+        body.append("You can see the list of Shared Thoughts assigned to you by clicking on 'Shared Thoughts' ");
+        body.append("on the left menu in the Admin Area. ");
+        body.append(newLine).append(newLine);
+        body.append("Kind regards, ");
+        body.append(newLine);
+        body.append("The PatientView team");
+
+        emailManager.sendEmail(noReplyEmail, new String[]{emailAddress}, null,
+            "PatientView: You have been added as a Responder to a Shared Thought", body.toString());
     }
 }
