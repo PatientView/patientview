@@ -24,12 +24,12 @@
   ~ @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
   --%>
 
-<div class="row" id="editCarePlan">
-    <div class="span12">
-        <div class="page-header">
-            <h1>Checkups</h1>
-        </div>
+    <html:xhtml/>
+
+    <div class="page-header">
+        <h1>Checkups</h1>
     </div>
+
     <%
         if (request.getAttribute("eyeCheckup") == null && request.getAttribute("footCheckup") == null) {
     %>
@@ -117,4 +117,3 @@
             </div>
         </logic:present>
     </logic:notEmpty>
-</div>
