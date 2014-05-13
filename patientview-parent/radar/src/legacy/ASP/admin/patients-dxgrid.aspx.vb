@@ -24,7 +24,7 @@ Partial Class admin_patients
 
         If e.ButtonID = "Email" Then
             Dim intID As Integer = ASPxGridView1.GetRowValues(e.VisibleIndex, "pID")
-            lblDebug.Text = "org.patientview.test"
+            lblDebug.Text = "test"
         Else
             Return
         End If
