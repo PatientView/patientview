@@ -12,4 +12,4 @@ vti_cachedhasbots:BR|false
 vti_cachedhastheme:BR|false
 vti_cachedhasborder:BR|false
 vti_charset:SR|utf-8
-vti_backlinkinfo:VX|z-org.patientview.test-layout-Page.htm
+vti_backlinkinfo:VX|z-test-layout-Page.htm
