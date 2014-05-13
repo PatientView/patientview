@@ -68,7 +68,7 @@
                 <li><html:link action="/control/patientAddInput">Add Patient</html:link></li>
                 <li><html:link action="/control/logView">View Log</html:link></li>
                 <li class="divider"></li>
-                <li <%= request.getAttribute("specialty") != null ? "class=\"active\"" : "" %>>
+                <li>
                     <%
                         List<JoinRequest> list = LegacySpringUtils.getJoinRequestManager().getUsersJoinRequests(false);
                         int inComplete = list != null ? list.size() : 0;
@@ -93,7 +93,7 @@
                     <li class="divider"></li>
                 </logic:present>
 
-                <li><html:link action="/control/newsView">News</html:link></li>
+                <li><html:link action="/control/n   ewsView">News</html:link></li>
                 <li><html:link action="/control/newsList">News Edit</html:link></li>
                 <logic:present role="superadmin,unitadmin">
                     <li class="divider"></li>
@@ -134,7 +134,7 @@
                             int numberUnreadMessages = LegacySpringUtils.getMessageManager().getTotalNumberUnreadMessages(user.getId());
                     %>
                     <li class="divider"></li>
-                    <li <%= ("conversations".equals(request.getAttribute("currentNav"))) ? "class=\"active\"" : "" %>>
+                    <li>
                         <a href="/control/conversations.do">
                             Messages
                             <%
