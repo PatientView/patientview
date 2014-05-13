@@ -25,6 +25,8 @@ import org.patientview.repository.impl.UnitDaoImpl;
 import org.patientview.repository.impl.UserMappingDaoImpl;
 import org.patientview.service.DiagnosisManager;
 import org.patientview.service.DiagnosticManager;
+import org.patientview.service.EyeCheckupManager;
+import org.patientview.service.FootCheckupManager;
 import org.patientview.service.ImportManager;
 import org.patientview.service.LetterManager;
 import org.patientview.service.MedicineManager;
@@ -35,6 +37,8 @@ import org.patientview.service.ibd.IbdManager;
 import org.patientview.service.ibd.impl.IbdManagerImpl;
 import org.patientview.service.impl.DiagnosisManagerImpl;
 import org.patientview.service.impl.DiagnosticManagerImpl;
+import org.patientview.service.impl.EyeCheckupManagerImpl;
+import org.patientview.service.impl.FootCheckupManagerImpl;
 import org.patientview.service.impl.ImportManagerImpl;
 import org.patientview.service.impl.LetterManagerImpl;
 import org.patientview.service.impl.MedicineManagerImpl;
@@ -100,6 +104,12 @@ public class ImporterMockTest {
 
     @Mock
     private IbdManager ibdManager = new IbdManagerImpl();
+
+    @Mock
+    private FootCheckupManager footCheckupManager = new FootCheckupManagerImpl();
+
+    @Mock
+    private EyeCheckupManager eyeCheckupManager = new EyeCheckupManagerImpl();
 
     @Mock
     private ErrorHandler errorHandler = new ErrorHandlerImpl();
