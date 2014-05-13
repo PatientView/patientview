@@ -1,5 +1,6 @@
 package org.patientview.test.importer;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Assert;
@@ -15,8 +16,10 @@ import org.patientview.model.Patient;
 import org.patientview.model.Specialty;
 import org.patientview.model.Unit;
 import org.patientview.patientview.model.UserMapping;
+import org.patientview.patientview.parser.ResultParser;
 import org.patientview.quartz.exception.PatientNotMappedException;
 import org.patientview.quartz.exception.ProcessException;
+import org.patientview.quartz.exception.ResultParserException;
 import org.patientview.quartz.handler.ErrorHandler;
 import org.patientview.quartz.handler.impl.ErrorHandlerImpl;
 import org.patientview.repository.UnitDao;
@@ -286,6 +289,26 @@ public class ImporterMockTest {
             Assert.fail("This process should not raise an exception for a radar patient with mapping");
         } catch (ProcessException pe) {
             LOGGER.info(pe.getMessage());
+        }
+
+    }
+
+    /**
+     * Test: To import the diabetes file and get the diabetes specific results.
+     *
+     */
+    @Test
+    public void testDiabetesImportFile() {
+
+        File testXml = getFile("01G_126782_8888888888.xml");
+
+        try {
+            ResultParser resultParser = new ResultParser(testXml);
+            resultParser.parse();
+            Assert.assertTrue("There should be foot details from this file", CollectionUtils.isNotEmpty(resultParser.getFootCheckupses()));
+            Assert.assertTrue("There should be test results from this file",  CollectionUtils.isNotEmpty(resultParser.getTestResults()));
+        } catch (ResultParserException e) {
+            Assert.fail("There should not be an error with this file");
         }
 
     }
