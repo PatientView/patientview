@@ -37,15 +37,19 @@
         if (LegacySpringUtils.getSecurityUserManager().isLoggedInToSpecialty()) {
     %>
 
-    <logic:present specialty="renal">
+    <logic:present specialty="renal,diabetes">
         <li <%= ("patient_details".equals(request.getAttribute("currentNav"))) ? "class=\"active\"" : ""%>><html:link action="/patient/patient_details">My Details</html:link></li>
     </logic:present>
     <logic:present specialty="ibd">
         <li <%= ("patient_details".equals(request.getAttribute("currentNav"))) ? "class=\"active\"" : ""%>><html:link action="/ibd-patient_details">My Details</html:link></li>
     </logic:present>
 
-    <logic:present specialty="renal">
+    <logic:present specialty="renal,diabetes">
         <li <%= ("patient_view".equals(request.getAttribute("currentNav"))) ? "class=\"active\"" : "" %>><html:link action="/patient/patient_view">Patient Info</html:link></li>
+    </logic:present>
+
+    <logic:present specialty="diabetes">
+        <li <%=("diabetes_careplan".equals(request.getAttribute("currentNav"))) ? "class=\"active\"" : "" %>><a href="/diabetes/web/careplan-diabetes">Care Plan</a></li>
     </logic:present>
 
     <logic:present specialty="ibd">
@@ -140,6 +144,18 @@
     <%
         }
     %>
+
+    <logic:present specialty="renal">
+        <li><html:link action="/help" styleClass='<%= ("help".equals(request.getAttribute("currentNav"))) ? "navlinkon" : "navlink" %>'>Help?</html:link></li>
+    </logic:present>
+
+    <logic:present specialty="ibd">
+        <li><html:link action="/ibd-help" styleClass='<%= ("help".equals(request.getAttribute("currentNav"))) ? "navlinkon" : "navlink" %>'>Help?</html:link></li>
+    </logic:present>
+
+    <logic:present specialty="diabetes">
+        <li><html:link action="/diabetes-help" styleClass='<%= ("help".equals(request.getAttribute("currentNav"))) ? "navlinkon" : "navlink" %>'>Help?</html:link></li>
+    </logic:present>
 
     <%
         if (!LegacySpringUtils.getSecurityUserManager().isLoggedInToSpecialty()) {

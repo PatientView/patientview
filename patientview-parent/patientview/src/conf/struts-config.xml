@@ -68,6 +68,7 @@
             <form-property name="patientLinkText06" type="java.lang.String"/>
         </form-bean>
         <form-bean name="resultHeadingForm" type="org.apache.struts.validator.DynaValidatorActionForm">
+            <form-property name="id" type="java.lang.Long"/>
             <form-property name="headingcode" type="java.lang.String"/>
             <form-property name="heading" type="java.lang.String"/>
             <form-property name="rollover" type="java.lang.String"/>
@@ -754,6 +755,9 @@
             <forward name="success" path="/join-request-confirmation.jsp"/>
         </action>
 
+        <action path="/joinSuccess" forward="/join-request-confirmation.jsp">
+
+        </action>
         <action path="/join"
                 type="org.patientview.patientview.join.JoinRequestInputAction"
                 name="joinForm"

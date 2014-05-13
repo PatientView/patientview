@@ -23,23 +23,27 @@
 
 package org.patientview.patientview.resultheading;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.patientview.utils.LegacySpringUtils;
-import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.patientview.patientview.logon.LogonUtils;
+import org.patientview.service.ResultHeadingManager;
+import org.patientview.service.SecurityUserManager;
+import org.springframework.web.struts.ActionSupport;
 
-public class ResultHeadingDisplayAction extends Action {
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class ResultHeadingDisplayAction extends ActionSupport {
 
     public ActionForward execute(
         ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
-        request.setAttribute("resultHeadings", LegacySpringUtils.getResultHeadingManager().getAll());
+        SecurityUserManager securityUserManager = getWebApplicationContext().getBean(SecurityUserManager.class);
+        ResultHeadingManager resultHeadingManager = getWebApplicationContext().getBean(ResultHeadingManager.class);
+
+        request.setAttribute("resultHeadings", resultHeadingManager.getAll(securityUserManager.getLoggedInSpecialty()));
 
         return LogonUtils.logonChecks(mapping, request);
     }

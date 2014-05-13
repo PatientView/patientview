@@ -83,7 +83,21 @@ public class PatientViewPresentTag extends PresentTag {
             String username = LegacySpringUtils.getSecurityUserManager().getLoggedInUsername();
             present = (username != null) && user.equals(username);
         } else if (specialty != null) {
-            present = LegacySpringUtils.getSecurityUserManager().isSpecialtyPresent(specialty);
+            StringTokenizer st = new StringTokenizer(specialty, ROLE_DELIMITER, false);
+            while (!present && st.hasMoreTokens()) {
+
+                String desiredSpecialty = st.nextToken().trim();
+                present = LegacySpringUtils.getSecurityUserManager().isSpecialtyPresent(desiredSpecialty);
+
+                // Need to know if no specialty is there
+                if (desiredSpecialty.equalsIgnoreCase("none")) {
+                    if (!LegacySpringUtils.getSecurityUserManager().isLoggedInToSpecialty()) {
+                        present = true;
+                    }
+                }
+
+
+            }
         } else if (feature != null) {
             present = LegacySpringUtils.getSecurityUserManager().isRolePresent("superadmin");
 

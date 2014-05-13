@@ -37,7 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * This needs to be deleted
  */
 @Repository(value = "patientCountDao")
 public class PatientCountDaoImpl extends AbstractHibernateDAO<PatientCount> implements PatientCountDao {

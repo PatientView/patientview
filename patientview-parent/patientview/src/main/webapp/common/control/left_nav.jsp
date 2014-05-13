@@ -38,7 +38,7 @@
                 <li class="divider"></li>
             </logic:present>
             <logic:present role="superadmin">
-                <li><html:link action="/control/edtaCodeDisplay">EDTA Codes</html:link></li>
+                <li><html:link action="/control/edtaCodeDisplay">Diagnosis Codes</html:link></li>
                 <li><html:link action="/control/treatmentCodeDisplay">Treatment Codes</html:link></li>
                 <li><html:link action="/control/staticLinkEdit">Static Links</html:link></li>
                 <li><html:link action="/control/resultHeadingDisplay">Result Headings</html:link></li>
@@ -46,15 +46,15 @@
             </logic:present>
 
             <logic:present role="superadmin" >
-                <li><html:link action="/control/radarGroupDisplay">
-                    <logic:present specialty="renal">RaDaR Groups</logic:present>
-                </html:link></li>
+                <logic:present specialty="renal"><li><html:link action="/control/radarGroupDisplay">
+                        RaDaR Groups
+                    </html:link></li>
+                </logic:present>
             </logic:present>
 
             <logic:present role="superadmin,unitadmin" containSourceType="renalunit">
                 <li><html:link action="/control/unitDisplay">
-                    <logic:present specialty="renal">Renal Units</logic:present>
-                    <logic:present specialty="ibd">IBD Units</logic:present>
+                    Units
                 </html:link></li>
                 <li class="divider"></li>
                 <li><html:link action="/control/unitAdminAddInput">Add Unit User</html:link></li>
@@ -68,7 +68,7 @@
                 <li><html:link action="/control/patientAddInput">Add Patient</html:link></li>
                 <li><html:link action="/control/logView">View Log</html:link></li>
                 <li class="divider"></li>
-                <li>
+                <li <%= request.getAttribute("specialty") != null ? "class=\"active\"" : "" %>>
                     <%
                         List<JoinRequest> list = LegacySpringUtils.getJoinRequestManager().getUsersJoinRequests(false);
                         int inComplete = list != null ? list.size() : 0;
@@ -92,14 +92,14 @@
                     <li><html:link action="/control/feedbackUnitSelect">Feedback</html:link></li>
                     <li class="divider"></li>
                 </logic:present>
-                <logic:present specialty="renal">
-                    <li><html:link action="/control/newsView">News</html:link></li>
-                    <li><html:link action="/control/newsList">News Edit</html:link></li>
-                    <logic:present role="superadmin,unitadmin">
-                        <li class="divider"></li>
-                        <li><html:link action="/control/splashPageList">Splash Pages</html:link></li>
-                    </logic:present>
+
+                <li><html:link action="/control/newsView">News</html:link></li>
+                <li><html:link action="/control/newsList">News Edit</html:link></li>
+                <logic:present role="superadmin,unitadmin">
+                    <li class="divider"></li>
+                    <li><html:link action="/control/splashPageList">Splash Pages</html:link></li>
                 </logic:present>
+
             </logic:present>
 
             <logic:present specialty="renal">
@@ -123,32 +123,34 @@
                 </li>
             </logic:present>
 
-            <logic:present feature="messaging">
-                <%
-                    // need to get the number of unread messages if they have any
-                    User user = UserUtils.retrieveUser(request);
 
-                    if (user != null) {
-                        int numberUnreadMessages = LegacySpringUtils.getMessageManager().getTotalNumberUnreadMessages(user.getId());
-                %>
-                <li class="divider"></li>
-                <li>
-                    <a href="/control/conversations.do">
-                        Messages
-                        <%
-                            if (numberUnreadMessages > 0) {
-                        %>
-                        <span class="badge badge-important"><%=numberUnreadMessages%></span>
-                        <%
-                            }
-                        %>
-                    </a>
-                </li>
-                <%
-                    }
-                %>
+            <logic:present specialty="renal">
+                <logic:present feature="messaging">
+                    <%
+                        // need to get the number of unread messages if they have any
+                        User user = UserUtils.retrieveUser(request);
+
+                        if (user != null) {
+                            int numberUnreadMessages = LegacySpringUtils.getMessageManager().getTotalNumberUnreadMessages(user.getId());
+                    %>
+                    <li class="divider"></li>
+                    <li <%= ("conversations".equals(request.getAttribute("currentNav"))) ? "class=\"active\"" : "" %>>
+                        <a href="/control/conversations.do">
+                            Messages
+                            <%
+                                if (numberUnreadMessages > 0) {
+                            %>
+                            <span class="badge badge-important"><%=numberUnreadMessages%></span>
+                            <%
+                                }
+                            %>
+                        </a>
+                    </li>
+                    <%
+                        }
+                    %>
+                </logic:present>
             </logic:present>
-
         </ul>
     </div>
 </div>

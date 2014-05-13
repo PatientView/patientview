@@ -23,19 +23,20 @@
 
 package org.patientview.patientview.resultheading;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
-import org.patientview.patientview.model.ResultHeading;
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.patientview.patientview.logon.LogonUtils;
+import org.patientview.patientview.model.ResultHeading;
 import org.patientview.service.ResultHeadingManager;
+import org.patientview.service.SecurityUserManager;
 import org.springframework.web.struts.ActionSupport;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class ResultHeadingUpdateAction extends ActionSupport {
 
@@ -43,14 +44,19 @@ public class ResultHeadingUpdateAction extends ActionSupport {
         ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
+        SecurityUserManager securityUserManager = getWebApplicationContext().getBean(SecurityUserManager.class);
+
         ResultHeadingManager resultHeadingManager = getWebApplicationContext().getBean(ResultHeadingManager.class);
-        ResultHeading resultHeading = resultHeadingManager.get(BeanUtils.getProperty(form, "headingcode"));
+        ResultHeading resultHeading = resultHeadingManager.get(BeanUtils.getProperty(form, "headingcode"),
+                securityUserManager.getLoggedInSpecialty());
+
 
         BeanUtils.setProperty(resultHeading, "heading", BeanUtils.getProperty(form, "heading"));
         BeanUtils.setProperty(resultHeading, "rollover", BeanUtils.getProperty(form, "rollover"));
         BeanUtils.setProperty(resultHeading, "link", BeanUtils.getProperty(form, "link"));
         BeanUtils.setProperty(resultHeading, "panel", BeanUtils.getProperty(form, "panel"));
         BeanUtils.setProperty(resultHeading, "panelorder", BeanUtils.getProperty(form, "panelorder"));
+        BeanUtils.setProperty(resultHeading, "id", BeanUtils.getProperty(form, "id"));
         if (StringUtils.isNotEmpty(BeanUtils.getProperty(form, "minRangeValue"))
                 && NumberUtils.isNumber(BeanUtils.getProperty(form, "minRangeValue"))) {
             BeanUtils.setProperty(resultHeading, "minRangeValue", BeanUtils.getProperty(form, "minRangeValue"));
@@ -69,7 +75,7 @@ public class ResultHeadingUpdateAction extends ActionSupport {
             resultHeading.setUnits(null);
         }
 
-        resultHeadingManager.save(resultHeading);
+        resultHeadingManager.save(resultHeading, securityUserManager.getLoggedInSpecialty());
         request.setAttribute("resultHeading", resultHeading);
         return LogonUtils.logonChecks(mapping, request);
     }

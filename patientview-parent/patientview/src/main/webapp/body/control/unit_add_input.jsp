@@ -140,15 +140,14 @@
       <td><html:text property="outofhours" /></td>
     </tr>
 
-    <tr>
-      <td><b>Peritoneal Dialysis Phone</b></td>
-      <td><html:text property="peritonealdialysisphone" /></td>
-    </tr>
+    <logic:present specialty="renal">
 
     <tr>
       <td><b>Peritoneal Dialysis Email</b></td>
       <td><html:text property="peritonealdialysisemail" /></td>
     </tr>
+
+
 
     <tr>
       <td><b>Haemodialysis Unit 1 Name</b></td>
@@ -170,6 +169,8 @@
       <td><html:text property="haemodialysisuniturl1" /></td>
     </tr>
 
+
+
     <tr>
       <td><b>Haemodialysis Unit 2 Name</b></td>
       <td><html:text property="haemodialysisunitname2" /></td>
@@ -189,6 +190,8 @@
       <td><b>Haemodialysis Unit 2 Web Address</b></td>
       <td><html:text property="haemodialysisuniturl2" /></td>
     </tr>
+
+
 
     <tr>
       <td><b>Haemodialysis Unit 3 Name</b></td>
@@ -210,6 +213,8 @@
       <td><html:text property="haemodialysisuniturl3" /></td>
     </tr>
 
+
+
     <tr>
       <td><b>Haemodialysis Unit 4 Name</b></td>
       <td><html:text property="haemodialysisunitname4" /></td>
@@ -229,6 +234,8 @@
       <td><b>Haemodialysis Unit 4 Web Address</b></td>
       <td><html:text property="haemodialysisuniturl4" /></td>
     </tr>
+
+
 
     <tr>
       <td><b>Haemodialysis Unit 5 Name</b></td>
@@ -250,6 +257,8 @@
       <td><html:text property="haemodialysisuniturl5" /></td>
     </tr>
 
+
+
     <tr>
       <td><b>Haemodialysis Unit 6 Name</b></td>
       <td><html:text property="haemodialysisunitname6" /></td>
@@ -269,6 +278,8 @@
       <td><b>Haemodialysis Unit 6 Web Address</b></td>
       <td><html:text property="haemodialysisuniturl6" /></td>
     </tr>
+
+
 
     <tr>
       <td><b>Haemodialysis Unit 7 Name</b></td>
@@ -290,6 +301,8 @@
       <td><html:text property="haemodialysisuniturl7" /></td>
     </tr>
 
+
+
     <tr>
       <td><b>Haemodialysis Unit 8 Name</b></td>
       <td><html:text property="haemodialysisunitname8" /></td>
@@ -309,6 +322,7 @@
       <td><b>Haemodialysis Unit 8 Web Address</b></td>
       <td><html:text property="haemodialysisuniturl8" /></td>
     </tr>
+
 
     <tr>
       <td><b>Haemodialysis Unit 9 Name</b></td>
@@ -330,6 +344,8 @@
       <td><html:text property="haemodialysisuniturl9" /></td>
     </tr>
 
+
+
     <tr>
       <td><b>Haemodialysis Unit 10 Name</b></td>
       <td><html:text property="haemodialysisunitname10" /></td>
@@ -349,6 +365,8 @@
       <td><b>Haemodialysis Unit 10 Web Address</b></td>
       <td><html:text property="haemodialysisuniturl10" /></td>
     </tr>
+
+
 
     <tr>
       <td><b>Haemodialysis Unit 11 Name</b></td>
@@ -370,6 +388,8 @@
       <td><html:text property="haemodialysisuniturl11" /></td>
     </tr>
 
+
+
     <tr>
       <td><b>Haemodialysis Unit 12 Name</b></td>
       <td><html:text property="haemodialysisunitname12" /></td>
@@ -390,6 +410,8 @@
       <td><html:text property="haemodialysisuniturl12" /></td>
     </tr>
 
+    </logic:present>
+
     <tr>
         <td><b>Visible for user to join</b></td>
         <td><html:checkbox property="visible" value="true"/></td>
@@ -403,13 +425,16 @@
     <tr>
         <td><b>Sharing Thoughts enabled</b></td>
         <td><html:checkbox property="sharedThoughtEnabled" value="true"/></td>
+    </tr>    
+    
+
+    <tr>
+      <td><html:submit value="Add" styleClass="formButton"/></td>
     </tr>
 
   </table>
 
-    <br/>
-    <html:submit value="Add" styleClass="btn"/>
-
 </html:form>
 </div>
+
 </div>

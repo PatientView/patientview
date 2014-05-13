@@ -27,75 +27,75 @@
 
 <html:xhtml/>
 <div class="span9">
-<div class="page-header">
-    <h1>Patient</h1>
-</div>
+    <div class="page-header">
+        <h1>Patient</h1>
+    </div>
 
-<html:errors />
+    <html:errors />
 
-<logic:present name="invalidNhsno" >
-  <p><font color="red">The NHS number <b><bean:write name="invalidNhsno" /></b> is invalid.</font></p>
-</logic:present>
+    <logic:present name="invalidNhsno" >
+        <p><font color="red">The NHS number <b><bean:write name="invalidNhsno" /></b> is invalid.</font></p>
+    </logic:present>
 
-<logic:present name="userAlreadyExists" >
-  <p><font color="red">The username <b><bean:write name="userAlreadyExists" /></b> you entered is already being used by another user. Please pick another.</font></p>
-</logic:present>
+    <logic:present name="userAlreadyExists" >
+        <p><font color="red">The username <b><bean:write name="userAlreadyExists" /></b> you entered is already being used by another user. Please pick another.</font></p>
+    </logic:present>
 
-<logic:present name="patientAlreadyInUnit" >
-  <p><font color="red">The patient with NHS number <b><bean:write name="patientAlreadyInUnit" /></b> already exists in your unit. You can't add another patient with the same NHS no to your unit. Please check the NHS number.</font></p>
-</logic:present>
+    <logic:present name="patientAlreadyInUnit" >
+        <p><font color="red">The patient with NHS number <b><bean:write name="patientAlreadyInUnit" /></b> already exists in your unit. You can't add another patient with the same NHS no to your unit. Please check the NHS number.</font></p>
+    </logic:present>
 
-<logic:present name="radarGroupPatient" >
-    <p><font color="red">Can't add a patient to <b><bean:write name="radarGroupPatient" /></b> unit.</font></p>
-</logic:present>
+    <logic:present name="radarGroupPatient" >
+        <p><font color="red">Can't add a patient to <b><bean:write name="radarGroupPatient" /></b> unit.</font></p>
+    </logic:present>
 
 
-<html:form action="/control/patientAdd">
-<table cellpadding="3" >
-    <tr>
-      <td><img src="images/space.gif" height="10" /> </td>
-    </tr>
-    <tr>
-      <td><b>User Name</b></td>
-      <td><html:text property="username" /></td>
-    </tr>
-    <tr>
-      <td><b>First Name</b></td>
-      <td><html:text property="firstName" /></td>
-    </tr>
-    <tr>
-        <td><b>Last Name</b></td>
-        <td><html:text property="lastName" /></td>
-    </tr>
-    <tr>
-      <td><b>NHS Number</b></td>
-      <td><html:text property="nhsno" /></td>
-        <logic:present name="offerToAllowInvalidNhsno" >
-        <td><b>Add patient with invalid NHS number</b></td>
-        <td><html:checkbox property="overrideInvalidNhsno"/></td>
-      </logic:present>
-    </tr>
-    <tr>
-      <td><b>Email Address</b></td>
-      <td><html:text property="email" /></td>
-    </tr>
-    <tr>
-      <td><b>
-          <logic:present specialty="renal">Renal Unit</logic:present><logic:present specialty="ibd">IBD Unit</logic:present>
-      </b></td>
-      <td><html:select property="unitcode">
-             <html:options collection="units" property="unitcode" labelProperty="name"/>
-          </html:select></td>
-    </tr>
-    <tr>
-      <td><b>Dummy Patient</b></td>
-      <td><html:checkbox property="dummypatient" value="true" /></td>
-    </tr>
-    <tr align="right">
-      <td><html:submit value="Add" styleClass="btn" /></td>
-    </tr>
- </table>
+    <html:form action="/control/patientAdd">
+        <table cellpadding="3" >
+            <tr>
+                <td><img src="images/space.gif" height="10" /> </td>
+            </tr>
+            <tr>
+                <td><b>User Name</b></td>
+                <td><html:text property="username" /></td>
+            </tr>
+            <tr>
+                <td><b>First Name</b></td>
+                <td><html:text property="firstName" /></td>
+            </tr>
+            <tr>
+                <td><b>Last Name</b></td>
+                <td><html:text property="lastName" /></td>
+            </tr>
+            <tr>
+                <td><b>NHS Number</b></td>
+                <td><html:text property="nhsno" /></td>
+                <logic:present name="offerToAllowInvalidNhsno" >
+                    <td><b>Add patient with invalid NHS number</b></td>
+                    <td><html:checkbox property="overrideInvalidNhsno"/></td>
+                </logic:present>
+            </tr>
+            <tr>
+                <td><b>Email Address</b></td>
+                <td><html:text property="email" /></td>
+            </tr>
+            <tr>
+                <td><b>
+                    <logic:present specialty="renal">Renal Unit</logic:present><logic:present specialty="ibd">IBD Unit</logic:present>
+                </b></td>
+                <td><html:select property="unitcode">
+                    <html:options collection="units" property="unitcode" labelProperty="name"/>
+                </html:select></td>
+            </tr>
+            <tr>
+                <td><b>Dummy Patient</b></td>
+                <td><html:checkbox property="dummypatient" value="true" /></td>
+            </tr>
+            <tr align="right">
+                <td><html:submit value="Add" styleClass="btn" /></td>
+            </tr>
+        </table>
 
-</html:form>
+    </html:form>
 </div>
 </div>

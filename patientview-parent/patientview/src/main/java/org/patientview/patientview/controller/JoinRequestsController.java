@@ -24,16 +24,31 @@
 package org.patientview.patientview.controller;
 
 import org.apache.commons.lang.StringUtils;
+import org.patientview.model.Specialty;
+import org.patientview.model.Unit;
+import org.patientview.patientview.controller.form.JoinRequestInput;
 import org.patientview.patientview.model.JoinRequest;
+import org.patientview.patientview.utils.FormUtils;
+import org.patientview.service.JoinRequestManager;
+import org.patientview.service.SpecialtyManager;
+import org.patientview.service.UnitManager;
 import org.patientview.utils.LegacySpringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.beans.support.SortDefinition;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
@@ -43,14 +58,67 @@ import java.util.List;
 @Controller
 public class JoinRequestsController extends BaseController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(JoinRequestsController.class);
+
     @Value("${join.request.page.size}")
     private int pageSize;
+
+    @Inject
+    private SpecialtyManager specialtyManager;
+
+    @Inject
+    private UnitManager unitManager;
+
+    @Inject
+    private JoinRequestManager joinRequestManager;
+
+
+    /**
+     * Produce a list of all the specialties in the system
+     *
+     * @return
+     */
+    @RequestMapping(value = Routes.LIST_SPECIALTIES, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public List<Specialty> specialtyList() {
+        return specialtyManager.getAll();
+    }
+
+
+    /**
+     * Process a join request form
+     *
+     * @param joinRequestInput
+     * @param request
+     */
+    @RequestMapping(value = Routes.JOIN_REQUEST_SUBMIT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(value = HttpStatus.OK)
+    public void submitJoinRequest(@RequestBody JoinRequestInput joinRequestInput
+            , HttpServletRequest request) {
+
+        try {
+            Integer correctAnswer = Integer.parseInt(String.valueOf(
+                    request.getSession().getAttribute("ANTI_SPAM_ANSWER")));
+            Unit unit = unitManager.get(Long.parseLong(joinRequestInput.getUnitId()));
+            JoinRequest joinRequest = FormUtils.createJoinRequestFromInput(joinRequestInput, unit);
+
+            if (correctAnswer.equals(Integer.parseInt(joinRequest.getAntiSpamAnswer()))) {
+                joinRequestManager.save(joinRequest);
+            }
+
+        } catch (Exception e) {
+            LOGGER.error("Failed to create join request", e);
+        }
+
+        LOGGER.debug("Executed endpoint");
+    }
+
 
     /**
      * Deal with the URIs "/control/joinRequestList"
      * get the join requests list(paging and sorting)
      */
-    @RequestMapping(value = Routes.JOIN_REQUEST_LIST_URL)
+     @RequestMapping(value = Routes.JOIN_REQUEST_LIST_URL)
      public String joinRequestList(HttpServletRequest request,
                                    @RequestParam(value = "page", required = false) String page) {
         PagedListHolder pagedListHolder;
@@ -122,6 +190,7 @@ public class JoinRequestsController extends BaseController {
 
         return forwardTo(request, Routes.JOIN_REQUEST_EDIT_INPUT_PAGE);
     }
+
 
     /**
      * Deal with the URIs "/control/joinRequestEdit"

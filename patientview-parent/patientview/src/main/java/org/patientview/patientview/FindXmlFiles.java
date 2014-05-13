@@ -40,6 +40,27 @@ import java.util.Comparator;
 
 public class FindXmlFiles extends Action {
 
+    static class XmlFileFilter implements FilenameFilter {
+
+        private String[] fileEndings;
+
+        public XmlFileFilter(String[] fileEndings) {
+            this.fileEndings = fileEndings;
+        }
+
+        public boolean accept(File dir, String name) {
+            boolean accepted = false;
+            for (int i = 0; i < fileEndings.length; i++) {
+                if (name.endsWith(fileEndings[i])) {
+                    accepted = true;
+                    break;
+                }
+            }
+            return accepted;
+        }
+    }
+
+
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
                                  HttpServletResponse response) throws Exception {
         putXmlFilesInRequest(request);
@@ -67,22 +88,3 @@ public class FindXmlFiles extends Action {
     }
 }
 
-class XmlFileFilter implements FilenameFilter {
-
-    private String[] fileEndings;
-
-    public XmlFileFilter(String[] fileEndings) {
-        this.fileEndings = fileEndings;
-    }
-
-    public boolean accept(File dir, String name) {
-        boolean accepted = false;
-        for (int i = 0; i < fileEndings.length; i++) {
-            if (name.endsWith(fileEndings[i])) {
-                accepted = true;
-                break;
-            }
-        }
-        return accepted;
-    }
-}

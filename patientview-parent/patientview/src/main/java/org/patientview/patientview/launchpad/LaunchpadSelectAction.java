@@ -23,13 +23,14 @@
 
 package org.patientview.patientview.launchpad;
 
-import org.patientview.utils.LegacySpringUtils;
-import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.patientview.service.SecurityUserManager;
+import org.patientview.service.UserManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.struts.ActionSupport;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,17 +38,25 @@ import javax.servlet.http.HttpServletResponse;
 /**
  *
  */
-public class LaunchpadSelectAction extends Action {
+public class LaunchpadSelectAction extends ActionSupport {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LaunchpadSelectAction.class);
 
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
                                  HttpServletResponse response) throws Exception {
 
+
+        SecurityUserManager securityUserManager = getWebApplicationContext().getBean(SecurityUserManager.class);
+        UserManager userManager = getWebApplicationContext().getBean(UserManager.class);
+
+
+
         // Determine the Specialty selected and call manager to set Specialty in the session
         try {
             Long specialtyId = Long.decode(request.getParameter("specialtyId"));
-            LegacySpringUtils.getSecurityUserManager().setLoggedInSpecialty(specialtyId);
+            securityUserManager.setLoggedInSpecialty(specialtyId);
+            request.getSession().setAttribute("specialty",
+                    userManager.getCurrentSpecialty(userManager.getLoggedInUser()));
 
         } catch (Exception e) {
 

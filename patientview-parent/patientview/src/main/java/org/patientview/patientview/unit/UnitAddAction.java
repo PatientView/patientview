@@ -26,11 +26,13 @@ package org.patientview.patientview.unit;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.patientview.model.Specialty;
 import org.patientview.model.Unit;
 import org.patientview.patientview.edtacode.EdtaCodeUtils;
 import org.patientview.patientview.logon.LogonUtils;
 import org.patientview.patientview.model.EdtaCode;
 import org.patientview.service.EdtaCodeManager;
+import org.patientview.service.SecurityUserManager;
 import org.patientview.service.UnitManager;
 import org.springframework.web.struts.ActionSupport;
 
@@ -40,21 +42,28 @@ import java.util.List;
 
 public class UnitAddAction extends ActionSupport {
 
-    private UnitManager unitManager;
-    private EdtaCodeManager edtaCodeManager;
+
 
     public ActionForward execute(
         ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
+        UnitManager unitManager;
+        EdtaCodeManager edtaCodeManager;
+        SecurityUserManager securityUserManager;
+
         unitManager = getWebApplicationContext().getBean(UnitManager.class);
         edtaCodeManager = getWebApplicationContext().getBean(EdtaCodeManager.class);
+        securityUserManager = getWebApplicationContext().getBean(SecurityUserManager.class);
 
+        Specialty specialty = securityUserManager.getLoggedInSpecialty();
         Unit unit = new Unit();
-        UnitUtils.buildUnit(unit, form);
+        UnitUtils.buildUnit(unit, form, specialty);
         //a new unitcode doesn't exist,
         // so any user doesn't have SecurityConfig.UNIT_ACCESS permission to check this code
         // Unit existedUnit = LegacySpringUtils.getUnitManager().get(unit.getUnitcode());
+
+
         boolean duplicate = unitManager.checkDuplicateUnitCode(unit.getUnitcode());
         if (duplicate) {
             request.setAttribute("UnitExisted", true);
@@ -78,4 +87,5 @@ public class UnitAddAction extends ActionSupport {
 
         return LogonUtils.logonChecks(mapping, request);
     }
+
 }

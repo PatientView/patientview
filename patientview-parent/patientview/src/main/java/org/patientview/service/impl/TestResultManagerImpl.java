@@ -30,6 +30,7 @@ import org.patientview.patientview.model.User;
 import org.patientview.patientview.model.UserMapping;
 import org.patientview.patientview.unit.UnitUtils;
 import org.patientview.repository.TestResultDao;
+import org.patientview.service.SecurityUserManager;
 import org.patientview.service.TestResultManager;
 import org.patientview.service.UnitManager;
 import org.patientview.service.UserManager;
@@ -55,6 +56,9 @@ public class TestResultManagerImpl implements TestResultManager {
     @Inject
     private UserManager userManager;
 
+    @Inject
+    private SecurityUserManager securityUserManager;
+
     @Override
     public List<TestResultWithUnitShortname> getTestResultForPatient(User user, Panel panel) {
         return getTestResultForPatient(user, panel, false);
@@ -63,7 +67,7 @@ public class TestResultManagerImpl implements TestResultManager {
     @Override
     public List<TestResultWithUnitShortname> getTestResultForPatient(User user, Panel panel, boolean isRadarGroup) {
         return testResultDao.getTestResultForPatient(user.getUsername(), panel, unitManager.getUsersUnits(user),
-                isRadarGroup);
+                isRadarGroup, securityUserManager.getLoggedInSpecialty());
     }
 
     @Override

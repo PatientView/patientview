@@ -26,20 +26,21 @@ package org.patientview.patientview.model;
 import org.patientview.model.BaseModel;
 import org.patientview.model.Specialty;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import java.util.Set;
 
-@Entity(name = "result_heading")
+@Entity
+@Table(name = "result_heading")
 public class ResultHeading extends BaseModel {
 
     @Column(nullable = false, unique = true)
     private String headingcode;
-
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "specialty_id")
-    private Specialty specialty;
 
     @Column(nullable = false)
     private String heading;
@@ -50,10 +51,10 @@ public class ResultHeading extends BaseModel {
     @Column(nullable = false)
     private String link;
 
-    @Column(nullable = false)
+    @Transient
     private int panel;
 
-    @Column(nullable = false)
+    @Transient
     private int panelorder;
 
     @Column(nullable = true)
@@ -65,6 +66,10 @@ public class ResultHeading extends BaseModel {
     @Column(nullable = true)
     private String units;
 
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "resultHeading", cascade = CascadeType.ALL)
+    private Set<SpecialtyResultHeading> specialtyResultHeadings;
+
     public ResultHeading() {
     }
 
@@ -75,7 +80,6 @@ public class ResultHeading extends BaseModel {
     public ResultHeading(String heading, Specialty specialty, String rollover, String headingcode, String link,
                          int panel, int panelorder) {
         this.heading = heading;
-        this.specialty = specialty;
         this.rollover = rollover;
         this.headingcode = headingcode;
         this.link = link;
@@ -89,14 +93,6 @@ public class ResultHeading extends BaseModel {
 
     public void setHeading(String heading) {
         this.heading = heading;
-    }
-
-    public Specialty getSpecialty() {
-        return specialty;
-    }
-
-    public void setSpecialty(Specialty specialty) {
-        this.specialty = specialty;
     }
 
     public String getRollover() {
@@ -150,4 +146,13 @@ public class ResultHeading extends BaseModel {
     public String getUnits() { return units; }
 
     public void setUnits(String units) { this.units = units; }
+
+
+    public Set<SpecialtyResultHeading> getSpecialtyResultHeadings() {
+        return specialtyResultHeadings;
+    }
+
+    public void setSpecialtyResultHeadings(final Set<SpecialtyResultHeading> specialtyResultHeadings) {
+        this.specialtyResultHeadings = specialtyResultHeadings;
+    }
 }

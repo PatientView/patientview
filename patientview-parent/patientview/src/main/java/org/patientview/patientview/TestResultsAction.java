@@ -23,11 +23,11 @@
 
 package org.patientview.patientview;
 
-import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.patientview.actionutils.ActionUtils;
+import org.patientview.model.Specialty;
 import org.patientview.patientview.logon.LogonUtils;
 import org.patientview.patientview.model.Comment;
 import org.patientview.patientview.model.Panel;
@@ -37,7 +37,11 @@ import org.patientview.patientview.model.User;
 import org.patientview.patientview.model.UserMapping;
 import org.patientview.patientview.unit.UnitUtils;
 import org.patientview.patientview.user.UserUtils;
+import org.patientview.service.ResultHeadingManager;
+import org.patientview.service.SecurityUserManager;
+import org.patientview.service.UserManager;
 import org.patientview.utils.LegacySpringUtils;
+import org.springframework.web.struts.ActionSupport;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -49,11 +53,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class TestResultsAction extends Action {
+public class TestResultsAction extends ActionSupport {
 
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
                                  HttpServletResponse response)
             throws Exception {
+
+        SecurityUserManager securityUserManager = getWebApplicationContext().getBean(SecurityUserManager.class);
+        UserManager userManager = getWebApplicationContext().getBean(UserManager.class);
+        ResultHeadingManager resultHeadingManager = getWebApplicationContext().getBean(ResultHeadingManager.class);
+        Specialty specialty = securityUserManager.getLoggedInSpecialty();
 
         User user = null;
         String param = mapping.getParameter();
@@ -64,7 +73,7 @@ public class TestResultsAction extends Action {
         } else  if ("controlMedicalResults".equals(param)) {
             isRadarGroup = true;
             String username = (String) request.getSession().getAttribute("userBeingViewedUsername");
-            user = LegacySpringUtils.getUserManager().get(username);
+            user = userManager.get(username);
         } else {
             user = UserUtils.retrieveUser(request);
         }
@@ -72,7 +81,7 @@ public class TestResultsAction extends Action {
         if (user != null) {
             request.setAttribute("user", user);
 
-            Panel currentPanel = managePanels(request);
+            Panel currentPanel = managePanels(request, specialty);
 
 
             List<TestResultWithUnitShortname> results = extractTestResultsWithComments(currentPanel, user);
@@ -83,10 +92,11 @@ public class TestResultsAction extends Action {
             request.setAttribute("results", resultsInRecords);
 
             List<ResultHeading> resultsHeadingsList
-                    = LegacySpringUtils.getResultHeadingManager().get(currentPanel.getPanel());
+                    = resultHeadingManager.get(currentPanel.getPanel(),
+                    specialty);
 
             request.setAttribute("resultsHeadings", resultsHeadingsList);
-        } else if (!LegacySpringUtils.getSecurityUserManager().isRolePresent("patient")) {
+        } else if (!securityUserManager.isRolePresent("patient")) {
             return LogonUtils.logonChecks(mapping, request, "control");
         }
 
@@ -123,11 +133,11 @@ public class TestResultsAction extends Action {
         }
     }
 
-    private Panel managePanels(HttpServletRequest request) {
+    private Panel managePanels(HttpServletRequest request, Specialty specialty) {
         Panel currentPanel = currentPanel(request);
         List<Panel> panelList = LegacySpringUtils.getResultHeadingManager().getPanels();
         for (Panel p : panelList) {
-            p.setResultHeadings(LegacySpringUtils.getResultHeadingManager().get(p.getPanel()));
+            p.setResultHeadings(LegacySpringUtils.getResultHeadingManager().get(p.getPanel(), specialty));
         }
         PanelNavigation panelNav = new PanelNavigation(currentPanel, panelList);
         request.setAttribute("panelNav", panelNav);

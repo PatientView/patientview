@@ -51,11 +51,12 @@ public class ResultsInitAction extends ActionSupport {
         if (user != null) {
             request.setAttribute("user", user);
 
-            List<ResultHeading> resultsHeadingsList = resultHeadingManager.getAll(user.getUsername());
+            List<ResultHeading> resultsHeadingsList = resultHeadingManager.get(
+                    securityUserManager.getLoggedInSpecialty());
 
             if (!CollectionUtils.isEmpty(resultsHeadingsList)) {
                 request.setAttribute("resultsHeadings", resultsHeadingsList);
-                ResultHeading heading = resultHeadingManager.get(resultsHeadingsList.get(0).getHeadingcode());
+                ResultHeading heading =  resultsHeadingsList.get(0);
                 request.setAttribute("resultTypeHeading", heading);
                 request.setAttribute("period", "0");
             }

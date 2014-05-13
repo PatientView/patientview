@@ -91,7 +91,7 @@ public final class EmailUtils {
     public static String createEmailBody(String errors, String fileName, String supportEmail) {
 
         StringBuilder emailBody = new StringBuilder();
-        emailBody.append("[This is an automated email from Renal PatientView - do not reply to this email]");
+        emailBody.append("[This is an automated email from PatientView - do not reply to this email]");
         emailBody.append(NEW_LINE);
         emailBody.append(NEW_LINE).append("The file <").append(fileName).append("> has failed to import.");
         emailBody.append(NEW_LINE);
@@ -192,7 +192,7 @@ public final class EmailUtils {
     public static  String createEmailBodyForEmptyXML(String xmlFileName) {
 
         StringBuilder emailBody = new StringBuilder();
-        emailBody.append("[This is an automated email from Renal PatientView - do not reply to this email]");
+        emailBody.append("[This is an automated email from PatientView - do not reply to this email]");
         emailBody.append(NEW_LINE);
         emailBody.append(NEW_LINE).append("The file <" + xmlFileName + "> has not imported to RPV correctly. ");
         emailBody.append("This is because the file was empty. The most likely cause of that is "
@@ -224,7 +224,7 @@ public final class EmailUtils {
 
 
         StringBuilder emailBody = new StringBuilder();
-        emailBody.append("[This is an automated email from Renal PatientView - do not reply to this email]");
+        emailBody.append("[This is an automated email from PatientView - do not reply to this email]");
         emailBody.append(NEW_LINE);
         emailBody.append(NEW_LINE).append("The file <").append(xmlFileName).append("> has failed to import.");
         emailBody.append(NEW_LINE);
@@ -264,7 +264,7 @@ public final class EmailUtils {
                                                          String xsdFileName, String supportEmail) {
 
         StringBuilder emailBody = new StringBuilder();
-        emailBody.append("[This is an automated email from Renal PatientView - do not reply to this email]");
+        emailBody.append("[This is an automated email from PatientView - do not reply to this email]");
         emailBody.append(NEW_LINE);
         emailBody.append(NEW_LINE).append("The file <").append(xmlFileName).append("> has failed to import.");
         emailBody.append(NEW_LINE);

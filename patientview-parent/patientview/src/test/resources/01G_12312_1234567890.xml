@@ -1,0 +1,194 @@
+<patientview>
+    <sequence>5</sequence>
+    <dateofreport>2014-05-08T00:00:00</dateofreport>
+    <flag>Include</flag>
+    <centredetails>
+        <centrecode>01G</centrecode>
+        <centrename>Salford CCG</centrename>
+        <centreaddress1>St James House</centreaddress1>
+        <centreaddress2>Pendleton Way</centreaddress2>
+        <centreaddress3>Salford</centreaddress3>
+        <centrepostcode>M6 5FW</centrepostcode>
+    </centredetails>
+    <gpdetails>
+        <gpname>POOLED LIST</gpname>
+        <gpaddress1>THE LAKES MEDICAL PRACT</gpaddress1>
+        <gpaddress2>THE LAKES MEDICAL CTR</gpaddress2>
+        <gpaddress3>21 CHORLEY ROAD SWINTON</gpaddress3>
+        <gppostcode>M27 4AF</gppostcode>
+        <gptelephone>0844 7704343</gptelephone>
+    </gpdetails>
+    <patient>
+        <personaldetails>
+            <surname>Jon</surname>
+            <forename>Doe</forename>
+            <dateofbirth>1955-07-16</dateofbirth>
+            <sex>M</sex>
+            <nhsno>123 456 7890</nhsno>
+            <address1>St James House</address1>
+            <address2>Pendleton Way</address2>
+            <address3>Salford</address3>
+            <postcode>M6 5FW</postcode>
+        </personaldetails>
+        <clinicaldetails>
+            <smokinghistory>Never smoked tobacco</smokinghistory>
+        </clinicaldetails>
+        <testdetails>
+            <test>
+                <testname>Urine albumin:creatinine ratio</testname>
+                <testcode>46TC.</testcode>
+                <units></units>
+                <daterange start="2009-06-19" stop="2009-06-19" />
+                <result>
+                    <datestamp>2009-06-19T00:00:00</datestamp>
+                </result>
+            </test>
+            <test>
+                <testname>HbA1c level (DCCT aligned)</testname>
+                <testcode>42W4.</testcode>
+                <units>%</units>
+                <daterange start="2009-11-30" stop="2011-09-22" />
+                <result>
+                    <datestamp>2009-11-30T00:00:00</datestamp>
+                    <value>7.3</value>
+                </result>
+                <result>
+                    <datestamp>2010-02-23T00:00:00</datestamp>
+                    <value>6.5</value>
+                </result>
+                <result>
+                    <datestamp>2010-08-12T00:00:00</datestamp>
+                    <value>6.2</value>
+                </result>
+                <result>
+                    <datestamp>2011-03-07T00:00:00</datestamp>
+                    <value>6</value>
+                </result>
+                <result>
+                    <datestamp>2011-09-22T00:00:00</datestamp>
+                    <value>5.7</value>
+                </result>
+            </test>
+            <test>
+                <testname>Urine albumin:creatinine ratio</testname>
+                <testcode>46TC.</testcode>
+                <units>g/mol</units>
+                <daterange start="2009-06-19" stop="2013-08-06" />
+                <result>
+                    <datestamp>2009-06-19T00:00:00</datestamp>
+                    <value>0.59</value>
+                </result>
+                <result>
+                    <datestamp>2010-08-12T00:00:00</datestamp>
+                    <value>0.46</value>
+                </result>
+                <result>
+                    <datestamp>2011-03-09T00:00:00</datestamp>
+                    <value>0.64</value>
+                </result>
+                <result>
+                    <datestamp>2012-08-06T00:00:00</datestamp>
+                    <value>0.29</value>
+                </result>
+                <result>
+                    <datestamp>2013-08-06T00:00:00</datestamp>
+                    <value>0.35</value>
+                </result>
+            </test>
+            <test>
+                <testname>Serum HDL cholesterol level</testname>
+                <testcode>44P5.</testcode>
+                <units>mmol/L</units>
+                <daterange start="2009-06-19" stop="2013-08-06" />
+                <result>
+                    <datestamp>2009-06-19T00:00:00</datestamp>
+                    <value>1.34</value>
+                </result>
+                <result>
+                    <datestamp>2009-12-24T00:00:00</datestamp>
+                    <value>1.37</value>
+                </result>
+                <result>
+                    <datestamp>2010-08-12T00:00:00</datestamp>
+                    <value>1.48</value>
+                </result>
+                <result>
+                    <datestamp>2011-07-22T00:00:00</datestamp>
+                    <value>1.52</value>
+                </result>
+                <result>
+                    <datestamp>2012-08-06T00:00:00</datestamp>
+                    <value>1.64</value>
+                </result>
+                <result>
+                    <datestamp>2013-08-06T00:00:00</datestamp>
+                    <value>1.47</value>
+                </result>
+            </test>
+            <test>
+                <testname>Serum TSH level</testname>
+                <testcode>442W.</testcode>
+                <units>mU/L</units>
+                <daterange start="2009-06-19" stop="2014-01-07" />
+                <result>
+                    <datestamp>2009-06-19T00:00:00</datestamp>
+                    <value>1.9</value>
+                </result>
+                <result>
+                    <datestamp>2010-08-12T00:00:00</datestamp>
+                    <value>2.9</value>
+                </result>
+                <result>
+                    <datestamp>2013-06-03T00:00:00</datestamp>
+                    <value>2.86</value>
+                </result>
+                <result>
+                    <datestamp>2014-01-07T00:00:00</datestamp>
+                    <value>2.47</value>
+                </result>
+            </test>
+        </testdetails>
+        <footcheckup>
+            <datestamp>2009-11-30T00:00:00</datestamp>
+            <foot side="left">
+                <dppulse>O/E - left dorsalis pedis normal</dppulse>
+            </foot>
+            <foot side="right">
+                <dppulse>O/E - Right dorsalis pedis normal</dppulse>
+            </foot>
+        </footcheckup>
+        <footcheckup>
+            <datestamp>2010-08-23T00:00:00</datestamp>
+            <foot side="left">
+                <dppulse>O/E - left dorsalis pedis normal</dppulse>
+            </foot>
+            <foot side="right">
+                <dppulse>O/E - Right dorsalis pedis normal</dppulse>
+            </foot>
+        </footcheckup>
+        <footcheckup>
+            <datestamp>2011-08-08T00:00:00</datestamp>
+            <foot side="left">
+                <dppulse>O/E - left dorsalis pedis normal</dppulse>
+            </foot>
+            <foot side="right">
+                <dppulse>O/E - Right dorsalis pedis normal</dppulse>
+            </foot>
+        </footcheckup>
+        <footcheckup>
+            <datestamp>2012-09-03T00:00:00</datestamp>
+            <foot side="left">
+                <ptpulse>O/E - L.post.tib.pulse present</ptpulse>
+            </foot>
+            <foot side="left">
+                <dppulse>O/E - L.dorsalis pedis present</dppulse>
+            </foot>
+            <foot side="right">
+                <dppulse>O/E - R.dorsalis pedis present</dppulse>
+            </foot>
+            <foot side="right">
+                <ptpulse>O/E - R.post.tib.pulse present</ptpulse>
+            </foot>
+        </footcheckup>
+    </patient>
+</patientview>

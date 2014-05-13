@@ -40,7 +40,7 @@
     <tr>
       <td><b>Code</b></td>
       <td><html:hidden name="resultHeading" property="headingcode" write="true"/></td>
-
+      <td style="display: none;"><html:hidden name="resultHeading" property="id" write="true"/></td>
     </tr>
     <tr>
       <td><b>Heading</b></td>

@@ -35,6 +35,8 @@ import org.patientview.patientview.XmlImportUtils;
 import org.patientview.patientview.logging.AddLog;
 import org.patientview.patientview.model.Diagnosis;
 import org.patientview.patientview.model.Diagnostic;
+import org.patientview.patientview.model.EyeCheckup;
+import org.patientview.patientview.model.FootCheckup;
 import org.patientview.patientview.model.Letter;
 import org.patientview.patientview.model.Medicine;
 import org.patientview.patientview.model.TestResult;
@@ -49,6 +51,8 @@ import org.patientview.repository.UnitDao;
 import org.patientview.repository.UserMappingDao;
 import org.patientview.service.DiagnosisManager;
 import org.patientview.service.DiagnosticManager;
+import org.patientview.service.EyeCheckupManager;
+import org.patientview.service.FootCheckupManager;
 import org.patientview.service.ImportManager;
 import org.patientview.service.LetterManager;
 import org.patientview.service.MedicineManager;
@@ -110,6 +114,12 @@ public class ImportManagerImpl implements ImportManager {
     private DiagnosticManager diagnosticManager;
 
     @Inject
+    private FootCheckupManager footCheckupManager;
+
+    @Inject
+    private EyeCheckupManager eyeCheckupManager;
+
+    @Inject
     private ErrorHandler errorHandler;
 
 
@@ -169,6 +179,9 @@ public class ImportManagerImpl implements ImportManager {
             removePatientFromSystem(resultParser);
             return AddLog.PATIENT_DATA_REMOVE;
         } else {
+            String nhsNo = resultParser.getData("nhsno");
+            String unitCode = resultParser.getData("centrecode");
+
             validateNhsNumber(resultParser.getPatient());
             validateUnitCode(resultParser.getUnit());
             validatePatientExistsInUnit(resultParser.getPatient(), resultParser.getUnit());
@@ -189,6 +202,12 @@ public class ImportManagerImpl implements ImportManager {
             insertProcedures(resultParser.getProcedures());
             deleteAllergies(resultParser.getData("nhsno"), resultParser.getData("centrecode"));
             insertAllergies(resultParser.getAllergies());
+
+            deleteEyeCheckup(nhsNo, unitCode);
+            insertEyeCheckup(resultParser.getEyeCheckupses());
+
+            deleteFootCheckup(nhsNo, unitCode);
+            insertFootCheckup(resultParser.getFootCheckupses());
             // todo improvement: we should build a set of all units updated, then mark them at the end of the job
             markLastImportDateOnUnit(resultParser.getUnit());
 
@@ -432,4 +451,24 @@ public class ImportManagerImpl implements ImportManager {
         return false;
     }
 
+    private void deleteFootCheckup(String nhsno, String unitcode) {
+        footCheckupManager.delete(nhsno, unitcode);
+    }
+
+    private void insertFootCheckup(Collection<FootCheckup> checkupses) {
+        for (Iterator iterator = checkupses.iterator(); iterator.hasNext();) {
+            FootCheckup checkups = (FootCheckup) iterator.next();
+            footCheckupManager.save(checkups);
+        }
+    }
+
+    private void deleteEyeCheckup(String nhsno, String unitcode) {
+        eyeCheckupManager.delete(nhsno, unitcode);
+    }
+
+    private void insertEyeCheckup(List<EyeCheckup> eyeCheckups) {
+        for (EyeCheckup eyeCheckup : eyeCheckups) {
+            eyeCheckupManager.save(eyeCheckup);
+        }
+    }
 }

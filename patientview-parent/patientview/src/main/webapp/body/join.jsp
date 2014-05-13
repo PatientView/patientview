@@ -53,69 +53,84 @@ $(document).ready(function(){
 <p>If your local unit has PatientView, the message will go to the local PatientView admin.  If it doesn't, we'll send it to someone senior at the unit.  See if your unit has PatientView on the map at <a href ="http://bit.ly/rpvsites" target="_blank">bit.ly/rpvsites</a></p>
 <br />
 
-<html:form action="/joinSubmit" styleClass="form-horizontal">
+<div class="joinRequestModel">
 
-    <html:errors/>
+    <form action="/web/joinRequestSubmit" class="js-joinrequest-form" styleClass="form-horizontal">
 
-    <div class="control-group">
-        <label class="control-label">First name</label>
-
-        <div class="controls"><html:text property="firstName"/></div>
-    </div>
-
-    <div class="control-group">
-        <label class="control-label">Last name</label>
-
-        <div class="controls"><html:text property="lastName"/></div>
-    </div>
-
-    <div class="control-group">
-        <label class="control-label">Date of birth</label>
-
-        <div class="date datePicker controls" data-date="<bean:write name="joinForm" property="dateOfBirth"/>">
-            <input name="dateOfBirth" readonly="readonly" style="background:white;" class="span2" size="16" type="text"
-                   value="<bean:write name="joinForm" property="dateOfBirth"/>">
-            <span class="add-on"><i class="icon-th"></i></span>
-            <span class="help-inline">(click on date at top to change month & year)</span>
+        <div class="alert alert-error js-message-errors" style="display: none">
+            <strong>You do not have any messages.</strong>
         </div>
-    </div>
 
-    <div class="control-group">
-        <label class="control-label">NHS Number</label>
+        <div class="control-group">
+            <label class="control-label">First name</label>
 
-        <div class="controls"><html:text property="nhsNo"/> <span class="help-inline">(optional but useful)</span></div>
-    </div>
-
-    <div class="control-group">
-        <label class="control-label">Unit</label>
-
-        <div class="controls">
-            <html:select property="unitcode">
-                <option value="-1" selected="selected">-- Select your unit --</option>
-                <html:options collection="units" property="unitcode" labelProperty="name"/>
-            </html:select>
+            <div class="controls"><input name="firstName" class="js-joinrequest-firstname"/></div>
         </div>
-    </div>
 
-    <div class="control-group">
-        <label class="control-label">Email address</label>
+        <div class="control-group">
+            <label class="control-label">Last name</label>
 
-        <div class="controls"><html:text property="email"/></div>
-    </div>
-
-    <div class="control-group">
-        <label class="control-label">Security Question</label>
-
-
-        <div class="controls">
-            <div class="help-block top-help-block"><%=request.getSession().getAttribute("antiSpamQuestion")%> = ?</div>
-
-            <html:text property="antiSpamAnswer"/>
+            <div class="controls"><input name="lastName" class="js-joinrequest-lastname"/></div>
         </div>
-    </div>
 
-    <div class="control-group">
-        <div class="controls"><html:submit value="Send join request" styleClass="btn"/></div>
-    </div>
+        <div class="control-group">
+            <label class="control-label">Date of birth</label>
 
-</html:form>
+            <div class="date datePicker controls">
+                <input name="dateOfBirth" class="js-joinrequest-dob" size="16" type="text">
+                <span class="add-on"><i class="icon-th"></i></span>
+                <span class="help-inline">(click on date at top to change month & year)</span>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label">NHS Number</label>
+
+            <div class="controls"><input name="nhsNo" class="js-joinrequest-nhs-no"/> (optional but useful)</div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label">Specialty</label>
+
+            <div class="controls">
+                <select id="specialty" class="js-joinrequest-specialty">
+                    <option value="-1" selected="selected">-- Select your specialty --</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label">Unit</label>
+
+            <div class="controls">
+                <select id="unitcode" class="js-joinrequest-unit">
+                    <option value="-1" selected="selected">-- Select your unit --</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label">Email address</label>
+
+            <div class="controls"><input name="email" class="js-joinrequest-email"/></div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label">Security Question</label>
+
+
+            <div class="controls">
+                <div class="help-block top-help-block"><%=request.getSession().getAttribute("antiSpamQuestion")%> = ?</div>
+
+                <input property="antiSpamAnswer" class="js-joinrequest-security-question"/>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="controls"><input type="submit" value="Send join request" class="js-message-submit-btn" styleClass="btn"/></div>
+        </div>
+
+    </form>
+</div>
+<script src="/js/homejoinrequest.js" type="text/javascript"></script>
+

@@ -23,9 +23,9 @@
 
 package org.patientview.repository;
 
+import org.patientview.patientview.logon.UnitAdmin;
 import org.patientview.model.Specialty;
 import org.patientview.model.Unit;
-import org.patientview.patientview.logon.UnitAdmin;
 import org.patientview.patientview.model.User;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -68,4 +68,6 @@ public interface UnitDao {
     List<User> getUnitPatientUsers(String unitcode, Specialty specialty);
 
     List<User> getUnitPatientUsers(String unitcode, String name, Specialty specialty);
+
+    List<Unit> getUnitsBySpecialty(Specialty specialty);
 }

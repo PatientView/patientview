@@ -34,7 +34,7 @@
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
-            <th class="tableheader">EDTA Code</th>
+            <th class="tableheader">Diagnosis Code</th>
             <th class="tableheader">Description</th>
             <th></th>
         </tr>

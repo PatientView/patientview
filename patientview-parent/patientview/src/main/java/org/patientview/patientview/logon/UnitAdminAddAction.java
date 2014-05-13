@@ -235,5 +235,7 @@ public class UnitAdminAddAction extends ActionSupport {
         }
 
         return unitCodes.substring(0, unitCodes.length() - 2);
+
     }
+
 }

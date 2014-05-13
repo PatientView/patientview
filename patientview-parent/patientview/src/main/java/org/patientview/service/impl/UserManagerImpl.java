@@ -23,9 +23,11 @@
 
 package org.patientview.service.impl;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.patientview.model.Specialty;
 import org.patientview.model.Unit;
 import org.patientview.patientview.exception.UsernameExistsException;
+import org.patientview.patientview.logon.LogonUtils;
 import org.patientview.patientview.logon.PatientLogon;
 import org.patientview.patientview.logon.UnitAdmin;
 import org.patientview.patientview.model.LogEntry;
@@ -483,6 +485,19 @@ public class UserManagerImpl implements UserManager {
     @Override
     public void removeUserFromRadar(Long userId) {
         radarDao.removeUserFromRadar(userId);
+    }
+
+    @Override
+    public void saveHashPassword(User user) throws Exception {
+        User hashedUser;
+        try {
+            hashedUser = (User) BeanUtils.cloneBean(user);
+        } catch (Exception e) {
+            LOGGER.error("Error creating hashed user");
+            throw e;
+        }
+        hashedUser.setPassword(LogonUtils.hashPassword(user.getPassword()));
+        save(hashedUser);
     }
 
 }

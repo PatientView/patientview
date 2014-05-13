@@ -23,30 +23,26 @@
 
 package org.patientview.repository.impl;
 
-import org.apache.commons.lang.StringUtils;
 import org.patientview.model.Specialty;
 import org.patientview.patientview.model.Panel;
 import org.patientview.patientview.model.ResultHeading;
-import org.patientview.patientview.model.ResultHeading_;
 import org.patientview.repository.AbstractHibernateDAO;
 import org.patientview.repository.ResultHeadingDao;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import javax.sql.DataSource;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 /**
+ *
+ * An investment into a framework to execute hibernate queries for this project would probably be worthwhile
+ * eg #get(Specialty specialty) and #getAll(Specialty specialty) are the name method with a different word between
+ * the two.
  *
  */
 @Repository(value = "resultHeadingDao")
@@ -65,125 +61,142 @@ public class ResultHeadingDaoImpl extends AbstractHibernateDAO<ResultHeading> im
     @Override
     public ResultHeading get(String headingcode, Specialty specialty) {
 
-        CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<ResultHeading> criteria = builder.createQuery(ResultHeading.class);
-        Root<ResultHeading> from = criteria.from(ResultHeading.class);
-        List<Predicate> wherePredicates = new ArrayList<Predicate>();
-        wherePredicates.add(builder.equal(from.get(ResultHeading_.headingcode), headingcode));
-        buildWhereClause(criteria, wherePredicates);
+        StringBuilder hsql = new StringBuilder();
+
+        hsql.append("SELECT   rh ");
+        hsql.append("FROM     ResultHeading rh ");
+        hsql.append("JOIN FETCH     rh.specialtyResultHeadings srh ");
+        hsql.append("WHERE    srh.specialtyId = ?");
+        hsql.append("AND      rh.headingcode = ?");
+
+        Query query = getEntityManager().createQuery(hsql.toString(), ResultHeading.class);
+        query.setParameter(1, specialty.getId().intValue());
+        query.setParameter(2, headingcode);
+
         try {
-            return getEntityManager().createQuery(criteria).getSingleResult();
+            return (ResultHeading) query.getSingleResult();
         } catch (NoResultException e) {
             return null;
         }
     }
 
     @Override
+    public ResultHeading get(String headingcode) {
+
+        StringBuilder hsql = new StringBuilder();
+
+        hsql.append("SELECT   rh ");
+        hsql.append("FROM     ResultHeading rh ");
+        hsql.append("WHERE    rh.headingcode = ?");
+
+        Query query = getEntityManager().createQuery(hsql.toString(), ResultHeading.class);
+        query.setParameter(1, headingcode);
+
+        try {
+            return (ResultHeading) query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    /**
+     * This will return the specialties setup for your specialty
+     *
+     * @param specialty
+     * @return
+     */
+    public List<ResultHeading> get(Specialty specialty) {
+
+        StringBuilder hsql = new StringBuilder();
+
+        hsql.append("SELECT   rh ");
+        hsql.append("FROM     ResultHeading rh ");
+        hsql.append("JOIN     rh.specialtyResultHeadings srh ");
+        hsql.append("WHERE    srh.specialtyId = ?");
+
+        Query query = getEntityManager().createQuery(hsql.toString(), ResultHeading.class);
+        query.setParameter(1, specialty.getId().intValue());
+
+        return query.getResultList();
+    }
+
+
+    /**
+     * This will be all the result heading and the specialty settings.
+     * TODO Get the specialty result headings by specialty. Hibernate/Model fix
+     *
+     * @param specialty
+     * @return
+     */
+    @Override
     public List<ResultHeading> getAll(Specialty specialty) {
 
-        CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<ResultHeading> criteria = builder.createQuery(ResultHeading.class);
-        Root<ResultHeading> root = criteria.from(ResultHeading.class);
-        List<Predicate> wherePredicates = new ArrayList<Predicate>();
+        StringBuilder hsql = new StringBuilder();
 
-        wherePredicates.add(builder.equal(root.get(ResultHeading_.specialty), specialty));
+        hsql.append("SELECT   DISTINCT  rh ");
+        hsql.append("FROM     ResultHeading rh ");
+        hsql.append("lEFT OUTER JOIN FETCH   rh.specialtyResultHeadings srh ");
 
-        buildWhereClause(criteria, wherePredicates);
+        Query query = getEntityManager().createQuery(hsql.toString(), ResultHeading.class);
 
-        return getEntityManager().createQuery(criteria).getResultList();
+        return query.getResultList();
     }
 
-    @Override
-    public List<ResultHeading> getAll(Specialty specialty, String username) {
-
-        List<Object> params = new ArrayList<Object>();
-
-        String sql = " SELECT DISTINCT result_heading.* "
-                + " FROM testresult "
-                + " LEFT JOIN unit ON unit.unitcode = testresult.unitcode "
-                + " JOIN user, usermapping, result_heading "
-                + " WHERE user.username = ? "
-                + " AND result_heading.specialty_id = ? "
-                + " AND user.username = usermapping.username "
-                + " AND usermapping.nhsno = testresult.nhsno "
-                + " AND testresult.testcode = result_heading.headingcode ";
-
-        params.add(username);
-        params.add(specialty.getId());
-
-        return jdbcTemplate.query(sql, params.toArray(), new ResultHeadingMapper());
-    }
-
-
+    /**
+     * This gets called for every panel probably coz they didn't know object maps existed.
+     * TODO remove and add data to getPanels
+     *
+     * @param panel
+     * @param specialty
+     * @return
+     */
     @Override
     public List<ResultHeading> get(int panel, Specialty specialty) {
 
-        CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<ResultHeading> criteria = builder.createQuery(ResultHeading.class);
-        Root<ResultHeading> root = criteria.from(ResultHeading.class);
-        List<Predicate> wherePredicates = new ArrayList<Predicate>();
+        StringBuilder hsql = new StringBuilder();
 
-        wherePredicates.add(builder.equal(root.get(ResultHeading_.panel), panel));
-        wherePredicates.add(builder.equal(root.get(ResultHeading_.specialty), specialty));
+        hsql.append("SELECT   rh ");
+        hsql.append("FROM     ResultHeading rh ");
+        hsql.append("JOIN FETCH    rh.specialtyResultHeadings srh ");
+        hsql.append("WHERE    srh.specialtyId = ? ");
+        hsql.append("AND      srh.panel = ?");
 
-        buildWhereClause(criteria, wherePredicates);
+        Query query = getEntityManager().createQuery(hsql.toString(), ResultHeading.class);
+        query.setParameter(1, specialty.getId().intValue());
+        query.setParameter(2, panel);
 
-        criteria.orderBy(builder.asc(root.get(ResultHeading_.panelorder)));
-
-        return getEntityManager().createQuery(criteria).getResultList();
+        return query.getResultList();
     }
 
     @Override
     public void delete(String headingCode, Specialty specialty) {
-
         delete(get(headingCode, specialty));
     }
 
     @Override
     public List<Panel> getPanels(Specialty specialty) {
 
-        String sql = "SELECT DISTINCT panel FROM result_heading WHERE panel != 0 ORDER BY panel ASC";
+        StringBuilder hsql = new StringBuilder();
 
-        Query query = getEntityManager().createNativeQuery(sql);
+        hsql.append("SELECT   DISTINCT srh.panel ");
+        hsql.append("FROM     SpecialtyResultHeading srh ");
+        hsql.append("WHERE    srh.panel != 0 ");
+        hsql.append("AND      srh.specialtyId = ? ");
+        hsql.append("ORDER BY srh.panel ASC ");
 
-        List resultsObjs = query.getResultList();
+        Query query = getEntityManager().createQuery(hsql.toString(), Integer.class);
+        query.setParameter(1, specialty.getId().intValue());
+
+        List<Integer> panels = query.getResultList();
         List<Panel> results = new ArrayList<Panel>();
-        for (Object object : resultsObjs) {
-            results.add(new Panel((Integer) object));
+        for (Integer panel : panels) {
+            results.add(new Panel(panel));
         }
 
         return results;
     }
 
-    private class ResultHeadingMapper implements RowMapper<ResultHeading> {
 
-        @Override
-        public ResultHeading mapRow(ResultSet resultSet, int i) throws SQLException {
 
-            ResultHeading resultHeading = new ResultHeading();
-            resultHeading.setId(resultSet.getLong("id"));
-            resultHeading.setHeading(resultSet.getString("heading"));
-            resultHeading.setHeadingcode(resultSet.getString("headingcode"));
-            resultHeading.setLink(resultSet.getString("link"));
-            resultHeading.setRollover(resultSet.getString("rollover"));
 
-            if (StringUtils.isNotEmpty(resultSet.getString("minRangeValue"))) {
-                resultHeading.setMinRangeValue(resultSet.getDouble("minRangeValue"));
-            } else {
-                resultHeading.setMinRangeValue(null);
-            }
-            if (StringUtils.isNotEmpty(resultSet.getString("maxRangeValue"))) {
-                resultHeading.setMaxRangeValue(resultSet.getDouble("maxRangeValue"));
-            } else {
-                resultHeading.setMaxRangeValue(null);
-            }
-            if (StringUtils.isNotEmpty(resultSet.getString("units"))) {
-                resultHeading.setUnits(resultSet.getString("units"));
-            } else {
-                resultHeading.setUnits(null);
-            }
-
-            return resultHeading;
-        }
-    }
 }

@@ -44,6 +44,8 @@ http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
     <http access-decision-manager-ref="accessDecisionManager">
         <!-- these pages can be viewed without logging in, but need to run with the filter chain (so we can view login details etc-->
+        <intercept-url pattern="/js/jquery-1.10.1.min.map.js" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+
         <intercept-url pattern="/" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/index.jsp" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/login.jsp" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
@@ -81,10 +83,12 @@ http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
         <!-- Renal specialty config -->
         <intercept-url pattern="/renal/control/**" access="ROLE_RENAL_UNITSTAFF"/>
+        <intercept-url pattern="/control/**" access="ROLE_RENAL_UNITSTAFF, ROLE_IBD_UNITADMIN, ROLE_DIABETES_UNITADMIN"/>
         <intercept-url pattern="/renal/patient/**" access="ROLE_RENAL_DEMO"/>
         <intercept-url pattern="/renal/posts/**" access="ROLE_RENAL_DEMO"/>
         <intercept-url pattern="/renal/**" access="ROLE_ANY_USER"/>
-        <intercept-url pattern="/web/**" access="ROLE_RENAL_UNITADMIN"/>
+        <intercept-url pattern="/web/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+
 
 
         <!-- IBD specialty config -->
@@ -93,6 +97,15 @@ http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
         <intercept-url pattern="/ibd/patient/**" access="ROLE_IBD_DEMO"/>
         <intercept-url pattern="/ibd/posts/**" access="ROLE_IBD_DEMO"/>
         <intercept-url pattern="/ibd/**" access="ROLE_IBD_DEMO"/>
+
+        <intercept-url pattern="/web/lookup/component" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+
+        <!-- DIABETES specialty config -->
+        <intercept-url pattern="/diabetes/logged_in.do" access="ROLE_DIABETES_DEMO"/>
+        <intercept-url pattern="/diabetes/control/**" access="ROLE_DIABETES_UNITSTAFF"/>
+        <intercept-url pattern="/diabetes/patient/**" access="ROLE_DIABETES_DEMO"/>
+        <intercept-url pattern="/diabetes/posts/**" access="ROLE_DIABETES_DEMO"/>
+        <intercept-url pattern="/diabetes/**" access="ROLE_DIABETES_DEMO"/>
 
         <!-- messages -->
         <intercept-url pattern="/control/messaging/message_confirm.jsp" access="ROLE_RENAL_UNITADMIN"/>
@@ -108,10 +121,18 @@ http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
         <intercept-url pattern="/join" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/joinSubmit" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/joinSubmit.do" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/joinSuccess.do" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+
         <intercept-url pattern="/contactMyUnit.do" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/contactMyUnit" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/contactUnitSubmit" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/contactUnitSubmit.do" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+
+        <intercept-url pattern="/web/listSpecialties/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/web/unitBySpecialty/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/web/joinRequestSubmit/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+
+        <intercept-url pattern="/web/patient/add" access="ROLE_RENAL_UNITADMIN, ROLE_IBD_UNITADMIN, ROLE_DIABETES_UNITADMIN"/>
 
         <!-- Everything else is inaccessible, no one will ever have this role... -->
         <intercept-url pattern="/**" access="ROLE_NOT_ALLOWED"/>
@@ -180,6 +201,15 @@ http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
                 ROLE_ANONYMOUS > ROLE_ANY_USER
                 ROLE_ANY_USER > ROLE_IBD_DEMO
                 ROLE_IBD_DEMO > IS_AUTHENTICATED_ANONYMOUSLY
+
+                ROLE_DIABETES_SUPERADMIN > ROLE_DIABETES_UNITADMIN
+                ROLE_DIABETES_UNITADMIN > ROLE_DIABETES_UNITSTAFF
+                ROLE_DIABETES_UNITSTAFF > ROLE_DIABETES_PATIENT
+                ROLE_DIABETES_PATIENT > ROLE_ANONYMOUS
+                ROLE_ANONYMOUS > ROLE_ANY_USER
+                ROLE_ANY_USER > ROLE_DIABETES_DEMO
+                ROLE_DIABETES_DEMO > IS_AUTHENTICATED_ANONYMOUSLY
+
             </beans:value>
         </beans:property>
     </beans:bean>

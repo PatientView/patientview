@@ -77,13 +77,14 @@ public class UnitManagerImpl implements UnitManager {
 
     @Override
     public boolean checkDuplicateUnitCode(String unitCode) {
-        return unitDao.get(unitCode, securityUserManager.getLoggedInSpecialty()) != null;
+        return unitDao.get(unitCode, null) != null;
     }
 
     @Override
     public Unit get(String unitcode, Specialty specialty) {
         return unitDao.get(unitcode, specialty);
     }
+
 
     @Override
     public void save(Unit unit) {
@@ -94,6 +95,20 @@ public class UnitManagerImpl implements UnitManager {
         }
 
         unitDao.save(unit);
+    }
+
+    @Override
+    public List<Unit> getUnitsBySpecialty(Specialty specialty) {
+
+        List<Unit> units;
+
+        if (specialty == null) {
+            units = unitDao.getAll(true);
+        } else {
+            units = unitDao.getUnitsBySpecialty(specialty);
+        }
+
+        return getVisibleUnits(units);
     }
 
     @Override
@@ -113,15 +128,7 @@ public class UnitManagerImpl implements UnitManager {
 
     @Override
     public List<Unit> getAllVisible(String[] sourceTypesToInclude) {
-        List<Unit> units = new ArrayList<Unit>();
-
-        for (Unit unit : unitDao.getAll(null, sourceTypesToInclude)) {
-            if (unit.isVisible()) {
-                units.add(unit);
-            }
-        }
-
-        return units;
+        return getVisibleUnits(unitDao.getAll(null, sourceTypesToInclude));
     }
 
     @Override
@@ -222,6 +229,20 @@ public class UnitManagerImpl implements UnitManager {
     @Override
     public List<User> getUnitPatientUsers(String unitcode, Specialty specialty) {
         return unitDao.getUnitPatientUsers(unitcode, securityUserManager.getLoggedInSpecialty());
+    }
+
+
+    public List<Unit> getVisibleUnits(List<Unit> units) {
+        List<Unit> visibleUnits = new ArrayList<Unit>();
+
+        for (Unit unit : units) {
+            if (unit.isVisible()) {
+                visibleUnits.add(unit);
+            }
+        }
+
+        return visibleUnits;
+
     }
 
     @Override

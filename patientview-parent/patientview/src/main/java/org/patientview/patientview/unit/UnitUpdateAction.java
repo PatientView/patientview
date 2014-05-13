@@ -27,6 +27,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.patientview.model.Specialty;
 import org.patientview.model.Unit;
 import org.patientview.patientview.edtacode.EdtaCodeUtils;
 import org.patientview.patientview.logon.LogonUtils;
@@ -34,7 +35,9 @@ import org.patientview.patientview.model.EdtaCode;
 import org.patientview.service.EdtaCodeManager;
 import org.patientview.service.UnitManager;
 import org.patientview.service.UserManager;
+import org.patientview.utils.LegacySpringUtils;
 import org.springframework.web.struts.ActionSupport;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -53,9 +56,11 @@ public class UnitUpdateAction extends ActionSupport {
         userManager = getWebApplicationContext().getBean(UserManager.class);
         edtaCodeManager = getWebApplicationContext().getBean(EdtaCodeManager.class);
 
+
         // save unit
         Unit unit = unitManager.get(BeanUtils.getProperty(form, "unitcode"));
-        UnitUtils.buildUnit(unit, form);
+        Specialty specialty = LegacySpringUtils.getSecurityUserManager().getLoggedInSpecialty();
+        UnitUtils.buildUnit(unit, form, specialty);
         unitManager.save(unit);
 
         // check if unit is a Radar Disease Group
@@ -81,4 +86,5 @@ public class UnitUpdateAction extends ActionSupport {
 
         return LogonUtils.logonChecks(mapping, request);
     }
+
 }

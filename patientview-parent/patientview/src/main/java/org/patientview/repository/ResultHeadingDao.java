@@ -37,11 +37,15 @@ import java.util.List;
 @Transactional(propagation = Propagation.MANDATORY)
 public interface ResultHeadingDao {
 
+    ResultHeading get(Long id);
+
+    ResultHeading get(String headingcode);
+
     ResultHeading get(String headingcode, Specialty specialty);
 
-    List<ResultHeading> getAll(Specialty specialty);
+    List<ResultHeading> get(Specialty specialty);
 
-    List<ResultHeading> getAll(Specialty specialty, String username);
+    List<ResultHeading> getAll(Specialty specialty);
 
     List<ResultHeading> get(int panel, Specialty specialty);
 

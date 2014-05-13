@@ -23,6 +23,7 @@
 
 package org.patientview.service;
 
+import org.patientview.model.Specialty;
 import org.patientview.patientview.model.Panel;
 import org.patientview.patientview.model.ResultHeading;
 import org.springframework.transaction.annotation.Propagation;
@@ -36,15 +37,15 @@ import java.util.List;
 @Transactional(propagation = Propagation.REQUIRED)
 public interface ResultHeadingManager {
 
-    ResultHeading get(String headingcode);
+    ResultHeading get(String headingcode, Specialty specialty);
 
-    List<ResultHeading> getAll();
+    List<ResultHeading> getAll(Specialty specialty);
 
-    List<ResultHeading> getAll(String username);
+    List<ResultHeading> get(int panel, Specialty specialty);
 
-    List<ResultHeading> get(int panel);
+    List<ResultHeading> get(Specialty specialty);
 
-    void save(ResultHeading resultHeading);
+    void save(ResultHeading resultHeading, Specialty specialty);
 
     void delete(String headingCode);
 

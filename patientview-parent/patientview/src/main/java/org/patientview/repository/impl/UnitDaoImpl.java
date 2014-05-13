@@ -36,6 +36,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -339,13 +340,16 @@ public class UnitDaoImpl extends AbstractHibernateDAO<Unit> implements UnitDao {
                 + "AND"
                 + "   u.id = sur.user_id "
                 + "AND"
-                + "   sur.specialty_id = ? "
+                + "   sur.specialty_id = :specialtyId "
                 + "AND"
-                + "   um.unitcode = ? "
+                + "   um.unitcode = :unitcode "
                 + "AND"
                 + "   sur.role = 'patient' ";
 
+        Query query = getEntityManager().createNativeQuery(sql, User.class);
 
+        query.setParameter("specialtyId", specialty.getId());
+        query.setParameter("unitcode", unitcode);
 
         List<Object> params = new ArrayList<Object>();
         params.add(specialty.getId());
@@ -401,5 +405,20 @@ public class UnitDaoImpl extends AbstractHibernateDAO<Unit> implements UnitDao {
             user.setDateofbirth(resultSet.getString("dateofbirth"));
             return user;
         }
+
+    }
+
+    public List<Unit> getUnitsBySpecialty(Specialty specialty) {
+
+        CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Unit> criteria = builder.createQuery(Unit.class);
+        Root<Unit> from = criteria.from(Unit.class);
+        List<Predicate> wherePredicates = new ArrayList<Predicate>();
+
+        wherePredicates.add(builder.equal(from.get(Unit_.specialty), specialty));
+        buildWhereClause(criteria, wherePredicates);
+        criteria.orderBy(builder.asc(from.get(Unit_.name)));
+
+        return getEntityManager().createQuery(criteria).getResultList();
     }
 }
