@@ -82,7 +82,7 @@ public class RoleHelper {
             patient.setNhsno("1000000" + i);
             patient.setNhsNumberType(NhsNumberType.NHS_NUMBER);
             patient.setUnitcode(unitName);
-            patient.setEmailAddress("org.patientview.test@org.patientview.test.com");
+            patient.setEmailAddress("test@test.com");
 
             DiseaseGroup diseaseGroup = new DiseaseGroup();
             diseaseGroup.setId(diseaseName);
@@ -117,7 +117,7 @@ public class RoleHelper {
     }
 
     public void cleanTestData(List<Patient> patients, String unitCode) {
-        // -- Clean up org.patientview.test (No Transaction Manager)
+        // -- Clean up test (No Transaction Manager)
         for (Patient patient : patients) {
             utilityDao.deletePatientViewMapping(patient.getNhsno());
            // utilityDao.deletePatientViewUser(patientUser.getUsername());
@@ -140,7 +140,7 @@ public class RoleHelper {
         patient.setNhsno(nhsNo);
         patient.setNhsNumberType(NhsNumberType.NHS_NUMBER);
         patient.setUnitcode(unitName);
-        patient.setEmailAddress("org.patientview.test@org.patientview.test.com");
+        patient.setEmailAddress("test@test.com");
         patient.setSex("Male");
 
         DiseaseGroup diseaseGroup = new DiseaseGroup();

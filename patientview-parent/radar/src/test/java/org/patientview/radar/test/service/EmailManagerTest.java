@@ -43,8 +43,8 @@ public class EmailManagerTest extends TestPvDbSchema {
 
     @Test
     public void testSendEmail() throws Exception {
-        emailManager.sendEmail("org.patientview.test@org.patientview.test.com", new String[]{"org.patientview.test@org.patientview.test.com"},
-                new String[]{"org.patientview.test@org.patientview.test.com"}, "Test subject","Test Body");
+        emailManager.sendEmail("test@test.com", new String[]{"test@test.com"},
+                new String[]{"test@test.com"}, "Test subject","Test Body");
     }
 
     @Test

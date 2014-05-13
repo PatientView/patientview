@@ -309,7 +309,7 @@ Partial Class rrt_therapy3
         Dim strConnect As String = System.Configuration.ConfigurationManager.ConnectionStrings("RadarConnectionString").ConnectionString
         Dim objConnect As New SqlConnection(strConnect)
 
-        If intMode = 1 Then 'New entry: org.patientview.test for open treatments
+        If intMode = 1 Then 'New entry: test for open treatments
 
             strSQL2 = "SELECT [RADAR_NO] FROM [tbl_RRT_TREATMENT] WHERE ( ([DATE_START] <= (cast(@START_DATE as smalldatetime)) AND [DATE_STOP] IS NULL ) AND [RADAR_NO] = @RADAR_NO)"
 
@@ -441,7 +441,7 @@ Partial Class rrt_therapy3
 
     Public Sub ASPNET_MsgBox(ByVal Message As String)
 
-        Dim strMsg As String = "<script language=javascript>alert('org.patientview.test');</script>"
+        Dim strMsg As String = "<script language=javascript>alert('test');</script>"
 
         'System.Web.HttpContext.Current.Response.Write("<SCRIPT LANGUAGE='JavaScript'>" & vbCrLf)
 

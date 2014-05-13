@@ -60,7 +60,7 @@
         <tr>
         <td>
          <p>The <b>Renal Radar</b> site is now live at <a href="http://www.renalradar.org">www.renalradar.org</a></p>
-        <p>This org.patientview.test site should only be used for development and training purposes.</p>
+        <p>This test site should only be used for development and training purposes.</p>
         </td>
         </tr>
         </table>

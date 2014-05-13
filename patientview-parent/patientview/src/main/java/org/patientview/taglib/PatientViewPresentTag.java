@@ -89,7 +89,7 @@ public class PatientViewPresentTag extends PresentTag {
                 String desiredSpecialty = st.nextToken().trim();
                 present = LegacySpringUtils.getSecurityUserManager().isSpecialtyPresent(desiredSpecialty);
 
-                // Need to know if know specialty is there
+                // Need to know if no specialty is there
                 if (desiredSpecialty.equalsIgnoreCase("none")) {
                     if (!LegacySpringUtils.getSecurityUserManager().isLoggedInToSpecialty()) {
                         present = true;

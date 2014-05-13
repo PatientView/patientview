@@ -1938,7 +1938,7 @@
             <null/>
             <null/>
             <null/>
-            <value><![CDATA[org.patientview.test lines asdvg s\dgv \asdgv a\sd fgv ets zsdj\sd
+            <value><![CDATA[test lines asdvg s\dgv \asdgv a\sd fgv ets zsdj\sd
 
 
 nnnnnnnnnnnnn
@@ -5169,7 +5169,7 @@ ADSKGJAS;KLGDJA'L
             <value>250</value>
             <value><![CDATA[2009-10-06 00:00:00.0]]></value>
             <value>1</value>
-            <value>org.patientview.test</value>
+            <value>test</value>
             <value>2.0</value>
             <value>35.0</value>
             <null/>
@@ -5178,7 +5178,7 @@ ADSKGJAS;KLGDJA'L
             <null/>
             <null/>
             <value>
-                <![CDATA[org.patientview.test]]></value>
+                <![CDATA[test]]></value>
             <value>1</value>
             <null/>
             <value><![CDATA[2009-09-13 00:00:00.0]]></value>
@@ -6449,13 +6449,13 @@ ADSKGJAS;KLGDJA'L
 
 <p>Genes are inherited from our mother and fathers and sit in each of our cells. They are like a computer program that tells the cell how to work and what to produce to do the job they are designed for. Sometimes, during our development the genes are altered so that they do not work as well and sometimes we can inherit abnormal genes from our mother or father. We refer to these alterations as gene mutations.</p>
 
-<p>In this study we would like to org.patientview.test for the gene mutations that can cause SRNS/FSGS. It is not known how many children will have a gene mutation but other studies suggest that in children without another family member affected, there is a 15-20% chance of having a mutation causing the SRNS/FSGS. </p>
+<p>In this study we would like to test for the gene mutations that can cause SRNS/FSGS. It is not known how many children will have a gene mutation but other studies suggest that in children without another family member affected, there is a 15-20% chance of having a mutation causing the SRNS/FSGS. </p>
 
 <p>When the genes are tested, the results will be fed back to the patient’s kidney doctor (if this is what the patient has consented to) and they will discuss the findings. There is also a link to information about the genes being tested below.</p>
 
 <p>Having tested the children for these genes we will compare how the disease differs in those with gene mutations compared with those without, and hopefully learn more about what causes the disease, and how to manage it better.</p>
 
-<p>Lastly, the laboratory in Bristol has developed markers of how active the disease is in blood or plasma samples, in the context of the illness coming back after transplantation. We would like to explore this further on a larger number of samples to validate these findings and try and develop a org.patientview.test to predict the chance of recurrence of the illness after transplantation. These are called ‘biomarkers’ and look at particular biological-pathways inside the kidney cells and their response to disease. This will be important in being able to advise patients in advance about the risks and benefits of transplantation for each individual.</p>
+<p>Lastly, the laboratory in Bristol has developed markers of how active the disease is in blood or plasma samples, in the context of the illness coming back after transplantation. We would like to explore this further on a larger number of samples to validate these findings and try and develop a test to predict the chance of recurrence of the illness after transplantation. These are called ‘biomarkers’ and look at particular biological-pathways inside the kidney cells and their response to disease. This will be important in being able to advise patients in advance about the risks and benefits of transplantation for each individual.</p>
 
 <p><b>The genes being tested</b></p>
 
@@ -6538,7 +6538,7 @@ ADSKGJAS;KLGDJA'L
         </row>
         <row>
             <value>2</value>
-            <value><![CDATA[<![CDATA[<div>
+            <value><![CDATA[<div>
     <h1>Membranoproliferative Glomerulonephritis and Dense deposit
     Disease </h1>
 
@@ -6621,7 +6621,7 @@ ADSKGJAS;KLGDJA'L
     used. For example, antibodies known as cryoglobulins, probably caused
     indirectly by infection, can activate complement and get deposited in kidney
     filters. Cryoglobulins are associated with MPGN and can be detected in a
-    blood org.patientview.test. </p>
+    blood test. </p>
     <p>Another pathway does not use immunoglobulin. Complement gets activated by
     itself. This suggests that some of the normal regulators of complement are
     not working properly. This pattern is more usual in MPGN type 2 (DDD). For
@@ -6704,7 +6704,7 @@ ADSKGJAS;KLGDJA'L
     <p></p>
     <p></p>
 </div>
-]]>]]></value>
+]]></value>
         </row>
     </table>
     <table name="tbl_Ethnicity">
@@ -7052,8 +7052,8 @@ ADSKGJAS;KLGDJA'L
             <value>246</value>
             <value><![CDATA[2010-01-12 00:00:00.0]]></value>
             <null/>
-            <value>org.patientview.test</value>
-            <value>org.patientview.test</value>
+            <value>test</value>
+            <value>test</value>
         </row>
         <row>
             <value>3</value>
@@ -8588,7 +8588,7 @@ AJ
             <null/>
             <value>1</value>
             <value>true</value>
-            <value>org.patientview.test</value>
+            <value>test</value>
             <value>1000</value>
             <value>0</value>
             <null/>
@@ -8636,7 +8636,7 @@ AJ
             <null/>
             <value>1</value>
             <value>1</value>
-            <value>org.patientview.test</value>
+            <value>test</value>
             <null/>
             <value>0</value>
             <value>0</value>
@@ -8711,7 +8711,7 @@ AJ
             <null/>
             <null/>
             <null/>
-            <value>org.patientview.test</value>
+            <value>test</value>
             <null/>
             <null/>
             <null/>
@@ -8738,7 +8738,7 @@ AJ
             <null/>
             <null/>
             <value>false</value>
-            <value>org.patientview.test</value>
+            <value>test</value>
             <null/>
             <null/>
             <null/>
@@ -8786,7 +8786,7 @@ AJ
             <null/>
             <null/>
             <null/>
-            <value>org.patientview.test</value>
+            <value>test</value>
             <null/>
             <null/>
             <null/>
@@ -10296,7 +10296,7 @@ AJ
             <null/>
             <null/>
             <null/>
-            <value>org.patientview.test</value>
+            <value>test</value>
             <null/>
             <null/>
             <null/>
@@ -13926,8 +13926,8 @@ AJ
             <value>40</value>
             <value>50.0</value>
             <null/>
-            <value>org.patientview.test</value>
-            <value>org.patientview.test</value>
+            <value>test</value>
+            <value>test</value>
             <null/>
             <null/>
             <value>pathology-images/238-demo-image1.png</value>
@@ -13953,20 +13953,20 @@ AJ
             <null/>
             <null/>
             <null/>
-            <value>org.patientview.test</value>
+            <value>test</value>
             <null/>
             <null/>
             <null/>
-            <value>org.patientview.test</value>
-            <null/>
-            <null/>
-            <null/>
-            <null/>
+            <value>test</value>
             <null/>
             <null/>
             <null/>
             <null/>
-            <value><![CDATA[org.patientview.test entry]]></value>
+            <null/>
+            <null/>
+            <null/>
+            <null/>
+            <value><![CDATA[test entry]]></value>
             <value>1</value>
         </row>
         <row>
@@ -13987,11 +13987,11 @@ AJ
             <value>tesdt</value>
             <value>50</value>
             <value>40.0</value>
-            <value>org.patientview.test</value>
-            <value>org.patientview.test</value>
-            <value>org.patientview.test</value>
-            <value>org.patientview.test</value>
-            <value>org.patientview.test</value>
+            <value>test</value>
+            <value>test</value>
+            <value>test</value>
+            <value>test</value>
+            <value>test</value>
             <null/>
             <null/>
             <null/>
@@ -14020,16 +14020,16 @@ AJ
             <value>40</value>
             <value>45.0</value>
             <null/>
-            <value>org.patientview.test</value>
-            <value>org.patientview.test</value>
-            <value>org.patientview.test</value>
+            <value>test</value>
+            <value>test</value>
+            <value>test</value>
             <null/>
             <null/>
             <null/>
             <null/>
             <null/>
             <null/>
-            <value>org.patientview.test</value>
+            <value>test</value>
             <value>0</value>
         </row>
         <row>
@@ -14328,8 +14328,8 @@ AFAFHDAH]]></value>
             <value>237</value>
             <value><![CDATA[2009-10-20 00:00:00.0]]></value>
             <value>true</value>
-            <value>org.patientview.test</value>
-            <value>org.patientview.test</value>
+            <value>test</value>
+            <value>test</value>
             <null/>
             <value>test1</value>
             <value>test2</value>
@@ -14343,10 +14343,10 @@ AFAFHDAH]]></value>
             <value>237</value>
             <value><![CDATA[2009-11-11 00:00:00.0]]></value>
             <value>true</value>
-            <value>org.patientview.test</value>
+            <value>test</value>
             <null/>
             <null/>
-            <value>org.patientview.test</value>
+            <value>test</value>
             <null/>
             <null/>
             <value>1</value>
@@ -14358,12 +14358,12 @@ AFAFHDAH]]></value>
             <value>237</value>
             <value><![CDATA[2009-06-09 00:00:00.0]]></value>
             <value>false</value>
-            <value>org.patientview.test</value>
-            <value>org.patientview.test</value>
-            <value>org.patientview.test</value>
-            <value>org.patientview.test</value>
-            <value>org.patientview.test</value>
-            <value>org.patientview.test</value>
+            <value>test</value>
+            <value>test</value>
+            <value>test</value>
+            <value>test</value>
+            <value>test</value>
+            <value>test</value>
             <value>9</value>
             <value><![CDATA[2009-06-10 00:00:00.0]]></value>
             <null/>
@@ -19620,7 +19620,7 @@ AFAFHDAH]]></value>
             <value>1</value>
             <value>testcontext</value>
             <value>testcontext</value>
-            <value>org.patientview.test</value>
+            <value>test</value>
         </row>
     </table>
 </dataset>

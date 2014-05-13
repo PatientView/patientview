@@ -35,7 +35,7 @@ public class TripleDesTest {
 
     @Test
     public void testTripleDes() throws Exception {
-        // Password to org.patientview.test
+        // Password to test
         String password = "password12";
 
         // Encrypt and decrypt

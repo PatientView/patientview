@@ -178,7 +178,7 @@ public class UserDaoTest extends BaseDaoTest {
         // Construct the user
         PatientUser patientUser = new PatientUser();
         patientUser.setUsername("test_user");
-        patientUser.setEmail("test_user@org.patientview.test.com");
+        patientUser.setEmail("test_user@test.com");
         patientUser.setFirstName("Test");
         patientUser.setLastName("Name");
         patientUser.setRadarNumber(123);
@@ -194,7 +194,7 @@ public class UserDaoTest extends BaseDaoTest {
         assertNotNull("No date registered", patientUser.getDateRegistered());
 
         // Try and get the patient user - should get our new user
-        PatientUser checkUser = userDao.getPatientUser("test_user@org.patientview.test.com");
+        PatientUser checkUser = userDao.getPatientUser("test_user@test.com");
         assertNotNull("Saved user was null on getting from DAO", checkUser);
 
         assertEquals("patient name is incorrect", checkUser.getName(), patientUser.getName());
@@ -446,7 +446,7 @@ public class UserDaoTest extends BaseDaoTest {
     @Test
     public void testUserExistsInPatientView() {
 
-        // just org.patientview.test the sql is valid - i.e. stop pvdbschema changes breaking this simple query in future
+        // just test the sql is valid - i.e. stop pvdbschema changes breaking this simple query in future
         assertFalse(userDao.userExistsInPatientView("1234xyz"));
     }
 

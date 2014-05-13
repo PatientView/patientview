@@ -68,7 +68,7 @@ Partial Class patient_recover
         strHTML = strHTML & "<p>&nbsp;</p>"
 
         Dim objMsg As New MailMessage()
-        Dim addressFrom As New MailAddress("Radar Website<website@renal-org.patientview.test.org>")
+        Dim addressFrom As New MailAddress("Radar Website<website@renal-test.org>")
 
         'objMsg.To.Add("ihaynes@data-insite.co.uk")
         objMsg.To.Add(strEmail)
@@ -81,7 +81,7 @@ Partial Class patient_recover
 
         Dim mailClient As New SmtpClient()
         Dim basicAuthenticationInfo As New System.Net.NetworkCredential("admin310", "m51k52h")
-        mailClient.Host = "smtp.renal-org.patientview.test.org"
+        mailClient.Host = "smtp.renal-test.org"
         mailClient.UseDefaultCredentials = False
         mailClient.Credentials = basicAuthenticationInfo
         mailClient.Send(objMsg)

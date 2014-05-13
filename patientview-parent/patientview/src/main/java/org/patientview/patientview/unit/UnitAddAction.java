@@ -23,7 +23,6 @@
 
 package org.patientview.patientview.unit;
 
-import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;

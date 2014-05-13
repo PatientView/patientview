@@ -68,7 +68,7 @@ public class UnitManagerTest extends TestPvDbSchema {
     }
 
     @Test
-    @Ignore // Incomplete org.patientview.test
+    @Ignore // Incomplete test
     public void testGetRenalUnitsForUser() throws Exception {
 
         User user = roleHelper.createUnitAdmin("9999999999", "RW51");

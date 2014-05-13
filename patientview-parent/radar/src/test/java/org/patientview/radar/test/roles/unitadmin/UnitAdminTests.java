@@ -45,7 +45,7 @@ import java.util.List;
  * <p/>
  * Todo move the logic to get Centre from User out of ExistingPatientsListingPage so it can be covered by these tests
  * <p/>
- * todo don't apply the dataset.xml, and build the org.patientview.test context from scratch for each role
+ * todo don't apply the dataset.xml, and build the test context from scratch for each role
  */
 @RunWith(org.springframework.test.context.junit4.SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:test-context.xml"})

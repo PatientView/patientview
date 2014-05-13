@@ -54,13 +54,13 @@ public class PatientDaoTest extends TestPvDbSchema {
     UserDao userDao;
 
     /**
-     * Get to retrieve records (SQL syntax org.patientview.test bascially). TODO embellish with actual data!
+     * Get to retrieve records (SQL syntax test bascially). TODO embellish with actual data!
      *
      */
     @Test
     public void testGetPatientsByNhsNo(){
 
-        List<Patient> patientList = patientDao.getPatientsByNhsNumber("org.patientview.test");
+        List<Patient> patientList = patientDao.getPatientsByNhsNumber("test");
 
 
     }

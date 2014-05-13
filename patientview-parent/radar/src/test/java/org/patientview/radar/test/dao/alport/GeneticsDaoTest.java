@@ -64,7 +64,7 @@ public class GeneticsDaoTest extends BaseDaoTest {
         Genetics genetics = new Genetics();
         genetics.setRadarNo(1L);
         genetics.setTestsDone(Genetics.TestsDone.NO);
-        genetics.setLabWhereTestWasDone("Test where org.patientview.test was done");
+        genetics.setLabWhereTestWasDone("Test where test was done");
         genetics.setTestDoneOn("Test tests done on");
         genetics.setReferenceNumber("1234");
         genetics.setWhatResultsShowed("Test what results showed");

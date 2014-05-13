@@ -2,7 +2,7 @@ Radar: https://www.renalradar.org/
 =================================
 
 RaDaR is the site where healthcare professionals can register patients and enter data.
-Patients who are registered with RaDaR can look up their org.patientview.test results and info at PatientView (https://github.com/robworth/patientview).
+Patients who are registered with RaDaR can look up their test results and info at PatientView (https://github.com/robworth/patientview).
 
 There is also admin functionality on the site for managing users.
 
@@ -10,7 +10,7 @@ There is also admin functionality on the site for managing users.
 Getting Starting
 ================
 
-- Get running locally with the org.patientview.test database.  The Radar database is shared with PatientView, see instructions here https://github.com/robworth/patientview.
+- Get running locally with the test database.  The Radar database is shared with PatientView, see instructions here https://github.com/robworth/patientview.
 - Login as a patient, professional, and an admin and review the application screens.
 
 Note:
@@ -46,14 +46,14 @@ Test Users
 Running Tests
 =============
 
-Tests run against a separate db and rebuild the schema and data from scratch for each org.patientview.test run using DBUnit.
+Tests run against a separate db and rebuild the schema and data from scratch for each test run using DBUnit.
 
-- Setup your properties file.  It should be located at /src/main/filters/radar-org.patientview.test.properties.  There is an example file in /src/main/resources/developer/radar-org.patientview.test.properties.
+- Setup your properties file.  It should be located at /src/main/filters/radar-test.properties.  There is an example file in /src/main/resources/developer/radar-test.properties.
   Copy this manually and complete for your local environment.
 - Set your jdbc.databasename and jdbc.url properties to point to a new empty database
 - Run the tests
 
-`mvn org.patientview.test -Ptest'
+`mvn test -Ptest'
 
 
 Outsourced Development Processes

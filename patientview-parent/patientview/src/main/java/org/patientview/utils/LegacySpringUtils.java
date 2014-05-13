@@ -291,14 +291,6 @@ public final class LegacySpringUtils {
         LegacySpringUtils.sharedThoughtManager = sharedThoughtManager;
     }
 
-    public static SharedThoughtManager getSharedThoughtManager() {
-        return sharedThoughtManager;
-    }
-
-    public static void setSharedThoughtManager(SharedThoughtManager sharedThoughtManager) {
-        LegacySpringUtils.sharedThoughtManager = sharedThoughtManager;
-    }
-
     public static SplashPageManager getSplashPageManager() {
         return splashPageManager;
     }

@@ -8,7 +8,7 @@ Partial Class MasterPage
         '    If Request.ServerVariables("SERVER_NAME") = "localhost" Then
 
         '    Else
-        '        Response.Redirect("https://www.renal-org.patientview.test.org/default.aspx")
+        '        Response.Redirect("https://www.renal-test.org/default.aspx")
         '    End If
         'End If
 

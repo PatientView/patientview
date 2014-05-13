@@ -87,14 +87,14 @@ public class UserManagerTest extends TestPvDbSchema {
         PatientUser patientUser = new PatientUser();
         patientUser.setFirstName("my user");
         patientUser.setUsername("testusername");
-        patientUser.setEmail("org.patientview.test@org.patientview.test.com");
+        patientUser.setEmail("test@test.com");
         patientUser.setPassword("passwordhash");
         userDao.createUser(patientUser);
-        //userDao.createRawUser("testusername", "passwordhash", "my", "user", "org.patientview.test@org.patientview.test.com",
+        //userDao.createRawUser("testusername", "passwordhash", "my", "user", "test@test.com",
         //        "unitcode1", "NHS123");
 
         // create a demographic
-        Patient patient = createDemographics("Test", "User", centre, "NHS123", "org.patientview.test@org.patientview.test.com", SourceType.RADAR);
+        Patient patient = createDemographics("Test", "User", centre, "NHS123", "test@test.com", SourceType.RADAR);
 
         userManager.addPatientUserOrUpdatePatient(patient);
 
