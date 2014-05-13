@@ -26,8 +26,15 @@
   --%>
 
 <html:xhtml/>
+<div class="span9">
+    <logic:present name="successMeg">
+    <div class="alert alert-success"><bean:write name="successMeg" /></div>
+    </logic:present>
+    <div class="page-header">
+        <h1>Links Editing</h1>
+    </div>
+</div>
 
-<p class="header">Link Editing</p>
 
 <html:errors />
 
