@@ -215,6 +215,9 @@ public class UnitDaoImpl extends AbstractHibernateDAO<Unit> implements UnitDao {
         }
 
         buildWhereClause(criteria, wherePredicates);
+
+        criteria.orderBy(builder.asc(from.get("name")));
+
         return getEntityManager().createQuery(criteria).getResultList();
     }
 
