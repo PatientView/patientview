@@ -164,7 +164,7 @@ public class DiabetesCarePlanController extends BaseController {
         diabetesCarePlanManager.saveCarePlan(carePlan);
 
         request.setAttribute("carePlan", carePlan);
-
+        request.setAttribute("saved", "saved");
         return Routes.DIABETES_CAREPLAN_PAGE;
 
     }

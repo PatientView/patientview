@@ -53,6 +53,11 @@
     </div>
 </c:if>
 
+
+<logic:present name="saved" >
+    <div class="alert alert-success">Your care plan has been saved.</div>
+</logic:present>
+
 <fieldset class="span12">
 <div class="row">
     <div class="span12">
@@ -69,7 +74,7 @@
             <li>
                 This page shows the common topics that can cause difficulties in living with
                 diabetes. Move the tracker to show how much each area is a concern and where you may need
-                more help at your next appointment. For further resources click on the <i class="icon-info-sign"></i>
+                more help at your next appointment.
                 links.
             </li>
         </ul>

@@ -2,6 +2,7 @@ package org.patientview.patientview.unit;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.patientview.model.Specialty;
 import org.patientview.model.Unit;
 import org.patientview.patientview.model.User;
@@ -113,17 +114,13 @@ public final class UnitUtils {
     // update the unit by setting it's properties
     public static void buildUnit(Unit unit, Object form, Specialty specialty) throws Exception {
 
-        // only change source type if set to null
-        if (unit.getSourceType() == null) {
-            // set defaults for sourceType and country, note this runs for updates as well as creates
-            unit.setSourceType(BeanUtils.getProperty(form, "sourceType"));
-            if (unit.getSourceType() == null || unit.getSourceType().length() == 0) {
+        // only change source type if set to nul
+        if (StringUtils.isEmpty(unit.getSourceType())) {
+            if (specialty.getName().equalsIgnoreCase("diabetes")) {
+                unit.setSourceType("diabetesunit");
+            } else {
                 unit.setSourceType("renalunit");
             }
-        }
-
-        if (unit.getCountry() == null || unit.getCountry().length() == 0) {
-            unit.setSourceType("diabetesunit");
         }
 
         unit.setSpecialty(specialty);
