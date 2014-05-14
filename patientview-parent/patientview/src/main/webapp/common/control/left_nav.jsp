@@ -93,7 +93,7 @@
                     <li class="divider"></li>
                 </logic:present>
 
-                <li><html:link action="/control/n   ewsView">News</html:link></li>
+                <li><html:link action="/control/newsView">News</html:link></li>
                 <li><html:link action="/control/newsList">News Edit</html:link></li>
                 <logic:present role="superadmin,unitadmin">
                     <li class="divider"></li>
