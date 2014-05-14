@@ -21,7 +21,7 @@
   ~ @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
   --%>
 
-<p class="header">Disclaimer</b></p>
+<p class="header"><b>Disclaimer</b></p>
 
           <p>We try very hard but it is possible that there may sometimes be errors
 in the information shown.  If you suspect a mistake, first contact the

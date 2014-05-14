@@ -56,7 +56,7 @@ public class ResultsInitAction extends ActionSupport {
 
             if (!CollectionUtils.isEmpty(resultsHeadingsList)) {
                 request.setAttribute("resultsHeadings", resultsHeadingsList);
-                ResultHeading heading =  resultsHeadingsList.get(0);
+                ResultHeading heading = resultsHeadingsList.get(0);
                 request.setAttribute("resultTypeHeading", heading);
                 request.setAttribute("period", "0");
             }
