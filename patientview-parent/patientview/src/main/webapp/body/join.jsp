@@ -50,7 +50,7 @@ $(document).ready(function(){
 
 <p>Please enter your details. You need to be a patient of a renal unit.</p>
 <p>Ensure they are accurate since they will be used by your unit's staff to verify who you are and to contact you to add you to PatientView.</p>
-<p>If your local unit has PatientView, the message will go to the local PatientView admin.  If it doesn't, we'll send it to someone senior at the unit.  See if your unit has PatientView on the map at <a href ="http://bit.ly/rpvsites" target="_blank">bit.ly/rpvsites</a></p>
+<p>If your local unit has PatientView, the message will go to the local PatientView admin.  If it doesn't, we'll send it to someone senior at the unit.  See if your unit has PatientView on the map at <a href ="http://www.rixg.org/developer/pages/how-to/where.php" target="_blank">bit.ly/rpvsites</a></p>
 <br />
 
 <div class="joinRequestModel">
