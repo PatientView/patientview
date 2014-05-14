@@ -104,6 +104,8 @@ public class ResultHeadingManagerImpl implements ResultHeadingManager {
         ResultHeading resultHeadingTemp = resultHeadingDao.get(resultHeading.getId());
         resultHeadingTemp.setMinRangeValue(resultHeading.getMinRangeValue());
         resultHeadingTemp.setMaxRangeValue(resultHeading.getMaxRangeValue());
+        resultHeadingTemp.setUnits(resultHeading.getUnits());
+
 
         boolean foundSpecialty = false;
 
