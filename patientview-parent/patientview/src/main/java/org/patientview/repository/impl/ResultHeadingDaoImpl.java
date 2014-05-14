@@ -112,7 +112,8 @@ public class ResultHeadingDaoImpl extends AbstractHibernateDAO<ResultHeading> im
         hsql.append("SELECT   rh ");
         hsql.append("FROM     ResultHeading rh ");
         hsql.append("JOIN     rh.specialtyResultHeadings srh ");
-        hsql.append("WHERE    srh.specialtyId = ?");
+        hsql.append("WHERE    srh.specialtyId = ? ");
+        hsql.append("ORDER BY rh.headingcode");
 
         Query query = getEntityManager().createQuery(hsql.toString(), ResultHeading.class);
         query.setParameter(1, specialty.getId().intValue());
@@ -136,6 +137,7 @@ public class ResultHeadingDaoImpl extends AbstractHibernateDAO<ResultHeading> im
         hsql.append("SELECT   DISTINCT  rh ");
         hsql.append("FROM     ResultHeading rh ");
         hsql.append("lEFT OUTER JOIN FETCH   rh.specialtyResultHeadings srh ");
+        hsql.append("ORDER BY rh.headingcode");
 
         Query query = getEntityManager().createQuery(hsql.toString(), ResultHeading.class);
 
