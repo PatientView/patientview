@@ -101,13 +101,13 @@
                     <html:checkbox property="feedbackRecipient" name="unitUser" value="true"/>
                 </div>
             </div>
-            <div class="control-group">
+            <div class="control-group hidden">
                 <label class="control-label">Sharing Thoughts Administrator</label>
                 <div class="controls">
                     <html:checkbox property="sharedThoughtAdministrator" name="unitUser" value="true"/>
                 </div>
             </div>
-            <div class="control-group">
+            <div class="control-group hidden">
                 <label class="control-label">Sharing Thoughts Responder</label>
                 <div class="controls">
                     <html:checkbox property="sharedThoughtResponder" name="unitUser" value="true"/>

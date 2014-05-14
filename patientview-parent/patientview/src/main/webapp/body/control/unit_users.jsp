@@ -62,8 +62,8 @@
           <th class="tableheader" onclick="sort('accountlocked')"><a href="#">Password</a></th>
           <th class="tableheader" onclick="sort('isrecipient')"><a href="#">Message Recipient</a></th>
           <th class="tableheader" onclick="sort('feedbackRecipient')"><a href="#">Feedback Recipient</a></th>
-          <th class="tableheader" onclick="sort('sharedThoughtAdministrator')"><a href="#">Sharing Thoughts Administrator</a></th>
-          <th class="tableheader" onclick="sort('sharedThoughtResponder')"><a href="#">Sharing Thoughts Responder</a></th>
+          <th class="tableheader hidden" onclick="sort('sharedThoughtAdministrator')"><a href="#">Sharing Thoughts Administrator</a></th>
+          <th class="tableheader hidden" onclick="sort('sharedThoughtResponder')"><a href="#">Sharing Thoughts Responder</a></th>
           <th class="tableheader" onclick="sort('isclinician')"><a href="#">Clinician</a></th>
 
       </tr>
@@ -113,11 +113,11 @@
               <logic:equal name="unitUser" property="feedbackRecipient" value="false"></logic:equal>
               <logic:equal name="unitUser" property="feedbackRecipient" value="true"><span class="yesTick">&#10004;</span></logic:equal>
           </td>
-          <td class="tablecell">
+          <td class="tablecell hidden">
               <logic:equal name="unitUser" property="sharedThoughtAdministrator" value="false"></logic:equal>
               <logic:equal name="unitUser" property="sharedThoughtAdministrator" value="true"><span class="yesTick">&#10004;</span></logic:equal>
           </td>
-          <td class="tablecell">
+          <td class="tablecell hidden">
               <logic:equal name="unitUser" property="sharedThoughtResponder" value="false"></logic:equal>
               <logic:equal name="unitUser" property="sharedThoughtResponder" value="true"><span class="yesTick">&#10004;</span></logic:equal>
           </td>
