@@ -27,6 +27,20 @@
   ~ @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
   --%>
 
+<script>
+    // warning for today's date and future date
+    $(document).ready(function(){
+        $("input[name='reviewDate']").change(function() {
+
+            var splitDate = $(this).val().split("-");
+            if (new Date(splitDate[2], splitDate[1] - 1, splitDate[0], '00', '00', '00') <= new Date()) {
+                alert("You must enter a review date in the future.");
+                $(this).val("");
+            }
+        });
+    });
+</script>
+
 <div class="row" id="editCarePlan">
 <div class="span12">
 <div class="page-header">
