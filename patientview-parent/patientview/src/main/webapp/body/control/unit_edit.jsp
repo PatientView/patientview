@@ -425,7 +425,7 @@
             <td><html:checkbox name="unit" property="feedbackEnabled" value="true"/></td>
         </tr>
 
-        <tr>
+        <tr class="hidden">
             <td><b>Sharing Thoughts enabled</b></td>
             <td><html:checkbox name="unit" property="sharedThoughtEnabled" value="true"/></td>
         </tr>
