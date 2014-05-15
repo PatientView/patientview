@@ -44,7 +44,7 @@
             If you have any concerns you should discuss it at your next clinic appointment, or contact the author of the
             letter.
         </li>
-    </ul>
+    </ul><br/>
 
   <logic:empty name="letters">
       <div class="alert">No letters uploaded</div>

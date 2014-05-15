@@ -138,7 +138,6 @@
     </logic:notEmpty>
 </table>
 
-<h3>More results</h3>
 <logic:notEmpty name="results">
     <div class="pagination">
         <ul>

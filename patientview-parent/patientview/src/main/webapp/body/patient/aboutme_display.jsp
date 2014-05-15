@@ -34,9 +34,6 @@
 <logic:present name="aboutme">
 <logic:notEmpty name="aboutme">
         <jsp:useBean id="aboutme" class="org.patientview.patientview.model.Aboutme" scope="request"/>
-    <div class="span3">
-        <img src="aboutmeimage/<%= aboutme.getNhsno() %>" alt="" width="200">
-    </div>
 
 <div class="span9">
         <h2>Things people should know about me</h2>
