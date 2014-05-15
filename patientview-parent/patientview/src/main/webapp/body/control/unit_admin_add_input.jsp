@@ -99,11 +99,11 @@
                 <td><b>Feedback Recipient</b></td>
                 <td><html:checkbox property="feedbackRecipient" value="true"/></td>
             </tr>
-            <tr>
+            <tr class="hidden">
                 <td><b>Sharing Thoughts Administrator</b></td>
                 <td><html:checkbox property="sharedThoughtAdministrator" value="true"/></td>
             </tr>
-            <tr>
+            <tr class="hidden">
                 <td><b>Sharing Thoughts Responder</b></td>
                 <td><html:checkbox property="sharedThoughtResponder" value="true"/></td>
             </tr>
