@@ -89,3 +89,87 @@ ALTER TABLE result_heading DROP COLUMN panel;
 ALTER TABLE result_heading DROP COLUMN panelorder;
 
 ALTER TABLE result_heading DROP COLUMN specialty_id;
+
+
+
+INSERT INTO edtacode(edtacode, linktype, description, specialty_id) VALUES ('static','static','Furthur Information', 3);
+
+DROP INDEX `edtacode` ON edtacode;
+
+CREATE INDEX `edtacode_idx` ON edtacode (edtacode, specialty_id);
+
+
+CREATE TABLE `dia_careplan` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `nhsno` varchar(255) NOT NULL,
+  `diabetesOverallScore` int(11) DEFAULT NULL,
+  `moodScore` int(11) DEFAULT NULL,
+  `diabetesControlScore` int(11) DEFAULT NULL,
+  `hypoglycaemiaScore` int(11) DEFAULT NULL,
+  `weightScore` int(11) DEFAULT NULL,
+  `bloodPressureScore` int(11) DEFAULT NULL,
+  `cholesterolScore` int(11) DEFAULT NULL,
+  `smokingAlcoholScore` int(11) DEFAULT NULL,
+  `eatingExerciseSportScore` int(11) DEFAULT NULL,
+  `drivingWorkStudyScore` int(11) DEFAULT NULL,
+  `pregnancySexRelationshipsScore` int(11) DEFAULT NULL,
+  `eyesScore` int(11) DEFAULT NULL,
+  `kidneysScore` int(11) DEFAULT NULL,
+  `feetScore` int(11) DEFAULT NULL,
+  `heartAttacksStrokesScore` int(11) DEFAULT NULL,
+  `takingMedicationRegularlyScore` int(11) DEFAULT NULL,
+  `otherAreasToDiscuss` text,
+  `goals` text,
+  `goalToAchieve` text,
+  `importance_id` bigint(20) NOT NULL,
+  `howToAchieveGoal` text,
+  `barriers` text,
+  `whatCanBeDone` text,
+  `confidence_id` bigint(20) NOT NULL,
+  `reviewDate` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+CREATE TABLE `dia_eyecheckup` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `nhsno` varchar(255) NOT NULL DEFAULT '',
+  `unitcode` varchar(255) NOT NULL DEFAULT '',
+  `lastRetinalDate` datetime DEFAULT NULL,
+  `lastRetinalPlace` varchar(255) DEFAULT NULL,
+  `leftMGrade` varchar(255) DEFAULT NULL,
+  `leftRGrade` varchar(255) DEFAULT NULL,
+  `leftVA` varchar(255) DEFAULT NULL,
+  `rightMGrade` varchar(255) DEFAULT NULL,
+  `rightRGrade` varchar(255) DEFAULT NULL,
+  `rightVA` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `u_eye_date_nhsno_unitcode` (`lastRetinalDate`,`nhsno`,`unitcode`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `dia_mydiabetes` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `nhsno` varchar(255) NOT NULL,
+  `unitcode` varchar(255) DEFAULT NULL,
+  `diabetesType` varchar(255) DEFAULT NULL,
+  `yearDiagnosed` int(4) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `patient` (`nhsno`,`unitcode`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `dia_footcheckup` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `nhsno` varchar(255) NOT NULL DEFAULT '',
+  `unitcode` varchar(255) NOT NULL DEFAULT '',
+  `footCheckDate` datetime DEFAULT NULL,
+  `footCheckPlace` varchar(255) DEFAULT NULL,
+  `leftDpPulse` varchar(255) DEFAULT NULL,
+  `leftPtPulse` varchar(255) DEFAULT NULL,
+  `leftMonofilament` varchar(255) DEFAULT NULL,
+  `leftRiskScore` varchar(255) DEFAULT NULL,
+  `rightDpPulse` varchar(255) DEFAULT NULL,
+  `rightPtPulse` varchar(255) DEFAULT NULL,
+  `rightMonofilament` varchar(255) DEFAULT NULL,
+  `rightRiskScore` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `u_foot_date_nhsno_unitcode` (`footCheckDate`,`nhsno`,`unitcode`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
