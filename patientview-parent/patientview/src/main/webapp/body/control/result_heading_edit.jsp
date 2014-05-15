@@ -28,7 +28,7 @@
 <html:xhtml/>
 <div class="span9">
 <div class="page-header">
-    <h1>Links Editing</h1>
+    <h1>Edit Result Heading</h1>
 </div>
 
 
