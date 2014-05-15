@@ -21,6 +21,11 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+$(".dropdown-menu li a").click(function(){
+    var selText = $(this).text();
+    $(this).parents('.btn-group').find('.dropdown-toggle').html(selText+' <span class="caret"></span>');
+});
+
 google.load("visualization", "1", {packages:["corechart"]});
 google.setOnLoadCallback(drawChart);
 var chart;
@@ -86,6 +91,7 @@ function changeChart(obj, resultCode, resultHeading) {
         $('#result_Type').val(resultCode);
         $('#heading1').text(resultHeading);
     }
+    $('#toggle_test_result').val(resultHeading);
     $('#chart_div').empty();
     drawChart();
 }
