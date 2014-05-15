@@ -66,3 +66,26 @@ ALTER TABLE user ADD COLUMN `sharedThoughtResponder` tinyint(1) NOT NULL DEFAULT
   ALTER TABLE conversation ADD COLUMN `participant1Anonymous` tinyint(1) DEFAULT '0';
   ALTER TABLE conversation ADD COLUMN `participant2Anonymous` tinyint(1) DEFAULT '0';
 
+CREATE TABLE specialty_result_heading (id INT(20) PRIMARY KEY AUTO_INCREMENT,
+                                       result_heading_id BIGINT(20),
+                                       heading VARCHAR(30),
+                                       rollover VARCHAR(50),
+                                       panel int(11),
+                                       panelorder int(11),
+                                       specialty_id int(20));
+
+INSERT INTO specialty_result_heading(result_heading_id, heading, rollover, panel, panelorder, specialty_id)
+  SELECT  id
+    ,       heading
+    ,       rollover
+    ,       panel
+    ,       panelorder
+    ,       1
+  FROM    result_heading;
+
+
+ALTER TABLE result_heading DROP COLUMN panel;
+
+ALTER TABLE result_heading DROP COLUMN panelorder;
+
+ALTER TABLE result_heading DROP COLUMN specialty_id;
