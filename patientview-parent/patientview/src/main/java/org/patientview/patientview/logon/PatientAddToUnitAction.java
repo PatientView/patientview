@@ -23,24 +23,33 @@
 
 package org.patientview.patientview.logon;
 
-import org.patientview.model.Patient;
-import org.patientview.model.enums.SourceType;
-import org.patientview.patientview.logging.AddLog;
-import org.patientview.patientview.model.User;
-import org.patientview.patientview.model.UserMapping;
-import org.patientview.service.PatientManager;
-import org.patientview.service.SecurityUserManager;
-import org.patientview.service.UserManager;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.patientview.model.Patient;
+import org.patientview.model.Specialty;
+import org.patientview.model.enums.SourceType;
+import org.patientview.patientview.logging.AddLog;
+import org.patientview.patientview.model.SpecialtyUserRole;
+import org.patientview.patientview.model.User;
+import org.patientview.patientview.model.UserMapping;
+
+import org.patientview.service.PatientManager;
+import org.patientview.service.SecurityUserManager;
+import org.patientview.service.SpecialtyUserRoleManager;
+import org.patientview.service.UserManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.struts.ActionSupport;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 public class PatientAddToUnitAction extends ActionSupport {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(PatientAddToUnitAction.class);
 
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
                                  HttpServletResponse response) throws Exception {
@@ -48,6 +57,9 @@ public class PatientAddToUnitAction extends ActionSupport {
         PatientManager patientManager = getWebApplicationContext().getBean(PatientManager.class);
         UserManager userManager = getWebApplicationContext().getBean(UserManager.class);
         SecurityUserManager securityUserManager = getWebApplicationContext().getBean(SecurityUserManager.class);
+        SpecialtyUserRoleManager specialtyUserRoleManager =
+                getWebApplicationContext().getBean(SpecialtyUserRoleManager.class);
+
 
         String username = BeanUtils.getProperty(form, "username");
         String nhsno = BeanUtils.getProperty(form, "nhsno");
@@ -72,7 +84,24 @@ public class PatientAddToUnitAction extends ActionSupport {
         if (user != null) {
             patient.setForename(user.getFirstName());
             patient.setSurname(user.getLastName());
+
+            List<SpecialtyUserRole> specialtyUserRoles =  specialtyUserRoleManager.get(user);
+            if (!isSpecialtyPresent(specialtyUserRoles, securityUserManager.getLoggedInSpecialty())) {
+
+                SpecialtyUserRole specialtyUserRole = new SpecialtyUserRole();
+                specialtyUserRole.setRole("patient");
+                specialtyUserRole.setSpecialty(securityUserManager.getLoggedInSpecialty());
+                specialtyUserRole.setUser(user);
+                try {
+                    specialtyUserRoleManager.save(specialtyUserRole);
+                } catch (Exception e) {
+                    LOGGER.error("Could not add specialty for NHS number {} ", patient.getNhsno());
+                }
+            }
+
         }
+
+
 
         patientManager.save(patient);
 
@@ -81,6 +110,17 @@ public class PatientAddToUnitAction extends ActionSupport {
 
         request.setAttribute("userMapping", userMapping);
         return mapping.findForward(mappingToFind);
+    }
+
+    private boolean isSpecialtyPresent(List<SpecialtyUserRole> specialtyUserRoles,
+                                       Specialty specialty) {
+        for (SpecialtyUserRole specialtyUserRole : specialtyUserRoles) {
+            if (specialtyUserRole.getSpecialty().getName().equalsIgnoreCase(specialty.getName())) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private boolean thereIsAGpUser(String username) {
