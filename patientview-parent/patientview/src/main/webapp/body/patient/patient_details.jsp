@@ -58,10 +58,9 @@
 <logic:iterate id="patientDetail" name="patientDetails">
 
 <p>
-    Patient Details for
+    Patient details for
     <bean:write name="patientDetail" property="patient.forename"/>
-    <bean:write name="patientDetail" property="patient.surname"/>
-    <logic:present specialty="renal">, provided by: <bean:write name="patientDetail" property="unit.name"/>
+    <bean:write name="patientDetail" property="patient.surname"/><logic:present specialty="renal">, provided by: <bean:write name="patientDetail" property="unit.name"/>
     (<bean:write name="patientDetail" property="patient.sourceType"/>)
     </logic:present>
 </p>
