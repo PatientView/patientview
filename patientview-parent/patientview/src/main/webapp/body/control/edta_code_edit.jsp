@@ -31,7 +31,7 @@
         <div class="alert alert-success"><bean:write name="successMeg" /></div>
     </logic:present>
     <div class="page-header">
-    <h1>Links Editing</h1>
+    <h1>Edit Code or Links</h1>
 </div>
 
 <html:errors />
@@ -51,8 +51,6 @@
     </fieldset>
 
 <table cellpadding="3" class="table table-bordered table-striped">
-
-
     <tr>
       <td></td>
       <td align="center"><b>Link (e.g. http:// etc.)</b></td>

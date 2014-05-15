@@ -107,7 +107,7 @@
 <%
   }
 %>
-
+<br/>
 <a href="/password-advice.jsp">Find out more about secure passwords.</a>
 </div>
 <jsp:include page="../common/include/news_list.jsp"/>
