@@ -162,7 +162,7 @@ public class ResultHeadingDaoImpl extends AbstractHibernateDAO<ResultHeading> im
         hsql.append("JOIN FETCH    rh.specialtyResultHeadings srh ");
         hsql.append("WHERE    srh.specialtyId = ? ");
         hsql.append("AND      srh.panel = ? ");
-        hsql.append("ORDER BY srh.panelorder");
+        hsql.append("ORDER BY srh.panelOrder");
 
         Query query = getEntityManager().createQuery(hsql.toString(), ResultHeading.class);
         query.setParameter(1, specialty.getId().intValue());
