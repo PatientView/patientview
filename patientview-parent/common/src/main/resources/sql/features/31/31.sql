@@ -92,7 +92,7 @@ ALTER TABLE result_heading DROP COLUMN specialty_id;
 
 
 
-INSERT INTO edtacode(edtacode, linktype, description, specialty_id) VALUES ('static','static','Furthur Information', 3);
+INSERT INTO edtacode(edtacode, linktype, description, specialty_id) VALUES ('static','static','Further Information', 3);
 
 DROP INDEX `edtacode` ON edtacode;
 
