@@ -17,6 +17,8 @@ public final class SharingThoughts {
     public static final String IS_PRINCIPAL_CARER = "principalCarer";
     public static final String IS_RELATIVE = "relative";
     public static final String IS_FRIEND = "friend";
+    public static final String IS_OTHER = "other";
+    public static final String IS_OTHER_MORE = "otherMore";
     public static final String IS_ABOUT_ME = "aboutMe";
     public static final String IS_ABOUT_OTHER = "aboutOther";
     public static final String IS_ANONYMOUS = "anonymous";
@@ -32,6 +34,7 @@ public final class SharingThoughts {
     public static final String SUGGESTED_ACTION = "suggestedAction";
     public static final String CONCERN_REASON = "concernReason";
     public static final String LIKELIHOOD_0F_RECURRENCE = "likelihoodOfRecurrence";
+    public static final String LIKELIHOOD_0F_RECURRENCE_MORE = "likelihoodOfRecurrenceMore";
     public static final String HOW_SERIOUS = "howSerious";
     public static final String DATE_LAST_SAVED_FORMATTED_DATE_TIME = "dateLastSavedFormattedDateTime";
     public static final String SUBMIT = "Submit";

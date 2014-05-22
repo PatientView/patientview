@@ -78,6 +78,12 @@ public class SharedThought extends BaseModel {
     @Column(name = "is_friend")
     private Boolean isFriend = false;
 
+    @Column(name = "is_other")
+    private Boolean isOther = false;
+
+    @Column(name = "is_other_more")
+    private String isOtherMore;
+
     @Column(name = "is_about_me")
     private Boolean isAboutMe = false;
 
@@ -110,6 +116,9 @@ public class SharedThought extends BaseModel {
 
     @Column(name = "likelihood_recurrence")
     private Integer likelihoodOfRecurrence;
+
+    @Column(name = "likelihood_recurrence_more")
+    private String likelihoodOfRecurrenceMore;
 
     @Column(name = "how_serious")
     private Integer howSerious;
@@ -483,5 +492,29 @@ public class SharedThought extends BaseModel {
     }
     public void setLoggedInUserViewed(boolean loggedInUserViewed) {
         this.loggedInUserViewed = loggedInUserViewed;
+    }
+
+    public String getLikelihoodOfRecurrenceMore() {
+        return likelihoodOfRecurrenceMore;
+    }
+
+    public void setLikelihoodOfRecurrenceMore(String likelihoodOfRecurrenceMore) {
+        this.likelihoodOfRecurrenceMore = likelihoodOfRecurrenceMore;
+    }
+
+    public Boolean getOther() {
+        return isOther;
+    }
+
+    public void setOther(Boolean isOther) {
+        this.isOther = isOther;
+    }
+
+    public String getOtherMore() {
+        return isOtherMore;
+    }
+
+    public void setOtherMore(String isOtherMore) {
+        this.isOtherMore = isOtherMore;
     }
 }

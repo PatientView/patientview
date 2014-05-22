@@ -58,6 +58,7 @@ public class SharingThoughtsSaveAction extends BaseAction {
         thought.setPrincipalCarer((dynaForm.get(SharingThoughts.IS_PRINCIPAL_CARER) == null) ? false : true);
         thought.setRelative((dynaForm.get(SharingThoughts.IS_RELATIVE) == null) ? false : true);
         thought.setFriend((dynaForm.get(SharingThoughts.IS_FRIEND) == null) ? false : true);
+        thought.setOther((dynaForm.get(SharingThoughts.IS_OTHER) == null) ? false : true);
         thought.setAboutMe((dynaForm.get(SharingThoughts.IS_ABOUT_ME) == null) ? false : true);
         thought.setAboutOther((dynaForm.get(SharingThoughts.IS_ABOUT_OTHER) == null) ? false : true);
 
@@ -83,6 +84,11 @@ public class SharingThoughtsSaveAction extends BaseAction {
                 : (String) dynaForm.get(SharingThoughts.SUGGESTED_ACTION));
         thought.setConcernReason((dynaForm.get(SharingThoughts.CONCERN_REASON) == null) ? null
                 : (String) dynaForm.get(SharingThoughts.CONCERN_REASON));
+        thought.setOtherMore((dynaForm.get(SharingThoughts.IS_OTHER_MORE) == null) ? null
+                : (String) dynaForm.get(SharingThoughts.IS_OTHER_MORE));
+        thought.setLikelihoodOfRecurrenceMore(
+                (dynaForm.get(SharingThoughts.LIKELIHOOD_0F_RECURRENCE_MORE) == null) ? null
+                : (String) dynaForm.get(SharingThoughts.LIKELIHOOD_0F_RECURRENCE_MORE));
 
         // dropdown for unit
         Unit unit = null;

@@ -101,7 +101,7 @@
                 </logic:present>
 
             </logic:present>
-            <div class="hidden">
+            <div>
             <logic:present specialty="renal">
                 <li class="divider"></li>
                 <li>

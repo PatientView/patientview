@@ -103,7 +103,7 @@
     <tr>
         <td width="300">If no, which of these are you?<br />(You may tick more than one)</td><td>
         <logic:equal value="true" property="<%=SharingThoughts.IS_PRINCIPAL_CARER%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" >
-            Principal carer
+            Carer
         </logic:equal>
         <logic:equal value="true" property="<%=SharingThoughts.IS_RELATIVE%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" >
             <br />Relative
@@ -111,6 +111,13 @@
         <logic:equal value="true" property="<%=SharingThoughts.IS_FRIEND%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" >
             <br />Friend
         </logic:equal>
+        <logic:equal value="true" property="<%=SharingThoughts.IS_OTHER%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" >
+            <br />Other
+            <logic:notEmpty property="<%=SharingThoughts.IS_OTHER_MORE%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" >
+                <br/>(<bean:write property="<%=SharingThoughts.IS_OTHER_MORE%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" />)
+            </logic:notEmpty>
+        </logic:equal>
+
     </td>
     </tr>
 
@@ -199,6 +206,11 @@
                 <logic:equal value="5" property="<%=SharingThoughts.LIKELIHOOD_0F_RECURRENCE%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" >
                     Don't know
                 </logic:equal>
+
+                <logic:notEmpty property="<%=SharingThoughts.LIKELIHOOD_0F_RECURRENCE_MORE%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" >
+                    <br/>Comment: '<bean:write property="<%=SharingThoughts.LIKELIHOOD_0F_RECURRENCE_MORE%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" />'
+                </logic:notEmpty>
+
             </td>
         </tr>
     </logic:notEqual>
