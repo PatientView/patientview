@@ -425,6 +425,7 @@ public class SharedThoughtDaoImpl extends AbstractHibernateDAO<SharedThought> im
             Message message = new Message();
             message.setConversation(conversation);
             message.setSender(sender);
+            message.setRecipient(sharedThought.getUser());
             message.setContent(messageBody);
             message.setType(ConversationType.SHARED_THOUGHT_MESSAGE_TO_PATIENT);
             message.setDate(new Date());
