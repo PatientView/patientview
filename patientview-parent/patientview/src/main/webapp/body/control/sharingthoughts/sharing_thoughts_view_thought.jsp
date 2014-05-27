@@ -227,7 +227,7 @@
             <td width="300">What can be done to make sure that patients always receive this quality of care?</td>
         </logic:equal>
         <logic:notEqual value="1" property="<%=SharingThoughts.POSITIVE_NEGATIVE%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" >
-            <td width="300">What do you think could be done to stop this from happening again to you or other patients?</td>
+            <td width="300">What could be done to stop this from happening again to you or other patients?</td>
         </logic:notEqual>
         <td><bean:write property="<%=SharingThoughts.SUGGESTED_ACTION%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" /></td>
     </tr>
