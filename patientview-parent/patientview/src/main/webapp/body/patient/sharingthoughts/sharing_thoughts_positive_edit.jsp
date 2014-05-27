@@ -7,7 +7,6 @@
 
 <div class="page-header">
     <h1>Edit Positive comment</h1>
-    <p class="pull-right largeTick">&#10004;</p>
     <p align="left">Please complete the questions and statements below by either clicking the appropriate box or adding your comments in the space provided</p>
 </div>
 
