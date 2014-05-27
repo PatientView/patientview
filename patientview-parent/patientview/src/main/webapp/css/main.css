@@ -704,11 +704,19 @@ form {
 div.divPositive{
     border: 1px solid #008000;
     margin-bottom: 10px
+
+    -webkit-box-shadow: 0px 0px 28px 0px rgba(0, 128, 0, 0.2);
+    -moz-box-shadow:    0px 0px 28px 0px rgba(0, 128, 0, 0.2);
+    box-shadow:         0px 0px 28px 0px rgba(0, 128, 0, 0.2);
 }
 
 div.divNegative{
     border: 1px solid #ae0000;
     margin-bottom: 10px
+
+    -webkit-box-shadow: 0px 0px 28px 0px rgba(174, 0, 0, 0.2);
+    -moz-box-shadow:    0px 0px 28px 0px rgba(174, 0, 0, 0.2);
+    box-shadow:         0px 0px 28px 0px rgba(174, 0, 0, 0.2);
 }
 
 .pError{
