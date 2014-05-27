@@ -10,7 +10,7 @@
 
 </script>
 
-<div class="page-header">
+<div class="page-header-noline">
     <h1>Share Positive Comment</h1>
     <p align="left">Please complete the questions and statements below by either clicking the appropriate box or adding your comments in the space provided</p>
 </div>
@@ -103,6 +103,7 @@
 
     </table>
     </div>
+    <br/>
     <p>You can save your comments to complete later, or if you are happy that you have said all that you want, you can submit your comments now.</p>
     <html:link action="/patient/sharingThoughts" styleClass="btn">Home</html:link> &nbsp;&nbsp;
     <input type="submit" value="Save Draft" label="Save Draft" name="Save Draft" class="btn"/> &nbsp;&nbsp;

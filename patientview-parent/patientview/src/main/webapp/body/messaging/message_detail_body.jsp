@@ -114,11 +114,9 @@
                                         User participant1 = message.getConversation().getParticipant1();
                                         User participant2 = message.getConversation().getParticipant2();
 
-                                        if ((user.equals(participant1)
-                                                && message.getConversation().isParticipant2Anonymous()
+                                        if ((message.getConversation().isParticipant2Anonymous()
                                                 && message.getSender().equals(participant2))
-                                         || (user.equals(participant2)
-                                                && message.getConversation().isParticipant1Anonymous()
+                                         || (message.getConversation().isParticipant1Anonymous()
                                                 && message.getSender().equals(participant1))) {
                                     %>
                                         Anonymous User
