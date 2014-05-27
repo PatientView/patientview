@@ -321,9 +321,12 @@
             <form-property name="principalCarer"          type="java.lang.Boolean"/>
             <form-property name="relative"                type="java.lang.Boolean"/>
             <form-property name="friend"                  type="java.lang.Boolean"/>
+            <form-property name="other"                   type="java.lang.Boolean"/>
+            <form-property name="otherMore"               type="java.lang.String"/>
             <form-property name="aboutMe"                 type="java.lang.Boolean"/>
             <form-property name="aboutOther"              type="java.lang.Boolean"/>
             <form-property name="anonymous"               type="java.lang.Boolean"/>
+            <form-property name="whenOccurred"            type="java.lang.String"/>
             <form-property name="startDate"               type="java.lang.String"/>
             <form-property name="endDate"                 type="java.lang.String"/>
             <form-property name="ongoing"                 type="java.lang.Boolean"/>
@@ -332,6 +335,7 @@
             <form-property name="suggestedAction"         type="java.lang.String"/>
             <form-property name="concernReason"           type="java.lang.String"/>
             <form-property name="likelihoodOfRecurrence"  type="java.lang.Integer"/>
+            <form-property name="likelihoodOfRecurrenceMore"  type="java.lang.String"/>
             <form-property name="howSerious"              type="java.lang.Integer"/>
             <form-property name="isSubmitted"             type="java.lang.Boolean"/>
         </form-bean>

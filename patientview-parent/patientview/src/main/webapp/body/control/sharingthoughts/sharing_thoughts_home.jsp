@@ -17,8 +17,6 @@
         <thead>
         <tr>
             <th style="padding-right: 80px;">Type</th>
-            <th>Start Date</th>
-            <th>End Date</th>
             <th>Location</th>
             <th>Description</th>
             <th>Messages</th>
@@ -38,8 +36,6 @@
                     <span class="noCross">&#10008; Negative</span>
                 </logic:notEqual>
             </td>
-            <td class="tablecell"><bean:write name="thought" property="startDateFormattedDate"/></td>
-            <td class="tablecell"><bean:write name="thought" property="endDateFormattedDate"/></td>
             <td class="tablecell"><bean:write name="thought" property="location"/></td>
             <td class="tablecell"><bean:write name="thought" property="descriptionBeginning"/></td>
             <logic:present name="thought" property="conversation">

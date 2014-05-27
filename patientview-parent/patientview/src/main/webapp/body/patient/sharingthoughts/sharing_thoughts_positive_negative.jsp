@@ -14,4 +14,6 @@
     <html:link action="/patient/sharingThoughtsPositive"><html:submit value="Positive Comment" styleClass="btn btn-success btn-success-sharingthoughts formbutton" /></html:link>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <html:link action="/patient/sharingThoughtsNegative"><html:submit value="Quality or Safety Concern" styleClass="btn btn-danger btn-danger-sharingthoughts formbutton" /></html:link>
+    <br/><br/><br/>
+    <html:link action="/patient/sharingThoughts"><html:submit value="Home" styleClass="btn formbutton" /></html:link>
 </p>

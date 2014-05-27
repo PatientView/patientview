@@ -686,8 +686,37 @@ td.tdUserSharedThought {
     color: #ae0000;
 }
 
+.largeTick, .largeCross {
+    font-size:150px;
+}
+.largeTick {
+    color: #008000;
+}
+
+.largeCross {
+    color: #ae0000;
+}
+
 form {
     margin: 0;
+}
+
+div.divPositive{
+    border: 1px solid #008000;
+    margin-bottom: 10px
+}
+
+div.divNegative{
+    border: 1px solid #ae0000;
+    margin-bottom: 10px
+}
+
+.pError{
+    padding-left: 10px;
+}
+
+table.tablePositive, table.tableNegative{
+    margin:0;
 }
 
 div.previousNext {
@@ -814,4 +843,13 @@ div#tablePartialThoughts_filter {
 
 td.sharedThoughtClosed {
     text-align: center;
+}
+
+td.td-buttons {
+    width: 130px;
+}
+
+td.td-buttons form{
+    float:right;
+    margin-left: 10px;
 }
