@@ -99,6 +99,9 @@ public class SharedThought extends BaseModel {
     @Column(name = "end_date")
     private Date endDate;
 
+    @Column(name = "whenOccurred")
+    private String whenOccurred;
+
     @Column(name = "is_ongoing")
     private Boolean isOngoing = false;
 
@@ -516,5 +519,13 @@ public class SharedThought extends BaseModel {
 
     public void setOtherMore(String isOtherMore) {
         this.isOtherMore = isOtherMore;
+    }
+
+    public String getWhenOccurred() {
+        return whenOccurred;
+    }
+
+    public void setWhenOccurred(String whenOccurred) {
+        this.whenOccurred = whenOccurred;
     }
 }

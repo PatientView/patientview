@@ -26,7 +26,7 @@
         </logic:present>
 
         <tr >
-            <td width="300">Are you the patient on this Renal PatientView login?</td><td>
+            <td width="300">Are you the patient on this PatientView login? <span class="required">*</span></td><td>
             <bean:write name="sharingThoughtsForm" property="<%=SharingThoughts.IS_RELATIVE%>"/>
             Yes: <html:radio property="<%=SharingThoughts.IS_PATIENT%>" name="sharingThoughtsForm" value="true" />&nbsp;&nbsp;&nbsp;&nbsp;
             No: <html:radio property="<%=SharingThoughts.IS_PATIENT%>" name="sharingThoughtsForm" value="false" />&nbsp;&nbsp;&nbsp;&nbsp;
@@ -44,45 +44,32 @@
         </tr>
 
         <tr >
-            <td width="300">Who is this feedback form about?<br />(You may tick more than one)</td><td>
+            <td width="300">Who is this feedback form about? <span class="required">*</span><br />(You may tick more than one)</td><td>
             Me: <html:checkbox property="<%=SharingThoughts.IS_ABOUT_ME%>" name="sharingThoughtsForm"/>&nbsp;&nbsp;&nbsp;&nbsp;
             Another patient: <html:checkbox property="<%=SharingThoughts.IS_ABOUT_OTHER%>" name="sharingThoughtsForm"/>&nbsp;&nbsp;&nbsp;&nbsp;
         </td>
         </tr>
 
         <tr >
-            <td width="300">Would you prefer to remain anonymous?</td><td>
+            <td width="300">Would you prefer to remain anonymous? <span class="required">*</span></td><td>
             Yes: <html:radio property="<%=SharingThoughts.IS_ANONYMOUS%>" value="true" name="sharingThoughtsForm"/>&nbsp;&nbsp;&nbsp;&nbsp;
             No: <html:radio property="<%=SharingThoughts.IS_ANONYMOUS%>" value="false" name="sharingThoughtsForm"/>&nbsp;&nbsp;&nbsp;&nbsp;
         </td>
         </tr>
 
         <tr >
-            <td>Start date (dd-mm-yyyy)</td>
-            <td><div class="date datePicker controls">
-                <html:text name="sharingThoughtsForm" property="<%=SharingThoughts.START_DATE%>" styleClass="datepicker"/>
-                <span class="add-on"><i class="icon-th"></i></span>
-                <span class="help-inline">(click on date at top to change month & year)</span>
-            </div></td>
-        </tr>
-        <tr >
-            <td>End date (dd-mm-yyyy)</td>
-            <td><div class="date datePicker controls">
-                <html:text name="sharingThoughtsForm" property="<%=SharingThoughts.END_DATE%>" styleClass="datepicker"/>
-                <span class="add-on"><i class="icon-th"></i></span>
-                <span class="help-inline">(click on date at top to change month & year)</span>
-            </div></td>
+            <td>When did this quality or safety concern happen?</td><td><html:text name="sharingThoughtsForm" property="<%=SharingThoughts.WHEN%>"/></td>
         </tr>
 
         <tr >
-            <td width="300">Is this still going on?</td><td>
+            <td width="300">Is this quality or safety concern a regular part of your care? <span class="required">*</span></td><td>
             Yes: <html:radio property="<%=SharingThoughts.IS_ONGOING%>" value="true" name="sharingThoughtsForm"/>&nbsp;&nbsp;&nbsp;&nbsp;
             No: <html:radio property="<%=SharingThoughts.IS_ONGOING%>" value="false" name="sharingThoughtsForm"/>&nbsp;&nbsp;&nbsp;&nbsp;
         </td>
         </tr>
 
         <tr >
-            <td>Where did this happen?</td><td><html:text name="sharingThoughtsForm" property="<%=SharingThoughts.LOCATION%>"/></td>
+            <td>Where did this happen? <span class="required">*</span></td><td><html:text name="sharingThoughtsForm" property="<%=SharingThoughts.LOCATION%>"/></td>
         </tr>
 
         <tr >
@@ -90,17 +77,17 @@
         </tr>
 
         <tr >
-            <td width="300">Please tell us what happened</td>
+            <td width="300">Please tell us what happened <span class="required">*</span></td>
             <td><html:textarea property="<%=SharingThoughts.DESCRIPTION%>" name="sharingThoughtsForm" rows="10" styleClass="textareaSharingThoughts"/></td>
         </tr>
 
         <tr >
-            <td width="300">Why do you feel this was a concern for you?</td>
+            <td width="300">Why do you feel this was a concern for you? <span class="required">*</span></td>
             <td><html:textarea property="<%=SharingThoughts.CONCERN_REASON%>" name="sharingThoughtsForm" rows="10" styleClass="textareaSharingThoughts"/></td>
         </tr>
 
         <tr>
-          <td width="300">Do you think that this quality or safety concern has happened to you or other patients before?</td><td>
+          <td width="300">Do you think that this quality or safety concern has happened to you or other patients before? <span class="required">*</span></td><td>
             Definitely yes: <html:radio property="<%=SharingThoughts.LIKELIHOOD_0F_RECURRENCE%>" name="sharingThoughtsForm" value="1" />&nbsp;&nbsp;&nbsp;&nbsp;
             Probably yes: <html:radio property="<%=SharingThoughts.LIKELIHOOD_0F_RECURRENCE%>" name="sharingThoughtsForm" value="2" />&nbsp;&nbsp;&nbsp;&nbsp;
             Probably not:  <html:radio property="<%=SharingThoughts.LIKELIHOOD_0F_RECURRENCE%>" name="sharingThoughtsForm" value="3" />&nbsp;&nbsp;&nbsp;&nbsp;
@@ -112,12 +99,12 @@
         </tr>
 
         <tr >
-            <td width="300">What do you think could be done to stop this from happening again to you or other patients?</td>
+            <td width="300">What could be done to stop this from happening again to you or other patients? <span class="required">*</span></td>
             <td><html:textarea property="<%=SharingThoughts.SUGGESTED_ACTION%>" name="sharingThoughtsForm" rows="10" styleClass="textareaSharingThoughts"/></td>
         </tr>
 
         <tr>
-            <td width="300">On a scale of 1-5, how serious do you think your concern was?</td><td>
+            <td width="300">On a scale of 1-5, how serious do you think your concern was? <span class="required">*</span></td><td>
             Not Serious&nbsp;&nbsp;1:<html:radio property="<%=SharingThoughts.HOW_SERIOUS%>" name="sharingThoughtsForm" value="1" />&nbsp;&nbsp;
             2: <html:radio property="<%=SharingThoughts.HOW_SERIOUS%>" name="sharingThoughtsForm" value="2" />&nbsp;&nbsp;
             3:  <html:radio property="<%=SharingThoughts.HOW_SERIOUS%>" name="sharingThoughtsForm" value="3" />&nbsp;&nbsp;

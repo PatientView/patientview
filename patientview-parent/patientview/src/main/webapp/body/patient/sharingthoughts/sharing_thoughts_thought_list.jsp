@@ -16,11 +16,8 @@
             <tr>
                 <th>Last Updated</th>
                 <th>Positive/Negative</th>
-                <th>Start Date</th>
-                <th>End Date</th>
                 <th>Location</th>
                 <th>Description</th>
-                <th></th>
                 <th></th>
             </tr>
             </thead><tbody>
@@ -29,18 +26,16 @@
                     <td><bean:write name="thought" property="<%=SharingThoughts.DATE_LAST_SAVED_FORMATTED_DATE_TIME%>" /></td>
                     <td>
                         <logic:equal value="1" name="thought" property="<%=SharingThoughts.POSITIVE_NEGATIVE%>">
-                            Positive
+                            <span class="yesTick">&#10004; Positive</span>
                         </logic:equal>
                         <logic:notEqual value="1" name="thought" property="<%=SharingThoughts.POSITIVE_NEGATIVE%>">
-                            Negative
+                            <span class="noCross">&#10008; Negative</span>
                         </logic:notEqual>
                     </td>
-                    <td><bean:write name="thought" property="<%=SharingThoughts.START_DATE_FORMATTED_DATE%>" /></td>
-                    <td><bean:write name="thought" property="<%=SharingThoughts.END_DATE_FORMATTED_DATE%>" /></td>
                     <td><bean:write name="thought" property="<%=SharingThoughts.LOCATION%>" /></td>
                     <td><bean:write name="thought" property="<%=SharingThoughts.DESCRIPTION_BEGINNING%>" /></td>
-                    <td><html:form action="/patient/sharingThoughtsEditThought"><html:hidden name="thought" property="id" /><html:submit value="Edit" styleClass="btn"/></html:form></td>
-                    <td><html:form action="/patient/sharingThoughtsDeleteThought"><html:hidden name="thought" property="id" /><html:submit value="Delete" styleClass="btn"/></html:form></td>
+                    <td class="td-buttons"><html:form action="/patient/sharingThoughtsDeleteThought"><html:hidden name="thought" property="id" /><html:submit value="Delete" styleClass="btn"/></html:form>
+                        <html:form action="/patient/sharingThoughtsEditThought"><html:hidden name="thought" property="id" /><html:submit value="Edit" styleClass="btn"/></html:form></td>
                 </tr>
             </logic:iterate></tbody>
         </table>
@@ -64,8 +59,6 @@
             <th class="hidden">Id</th>
             <th>Submitted</th>
             <th>Positive/Negative</th>
-            <th>Start Date</th>
-            <th>End Date</th>
             <th>Location</th>
             <th>Description</th>
             <th></th>
@@ -78,17 +71,15 @@
                 <td><bean:write name="thought" property="<%=SharingThoughts.SUBMIT_DATE%>" /></td>
                 <td>
                     <logic:equal value="1" name="thought" property="<%=SharingThoughts.POSITIVE_NEGATIVE%>">
-                        Positive
+                        <span class="yesTick">&#10004; Positive</span>
                     </logic:equal>
                     <logic:notEqual value="1" name="thought" property="<%=SharingThoughts.POSITIVE_NEGATIVE%>">
-                        Negative
+                        <span class="noCross">&#10008; Negative</span>
                     </logic:notEqual>
                 </td>
-                <td><bean:write name="thought" property="<%=SharingThoughts.START_DATE_FORMATTED_DATE%>" /></td>
-                <td><bean:write name="thought" property="<%=SharingThoughts.END_DATE_FORMATTED_DATE%>" /></td>
                 <td><bean:write name="thought" property="<%=SharingThoughts.LOCATION%>" /></td>
                 <td><bean:write name="thought" property="<%=SharingThoughts.DESCRIPTION_BEGINNING%>" /></td>
-                <td><html:form action="/patient/sharingThoughtsViewThought"><html:hidden name="thought" property="id" /><html:submit value="View" styleClass="btn"/></html:form></td>
+                <td class="td-buttons"><html:form action="/patient/sharingThoughtsViewThought"><html:hidden name="thought" property="id" /><html:submit value="View" styleClass="btn"/></html:form></td>
             </tr>
         </logic:iterate>
         </tbody>

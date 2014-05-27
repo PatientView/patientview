@@ -844,3 +844,12 @@ div#tablePartialThoughts_filter {
 td.sharedThoughtClosed {
     text-align: center;
 }
+
+td.td-buttons {
+    width: 130px;
+}
+
+td.td-buttons form{
+    float:right;
+    margin-left: 10px;
+}

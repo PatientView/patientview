@@ -326,6 +326,7 @@
             <form-property name="aboutMe"                 type="java.lang.Boolean"/>
             <form-property name="aboutOther"              type="java.lang.Boolean"/>
             <form-property name="anonymous"               type="java.lang.Boolean"/>
+            <form-property name="whenOccurred"            type="java.lang.String"/>
             <form-property name="startDate"               type="java.lang.String"/>
             <form-property name="endDate"                 type="java.lang.String"/>
             <form-property name="ongoing"                 type="java.lang.Boolean"/>

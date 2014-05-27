@@ -27,7 +27,7 @@
     </logic:present>
 
     <tr >
-      <td width="300">Are you the patient on this Renal PatientView login?</td><td>
+      <td width="300">Are you the patient on this PatientView login? <span class="required">*</span></td><td>
         Yes: <html:radio property="patient" name="<%=SharingThoughts.THOUGHT_PARAM%>" value="true" />&nbsp;&nbsp;&nbsp;&nbsp;
         No: <html:radio property="patient" name="<%=SharingThoughts.THOUGHT_PARAM%>" value="false" />&nbsp;&nbsp;&nbsp;&nbsp;
       </td>
@@ -44,50 +44,32 @@
     </tr>
 
     <tr >
-      <td width="300">Who is this feedback form about?<br />(You may tick more than one)</td><td>
+      <td width="300">Who is this feedback form about? <span class="required">*</span><br />(You may tick more than one)</td><td>
         Me: <html:checkbox property="<%=SharingThoughts.IS_ABOUT_ME%>" name="<%=SharingThoughts.THOUGHT_PARAM%>"/>&nbsp;&nbsp;&nbsp;&nbsp;
         Another patient: <html:checkbox property="<%=SharingThoughts.IS_ABOUT_OTHER%>" name="<%=SharingThoughts.THOUGHT_PARAM%>"/>&nbsp;&nbsp;&nbsp;&nbsp;
       </td>
     </tr>
 
     <tr >
-      <td width="300">Would you prefer to remain anonymous?</td><td>
+      <td width="300">Would you prefer to remain anonymous? <span class="required">*</span></td><td>
          Yes: <html:radio property="<%=SharingThoughts.IS_ANONYMOUS%>" value="true" name="<%=SharingThoughts.THOUGHT_PARAM%>"/>&nbsp;&nbsp;&nbsp;&nbsp;
           No: <html:radio property="<%=SharingThoughts.IS_ANONYMOUS%>" value="false" name="<%=SharingThoughts.THOUGHT_PARAM%>"/>&nbsp;&nbsp;&nbsp;&nbsp;
       </td>
     </tr>
 
-    <bean:define id="startDate" name="<%=SharingThoughts.THOUGHT_PARAM%>" property="startDateFormattedDate" />
     <tr >
-        <td>When did this positive experience happen? (dd-mm-yyyy)</td>
-        <td><div class="date datePicker controls" data-date="<bean:write name='<%=SharingThoughts.THOUGHT_PARAM%>' property='<%=SharingThoughts.START_DATE_FORMATTED_DATE%>'/>">
-            <input name="<%=SharingThoughts.START_DATE%>" readonly="readonly" style="background:white;" class="datepicker" size="16" type="text"
-                   value="<bean:write name='<%=SharingThoughts.THOUGHT_PARAM%>' property='<%=SharingThoughts.START_DATE_FORMATTED_DATE%>'/>">
-            <span class="add-on"><i class="icon-th"></i></span>
-            <span class="help-inline">(click on date at top to change month & year)</span>
-        </div></td>
-    </tr>
-
-    <bean:define id="endDate" name="<%=SharingThoughts.THOUGHT_PARAM%>" property="endDateFormattedDate" />
-    <tr >
-        <td>When did this positive experience end? (dd-mm-yyyy)</td>
-        <td><div class="date datePicker controls" data-date="<bean:write name='<%=SharingThoughts.THOUGHT_PARAM%>' property='<%=SharingThoughts.END_DATE_FORMATTED_DATE%>'/>">
-            <input name="<%=SharingThoughts.END_DATE%>" readonly="readonly" style="background:white;" class="datepicker" size="16" type="text"
-                   value="<bean:write name='<%=SharingThoughts.THOUGHT_PARAM%>' property='<%=SharingThoughts.END_DATE_FORMATTED_DATE%>'/>">
-            <span class="add-on"><i class="icon-th"></i></span>
-            <span class="help-inline">(click on date at top to change month & year)</span>
-        </div></td>
+        <td>When did this positive experience happen?</td><td><html:text name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.WHEN%>"/></td>
     </tr>
 
     <tr >
-      <td width="300">Is this still going on?</td><td>
+      <td width="300">Is this positive experience a regular part of your care? <span class="required">*</span></td><td>
           Yes: <html:radio property="<%=SharingThoughts.IS_ONGOING%>" value="true" name="<%=SharingThoughts.THOUGHT_PARAM%>"/>&nbsp;&nbsp;&nbsp;&nbsp;
           No: <html:radio property="<%=SharingThoughts.IS_ONGOING%>" value="false" name="<%=SharingThoughts.THOUGHT_PARAM%>"/>&nbsp;&nbsp;&nbsp;&nbsp;
       </td>
     </tr>
 
     <tr >
-      <td>Where did this happen?</td><td><html:text name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.LOCATION%>"/></td>
+      <td>Where did this happen? <span class="required">*</span></td><td><html:text name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.LOCATION%>"/></td>
     </tr>
 
       <tr >
@@ -95,7 +77,7 @@
       </tr>
 
       <tr >
-      <td width="300">Please describe what was good about the care that you or others have received</td>
+      <td width="300">Please describe what was good about the care that you or others have received <span class="required">*</span></td>
       <td><html:textarea property="<%=SharingThoughts.DESCRIPTION%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" rows="10" styleClass="textareaSharingThoughts"/></td>
     </tr>
 
@@ -112,7 +94,7 @@
     </tr>
 
     <tr >
-      <td width="300">What can be done to make sure that patients always receive this quality of care?</td>
+      <td width="300">What can be done to make sure that patients always receive this quality of care? <span class="required">*</span></td>
       <td><html:textarea property="<%=SharingThoughts.SUGGESTED_ACTION%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" rows="10" styleClass="textareaSharingThoughts"/></td>
     </tr>
 

@@ -26,6 +26,7 @@ public final class SharingThoughts {
     public static final String START_DATE_FORMATTED_DATE = "startDateFormattedDate";
     public static final String END_DATE = "endDate";
     public static final String END_DATE_FORMATTED_DATE = "endDateFormattedDate";
+    public static final String WHEN = "whenOccurred";
     public static final String IS_ONGOING = "ongoing";
     public static final String LOCATION = "location";
     public static final String UNIT_NAME = "unit.name";
