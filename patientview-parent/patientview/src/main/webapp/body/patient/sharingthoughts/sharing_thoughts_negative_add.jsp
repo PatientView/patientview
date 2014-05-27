@@ -5,7 +5,7 @@
 
 <html:xhtml/>
 
-<div class="page-header">
+<div class="page-header-noline">
     <h1>Share Quality or Safety Concern</h1>
     <p align="left">Please complete the questions and statements below by either clicking the appropriate box or adding your comments in the space provided</p>
 </div>
