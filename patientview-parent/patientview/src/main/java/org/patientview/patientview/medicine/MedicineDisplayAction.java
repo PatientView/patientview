@@ -39,9 +39,14 @@ import org.patientview.utils.LegacySpringUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MedicineDisplayAction extends Action {
+
+    private static String ecrUnitcode = "ECS";
+    private static String medicationsNonEcr = "nonECR";
+    private static String medicationsEcr = "ECR";
 
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
                                  HttpServletResponse response)
@@ -60,10 +65,11 @@ public class MedicineDisplayAction extends Action {
             user = UserUtils.retrieveUser(request);
         }
 
-        List medicines = getMedicinesForPatient(user, request, isRadarGroup);
-        sortNullDatesOnMedicines(medicines);
+        HashMap medicines = getMedicinesForPatient(user, request, isRadarGroup);
+        //sortNullDatesOnMedicines(medicines);
 
-        request.setAttribute("medicines", medicines);
+        request.setAttribute("medicines", medicines.get(medicationsNonEcr));
+        request.setAttribute("medicinesECR", medicines.get(medicationsEcr));
         request.setAttribute("user", user);
         // ECR enabled for that user's unit?
         request.setAttribute("ecrEnabled", LegacySpringUtils.getUserManager().getEcrEnabled(user));
@@ -72,25 +78,34 @@ public class MedicineDisplayAction extends Action {
         return LogonUtils.logonChecks(mapping, request);
     }
 
-    private List getMedicinesForPatient(User user, HttpServletRequest request, boolean isRadarGroup) throws Exception {
+    private HashMap<String, List<MedicineWithShortName>> getMedicinesForPatient(
+            User user, HttpServletRequest request, boolean isRadarGroup) throws Exception {
         List<MedicineWithShortName> medicinesWithShortName = new ArrayList<MedicineWithShortName>();
+        List<MedicineWithShortName> medicinesWithShortNameECR = new ArrayList<MedicineWithShortName>();
+
+        HashMap<String, List<MedicineWithShortName>> output = new HashMap<String, List<MedicineWithShortName>>();
+
         if (user != null) {
             List<Medicine> medicines = LegacySpringUtils.getMedicineManager().getUserMedicines(user);
 
             for (Medicine med : medicines) {
                 Unit unit = UnitUtils.retrieveUnit(med.getUnitcode());
                 if (unit != null) {
-                    if (!isRadarGroup && "radargroup".equalsIgnoreCase(unit.getSourceType())) {
-                        continue;
+                    if (!isRadarGroup && "radargroup".equalsIgnoreCase(unit.getSourceType())) { continue; }
+                    if (unit.getUnitcode().equals(ecrUnitcode)) {
+                        medicinesWithShortNameECR.add(new MedicineWithShortName(med, unit.getShortname()));
+                    } else {
+                        medicinesWithShortName.add(new MedicineWithShortName(med, unit.getShortname()));
                     }
-                    medicinesWithShortName.add(new MedicineWithShortName(med, unit.getShortname()));
                 } else {
                     medicinesWithShortName.add(new MedicineWithShortName(med, "UNKNOWN UNIT:" + med.getUnitcode()));
                 }
             }
         }
 
-        return medicinesWithShortName;
+        output.put(medicationsNonEcr, medicinesWithShortName);
+        output.put(medicationsEcr, medicinesWithShortNameECR);
+        return output;
     }
 
     private List sortNullDatesOnMedicines(List medicines) {
