@@ -62,6 +62,7 @@ public class LoggedInAction extends ActionSupport {
 
         if (user != null) {
 
+            request.setAttribute("user", user);
             final String role = userManager.getCurrentSpecialtyRole(user);
 
             // Set the specialty is the session. This isn't great but the specialty TLD is worse. A lot worse.

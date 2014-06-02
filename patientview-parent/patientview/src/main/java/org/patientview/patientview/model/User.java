@@ -96,6 +96,12 @@ public class User extends BaseModel {
     @Column(nullable = false)
     private boolean sharedThoughtResponder = false;
 
+    @Column(nullable = false)
+    private boolean ecrOptInStatus = false;
+
+    @Column(nullable = false)
+    private boolean ecrOptOutPermanently = false;
+
     @Column(nullable = true)
     private Date created;
 
@@ -250,6 +256,14 @@ public class User extends BaseModel {
     }
     public void setSharedThoughtResponder(boolean sharedThoughtResponder) {
         this.sharedThoughtResponder = sharedThoughtResponder;
+    }
+
+    public boolean isEcrOptInStatus() { return ecrOptInStatus; }
+    public void setEcrOptInStatus(boolean ecrOptInStatus) { this.ecrOptInStatus = ecrOptInStatus; }
+
+    public boolean isEcrOptOutPermanently() { return ecrOptOutPermanently; }
+    public void setEcrOptOutPermanently(boolean ecrOptOutPermanently) {
+        this.ecrOptOutPermanently = ecrOptOutPermanently;
     }
 
     public Date getCreated() {

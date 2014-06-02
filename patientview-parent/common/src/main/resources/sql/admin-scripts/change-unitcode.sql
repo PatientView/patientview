@@ -1,0 +1,24 @@
+/* example unitcode change script, limit for name is 10, 200, 100, 255 depending on table */
+UPDATE diagnosis SET unitcode='NEWCODE' WHERE unitcode='OLDCODE'; 
+UPDATE diagnostic SET unitcode='NEWCODE' WHERE unitcode='OLDCODE'; 
+UPDATE dia_eyecheckup SET unitcode='NEWCODE' WHERE unitcode='OLDCODE'; 
+UPDATE dia_footcheckup SET unitcode='NEWCODE' WHERE unitcode='OLDCODE'; 
+UPDATE dia_mydiabetes SET unitcode='NEWCODE' WHERE unitcode='OLDCODE'; 
+UPDATE feedback SET unitcode='NEWCODE' WHERE unitcode='OLDCODE'; 
+UPDATE ibd_myibd SET unitcode='NEWCODE' WHERE unitcode='OLDCODE'; 
+UPDATE letter SET unitcode='NEWCODE' WHERE unitcode='OLDCODE'; 
+UPDATE log SET unitcode='NEWCODE' WHERE unitcode='OLDCODE'; 
+UPDATE medicine SET unitcode='NEWCODE' WHERE unitcode='OLDCODE'; 
+UPDATE news SET unitcode='NEWCODE' WHERE unitcode='OLDCODE'; 
+UPDATE patient SET unitcode='NEWCODE' WHERE unitcode='OLDCODE'; 
+UPDATE pv_allergy SET unitcode='NEWCODE' WHERE unitcode='OLDCODE'; 
+UPDATE pv_patientjoin_request SET unitcode='NEWCODE' WHERE unitcode='OLDCODE'; 
+UPDATE pv_procedure SET unitcode='NEWCODE' WHERE unitcode='OLDCODE'; 
+UPDATE pv_user_log SET unitcode='NEWCODE' WHERE unitcode='OLDCODE'; 
+UPDATE splashpage SET unitcode='NEWCODE' WHERE unitcode='OLDCODE'; 
+UPDATE testresult SET unitcode='NEWCODE' WHERE unitcode='OLDCODE'; 
+UPDATE unit SET unitcode='NEWCODE' WHERE unitcode='OLDCODE'; 
+UPDATE unitstat SET unitcode='NEWCODE' WHERE unitcode='OLDCODE'; 
+UPDATE unit_bak SET unitcode='NEWCODE' WHERE unitcode='OLDCODE'; 
+UPDATE userlog SET unitcode='NEWCODE' WHERE unitcode='OLDCODE'; 
+UPDATE usermapping SET unitcode='NEWCODE' WHERE unitcode='OLDCODE'; 

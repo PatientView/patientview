@@ -118,4 +118,11 @@ public interface UserManager {
 
     void saveHashPassword(User user) throws Exception;
 
+    /**
+     * Set the user's ECR opt in status (in, out, permanently out)
+     * @param user user to update
+     * @param optIn if user is opting in or out of ECR
+     * @param permanentlyOptOut if user is permanently opting out of ECR
+     */
+    void setEcrOptInStatus(User user, boolean optIn, boolean permanentlyOptOut);
 }

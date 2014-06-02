@@ -83,6 +83,9 @@ public class PatientDetailsAction extends ActionSupport {
         PatientDetails patientDetail = getRadarPatientDetails(patientDetails);
         request.setAttribute("patientDetails", patientDetails);
 
+        // add user object for ECS/SCS integration
+        request.setAttribute("user", user);
+
         // this form is only used for ibd for now, so just check it exist before trying to use it
         if (form != null && form instanceof DynaActionForm && patientDetail != null) {
             // add the editable ibd only patient details

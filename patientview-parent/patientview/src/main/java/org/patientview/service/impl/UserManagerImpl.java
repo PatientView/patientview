@@ -500,4 +500,12 @@ public class UserManagerImpl implements UserManager {
         save(hashedUser);
     }
 
+    @Override
+    public void setEcrOptInStatus(User user, boolean optIn, boolean permanentlyOptOut) {
+
+        user.setEcrOptInStatus(optIn);
+        user.setEcrOptOutPermanently(permanentlyOptOut);
+        user.setUpdated(new Date());
+        userDao.save(user);
+    }
 }
