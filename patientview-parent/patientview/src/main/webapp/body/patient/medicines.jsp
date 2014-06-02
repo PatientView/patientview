@@ -32,7 +32,6 @@
 </div>
 
 <%-- ECR opt in prompt (only if not opted out permanently)--%>
-
 <logic:equal name="ecrEnabled" value="true">
     <logic:equal name="user" property="ecrOptOutPermanently" value="false">
         <logic:equal name="user" property="ecrOptInStatus" value="true">
@@ -54,46 +53,71 @@
     </logic:equal>
 </logic:equal>
 
-<p>
-    <bean:message key="cautionary.medicines" />
-</p>
-<p>
-<bean:message key="link.medicines" />
-</p>
+<p><bean:message key="cautionary.medicines" /></p>
+<p><bean:message key="link.medicines" /></p>
 
 <logic:empty name="medicines">
       <div class="alert">No medicines uploaded</div>
 </logic:empty>
 
+<%-- Medication (not ECR) --%>
 <logic:notEmpty name="medicines">
 
-<logic:present name="user">
 
-    <bean:define id="previousunit" value=""/>
+    <h2 class="tableheader" colspan="4">Medicines for <bean:write name="user" property="name"/></h2>
 
-      <h2 class="tableheader" colspan="4">Medicines for <bean:write name="user" property="name"/></h2>
-
-<table width="650" border="0" cellspacing="1" cellpadding="3" class="table table-bordered table-striped">
-    <thead>
-      <tr>
-        <th class="tablecellbold" width="75"><b>Start Date</b></th>
-        <th class="tablecellbold">Medicine Name</th>
-        <th class="tablecellbold">Dose</th>
-        <th class="tablecellbold">Source</th>
-      </tr>
-    </thead>
-    <tbody>
-    <logic:iterate name="medicines" id="medicine">
+    <%-- Medication (not ECR) --%>
+    <div id="medications">
+    <table width="650" border="0" cellspacing="1" cellpadding="3" class="table table-bordered table-striped">
+        <thead>
         <tr>
-          <td class="tablecell"><bean:write name="medicine" property="formattedStartDate"/></td>
-          <td class="tablecell"><bean:write name="medicine" property="name"/></td>
-          <td class="tablecell"><bean:write name="medicine" property="dose"/></td>
-          <td class="tablecell"><bean:write name="medicine" property="shortname"/></td>
+            <th class="tablecellbold" width="75"><b>Start Date</b></th>
+            <th class="tablecellbold">Medicine Name</th>
+            <th class="tablecellbold">Dose</th>
+            <th class="tablecellbold">Source</th>
         </tr>
-    </logic:iterate>
-    </tbody>
-    </logic:present>
+        </thead>
+        <tbody>
+        <logic:iterate name="medicines" id="medicine">
+            <logic:notEqual name="medicine" property="unitcode" value="ECS">
+            <tr>
+                <td class="tablecell"><bean:write name="medicine" property="formattedStartDate"/></td>
+                <td class="tablecell"><bean:write name="medicine" property="name"/></td>
+                <td class="tablecell"><bean:write name="medicine" property="dose"/></td>
+                <td class="tablecell"><bean:write name="medicine" property="shortname"/></td>
+                <td class="tablecell hidden"><bean:write name="medicine" property="unitcode"/></td>
+            </tr>
+            </logic:notEqual>
+        </logic:iterate>
+        </tbody>
+    </table>
+    </div>
 
-  </logic:notEmpty>
-
-</table>
+    <%-- Medication (ECR) --%>
+    <div id="medications-ecr">
+        <h3>ECS medications</h3>
+    <table width="650" border="0" cellspacing="1" cellpadding="3" class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th class="tablecellbold" width="75"><b>Start Date</b></th>
+            <th class="tablecellbold">Medicine Name</th>
+            <th class="tablecellbold">Dose</th>
+            <th class="tablecellbold">Source</th>
+        </tr>
+        </thead>
+        <tbody>
+        <logic:iterate name="medicines" id="medicine">
+            <logic:equal name="medicine" property="unitcode" value="ECS">
+                <tr>
+                    <td class="tablecell"><bean:write name="medicine" property="formattedStartDate"/></td>
+                    <td class="tablecell"><bean:write name="medicine" property="name"/></td>
+                    <td class="tablecell"><bean:write name="medicine" property="dose"/></td>
+                    <td class="tablecell"><bean:write name="medicine" property="shortname"/></td>
+                    <td class="tablecell hidden"><bean:write name="medicine" property="unitcode"/></td>
+                </tr>
+            </logic:equal>
+        </logic:iterate>
+        </tbody>
+    </table>
+    </div>
+</logic:notEmpty>
