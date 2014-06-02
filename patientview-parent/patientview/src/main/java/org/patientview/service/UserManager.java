@@ -125,4 +125,10 @@ public interface UserManager {
      * @param permanentlyOptOut if user is permanently opting out of ECR
      */
     void setEcrOptInStatus(User user, boolean optIn, boolean permanentlyOptOut);
+
+    /**
+     * Get list of all available patient identifiers (NHS/CHI) where patients are opted in to ECR
+     * @return list of NHS/CHI identifiers
+     */
+    List<String> getEcrPatientIdentifiers();
 }

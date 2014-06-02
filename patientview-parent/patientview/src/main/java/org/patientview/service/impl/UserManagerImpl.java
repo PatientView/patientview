@@ -508,4 +508,9 @@ public class UserManagerImpl implements UserManager {
         user.setUpdated(new Date());
         userDao.save(user);
     }
+
+    @Override
+    public List<String> getEcrPatientIdentifiers() {
+        return userDao.getEcrPatientIdentifiers();
+    }
 }

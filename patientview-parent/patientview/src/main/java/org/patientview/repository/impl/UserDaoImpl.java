@@ -110,4 +110,23 @@ public class UserDaoImpl extends AbstractHibernateDAO<User> implements UserDao {
             return null;
         }
     }
+
+    @Override
+    public List<String> getEcrPatientIdentifiers() {
+        String sql = "SELECT "
+                + "  ump.nhsno "
+                + "FROM "
+                + "  User usr, "
+                + "  UserMapping ump, "
+                + "  Unit uni "
+                + "WHERE usr.username = ump.username "
+                + "AND ump.unitcode = uni.unitcode "
+                + "AND usr.ecrOptInStatus = true "
+                + "AND uni.ecrEnabled = true "
+                + "AND ump.nhsno IS NOT NULL "
+                + "GROUP BY ump.nhsno ";
+
+        Query query = getEntityManager().createQuery(sql);
+        return query.getResultList();
+    }
 }

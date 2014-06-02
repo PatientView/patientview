@@ -201,6 +201,9 @@ public class Unit extends BaseModel {
     @Column
     private boolean sharedThoughtEnabled = false;
 
+    @Column
+    private boolean ecrEnabled = false;
+
     public Unit() {
     }
 
@@ -819,5 +822,13 @@ public class Unit extends BaseModel {
 
     public void setSharedThoughtEnabled(boolean sharedThoughtEnabled) {
         this.sharedThoughtEnabled = sharedThoughtEnabled;
+    }
+
+    public boolean isEcrEnabled() {
+        return ecrEnabled;
+    }
+
+    public void setEcrEnabled(boolean ecrEnabled) {
+        this.ecrEnabled = ecrEnabled;
     }
 }
