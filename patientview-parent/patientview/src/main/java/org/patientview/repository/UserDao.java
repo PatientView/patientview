@@ -51,4 +51,6 @@ public interface UserDao {
     List<User> getByEmailAddress(String emailAddress);
 
     List<String> getEcrPatientIdentifiers();
+
+    boolean getEcrEnabled(User user);
 }

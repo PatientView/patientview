@@ -65,6 +65,8 @@ public class MedicineDisplayAction extends Action {
 
         request.setAttribute("medicines", medicines);
         request.setAttribute("user", user);
+        // ECR enabled for that user's unit?
+        request.setAttribute("ecrEnabled", LegacySpringUtils.getUserManager().getEcrEnabled(user));
 
         ActionUtils.setUpNavLink(mapping.getParameter(), request);
         return LogonUtils.logonChecks(mapping, request);

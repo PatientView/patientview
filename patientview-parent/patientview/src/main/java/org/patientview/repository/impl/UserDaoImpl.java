@@ -129,4 +129,29 @@ public class UserDaoImpl extends AbstractHibernateDAO<User> implements UserDao {
         Query query = getEntityManager().createQuery(sql);
         return query.getResultList();
     }
+
+    @Override
+    public boolean getEcrEnabled(User user) {
+        String sql = "SELECT "
+                + "  usr.* "
+                + "FROM "
+                + "  User usr, "
+                + "  UserMapping ump, "
+                + "  Unit uni "
+                + "WHERE usr.username = ump.username "
+                + "AND usr.username = :username "
+                + "AND ump.unitcode = uni.unitcode "
+                + "AND uni.ecrEnabled = true ";
+
+        try {
+            Query query = getEntityManager().createNativeQuery(sql, User.class);
+            query.setParameter("username", user.getUsername());
+            User foundUser = (User) query.getSingleResult();
+            return true;
+        } catch (NoResultException e) {
+            return false;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

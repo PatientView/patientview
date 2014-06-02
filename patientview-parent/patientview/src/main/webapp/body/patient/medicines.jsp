@@ -32,23 +32,26 @@
 </div>
 
 <%-- ECR opt in prompt (only if not opted out permanently)--%>
-<logic:equal name="user" property="ecrOptOutPermanently" value="false">
-    <logic:equal name="user" property="ecrOptInStatus" value="true">
-        <div class="alert alert-success">
-            <h2>Emergency Care Record</h2>
-            <p>You are currently opted in to retrieve medication details from your Emergency Care Record.</p>
-            <p><html:link action="/patient/ecrOptInOut" styleClass="btn">Opt Out</html:link></p>
-        </div>
+
+<logic:equal name="ecrEnabled" value="true">
+    <logic:equal name="user" property="ecrOptOutPermanently" value="false">
+        <logic:equal name="user" property="ecrOptInStatus" value="true">
+            <div class="alert alert-success">
+                <h2>Emergency Care Record</h2>
+                <p>You are currently opted in to retrieve medication details from your Emergency Care Record.</p>
+                <p><html:link action="/patient/ecrOptInOut" styleClass="btn">Opt Out</html:link></p>
+            </div>
+        </logic:equal>
+        <logic:notEqual name="user" property="ecrOptInStatus" value="true">
+            <div class="alert alert-warning">
+                <h2>Emergency Care Record</h2>
+                <p>You are currently opted out of retrieving medication details from your Emergency Care Record.</p>
+                <p><html:link action="/patient/ecrOptInOut" styleClass="btn btn-primary">More Information</html:link>&nbsp;&nbsp;
+                    <html:link action="/patient/ecrOptInOut" styleClass="btn">Never Ask Me Again</html:link></p>
+            </div>
+        </logic:notEqual>
+        <hr>
     </logic:equal>
-    <logic:notEqual name="user" property="ecrOptInStatus" value="true">
-        <div class="alert alert-warning">
-            <h2>Emergency Care Record</h2>
-            <p>You are currently opted out of retrieving medication details from your Emergency Care Record.</p>
-            <p><html:link action="/patient/ecrOptInOut" styleClass="btn btn-primary">Opt In</html:link>&nbsp;&nbsp;
-                <html:link action="/patient/ecrOptInOut" styleClass="btn">Never Ask Me Again</html:link></p>
-        </div>
-    </logic:notEqual>
-    <hr>
 </logic:equal>
 
 <p>

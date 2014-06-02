@@ -513,4 +513,9 @@ public class UserManagerImpl implements UserManager {
     public List<String> getEcrPatientIdentifiers() {
         return userDao.getEcrPatientIdentifiers();
     }
+
+    @Override
+    public boolean getEcrEnabled(User user) {
+        return userDao.getEcrEnabled(user);
+    }
 }

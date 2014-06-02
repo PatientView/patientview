@@ -131,4 +131,12 @@ public interface UserManager {
      * @return list of NHS/CHI identifiers
      */
     List<String> getEcrPatientIdentifiers();
+
+    /**
+     * Check if user is member of unit that has unit.ecrEnabled (can opt in/out and see prompt)
+     * @param user user to check against
+     * @return true if user is in unit with unit.ecrEnabled
+     */
+    boolean getEcrEnabled(User user);
+
 }
