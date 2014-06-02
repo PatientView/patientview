@@ -425,7 +425,12 @@
     <tr>
         <td><b>Sharing Thoughts enabled</b></td>
         <td><html:checkbox property="sharedThoughtEnabled" value="true"/></td>
-    </tr>    
+    </tr>
+
+    <tr>
+        <td><b>ECR enabled</b></td>
+        <td><html:checkbox property="ecrEnabled" value="true"/></td>
+    </tr>
     
 
     <tr>

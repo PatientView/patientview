@@ -209,6 +209,7 @@ public final class UnitUtils {
         unit.setVisible(BeanUtils.getProperty(form, "visible") == "true" ? true : false);
         unit.setFeedbackEnabled(BeanUtils.getProperty(form, "feedbackEnabled") == "true" ? true : false);
         unit.setSharedThoughtEnabled(BeanUtils.getProperty(form, "sharedThoughtEnabled") == "true" ? true : false);
+        unit.setEcrEnabled(BeanUtils.getProperty(form, "ecrEnabled") == "true" ? true : false);
     }
 
 
