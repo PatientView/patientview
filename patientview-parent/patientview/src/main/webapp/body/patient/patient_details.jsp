@@ -60,7 +60,7 @@
             <div class="alert alert-warning">
                 <h2>Emergency Care Record</h2>
                 <p>You are currently opted out of retrieving medication details from your Emergency Care Record.</p>
-                <p><html:link action="/patient/ecrOptInOut" styleClass="btn btn-primary">More Information</html:link>&nbsp;&nbsp;
+                <p><html:link action="/patient/ecrOptInOut" styleClass="btn btn-primary">Opt In</html:link>&nbsp;&nbsp;
                    <html:link action="/patient/ecrOptInOut" styleClass="btn">Never Ask Me Again</html:link></p>
             </div>
             <hr>
