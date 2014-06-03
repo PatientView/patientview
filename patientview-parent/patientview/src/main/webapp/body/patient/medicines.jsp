@@ -45,7 +45,9 @@
             <logic:notEqual name="user" property="ecrOptInStatus" value="true">
                 <div class="alert alert-warning" id="ecrOptedOut">
                     <h2>Emergency Care Record</h2>
-                    <p>You are currently opted out of retrieving medication details from your Emergency Care Record.</p>
+                    <p>Please click the Opt In button if you would like PatientView to display the prescription from your GP.
+                        This is useful as its usually the most up to date prescription. PatientView can now obtain it for you,
+                        with your permission, from the Scottish Emergency Care Summary.</p>
                     <p><input type="submit" value="Opt In" id="ecrOptInButton" class="btn btn-primary"/>&nbsp;&nbsp;
                        <input type="submit" value="Never Ask Me Again" id="ecrOptOutPermanentlyButton" class="btn"/></p>
                 </div>
