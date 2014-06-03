@@ -37,6 +37,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -89,7 +90,7 @@ public class EcrController extends BaseController {
      */
     @RequestMapping(value = Routes.ECR_CHANGE_OPT_IN_OUT, method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<String> changeOptInOut(
+    public ResponseEntity<String> changeOptInOut(HttpServletRequest request,
             @RequestParam(value = "optIn", required = false) String optIn,
             @RequestParam(value = "optOutPermanently", required = false) String optOutPermanently) {
 
@@ -98,7 +99,13 @@ public class EcrController extends BaseController {
         }
 
         try {
-            User user = userManager.getLoggedInUser();
+            String username = (String) request.getSession().getAttribute("userBeingViewedUsername");
+            User user;
+            if (StringUtils.isNotEmpty(username)) {
+                user = userManager.get(username);
+            } else {
+                user = userManager.getLoggedInUser();
+            }
             userManager.setEcrOptInStatus(user, Boolean.parseBoolean(optIn), Boolean.parseBoolean(optOutPermanently));
             return new ResponseEntity<String>(HttpStatus.OK);
         } catch (Exception ex) {
