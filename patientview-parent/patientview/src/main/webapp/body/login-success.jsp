@@ -97,14 +97,16 @@
     <%-- ECR opt in prompt (only if not opted out permanently)--%>
     <logic:equal name="ecrEnabled" value="true">
         <logic:equal name="user" property="ecrOptOutPermanently" value="false">
-            <logic:equal name="user" property="ecrOptInStatus" value="false">
-                <div class="alert alert-warning">
-                    <h2>Emergency Care Record</h2>
-                    <p>You are currently opted out of retrieving medication details from your Emergency Care Record.</p>
-                    <p><html:link action="/patient/ecrOptInOut" styleClass="btn btn-primary">Opt In</html:link>&nbsp;&nbsp;
-                        <html:link action="/patient/ecrOptInOut" styleClass="btn">Never Ask Me Again</html:link></p>
-                </div>
-            </logic:equal>
+            <form id="ecrOptedInOptedOut">
+                <logic:notEqual name="user" property="ecrOptInStatus" value="true">
+                    <div class="alert alert-warning" id="ecrOptedOut">
+                        <h2>Emergency Care Record</h2>
+                        <p>You are currently opted out of retrieving medication details from your Emergency Care Record.</p>
+                        <p><input type="submit" value="Opt In" id="ecrOptInButton" class="btn btn-primary"/>&nbsp;&nbsp;
+                            <input type="submit" value="Never Ask Me Again" id="ecrOptOutPermanentlyButton" class="btn"/></p>
+                    </div>
+                </logic:notEqual>
+            </form>
         </logic:equal>
     </logic:equal>
 
@@ -125,3 +127,5 @@
 <a href="/password-advice.jsp">Find out more about secure passwords.</a>
 </div>
 <jsp:include page="../common/include/news_list.jsp"/>
+
+<script type="text/javascript" src="/js/ecr.js"></script>

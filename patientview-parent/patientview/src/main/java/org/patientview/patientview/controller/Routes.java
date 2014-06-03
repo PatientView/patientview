@@ -92,6 +92,7 @@ public final class Routes {
 
     // ECR integration
     public static final String ECR_GET_PATIENT_IDENTIFIERS = "/ecr/getPatientIdentifiers";
+    public static final String ECR_CHANGE_OPT_IN_OUT = "/ecr/changeOptInOut";
 
 
     private Routes() { }

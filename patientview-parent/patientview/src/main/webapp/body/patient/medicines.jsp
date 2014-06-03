@@ -34,29 +34,23 @@
 <%-- ECR opt in prompt (only if not opted out permanently)--%>
 <logic:equal name="ecrEnabled" value="true">
     <logic:equal name="user" property="ecrOptOutPermanently" value="false">
-        <logic:equal name="user" property="ecrOptInStatus" value="true">
-            <div class="alert alert-success">
-                <div class="row">
-                    <div class="span8">
-                        <h2>Emergency Care Record</h2>
-                        <p>You are currently opted in to retrieve medication details from your Emergency Care Record.</p>
-                    </div>
-                    <div class="span3">
-                        <br/>
-                        <p><html:link action="/patient/ecrOptInOut" styleClass="btn">More Information</html:link>&nbsp;&nbsp;
-                            <html:link action="/patient/ecrOptInOut" styleClass="btn">Opt Out</html:link></p>
-                    </div>
+        <form id="ecrOptedInOptedOut">
+            <logic:equal name="user" property="ecrOptInStatus" value="true">
+                <div class="alert alert-success" id="ecrOptedIn">
+                    <h2>Emergency Care Record</h2>
+                    <p>You are currently opted in to retrieve medication details from your Emergency Care Record.</p>
+                    <p><input type="submit" value="Opt Out" id="ecrOptOutButton" class="btn"/></p>
                 </div>
-            </div>
-        </logic:equal>
-        <logic:notEqual name="user" property="ecrOptInStatus" value="true">
-            <div class="alert alert-warning">
-                <h2>Emergency Care Record</h2>
-                <p>You are currently opted out of retrieving medication details from your Emergency Care Record.</p>
-                <p><html:link action="/patient/ecrOptInOut" styleClass="btn btn-primary">Opt In</html:link>&nbsp;&nbsp;
-                    <html:link action="/patient/ecrOptInOut" styleClass="btn">Never Ask Me Again</html:link></p>
-            </div>
-        </logic:notEqual>
+            </logic:equal>
+            <logic:notEqual name="user" property="ecrOptInStatus" value="true">
+                <div class="alert alert-warning" id="ecrOptedOut">
+                    <h2>Emergency Care Record</h2>
+                    <p>You are currently opted out of retrieving medication details from your Emergency Care Record.</p>
+                    <p><input type="submit" value="Opt In" id="ecrOptInButton" class="btn btn-primary"/>&nbsp;&nbsp;
+                       <input type="submit" value="Never Ask Me Again" id="ecrOptOutPermanentlyButton" class="btn"/></p>
+                </div>
+            </logic:notEqual>
+        </form>
     </logic:equal>
 </logic:equal>
 
@@ -127,3 +121,5 @@
         </logic:equal>
     </logic:equal>
 </logic:equal>
+
+<script type="text/javascript" src="/js/ecr.js"></script>
