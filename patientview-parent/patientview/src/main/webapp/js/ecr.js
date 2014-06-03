@@ -33,12 +33,6 @@ ecr.ecrOptedInOptedOut = $('#ecrOptedInOptedOut');
  * Set up buttons
  */
 ecr.init = function() {
-
-    ecr.ecrOptOutButton.click(function(event) {
-        event.preventDefault();
-        feedback.hideDialog();
-    });
-
     ecr.ecrOptInButton.click(function(event) {
         event.preventDefault();
         ecr.optIn();
