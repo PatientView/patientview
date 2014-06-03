@@ -71,6 +71,9 @@ http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
         <!-- sharing thoughts -->
         <intercept-url pattern="/web/sharingThoughts/**" access="ROLE_RENAL_UNITSTAFF"/>
 
+        <!-- ECR integration -->
+        <intercept-url pattern="/web/ecr/getPatientIdentifiers" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+
         <!-- TEMP FOR STORY 32 RPV -->
         <intercept-url pattern="/messages.jsp" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/message.jsp" access="IS_AUTHENTICATED_ANONYMOUSLY"/>

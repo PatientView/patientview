@@ -179,6 +179,7 @@
             <form-property name="visible" type="java.lang.Boolean"/>
             <form-property name="feedbackEnabled" type="java.lang.Boolean"/>
             <form-property name="sharedThoughtEnabled" type="java.lang.Boolean"/>
+            <form-property name="ecrEnabled" type="java.lang.Boolean"/>
 
             <!-- used by radar add form -->
             <form-property name="medicalLink01" type="java.lang.String"/>
@@ -427,6 +428,11 @@
                 scope="request"
                 parameter="patient_details">
             <forward name="success" path="/patient/patient_details.jsp"/>
+        </action>
+
+        <action path="/patient/ecrOptInOut"
+                type="org.patientview.patientview.EcrOptInOutAction">
+            <forward name="success" path="/patient/ecr_opt_in_out.jsp"/>
         </action>
 
         <action path="/patient/patient_details_update"

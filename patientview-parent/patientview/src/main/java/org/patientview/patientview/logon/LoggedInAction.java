@@ -62,6 +62,10 @@ public class LoggedInAction extends ActionSupport {
 
         if (user != null) {
 
+            // ECR enabled for that user's unit?
+            request.setAttribute("ecrEnabled", userManager.getEcrEnabled(user));
+
+            request.setAttribute("user", user);
             final String role = userManager.getCurrentSpecialtyRole(user);
 
             // Set the specialty is the session. This isn't great but the specialty TLD is worse. A lot worse.
@@ -103,8 +107,4 @@ public class LoggedInAction extends ActionSupport {
         }
         return LogonUtils.logonChecks(mapping, request, forward);
     }
-
-
-
-
 }

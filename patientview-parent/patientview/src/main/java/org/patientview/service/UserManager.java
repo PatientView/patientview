@@ -118,4 +118,25 @@ public interface UserManager {
 
     void saveHashPassword(User user) throws Exception;
 
+    /**
+     * Set the user's ECR opt in status (in, out, permanently out)
+     * @param user user to update
+     * @param optIn if user is opting in or out of ECR
+     * @param permanentlyOptOut if user is permanently opting out of ECR
+     */
+    void setEcrOptInStatus(User user, boolean optIn, boolean permanentlyOptOut);
+
+    /**
+     * Get list of all available patient identifiers (NHS/CHI) where patients are opted in to ECR
+     * @return list of NHS/CHI identifiers
+     */
+    List<String> getEcrPatientIdentifiers();
+
+    /**
+     * Check if user is member of unit that has unit.ecrEnabled (can opt in/out and see prompt)
+     * @param user user to check against
+     * @return true if user is in unit with unit.ecrEnabled
+     */
+    boolean getEcrEnabled(User user);
+
 }

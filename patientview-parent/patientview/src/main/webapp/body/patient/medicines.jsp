@@ -31,46 +31,99 @@
     <h1>Medicines</h1>
 </div>
 
-<p>
-    <bean:message key="cautionary.medicines" />
-</p>
-<p>
-<bean:message key="link.medicines" />
-</p>
+<%-- ECR opt in prompt (only if not opted out permanently)--%>
+<logic:equal name="ecrEnabled" value="true">
+    <logic:equal name="user" property="ecrOptOutPermanently" value="false">
+        <logic:equal name="user" property="ecrOptInStatus" value="true">
+            <div class="alert alert-success">
+                <div class="row">
+                    <div class="span8">
+                        <h2>Emergency Care Record</h2>
+                        <p>You are currently opted in to retrieve medication details from your Emergency Care Record.</p>
+                    </div>
+                    <div class="span3">
+                        <br/>
+                        <p><html:link action="/patient/ecrOptInOut" styleClass="btn">More Information</html:link>&nbsp;&nbsp;
+                            <html:link action="/patient/ecrOptInOut" styleClass="btn">Opt Out</html:link></p>
+                    </div>
+                </div>
+            </div>
+        </logic:equal>
+        <logic:notEqual name="user" property="ecrOptInStatus" value="true">
+            <div class="alert alert-warning">
+                <h2>Emergency Care Record</h2>
+                <p>You are currently opted out of retrieving medication details from your Emergency Care Record.</p>
+                <p><html:link action="/patient/ecrOptInOut" styleClass="btn btn-primary">Opt In</html:link>&nbsp;&nbsp;
+                    <html:link action="/patient/ecrOptInOut" styleClass="btn">Never Ask Me Again</html:link></p>
+            </div>
+        </logic:notEqual>
+    </logic:equal>
+</logic:equal>
 
+<p><bean:message key="cautionary.medicines" /></p>
+<p><bean:message key="link.medicines" /></p>
+
+<%-- Medication (not ECR) --%>
+<logic:notEmpty name="medicines">
+    <h2 class="tableheader" colspan="4">Medicines for <bean:write name="user" property="name"/></h2>
+    <div id="medications">
+        <h3>From Your Units</h3>
+        <table width="650" border="0" cellspacing="1" cellpadding="3" class="table table-bordered table-striped">
+            <thead>
+            <tr>
+                <th class="tablecellbold" width="75"><b>Start Date</b></th>
+                <th class="tablecellbold">Medicine Name</th>
+                <th class="tablecellbold">Dose</th>
+                <th class="tablecellbold">Source</th>
+            </tr>
+            </thead>
+            <tbody>
+            <logic:iterate name="medicines" id="medicine">
+                <tr>
+                    <td class="tablecell"><bean:write name="medicine" property="formattedStartDate"/></td>
+                    <td class="tablecell"><bean:write name="medicine" property="name"/></td>
+                    <td class="tablecell"><bean:write name="medicine" property="dose"/></td>
+                    <td class="tablecell"><bean:write name="medicine" property="shortname"/></td>
+                </tr>
+            </logic:iterate>
+            </tbody>
+        </table>
+    </div>
+</logic:notEmpty>
 <logic:empty name="medicines">
-      <div class="alert">No medicines uploaded</div>
+    <div class="alert">No medicines uploaded</div>
 </logic:empty>
 
-<logic:notEmpty name="medicines">
-
-<logic:present name="user">
-
-    <bean:define id="previousunit" value=""/>
-
-      <h2 class="tableheader" colspan="4">Medicines for <bean:write name="user" property="name"/></h2>
-
-<table width="650" border="0" cellspacing="1" cellpadding="3" class="table table-bordered table-striped">
-    <thead>
-      <tr>
-        <th class="tablecellbold" width="75"><b>Start Date</b></th>
-        <th class="tablecellbold">Medicine Name</th>
-        <th class="tablecellbold">Dose</th>
-        <th class="tablecellbold">Source</th>
-      </tr>
-    </thead>
-    <tbody>
-    <logic:iterate name="medicines" id="medicine">
-        <tr>
-          <td class="tablecell"><bean:write name="medicine" property="formattedStartDate"/></td>
-          <td class="tablecell"><bean:write name="medicine" property="name"/></td>
-          <td class="tablecell"><bean:write name="medicine" property="dose"/></td>
-          <td class="tablecell"><bean:write name="medicine" property="shortname"/></td>
-        </tr>
-    </logic:iterate>
-    </tbody>
-    </logic:present>
-
-  </logic:notEmpty>
-
-</table>
+<%-- Medication (ECR) --%>
+<logic:equal name="ecrEnabled" value="true">
+    <logic:equal name="user" property="ecrOptOutPermanently" value="false">
+        <logic:equal name="user" property="ecrOptInStatus" value="true">
+            <logic:notEmpty name="medicinesECR">
+                <div id="medications-ecr">
+                    <h3>From Your Emergency Care Record</h3>
+                    <table width="650" border="0" cellspacing="1" cellpadding="3" class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th class="tablecellbold" width="75"><b>Start Date</b></th>
+                            <th class="tablecellbold">Medicine Name</th>
+                            <th class="tablecellbold">Dose</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <logic:iterate name="medicinesECR" id="medicine">
+                            <tr>
+                                <td class="tablecell"><bean:write name="medicine" property="formattedStartDate"/></td>
+                                <td class="tablecell"><bean:write name="medicine" property="name"/></td>
+                                <td class="tablecell"><bean:write name="medicine" property="dose"/></td>
+                            </tr>
+                        </logic:iterate>
+                        </tbody>
+                    </table>
+                </div>
+            </logic:notEmpty>
+            <logic:empty name="medicinesECR">
+                <div class="alert">No ECS medicines uploaded</div>
+            </logic:empty>
+        </logic:equal>
+    </logic:equal>
+</logic:equal>

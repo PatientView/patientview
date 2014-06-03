@@ -94,6 +94,20 @@
     <p>If you have any urgent health concerns and are unable to contact IBD team you should contact your GP, NHS Direct or GP Out of Hours services.</p>
 </logic:present>
 
+    <%-- ECR opt in prompt (only if not opted out permanently)--%>
+    <logic:equal name="ecrEnabled" value="true">
+        <logic:equal name="user" property="ecrOptOutPermanently" value="false">
+            <logic:equal name="user" property="ecrOptInStatus" value="false">
+                <div class="alert alert-warning">
+                    <h2>Emergency Care Record</h2>
+                    <p>You are currently opted out of retrieving medication details from your Emergency Care Record.</p>
+                    <p><html:link action="/patient/ecrOptInOut" styleClass="btn btn-primary">Opt In</html:link>&nbsp;&nbsp;
+                        <html:link action="/patient/ecrOptInOut" styleClass="btn">Never Ask Me Again</html:link></p>
+                </div>
+            </logic:equal>
+        </logic:equal>
+    </logic:equal>
+
 <form action="/<%=LegacySpringUtils.getSecurityUserManager().getLoggedInSpecialty().getContext()%>/patient/patient_details.do">
     <input type="submit" value="Continue" class="btn" tabindex="3" />
 </form>

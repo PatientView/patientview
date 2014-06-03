@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='ASCII'?>
+<patientview>
+  <sequence>1</sequence>
+  <dateofreport>2014-06-02</dateofreport>
+  <flag></flag>
+  <centredetails>
+    <centrecode>ECS</centrecode>
+    <centrename>Emergency Care Summary, Scotland</centrename>
+  </centredetails>
+  <patient>
+    <personaldetails>
+      <nhsno>2234567890</nhsno>
+    </personaldetails>
+  </patient>
+  <drugdetails>
+    <drug>
+      <drugstartdate>2013-11-26</drugstartdate>
+      <drugname>Alfacalcidol</drugname>
+      <drugdose>1 od one a day</drugdose>
+      <code>
+        <codetype>DM+D 12345678912345678912345678912345</codetype>
+        <codevalue>123d679</codevalue>
+      </code>
+    </drug>
+    <drug>
+      <drugstartdate>2003-11-26</drugstartdate>
+      <drugname>Co-Codamol</drugname>
+      <drugdose>8/500 1-2 Up to 4 daily as required.</drugdose>
+      <code>
+        <codetype>DM+D 12345678912345678912345678912345</codetype>
+        <codevalue>12345678</codevalue>
+      </code>
+    </drug>
+    <drug>
+      <drugstartdate>2003-11-26</drugstartdate>
+      <drugname>Co-Codydramol</drugname>
+      <drugdose>8/500 1-2 Up to 4 daily as required.</drugdose>
+      <code>
+        <codetype>DM+D 12345678912345678912345678912345</codetype>
+        <codevalue>12345679</codevalue>
+      </code>
+    </drug>
+  </drugdetails>
+</patientview>

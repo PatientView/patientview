@@ -429,6 +429,11 @@
             <td><b>Sharing Thoughts enabled</b></td>
             <td><html:checkbox name="unit" property="sharedThoughtEnabled" value="true"/></td>
         </tr>
+
+        <tr>
+            <td><b>ECR enabled</b></td>
+            <td><html:checkbox name="unit" property="ecrEnabled" value="true"/></td>
+        </tr>
     </logic:notEqual>
   </table>
   <br/><br/>

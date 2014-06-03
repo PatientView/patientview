@@ -90,5 +90,9 @@ public final class Routes {
     public static final String SHARING_THOUGHTS_OPEN_CLOSE = "/sharingThoughts/openCloseSharedThought";
     public static final String SHARING_THOUGHTS_SEND_MESSAGE_TO_PATIENT = "/sharingThoughts/sendMessageToPatient";
 
+    // ECR integration
+    public static final String ECR_GET_PATIENT_IDENTIFIERS = "/ecr/getPatientIdentifiers";
+
+
     private Routes() { }
 }
