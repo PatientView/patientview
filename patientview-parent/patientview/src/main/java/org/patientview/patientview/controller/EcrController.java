@@ -82,4 +82,27 @@ public class EcrController extends BaseController {
             }
         } catch (Exception ex) { return new ResponseEntity<String>(HttpStatus.BAD_REQUEST); }
     }
+
+    /**
+     * Deal with the URIs "/ecr/changeOptInOut"
+     * opt in to ECR
+     */
+    @RequestMapping(value = Routes.ECR_CHANGE_OPT_IN_OUT, method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<String> changeOptInOut(
+            @RequestParam(value = "optIn", required = false) String optIn,
+            @RequestParam(value = "optOutPermanently", required = false) String optOutPermanently) {
+
+        if (StringUtils.isEmpty(optIn) || StringUtils.isEmpty(optOutPermanently)) {
+            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+        }
+
+        try {
+            User user = userManager.getLoggedInUser();
+            userManager.setEcrOptInStatus(user, Boolean.parseBoolean(optIn), Boolean.parseBoolean(optOutPermanently));
+            return new ResponseEntity<String>(HttpStatus.OK);
+        } catch (Exception ex) {
+            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }
