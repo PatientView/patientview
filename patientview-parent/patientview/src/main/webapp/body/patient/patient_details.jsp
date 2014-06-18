@@ -1,7 +1,7 @@
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%--
   ~ PatientView
   ~
@@ -205,7 +205,7 @@
         <th class="tablecellbold">Year Diagnosed</th>
 
         <td class="tablecell">
-                <bean:write name="patientDetail" property="patient.diagnosisDate"/>
+               <fmt:formatDate value="${patientDetail.patient.diagnosisDate}" pattern="dd-MM-yyyy"/>
         </td>
     </tr>
 
