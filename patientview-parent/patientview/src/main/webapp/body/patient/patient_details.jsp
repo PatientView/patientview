@@ -205,9 +205,7 @@
         <th class="tablecellbold">Year Diagnosed</th>
 
         <td class="tablecell">
-            <logic:present property="myDiabetes" name="patientDetail">
                 <bean:write name="patientDetail" property="patient.diagnosisDate"/>
-            </logic:present>
         </td>
     </tr>
 
