@@ -202,7 +202,7 @@
 <logic:present specialty="diabetes">
 
     <tr valign="top">
-        <th class="tablecellbold">Year Diagnosed</th>
+        <th class="tablecellbold">Date Diagnosed</th>
 
         <td class="tablecell">
                <fmt:formatDate value="${patientDetail.patient.diagnosisDate}" pattern="dd-MM-yyyy"/>
