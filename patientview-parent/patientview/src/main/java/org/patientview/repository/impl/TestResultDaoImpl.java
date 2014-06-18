@@ -242,7 +242,7 @@ public class TestResultDaoImpl extends AbstractHibernateDAO<TestResult> implemen
 
     @Override
     public void deleteTestResults(String nhsno, String unitcode) {
-        Query query = getEntityManager().createQuery("DELETE FROM testresult WHERE nhsno = :nhsno AND unitcode = "
+        Query query = getEntityManager().createNativeQuery("DELETE FROM testresult WHERE nhsno = :nhsno AND unitcode = "
                 + ":unitcode");
 
         query.setParameter("nhsno", nhsno);

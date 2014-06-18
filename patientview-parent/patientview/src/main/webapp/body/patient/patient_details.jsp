@@ -188,7 +188,7 @@
 <tr valign="top">
   <th class="tablecellbold">Diagnosis</th>
     <td class="tablecell">
-        <logic:present specialty="renal">
+        <logic:present specialty="renal,diabetes">
             <logic:notEmpty name="patientDetail" property="edtaDiagnosis">
                 <bean:write name="patientDetail" property="edtaDiagnosis.description"/><br />
             </logic:notEmpty>
@@ -279,16 +279,6 @@
 </logic:present>
 
 <logic:present specialty="diabetes">
-
-    <tr valign="top">
-        <th class="tablecellbold">Diabetes Type</th>
-
-        <td class="tablecell">
-            <logic:present property="myDiabetes" name="patientDetail">
-            <bean:write name="patientDetail" property="myDiabetes.diabetesType"/>
-            </logic:present>
-        </td>
-    </tr>
 
     <tr valign="top">
         <th class="tablecellbold">Year Diagnosed</th>
