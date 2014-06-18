@@ -48,7 +48,7 @@ public class EdtaCodeDisplayAction extends Action {
         if ("radarGroupLinks".equals(linkTypeMappingParameter)) {
             request.setAttribute("header", "Radar Groups");
         } else {
-            request.setAttribute("header", "EDTA Code");
+            request.setAttribute("header", "Diagnosis Codes");
         }
 
         return LogonUtils.logonChecks(mapping, request);
