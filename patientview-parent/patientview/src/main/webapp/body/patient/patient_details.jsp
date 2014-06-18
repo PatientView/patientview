@@ -285,7 +285,7 @@
 
         <td class="tablecell">
             <logic:present property="myDiabetes" name="patientDetail">
-            <bean:write name="patientDetail" property="myDiabetes.yearDiagnosed"/>
+            <bean:write name="patientDetail" property="patient.dateOfGenericDiagnosis"/>
             </logic:present>
         </td>
     </tr>
