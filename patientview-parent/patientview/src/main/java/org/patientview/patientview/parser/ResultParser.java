@@ -643,7 +643,7 @@ public class ResultParser {
             try {
                 patient.setDateofbirth(IMPORT_DATE_FORMAT.parse(dateofbirth));
             } catch (ParseException e) {
-                LOGGER.error("Could not parse diagnosisDate {} {}", dateofbirth, e);
+                LOGGER.error("Could not parse dateofbirth {} {}", dateofbirth, e);
             }
         }
         patient.setSex(xmlData.get("sex"));
