@@ -283,6 +283,14 @@
               <td class="tablecell"><bean:write name="contact" property="unit.renaladminphone"/></td>
             </tr>
             <tr valign="top">
+              <td class="tablecellbold">Patient View Admin Email</td>
+              <td class="tablecell">
+                  <logic:notEmpty name="contact" property="unit.renaladminemail">
+                      <a href="mailto:<bean:write name="contact" property="unit.renaladminemail"/>?subject=[Patient View Enquiry]"><bean:write name="contact" property="unit.renaladminemail"/></a>
+                  </logic:notEmpty>
+              </td>
+            </tr>
+            <tr valign="top">
               <td class="tablecellbold">Unit Enquiries Phone</td>
               <td class="tablecell"><bean:write name="contact" property="unit.unitenquiriesphone"/></td>
             </tr>
