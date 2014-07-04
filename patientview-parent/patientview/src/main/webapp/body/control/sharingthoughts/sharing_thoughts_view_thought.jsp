@@ -56,9 +56,13 @@
     <div class="sharedThoughtSubmitDate pull-left">
         Submitted <bean:write name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.SUBMIT_DATE%>"/>
     </div>
-    <div class="pull-right">
-        <html:submit value="Send Message to Patient" styleClass="btn btn-primary formbutton" styleId="btnSendMessage"/>
-    </div>
+
+    <logic:equal value="true" name="messagingEnabled" >
+        <div class="pull-right">
+            <html:submit value="Send Message to Patient" styleClass="btn btn-primary formbutton" styleId="btnSendMessage"/>
+        </div>
+    </logic:equal>
+
     <br/>
     <div>
         <logic:equal value="true" name="thought" property="closed">

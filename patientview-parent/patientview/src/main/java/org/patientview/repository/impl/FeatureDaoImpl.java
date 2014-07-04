@@ -23,7 +23,9 @@
 
 package org.patientview.repository.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.patientview.model.Unit;
+import org.patientview.patientview.model.Feature;
 import org.patientview.patientview.model.Letter;
 import org.patientview.repository.AbstractHibernateDAO;
 import org.patientview.repository.FeatureDao;
@@ -60,5 +62,18 @@ public class FeatureDaoImpl extends AbstractHibernateDAO<Letter> implements Feat
         }
 
         return Collections.emptyList();
+    }
+
+    @Override
+    public boolean unitHasFeature(Unit unit, String feature) {
+        if (StringUtils.isNotEmpty(feature) && unit != null) {
+            String sql = "SELECT fea.* FROM pv_feature_access fea WHERE fea.unit_id = :unitId AND fea.name = :feature";
+            Query query = getEntityManager().createNativeQuery(sql, Feature.class);
+            query.setParameter("unitId", unit.getId());
+            query.setParameter("feature", feature);
+            List<Feature> features = query.getResultList();
+            return !features.isEmpty();
+        }
+        return false;
     }
 }

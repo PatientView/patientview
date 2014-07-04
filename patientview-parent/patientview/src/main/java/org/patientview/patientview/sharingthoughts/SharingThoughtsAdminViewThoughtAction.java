@@ -8,6 +8,7 @@ import org.patientview.ibd.action.BaseAction;
 import org.patientview.patientview.messaging.Messaging;
 import org.patientview.patientview.model.SharedThought;
 import org.patientview.patientview.model.User;
+import org.patientview.patientview.model.UserMapping;
 import org.patientview.service.SharedThoughtManager;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,6 +35,21 @@ public class SharingThoughtsAdminViewThoughtAction extends BaseAction {
         sharedThoughtManager.setViewed(thought, loggedInUser);
         request.getSession().setAttribute(Messaging.SHARING_THOUGHTS_UNVIEWED_COUNT
                 , sharedThoughtManager.getStaffThoughtList(loggedInUser, true).size());
+
+        // check if both shared thought user and loggedInUser are in units with messaging enabled
+        boolean userMessaging = false;
+
+        for (UserMapping userMapping : loggedInUser.getUserMappings()) {
+            if (getFeatureManager().unitHasFeature(getUnitManager().get(userMapping.getUnitcode()), "messaging")) {
+                userMessaging = true;
+            }
+        }
+
+        if (userMessaging && getFeatureManager().unitHasFeature(thought.getUnit(), "messaging")) {
+            request.setAttribute("messagingEnabled", true);
+        } else {
+            request.setAttribute("messagingEnabled", false);
+        }
 
         return mapping.findForward("success");
     }
