@@ -674,6 +674,14 @@ td.tdUserSharedThought {
     margin-bottom: 0;
 }
 
+.td-closed {
+    color: #ae0000;
+}
+
+.td-open {
+    color: #008000;
+}
+
 .yesTick, .noCross {
     font-size: 20px;
 }
