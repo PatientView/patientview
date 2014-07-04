@@ -7,32 +7,23 @@
 <div class="page-header">
     <h1>Sharing thoughts about my care</h1><br /><h3>The renal patient anonymous quality and safety feedback system</h3>
 </div>
-<div class="sharingThoughtsHome1">
-<p>
-    This part of RPV is being developed and tested as part of a three year research project, funded by the National
-    Institute for Health Research (NIHR). It has been designed to help you share any positive thoughts and/or concerns
-    you may have about the quality and safety of your care or the care of other patients within the NHS.  It has been
-    developed with kidney patients and has the support of your staff.
-</p>
-<p>
-    <strong>If you believe that your quality and safety concern requires urgent action or may be life-threatening,
-        <u>YOU MUST TELL A STAFF MEMBER</u></strong>
-</p>
-<p>
-    <strong>This is a research project and we cannot manage immediate safety concerns. However, you can tell us about
-        urgent concerns as well <u>but please tell us after</u> you have told the staff.</strong>
-</p>
-<p>
-    We will share the information you give us with the staff who care for you, but you must be aware that not all
-    concerns will be solved quickly.
-</p>
-
-</div>
-<div class="sharingThoughtsHome2">
-
-<p align="center">
-    <html:link action="/patient/sharingThoughtsPositiveNegative"><html:submit value="Share a New Thought" styleClass="btn btn-primary btn-primary-sharingthoughts formbutton" /></html:link>
-    <br/><br/><html:link action="/patient/sharingThoughtsUserList"><html:submit value="Your Thoughts" styleClass="btn formbutton btn-sharingthoughts " /></html:link>
-    <br/><br/><html:link action="/patient/sharingThoughtsSummary"><html:submit value="Monthly Feedback Summary" styleClass="btn formbutton btn-sharingthoughts " /></html:link>
-</p>
+<div>
+    <p>
+        Please tell us about the care that you or others have received in your renal service - things that have been good
+        or things that have concerned you. We want to hear about this so that we can improve your care.
+    </p>
+    <p>
+        If you believe that anything requires urgent action or may be life-threatening do tell us but you <strong>must also
+        tell a staff member straight away.</strong>
+    </p>
+    <p>
+        If you tell us about your care or you receive a message on RPV about your comments, staff from your renal unit and
+        the research team will not know who you are unless you choose to give your name
+    </p>
+    <table>
+        <tr><td>To start a new comment, click here: </td><td><html:link action="/patient/sharingThoughtsPositiveNegative"><html:submit value="Share a New Thought" styleClass="btn btn-primary btn-primary-sharingthoughts formbutton" /></html:link></td></tr>
+        <tr><td>To see thoughts you've submitted or saved, click here: &nbsp; &nbsp; &nbsp;</td><td><html:link action="/patient/sharingThoughtsUserList"><html:submit value="Your Thoughts" styleClass="btn formbutton btn-sharingthoughts " /></html:link></td></tr>
+        <tr><td>To see monthly feedback from your unit, click here: </td><td><html:link action="/patient/sharingThoughtsSummary"><html:submit value="Monthly Feedback Summary" styleClass="btn formbutton btn-sharingthoughts " /></html:link></td></tr>
+    </table>
+    <p>The information you provide will be looked at by staff from your renal unit, but please be aware that some concerns may take time to solve.</p>
 </div>
