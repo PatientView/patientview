@@ -93,7 +93,7 @@
 <br/>
 <p align="left">
     <html:link action="/patient/sharingThoughtsPositiveNegative"><html:submit value="Share a thought" styleClass="btn btn-primary formbutton" /></html:link>
-    &nbsp;&nbsp;<html:link action="/patient/sharingThoughts"><html:submit value="Home" styleClass="btn formbutton" /></html:link>
+    &nbsp;&nbsp;<html:link action="/patient/sharingThoughts"><html:submit value="Sharing Thoughts Home Page" styleClass="btn formbutton" /></html:link>
 </p>
 
 <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>

@@ -13,4 +13,4 @@
     clinical person (names will be included for the main study, to be agreed with the units involved).
 </p>
 <br/>
-<p align="left"><html:link action="/patient/sharingThoughts"><html:submit value="Home" styleClass="btn formbutton" /></html:link></p>
+<p align="left"><html:link action="/patient/sharingThoughts"><html:submit value="Sharing Thoughts Home Page" styleClass="btn formbutton" /></html:link></p>

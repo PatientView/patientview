@@ -114,7 +114,7 @@
     </div>
     <br/>
     <p>You can save your comments to complete later, or if you are happy that you have said all that you want, you can submit your comments now.</p>
-    <html:link action="/patient/sharingThoughts" styleClass="btn">Home</html:link> &nbsp;&nbsp;
+    <html:link action="/patient/sharingThoughts" styleClass="btn">Sharing Thoughts Home Page</html:link> &nbsp;&nbsp;
     <input type="submit" value="Save Draft" label="Save Draft" name="Save Draft" class="btn"/> &nbsp;&nbsp;
     <input type="submit" value="<%=SharingThoughts.SUBMIT%>" name="<%=SharingThoughts.SUBMIT%>" class="btn btn-primary"/>
 </html:form>

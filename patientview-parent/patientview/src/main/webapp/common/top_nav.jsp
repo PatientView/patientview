@@ -128,7 +128,7 @@
 
     <logic:present name="<%=Messaging.SHARING_THOUGHTS_ENABLED %>" scope="session">
         <logic:present specialty="renal">
-            <li <%= ("sharing_thoughts".equals(request.getAttribute("currentNav"))) ? "class=\"active\"" : "" %>><html:link action="/patient/sharingThoughts">Sharing Thoughts</html:link></li>
+            <li <%= ("sharing_thoughts".equals(request.getAttribute("currentNav"))) ? "class=\"active\"" : "" %>><html:link action="/patient/sharingThoughts" styleClass="link-sharingthoughts">Sharing Thoughts</html:link></li>
         </logic:present>
     </logic:present>
 
