@@ -110,7 +110,7 @@
     </tr>
 
     <tr >
-        <td>Where did this happen?</td><td><bean:write name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.LOCATION%>"/></td>
+        <td>Where did this happen? (please specify the exact location)</td><td><bean:write name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.LOCATION%>"/></td>
     </tr>
 
     <tr >

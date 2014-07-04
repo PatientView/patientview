@@ -188,19 +188,13 @@ public class SharingThoughtsSaveAction extends BaseAction {
             isValid = false;
         }
 
-        if ((null == form.get(SharingThoughts.LOCATION)) || "".equals(form.get(SharingThoughts.LOCATION))) {
-            errors.add("Please tell us where this happened");
+        if ((null == form.get(SharingThoughts.WHEN)) || "".equals(form.get(SharingThoughts.WHEN))) {
+            errors.add("Please tell us when this happened");
             isValid = false;
         }
 
         if (null == form.get(SharingThoughts.DESCRIPTION) || "".equals(form.get(SharingThoughts.DESCRIPTION))) {
             errors.add("Please tell us what happened");
-            isValid = false;
-        }
-
-        if ((null == form.get(SharingThoughts.SUGGESTED_ACTION)) || "".equals(form.get(SharingThoughts
-                .SUGGESTED_ACTION))) {
-            errors.add("Please tell us what can be done");
             isValid = false;
         }
 
