@@ -39,7 +39,7 @@
       <td width="300">If no, which of these are you?<br />(You may tick more than one)</td><td>
          Carer: <html:checkbox property="<%=SharingThoughts.IS_PRINCIPAL_CARER%>" name="sharingThoughtsForm" />&nbsp;&nbsp;&nbsp;&nbsp;
          Relative: <html:checkbox property="<%=SharingThoughts.IS_RELATIVE%>" name="sharingThoughtsForm" />&nbsp;&nbsp;&nbsp;&nbsp;
-         Friend: <html:checkbox property="<%=SharingThoughts.IS_FRIEND%>" name="sharingThoughtsForm" /></br>
+         Friend: <html:checkbox property="<%=SharingThoughts.IS_FRIEND%>" name="sharingThoughtsForm" /><br/>
         Other: <html:checkbox property="<%=SharingThoughts.IS_OTHER%>" name="sharingThoughtsForm" />&nbsp;&nbsp;&nbsp;&nbsp;
         (please specify) <html:text property="<%=SharingThoughts.IS_OTHER_MORE%>" name="sharingThoughtsForm"/>
       </td>
@@ -48,7 +48,9 @@
     <tr >
       <td width="300">Who is this feedback form about? <span class="required">*</span><br />(You may tick more than one)</td><td>
         Me: <html:checkbox property="<%=SharingThoughts.IS_ABOUT_ME%>" name="sharingThoughtsForm"/>&nbsp;&nbsp;&nbsp;&nbsp;
-        Another patient: <html:checkbox property="<%=SharingThoughts.IS_ABOUT_OTHER%>" name="sharingThoughtsForm"/>&nbsp;&nbsp;&nbsp;&nbsp;
+        Another patient: <html:checkbox property="<%=SharingThoughts.IS_ABOUT_OTHER%>" name="sharingThoughtsForm"/><br/>
+        Other: <html:checkbox property="<%=SharingThoughts.IS_ABOUT_OTHER_NON_PATIENT%>" name="sharingThoughtsForm" />&nbsp;&nbsp;&nbsp;&nbsp;
+        (please specify) <html:text property="<%=SharingThoughts.IS_ABOUT_OTHER_NON_PATIENT_MORE%>" name="sharingThoughtsForm"/>
       </td>
     </tr>
 

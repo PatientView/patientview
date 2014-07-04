@@ -25,5 +25,6 @@
         <tr><td>To see thoughts you've submitted or saved, click here: &nbsp; &nbsp; &nbsp;</td><td><html:link action="/patient/sharingThoughtsUserList"><html:submit value="Your Thoughts" styleClass="btn formbutton btn-sharingthoughts " /></html:link></td></tr>
         <tr><td>To see monthly feedback from your unit, click here: </td><td><html:link action="/patient/sharingThoughtsSummary"><html:submit value="Monthly Feedback Summary" styleClass="btn formbutton btn-sharingthoughts " /></html:link></td></tr>
     </table>
+    <br/>
     <p>The information you provide will be looked at by staff from your renal unit, but please be aware that some concerns may take time to solve.</p>
 </div>

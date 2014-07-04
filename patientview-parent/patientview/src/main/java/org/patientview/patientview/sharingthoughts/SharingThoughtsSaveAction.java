@@ -60,6 +60,8 @@ public class SharingThoughtsSaveAction extends BaseAction {
         thought.setOther((dynaForm.get(SharingThoughts.IS_OTHER) == null) ? false : true);
         thought.setAboutMe((dynaForm.get(SharingThoughts.IS_ABOUT_ME) == null) ? false : true);
         thought.setAboutOther((dynaForm.get(SharingThoughts.IS_ABOUT_OTHER) == null) ? false : true);
+        thought.setAboutOtherNonPatient((dynaForm.get(SharingThoughts.IS_ABOUT_OTHER_NON_PATIENT) == null)
+                ? false : true);
 
         // text fields
         thought.setWhenOccurred((dynaForm.get(SharingThoughts.WHEN) == null) ? null
@@ -77,6 +79,8 @@ public class SharingThoughtsSaveAction extends BaseAction {
         thought.setLikelihoodOfRecurrenceMore(
                 (dynaForm.get(SharingThoughts.LIKELIHOOD_0F_RECURRENCE_MORE) == null) ? null
                 : (String) dynaForm.get(SharingThoughts.LIKELIHOOD_0F_RECURRENCE_MORE));
+        thought.setAboutOtherNonPatientMore((dynaForm.get(SharingThoughts.IS_ABOUT_OTHER_NON_PATIENT_MORE) == null)
+                ? null : (String) dynaForm.get(SharingThoughts.IS_ABOUT_OTHER_NON_PATIENT_MORE));
 
         // dropdown for unit
         Unit unit = null;
@@ -167,7 +171,9 @@ public class SharingThoughtsSaveAction extends BaseAction {
             isValid = false;
         }
 
-        if (null == form.get(SharingThoughts.IS_ABOUT_ME) && null == form.get(SharingThoughts.IS_ABOUT_OTHER)) {
+        if (null == form.get(SharingThoughts.IS_ABOUT_ME)
+                && null == form.get(SharingThoughts.IS_ABOUT_OTHER)
+                && null == form.get(SharingThoughts.IS_ABOUT_OTHER_NON_PATIENT)) {
             errors.add("Please indicate who this is about");
             isValid = false;
         }

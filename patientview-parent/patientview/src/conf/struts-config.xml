@@ -326,6 +326,8 @@
             <form-property name="otherMore"               type="java.lang.String"/>
             <form-property name="aboutMe"                 type="java.lang.Boolean"/>
             <form-property name="aboutOther"              type="java.lang.Boolean"/>
+            <form-property name="aboutOtherNonPatient"    type="java.lang.Boolean"/>
+            <form-property name="aboutOtherNonPatientMore" type="java.lang.String"/>
             <form-property name="anonymous"               type="java.lang.Boolean"/>
             <form-property name="whenOccurred"            type="java.lang.String"/>
             <form-property name="startDate"               type="java.lang.String"/>

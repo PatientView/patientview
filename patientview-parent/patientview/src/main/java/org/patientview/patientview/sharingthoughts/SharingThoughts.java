@@ -21,6 +21,8 @@ public final class SharingThoughts {
     public static final String IS_OTHER_MORE = "otherMore";
     public static final String IS_ABOUT_ME = "aboutMe";
     public static final String IS_ABOUT_OTHER = "aboutOther";
+    public static final String IS_ABOUT_OTHER_NON_PATIENT = "aboutOtherNonPatient";
+    public static final String IS_ABOUT_OTHER_NON_PATIENT_MORE = "aboutOtherNonPatientMore";
     public static final String IS_ANONYMOUS = "anonymous";
     public static final String START_DATE = "startDate";
     public static final String START_DATE_FORMATTED_DATE = "startDateFormattedDate";
