@@ -59,6 +59,15 @@
     <div class="pull-right">
         <html:submit value="Send Message to Patient" styleClass="btn btn-primary formbutton" styleId="btnSendMessage"/>
     </div>
+    <br/>
+    <div>
+        <logic:equal value="true" name="thought" property="closed">
+            <h2 class="noCross">Status: Closed</h2>
+        </logic:equal>
+        <logic:equal value="false" name="thought" property="closed">
+            <h2 class="yesTick">Status: Active</h2>
+        </logic:equal>
+    </div>
 </div>
 
 <html:hidden name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.ID%>" styleId="sharedThoughtId"/>
@@ -315,6 +324,7 @@
     <br/>
     <table border="0" cellspacing="1" cellpadding="3" class="table table-bordered table-striped" id="tableAuditEvents">
         <thead>
+            <th class="hidden">ID</th>
             <th>Date</th>
             <th>User</th>
             <th>Action</th>
@@ -325,6 +335,7 @@
             <bean:define id="audits" name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.AUDITS%>"/>
             <logic:iterate name="audits" id="audit" type="org.patientview.patientview.model.SharedThoughtAudit">
                 <tr>
+                    <td class="hidden"><bean:write name="audit" property="id"/></td>
                     <td class="auditDate"><bean:write name="audit" property="dateFormatted"/></td>
                     <td class="auditUser">
                         <%-- for PATIENT_VIEW, SAVE, SUBMIT only show name if thought is not anonymous --%>
@@ -392,7 +403,8 @@
         <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
         <script type="text/javascript">
             $('#tableAuditEvents').dataTable({
-                "iDisplayLength": 10
+                "iDisplayLength": 10,
+                "aaSorting": [[ 0, "desc" ]]
             });
         </script>
     </logic:notEmpty>
