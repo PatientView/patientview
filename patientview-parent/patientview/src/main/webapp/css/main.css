@@ -873,3 +873,7 @@ td.td-buttons form{
 .nav-pills > li > a.link-sharingthoughts{
     color:#0066cc;
 }
+
+.error-required {
+    color: red;
+}

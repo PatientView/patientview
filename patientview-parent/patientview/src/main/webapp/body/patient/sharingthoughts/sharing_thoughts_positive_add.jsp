@@ -30,7 +30,8 @@
     </logic:present>
 
     <tr >
-      <td width="300">Are you the patient on this PatientView login? <span class="required">*</span></td><td>
+      <td width="300">Are you the patient on this PatientView login? <span class="required">*</span> <br/>
+          <logic:notEmpty name="<%=SharingThoughts.ERRORS_PARAM_MAP%>" property="<%=SharingThoughts.IS_PATIENT%>"> <span class="error-required">Required</span></logic:notEmpty></td><td>
         Yes: <html:radio property="<%=SharingThoughts.IS_PATIENT%>" name="sharingThoughtsForm" value="true" />&nbsp;&nbsp;&nbsp;&nbsp;
         No: <html:radio property="<%=SharingThoughts.IS_PATIENT%>" name="sharingThoughtsForm" value="false" />&nbsp;&nbsp;&nbsp;&nbsp;
       </td>
@@ -47,7 +48,8 @@
     </tr>
 
     <tr >
-      <td width="300">Who is this feedback form about? <span class="required">*</span><br />(You may tick more than one)</td><td>
+      <td width="300">Who is this feedback form about? <span class="required">*</span><br />(You may tick more than one)<br/>
+          <logic:notEmpty name="<%=SharingThoughts.ERRORS_PARAM_MAP%>" property="<%=SharingThoughts.IS_ABOUT_ME%>"> <span class="error-required">Required</span></logic:notEmpty></td><td>
         Me: <html:checkbox property="<%=SharingThoughts.IS_ABOUT_ME%>" name="sharingThoughtsForm"/>&nbsp;&nbsp;&nbsp;&nbsp;
         Another patient: <html:checkbox property="<%=SharingThoughts.IS_ABOUT_OTHER%>" name="sharingThoughtsForm"/><br/>
         Other: <html:checkbox property="<%=SharingThoughts.IS_ABOUT_OTHER_NON_PATIENT%>" name="sharingThoughtsForm" />&nbsp;&nbsp;&nbsp;&nbsp;
@@ -56,7 +58,8 @@
     </tr>
 
     <tr >
-      <td width="300">Would you prefer to remain anonymous? <span class="required">*</span></td><td>
+      <td width="300">Would you prefer to remain anonymous? <span class="required">*</span><br/>
+          <logic:notEmpty name="<%=SharingThoughts.ERRORS_PARAM_MAP%>" property="<%=SharingThoughts.IS_ANONYMOUS%>"> <span class="error-required">Required</span></logic:notEmpty></td><td>
          Yes: <html:radio property="<%=SharingThoughts.IS_ANONYMOUS%>" value="true" name="sharingThoughtsForm"/>&nbsp;&nbsp;&nbsp;&nbsp;
           No: <html:radio property="<%=SharingThoughts.IS_ANONYMOUS%>" value="false" name="sharingThoughtsForm" />&nbsp;&nbsp;&nbsp;&nbsp;
       </td>
@@ -67,14 +70,17 @@
     </tr>
 
     <tr >
-      <td width="300">Is this positive experience a regular part of your care? <span class="required">*</span></td><td>
+      <td width="300">Is this positive experience a regular part of your care? <span class="required">*</span><br/>
+          <logic:notEmpty name="<%=SharingThoughts.ERRORS_PARAM_MAP%>" property="<%=SharingThoughts.IS_ONGOING%>"> <span class="error-required">Required</span></logic:notEmpty></td><td>
           Yes: <html:radio property="<%=SharingThoughts.IS_ONGOING%>" value="true" name="sharingThoughtsForm"/>&nbsp;&nbsp;&nbsp;&nbsp;
           No: <html:radio property="<%=SharingThoughts.IS_ONGOING%>" value="false" name="sharingThoughtsForm"/>&nbsp;&nbsp;&nbsp;&nbsp;
       </td>
     </tr>
 
     <tr >
-      <td>Where did this happen? (please specify the exact location) <span class="required">*</span></td><td><html:text name="sharingThoughtsForm" property="<%=SharingThoughts.LOCATION%>"/></td>
+      <td>Where did this happen? (please specify the exact location) <span class="required">*</span><br/>
+          <logic:notEmpty name="<%=SharingThoughts.ERRORS_PARAM_MAP%>" property="<%=SharingThoughts.LOCATION%>"> <span class="error-required">Required</span></logic:notEmpty></td>
+        <td><html:text name="sharingThoughtsForm" property="<%=SharingThoughts.LOCATION%>"/></td>
     </tr>
 
     <tr class="hidden">
@@ -82,7 +88,8 @@
     </tr>
 
     <tr >
-      <td width="300">Please describe what was good about the care that you or others have received <span class="required">*</span></td>
+      <td width="300">Please describe what was good about the care that you or others have received <span class="required">*</span><br/>
+          <logic:notEmpty name="<%=SharingThoughts.ERRORS_PARAM_MAP%>" property="<%=SharingThoughts.DESCRIPTION%>"> <span class="error-required">Required</span></logic:notEmpty></td>
       <td><html:textarea property="<%=SharingThoughts.DESCRIPTION%>" name="sharingThoughtsForm" rows="10" styleClass="textareaSharingThoughts"/></td>
     </tr>
 

@@ -8,6 +8,7 @@ import org.patientview.service.SharedThoughtManager;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 
 public class SharingThoughtsAddThoughtAction extends BaseAction {
 
@@ -19,6 +20,7 @@ public class SharingThoughtsAddThoughtAction extends BaseAction {
 
         sharedThoughtManager = getWebApplicationContext().getBean(SharedThoughtManager.class);
         request.getSession().setAttribute("units", sharedThoughtManager.getLoggedInUsersUnits());
+        request.setAttribute(SharingThoughts.ERRORS_PARAM_MAP, new HashMap<String, Boolean>());
         return mapping.findForward("success");
     }
 }
