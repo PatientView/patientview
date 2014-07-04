@@ -273,19 +273,17 @@
         <logic:iterate name="responders" id="responder">
             <tr>
                 <td><bean:write name="responder" property="user.name"/></td>
-                <logic:equal value="true" name="user" property="<%=SharingThoughts.SHARED_THOUGHT_ADMINISTRATOR%>" >
-                    <td class='tdUserSharedThought'><a class="btn removeUserSharedThought" data-userId="<bean:write name="responder" property="user.id"/>">Remove</a></td>
-                </logic:equal>
+                <td class='tdUserSharedThought'><a class="btn removeUserSharedThought" data-userId="<bean:write name="responder" property="user.id"/>">Remove</a></td>
             </tr>
         </logic:iterate>
     </logic:notEmpty>
-    <logic:equal value="true" name="user" property="<%=SharingThoughts.SHARED_THOUGHT_ADMINISTRATOR%>" >
-        <tr id="trOtherSharedThoughtResponders"><td colspan="2">
-            <select id="selectOtherSharedThoughtResponders"></select>
-            <html:submit value="Add Responder" styleClass="btn formbutton" styleId="btnAddOtherSharedThoughtResponder"/> &nbsp;&nbsp;
-            <span id="messageAddOtherSharedThoughtResponder"></span>
-        </td></tr>
-    </logic:equal>
+
+    <tr id="trOtherSharedThoughtResponders"><td colspan="2">
+        <select id="selectOtherSharedThoughtResponders"></select>
+        <html:submit value="Add Responder" styleClass="btn formbutton" styleId="btnAddOtherSharedThoughtResponder"/> &nbsp;&nbsp;
+        <span id="messageAddOtherSharedThoughtResponder"></span>
+    </td></tr>
+
     </tbody>
 </table>
 
