@@ -172,14 +172,15 @@ public class SharingThoughtsSaveAction extends BaseAction {
             errors.add("Please tell us if you are the patient");
             errorsMap.put(SharingThoughts.IS_PATIENT, true);
             isValid = false;
-        }
-
-        if (null != form.get(SharingThoughts.IS_PATIENT) && !(Boolean) form.get(SharingThoughts.IS_PATIENT)
-                && null == form.get(SharingThoughts.IS_PRINCIPAL_CARER) && null == form.get(SharingThoughts.IS_RELATIVE)
-                && null == form.get(SharingThoughts.IS_FRIEND)) {
-            errors.add("If you are not the patient, please indicate who you are");
-            isValid = false;
-            errorsMap.put(SharingThoughts.IS_PATIENT, true);
+        } else if (!(Boolean) form.get(SharingThoughts.IS_PATIENT)) {
+            if (null == form.get(SharingThoughts.IS_PRINCIPAL_CARER)
+                    && null == form.get(SharingThoughts.IS_RELATIVE)
+                    && null == form.get(SharingThoughts.IS_FRIEND)
+                    && null == form.get(SharingThoughts.IS_OTHER)) {
+                errors.add("If you are not the patient, please indicate who you are");
+                isValid = false;
+                errorsMap.put(SharingThoughts.IS_PRINCIPAL_CARER, true);
+            }
         }
 
         if (null == form.get(SharingThoughts.IS_ABOUT_ME)
