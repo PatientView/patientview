@@ -43,6 +43,7 @@ public final class SharingThoughts {
     public static final String SUBMIT = "Submit Comment To Your Renal Unit";
     public static final String ERRORS_PARAM = "errors";
     public static final String ERRORS_PARAM_MAP = "errorsMap";
+    public static final String MULTIPLE_UNITS = "multipleUnits";
     public static final String USERS_THOUGHTS_DRAFT_PARAM = "usersDraftSharedThoughts";
     public static final String USERS_THOUGHTS_SUBMITTED_PARAM = "usersSubmittedSharedThoughts";
     public static final String THOUGHT_PARAM = "thought";

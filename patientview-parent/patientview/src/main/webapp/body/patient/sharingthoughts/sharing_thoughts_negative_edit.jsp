@@ -81,7 +81,7 @@
             <td><html:text name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.LOCATION%>"/></td>
         </tr>
 
-        <tr class="hidden">
+        <tr <logic:empty name="<%=SharingThoughts.MULTIPLE_UNITS%>">class="hidden"</logic:empty> >
             <td>Which unit does this relate to?</td><td><html:select name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.UNIT_ID%>"><html:options collection="units" property="id" labelProperty="name" /></html:select></td>
         </tr>
 

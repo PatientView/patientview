@@ -83,7 +83,7 @@
         <td><html:text name="sharingThoughtsForm" property="<%=SharingThoughts.LOCATION%>"/></td>
     </tr>
 
-    <tr class="hidden">
+    <tr <logic:empty name="<%=SharingThoughts.MULTIPLE_UNITS%>">class="hidden"</logic:empty> >
       <td>Which unit does this relate to?</td><td><html:select property="<%=SharingThoughts.UNIT_ID%>"><html:options collection="units" property="id" labelProperty="name"/></html:select></td>
     </tr>
 

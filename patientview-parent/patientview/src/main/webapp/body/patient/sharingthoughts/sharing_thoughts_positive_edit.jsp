@@ -81,14 +81,14 @@
         <td><html:text name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.LOCATION%>"/></td>
     </tr>
 
-      <tr class="hidden">
-          <td>Which unit does this relate to?</td><td><html:select name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.UNIT_ID%>"><html:options collection="units" property="id" labelProperty="name" /></html:select></td>
-      </tr>
+    <tr <logic:empty name="<%=SharingThoughts.MULTIPLE_UNITS%>">class="hidden"</logic:empty> >
+        <td>Which unit does this relate to?</td><td><html:select name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.UNIT_ID%>"><html:options collection="units" property="id" labelProperty="name" /></html:select></td>
+    </tr>
 
-      <tr >
-      <td width="300">Please describe what was good about the care that you or others have received <span class="required">*</span> <br/>
-          <logic:notEmpty name="<%=SharingThoughts.ERRORS_PARAM_MAP%>" property="<%=SharingThoughts.DESCRIPTION%>"> <span class="error-required">Required</span></logic:notEmpty></td>
-      <td><html:textarea property="<%=SharingThoughts.DESCRIPTION%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" rows="10" styleClass="textareaSharingThoughts"/></td>
+    <tr >
+        <td width="300">Please describe what was good about the care that you or others have received <span class="required">*</span> <br/>
+            <logic:notEmpty name="<%=SharingThoughts.ERRORS_PARAM_MAP%>" property="<%=SharingThoughts.DESCRIPTION%>"> <span class="error-required">Required</span></logic:notEmpty></td>
+        <td><html:textarea property="<%=SharingThoughts.DESCRIPTION%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" rows="10" styleClass="textareaSharingThoughts"/></td>
     </tr>
 
     <tr >
