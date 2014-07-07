@@ -58,23 +58,25 @@
                 <h1><br />Subject: <bean:write name="conversation" property="subject" /></h1>
                 <h4 class="author">With: <bean:write name="conversation" property="otherUser.name" /></h4>
 
-                <logic:equal name="conversation" property="participant2Anonymous" value="true">
-                    <logic:equal name="conversation" property="participant2.id" value="<%= Long.toString(user.getId()) %>">
-                        <br/><h3 align="center">Anonymity</h3>
-                        <p>By receiving or replying to this message, staff from your renal unit and the research team,
-                        are still unable to identify you. If you decide to respond, you do not need to say who you are
-                        or provide any information that may reveal your identify. However, you may reveal who you are
-                        in any response you provide.</p>
+                <logic:equal value="<%=ConversationType.SHARED_THOUGHT_MESSAGE_TO_PATIENT.toString()%>" name="conversation" property="type">
+                    <logic:equal name="conversation" property="participant2Anonymous" value="true">
+                        <logic:equal name="conversation" property="participant2.id" value="<%= Long.toString(user.getId()) %>">
+                            <br/><h3 align="center">Anonymity</h3>
+                            <p>By receiving or replying to this message, staff from your renal unit and the research team,
+                            are still unable to identify you. If you decide to respond, you do not need to say who you are
+                            or provide any information that may reveal your identify. However, you may reveal who you are
+                            in any response you provide.</p>
+                        </logic:equal>
                     </logic:equal>
-                </logic:equal>
 
-                <logic:equal name="conversation" property="participant1Anonymous" value="true">
-                    <logic:equal name="conversation" property="participant1.id" value="<%= Long.toString(user.getId()) %>">
-                        <br/><h3 align="center">Anonymity</h3>
-                        <p>By receiving or replying to this message, staff from your renal unit and the research team,
-                        are still unable to identify you. If you decide to respond, you do not need to say who you are
-                        or provide any information that may reveal your identify. However, you may reveal who you are
-                        in any response you provide.</p>
+                    <logic:equal name="conversation" property="participant1Anonymous" value="true">
+                        <logic:equal name="conversation" property="participant1.id" value="<%= Long.toString(user.getId()) %>">
+                            <br/><h3 align="center">Anonymity</h3>
+                            <p>By receiving or replying to this message, staff from your renal unit and the research team,
+                            are still unable to identify you. If you decide to respond, you do not need to say who you are
+                            or provide any information that may reveal your identify. However, you may reveal who you are
+                            in any response you provide.</p>
+                        </logic:equal>
                     </logic:equal>
                 </logic:equal>
 
