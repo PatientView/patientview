@@ -18,7 +18,7 @@
     </p>
     <p>
         If you tell us about your care or you receive a message on RPV about your comments, staff from your renal unit and
-        the research team will not know who you are unless you choose to give your name
+        the research team will not know who you are unless you choose to give your name.
     </p>
     <table>
         <tr><td>To start a new comment, click here: </td><td><html:link action="/patient/sharingThoughtsPositiveNegative"><html:submit value="Share a New Thought" styleClass="btn btn-primary btn-primary-sharingthoughts formbutton" /></html:link></td></tr>
@@ -27,4 +27,6 @@
     </table>
     <br/>
     <p>The information you provide will be looked at by staff from your renal unit, but please be aware that some concerns may take time to solve.</p>
+    <p>Sharing Thoughts is being developed and tested as part of a research project funded by the National Institute for
+        Health Research (NIHR). To read more about the project and for the research team contact details click here: <strong>[link to external page]</strong></p>
 </div>

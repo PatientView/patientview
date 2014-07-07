@@ -8,7 +8,6 @@
     <h1>Type of Comment</h1>
 </div>
 <p>Please click on the type of thought that you want to submit.</p>
-<p>If you would like to return to the previous page, please click the "Sharing Thoughts Home Page" button.</p>
 
 <table>
     <tr><td>To comment on anything that has been good about care you or others have received, click here: </td>
@@ -18,6 +17,7 @@
         This could be anything that has either <strong>already</strong> caused harm or <strong>could lead to</strong> harm.</td>
         <td><html:link action="/patient/sharingThoughtsNegative"><html:submit value="Quality or Safety Concern" styleClass="btn btn-danger btn-danger-sharingthoughts formbutton" /></html:link></td></tr>
 </table>
-<br/>
+<br/><br/>
+<p>If you would like to return to the previous page, please click the "Sharing Thoughts Home Page" button.</p>
 <p><html:link action="/patient/sharingThoughts"><html:submit value="Sharing Thoughts Home Page" styleClass="btn formbutton" /></html:link></p>
 

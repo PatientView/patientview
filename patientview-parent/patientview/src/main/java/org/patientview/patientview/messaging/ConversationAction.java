@@ -54,6 +54,7 @@ public class ConversationAction extends BaseAction {
          * Whereas {@link LegacySpringUtils.getUserManager().getLoggedInUser} would return the admin.
          */
         User user = UserUtils.retrieveUser(request);
+        request.setAttribute("user", user);
         User loggedInUser = getUserManager().getLoggedInUser();
 
         if (user == null) {
