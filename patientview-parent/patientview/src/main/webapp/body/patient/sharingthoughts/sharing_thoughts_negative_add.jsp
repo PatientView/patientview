@@ -34,7 +34,8 @@
         </tr>
 
         <tr >
-            <td width="300">If no, which of these are you?<br />(You may tick more than one)</td><td>
+            <td width="300">If no, which of these are you?<br />(You may tick more than one)<br/>
+                <logic:notEmpty name="<%=SharingThoughts.ERRORS_PARAM_MAP%>" property="<%=SharingThoughts.IS_PRINCIPAL_CARER%>"> <span class="error-required">Required</span></logic:notEmpty></td><td>
             Carer: <html:checkbox property="<%=SharingThoughts.IS_PRINCIPAL_CARER%>" name="sharingThoughtsForm" />&nbsp;&nbsp;&nbsp;&nbsp;
             Relative: <html:checkbox property="<%=SharingThoughts.IS_RELATIVE%>" name="sharingThoughtsForm" />&nbsp;&nbsp;&nbsp;&nbsp;
             Friend: <html:checkbox property="<%=SharingThoughts.IS_FRIEND%>" name="sharingThoughtsForm" /><br/>

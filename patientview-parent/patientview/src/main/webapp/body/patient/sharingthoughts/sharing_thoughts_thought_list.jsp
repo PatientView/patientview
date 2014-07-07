@@ -8,7 +8,7 @@
 <div class="page-header">
     <h1>Partially Completed Thoughts</h1>
     <br/>
-    <p>Click on "edit" to continue to carry on completing your saved thought or "delete" if you would like to completely delete the thought you have saved.</p>
+    <p>Click on "Edit" to continue to carry on completing your saved thought or "Delete" if you would like to completely delete the thought you have saved.</p>
 </div>
 
 <logic:present name="<%=SharingThoughts.USERS_THOUGHTS_DRAFT_PARAM%>">
