@@ -21,6 +21,8 @@ public final class SharingThoughts {
     public static final String IS_OTHER_MORE = "otherMore";
     public static final String IS_ABOUT_ME = "aboutMe";
     public static final String IS_ABOUT_OTHER = "aboutOther";
+    public static final String IS_ABOUT_OTHER_NON_PATIENT = "aboutOtherNonPatient";
+    public static final String IS_ABOUT_OTHER_NON_PATIENT_MORE = "aboutOtherNonPatientMore";
     public static final String IS_ANONYMOUS = "anonymous";
     public static final String START_DATE = "startDate";
     public static final String START_DATE_FORMATTED_DATE = "startDateFormattedDate";
@@ -38,8 +40,10 @@ public final class SharingThoughts {
     public static final String LIKELIHOOD_0F_RECURRENCE_MORE = "likelihoodOfRecurrenceMore";
     public static final String HOW_SERIOUS = "howSerious";
     public static final String DATE_LAST_SAVED_FORMATTED_DATE_TIME = "dateLastSavedFormattedDateTime";
-    public static final String SUBMIT = "Submit";
+    public static final String SUBMIT = "Submit Comment To Your Renal Unit";
     public static final String ERRORS_PARAM = "errors";
+    public static final String ERRORS_PARAM_MAP = "errorsMap";
+    public static final String MULTIPLE_UNITS = "multipleUnits";
     public static final String USERS_THOUGHTS_DRAFT_PARAM = "usersDraftSharedThoughts";
     public static final String USERS_THOUGHTS_SUBMITTED_PARAM = "usersSubmittedSharedThoughts";
     public static final String THOUGHT_PARAM = "thought";

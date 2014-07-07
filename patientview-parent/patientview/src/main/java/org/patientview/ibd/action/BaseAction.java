@@ -53,6 +53,7 @@ import org.patientview.patientview.model.EdtaCode;
 import org.patientview.patientview.model.User;
 import org.patientview.patientview.model.UserMapping;
 import org.patientview.patientview.user.UserUtils;
+import org.patientview.service.FeatureManager;
 import org.patientview.service.MessageManager;
 import org.patientview.service.GroupMessageManager;
 import org.patientview.service.PatientManager;
@@ -439,6 +440,10 @@ public class BaseAction extends ActionSupport {
 
     protected PatientManager getPatientManager() {
         return getWebApplicationContext().getBean(PatientManager.class);
+    }
+
+    protected FeatureManager getFeatureManager() {
+        return getWebApplicationContext().getBean(FeatureManager.class);
     }
 
     /**

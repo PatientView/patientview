@@ -36,4 +36,6 @@ import java.util.List;
 public interface FeatureManager {
 
     List<Unit> getUnitsForFeature(String feature);
+
+    boolean unitHasFeature(Unit unit, String feature);
 }

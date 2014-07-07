@@ -90,6 +90,12 @@ public class SharedThought extends BaseModel {
     @Column(name = "is_about_other")
     private Boolean isAboutOther = false;
 
+    @Column(name = "is_about_other_non_patient")
+    private Boolean isAboutOtherNonPatient = false;
+
+    @Column(name = "is_about_other_non_patient_more")
+    private String isAboutOtherNonPatientMore;
+
     @Column(name = "is_anonymous")
     private Boolean isAnonymous = false;
 
@@ -259,6 +265,22 @@ public class SharedThought extends BaseModel {
 
     public void setAboutOther(Boolean aboutOther) {
         isAboutOther = aboutOther;
+    }
+
+    public Boolean getAboutOtherNonPatient() {
+        return isAboutOtherNonPatient;
+    }
+
+    public void setAboutOtherNonPatient(Boolean isAboutOtherNonPatient) {
+        this.isAboutOtherNonPatient = isAboutOtherNonPatient;
+    }
+
+    public String getAboutOtherNonPatientMore() {
+        return isAboutOtherNonPatientMore;
+    }
+
+    public void setAboutOtherNonPatientMore(String isAboutOtherNonPatientMore) {
+        this.isAboutOtherNonPatientMore = isAboutOtherNonPatientMore;
     }
 
     public Boolean getAnonymous() {

@@ -674,6 +674,14 @@ td.tdUserSharedThought {
     margin-bottom: 0;
 }
 
+.td-closed {
+    color: #ae0000;
+}
+
+.td-open {
+    color: #008000;
+}
+
 .yesTick, .noCross {
     font-size: 20px;
 }
@@ -860,4 +868,12 @@ td.td-buttons {
 td.td-buttons form{
     float:right;
     margin-left: 10px;
+}
+
+.nav-pills > li > a.link-sharingthoughts{
+    color:#0066cc;
+}
+
+.error-required {
+    color: red;
 }
