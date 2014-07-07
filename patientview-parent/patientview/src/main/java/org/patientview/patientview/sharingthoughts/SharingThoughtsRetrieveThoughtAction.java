@@ -10,6 +10,7 @@ import org.patientview.service.SharedThoughtManager;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 
 public class SharingThoughtsRetrieveThoughtAction extends BaseAction {
 
@@ -26,6 +27,7 @@ public class SharingThoughtsRetrieveThoughtAction extends BaseAction {
 
         sharedThoughtManager = getWebApplicationContext().getBean(SharedThoughtManager.class);
         request.getSession().setAttribute("units", sharedThoughtManager.getLoggedInUsersUnits());
+        request.setAttribute(SharingThoughts.ERRORS_PARAM_MAP, new HashMap<String, Boolean>());
 
         if (thought.getPositiveNegative() == 1) {
             return mapping.findForward("positive");
