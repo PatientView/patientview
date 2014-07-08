@@ -56,7 +56,12 @@
     </logic:equal>
 </logic:equal>
 
+<logic:present specialty="diabetes">
+    <p><bean:message key="cautionary.medicines.diabetes" /></p>
+</logic:present>
+<logic:present specialty="renal,ibd">
 <p><bean:message key="cautionary.medicines" /></p>
+</logic:present>
 <p><bean:message key="link.medicines" /></p>
 
 <%-- Medication (not ECR) --%>
