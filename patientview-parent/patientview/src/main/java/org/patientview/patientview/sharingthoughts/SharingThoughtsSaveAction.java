@@ -14,16 +14,20 @@ import org.apache.struts.action.DynaActionForm;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SharingThoughtsSaveAction extends BaseAction {
 
     private List<String> errors = new ArrayList<String>();
+    private Map<String, Boolean> errorsMap = new HashMap<String, Boolean>();
 
     public ActionForward execute(
             ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         errors = new ArrayList<String>();
+        errorsMap = new HashMap<String, Boolean>();
         DynaActionForm dynaForm = (DynaActionForm) form;
         String forwardMapping = "";
         User user = UserUtils.retrieveUser(request);
@@ -60,6 +64,8 @@ public class SharingThoughtsSaveAction extends BaseAction {
         thought.setOther((dynaForm.get(SharingThoughts.IS_OTHER) == null) ? false : true);
         thought.setAboutMe((dynaForm.get(SharingThoughts.IS_ABOUT_ME) == null) ? false : true);
         thought.setAboutOther((dynaForm.get(SharingThoughts.IS_ABOUT_OTHER) == null) ? false : true);
+        thought.setAboutOtherNonPatient((dynaForm.get(SharingThoughts.IS_ABOUT_OTHER_NON_PATIENT) == null)
+                ? false : true);
 
         // text fields
         thought.setWhenOccurred((dynaForm.get(SharingThoughts.WHEN) == null) ? null
@@ -77,6 +83,8 @@ public class SharingThoughtsSaveAction extends BaseAction {
         thought.setLikelihoodOfRecurrenceMore(
                 (dynaForm.get(SharingThoughts.LIKELIHOOD_0F_RECURRENCE_MORE) == null) ? null
                 : (String) dynaForm.get(SharingThoughts.LIKELIHOOD_0F_RECURRENCE_MORE));
+        thought.setAboutOtherNonPatientMore((dynaForm.get(SharingThoughts.IS_ABOUT_OTHER_NON_PATIENT_MORE) == null)
+                ? null : (String) dynaForm.get(SharingThoughts.IS_ABOUT_OTHER_NON_PATIENT_MORE));
 
         // dropdown for unit
         Unit unit = null;
@@ -92,6 +100,7 @@ public class SharingThoughtsSaveAction extends BaseAction {
                     forwardMapping = "submit";
                 } else {
                     request.setAttribute(SharingThoughts.ERRORS_PARAM, errors);
+                    request.setAttribute(SharingThoughts.ERRORS_PARAM_MAP, errorsMap);
                     if (thoughtId == null) {
                         return mapping.findForward("input_positive");
                     } else {
@@ -104,6 +113,7 @@ public class SharingThoughtsSaveAction extends BaseAction {
                     forwardMapping = "submit";
                 } else {
                     request.setAttribute(SharingThoughts.ERRORS_PARAM, errors);
+                    request.setAttribute(SharingThoughts.ERRORS_PARAM_MAP, errorsMap);
                     if (thoughtId == null) {
                         return mapping.findForward("input_negative");
                     } else {
@@ -136,16 +146,19 @@ public class SharingThoughtsSaveAction extends BaseAction {
         if ((null == form.get(SharingThoughts.CONCERN_REASON)) || "".equals(form.get(SharingThoughts.CONCERN_REASON)
         )) {
             errors.add("Please explain the reason this was a concern");
+            errorsMap.put(SharingThoughts.CONCERN_REASON, true);
             isValid = false;
         }
 
         if (null == form.get(SharingThoughts.LIKELIHOOD_0F_RECURRENCE)) {
             errors.add("Please tell us if this has happened to you or other patients before");
+            errorsMap.put(SharingThoughts.LIKELIHOOD_0F_RECURRENCE, true);
             isValid = false;
         }
 
         if (null == form.get(SharingThoughts.HOW_SERIOUS)) {
             errors.add("Please tell us how serious this is");
+            errorsMap.put(SharingThoughts.HOW_SERIOUS, true);
             isValid = false;
         }
 
@@ -157,45 +170,55 @@ public class SharingThoughtsSaveAction extends BaseAction {
 
         if (null == form.get(SharingThoughts.IS_PATIENT)) {
             errors.add("Please tell us if you are the patient");
+            errorsMap.put(SharingThoughts.IS_PATIENT, true);
             isValid = false;
+        } else if (!(Boolean) form.get(SharingThoughts.IS_PATIENT)) {
+            if (null == form.get(SharingThoughts.IS_PRINCIPAL_CARER)
+                    && null == form.get(SharingThoughts.IS_RELATIVE)
+                    && null == form.get(SharingThoughts.IS_FRIEND)
+                    && null == form.get(SharingThoughts.IS_OTHER)) {
+                errors.add("If you are not the patient, please indicate who you are");
+                isValid = false;
+                errorsMap.put(SharingThoughts.IS_PRINCIPAL_CARER, true);
+            }
         }
 
-        if (null != form.get(SharingThoughts.IS_PATIENT) && !(Boolean) form.get(SharingThoughts.IS_PATIENT)
-                && null == form.get(SharingThoughts.IS_PRINCIPAL_CARER) && null == form.get(SharingThoughts.IS_RELATIVE)
-                && null == form.get(SharingThoughts.IS_FRIEND)) {
-            errors.add("If you are not the patient, please indicate who you are");
-            isValid = false;
-        }
-
-        if (null == form.get(SharingThoughts.IS_ABOUT_ME) && null == form.get(SharingThoughts.IS_ABOUT_OTHER)) {
+        if (null == form.get(SharingThoughts.IS_ABOUT_ME)
+                && null == form.get(SharingThoughts.IS_ABOUT_OTHER)
+                && null == form.get(SharingThoughts.IS_ABOUT_OTHER_NON_PATIENT)) {
             errors.add("Please indicate who this is about");
             isValid = false;
+            errorsMap.put(SharingThoughts.IS_ABOUT_ME, true);
         }
 
         if (null == form.get(SharingThoughts.IS_ANONYMOUS)) {
             errors.add("Please show whether you wish to remain anonymous");
             isValid = false;
+            errorsMap.put(SharingThoughts.IS_ANONYMOUS, true);
         }
 
         if (null == form.get(SharingThoughts.IS_ONGOING)) {
             errors.add("Please show whether this is a regular part of your care");
             isValid = false;
+            errorsMap.put(SharingThoughts.IS_ONGOING, true);
         }
 
         if ((null == form.get(SharingThoughts.LOCATION)) || "".equals(form.get(SharingThoughts.LOCATION))) {
             errors.add("Please tell us where this happened");
             isValid = false;
+            errorsMap.put(SharingThoughts.LOCATION, true);
+        }
+
+        if ((null == form.get(SharingThoughts.WHEN)) || "".equals(form.get(SharingThoughts.WHEN))) {
+            errors.add("Please tell us when this happened");
+            isValid = false;
+            errorsMap.put(SharingThoughts.WHEN, true);
         }
 
         if (null == form.get(SharingThoughts.DESCRIPTION) || "".equals(form.get(SharingThoughts.DESCRIPTION))) {
             errors.add("Please tell us what happened");
             isValid = false;
-        }
-
-        if ((null == form.get(SharingThoughts.SUGGESTED_ACTION)) || "".equals(form.get(SharingThoughts
-                .SUGGESTED_ACTION))) {
-            errors.add("Please tell us what can be done");
-            isValid = false;
+            errorsMap.put(SharingThoughts.DESCRIPTION, true);
         }
 
         return isValid;

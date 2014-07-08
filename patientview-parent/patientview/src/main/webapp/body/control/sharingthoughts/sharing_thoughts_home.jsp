@@ -20,6 +20,7 @@
             <th>Location</th>
             <th>Description</th>
             <th>Messages</th>
+            <th>Status</th>
             <th>Submitted</th>
             <th>Updated</th>
             <th></th>
@@ -38,15 +39,25 @@
             </td>
             <td class="tablecell"><bean:write name="thought" property="location"/></td>
             <td class="tablecell"><bean:write name="thought" property="descriptionBeginning"/></td>
+
             <logic:present name="thought" property="conversation">
                 <td class="tablecell">
                     <bean:size id="messageCount" name="thought" property="conversation.messages"/>
                     <bean:write name="messageCount"/>
                 </td>
             </logic:present>
+
             <logic:notPresent name="thought" property="conversation">
                 <td class="tablecell">0</td>
             </logic:notPresent>
+
+            <logic:equal value="true" name="thought" property="closed">
+                <td class="td-closed">Closed</td>
+            </logic:equal>
+            <logic:equal value="false" name="thought" property="closed">
+                <td class="td-open">Active</td>
+            </logic:equal>
+
             <td class="tablecell"><bean:write name="thought" property="submitDateFormattedDateTime"/></td>
             <td class="tablecell"><bean:write name="thought" property="dateLastSavedFormattedDateTime"/></td>
             <logic:present role="unitstaff,unitadmin">
@@ -57,7 +68,7 @@
                             <html:submit value="View" styleClass="btn" />
                         </logic:equal>
                         <logic:equal value="false" name="thought" property="loggedInUserViewed">
-                            <html:submit value="View (updated)" styleClass="btn" />
+                            <html:submit value="View (New Update)" styleClass="btn" />
                         </logic:equal>
                     </html:form>
                 </td>

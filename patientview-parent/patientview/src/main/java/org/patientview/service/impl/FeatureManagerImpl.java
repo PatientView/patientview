@@ -44,4 +44,7 @@ public class FeatureManagerImpl implements FeatureManager {
     public List<Unit> getUnitsForFeature(String feature) {
         return featureDao.getUnitsForFeature(feature);
     }
+
+    @Override
+    public boolean unitHasFeature(Unit unit, String feature) { return featureDao.unitHasFeature(unit, feature); }
 }

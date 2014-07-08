@@ -56,8 +56,21 @@
     <div class="sharedThoughtSubmitDate pull-left">
         Submitted <bean:write name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.SUBMIT_DATE%>"/>
     </div>
-    <div class="pull-right">
-        <html:submit value="Send Message to Patient" styleClass="btn btn-primary formbutton" styleId="btnSendMessage"/>
+
+    <logic:equal value="true" name="messagingEnabled" >
+        <div class="pull-right">
+            <html:submit value="Send Message to Patient" styleClass="btn btn-primary formbutton" styleId="btnSendMessage"/>
+        </div>
+    </logic:equal>
+
+    <br/>
+    <div>
+        <logic:equal value="true" name="thought" property="closed">
+            <h2 class="noCross">Status: Closed</h2>
+        </logic:equal>
+        <logic:equal value="false" name="thought" property="closed">
+            <h2 class="yesTick">Status: Active</h2>
+        </logic:equal>
     </div>
 </div>
 
@@ -132,6 +145,12 @@
             <logic:equal value="true" property="<%=SharingThoughts.IS_ABOUT_OTHER%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" >
                 <br />Another patient
             </logic:equal>
+            <logic:equal value="true" property="<%=SharingThoughts.IS_ABOUT_OTHER_NON_PATIENT%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" >
+                <br />Other
+                <logic:notEmpty property="<%=SharingThoughts.IS_ABOUT_OTHER_NON_PATIENT_MORE%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" >
+                    (<bean:write property="<%=SharingThoughts.IS_ABOUT_OTHER_NON_PATIENT_MORE%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" />)
+                </logic:notEmpty>
+            </logic:equal>
         </td>
     </tr>
 
@@ -173,7 +192,7 @@
         </td>
     </tr>
 
-    <tr><td>Where did this happen?</td><td><bean:write name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.LOCATION%>"/></td></tr>
+    <tr><td>Where did this happen? (please specify the exact location)</td><td><bean:write name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.LOCATION%>"/></td></tr>
     <tr><td>Which unit does this relate to?</td><td><bean:write name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.UNIT_NAME%>"/></td></tr>
 
     <tr>
@@ -254,19 +273,17 @@
         <logic:iterate name="responders" id="responder">
             <tr>
                 <td><bean:write name="responder" property="user.name"/></td>
-                <logic:equal value="true" name="user" property="<%=SharingThoughts.SHARED_THOUGHT_ADMINISTRATOR%>" >
-                    <td class='tdUserSharedThought'><a class="btn removeUserSharedThought" data-userId="<bean:write name="responder" property="user.id"/>">Remove</a></td>
-                </logic:equal>
+                <td class='tdUserSharedThought'><a class="btn removeUserSharedThought" data-userId="<bean:write name="responder" property="user.id"/>">Remove</a></td>
             </tr>
         </logic:iterate>
     </logic:notEmpty>
-    <logic:equal value="true" name="user" property="<%=SharingThoughts.SHARED_THOUGHT_ADMINISTRATOR%>" >
-        <tr id="trOtherSharedThoughtResponders"><td colspan="2">
-            <select id="selectOtherSharedThoughtResponders"></select>
-            <html:submit value="Add Responder" styleClass="btn formbutton" styleId="btnAddOtherSharedThoughtResponder"/> &nbsp;&nbsp;
-            <span id="messageAddOtherSharedThoughtResponder"></span>
-        </td></tr>
-    </logic:equal>
+
+    <tr id="trOtherSharedThoughtResponders"><td colspan="2">
+        <select id="selectOtherSharedThoughtResponders"></select>
+        <html:submit value="Add Responder" styleClass="btn formbutton" styleId="btnAddOtherSharedThoughtResponder"/> &nbsp;&nbsp;
+        <span id="messageAddOtherSharedThoughtResponder"></span>
+    </td></tr>
+
     </tbody>
 </table>
 
@@ -309,6 +326,7 @@
     <br/>
     <table border="0" cellspacing="1" cellpadding="3" class="table table-bordered table-striped" id="tableAuditEvents">
         <thead>
+            <th class="hidden">ID</th>
             <th>Date</th>
             <th>User</th>
             <th>Action</th>
@@ -319,6 +337,7 @@
             <bean:define id="audits" name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.AUDITS%>"/>
             <logic:iterate name="audits" id="audit" type="org.patientview.patientview.model.SharedThoughtAudit">
                 <tr>
+                    <td class="hidden"><bean:write name="audit" property="id"/></td>
                     <td class="auditDate"><bean:write name="audit" property="dateFormatted"/></td>
                     <td class="auditUser">
                         <%-- for PATIENT_VIEW, SAVE, SUBMIT only show name if thought is not anonymous --%>
@@ -386,7 +405,8 @@
         <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
         <script type="text/javascript">
             $('#tableAuditEvents').dataTable({
-                "iDisplayLength": 10
+                "iDisplayLength": 10,
+                "aaSorting": [[ 0, "desc" ]]
             });
         </script>
     </logic:notEmpty>

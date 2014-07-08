@@ -4,9 +4,11 @@
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
 
 <html:xhtml/>
-
+<p>You can view your saved and submitted thoughts below.</p>
 <div class="page-header">
     <h1>Partially Completed Thoughts</h1>
+    <br/>
+    <p>Click on "Edit" to continue to carry on completing your saved thought or "Delete" if you would like to completely delete the thought you have saved.</p>
 </div>
 
 <logic:present name="<%=SharingThoughts.USERS_THOUGHTS_DRAFT_PARAM%>">
@@ -34,7 +36,7 @@
                     </td>
                     <td><bean:write name="thought" property="<%=SharingThoughts.LOCATION%>" /></td>
                     <td><bean:write name="thought" property="<%=SharingThoughts.DESCRIPTION_BEGINNING%>" /></td>
-                    <td class="td-buttons"><html:form action="/patient/sharingThoughtsDeleteThought"><html:hidden name="thought" property="id" /><html:submit value="Delete" styleClass="btn"/></html:form>
+                    <td class="td-buttons"><html:form action="/patient/sharingThoughtsDeleteThought"><html:hidden name="thought" property="id" /><html:submit value="Delete" styleClass="btn" onclick="return confirm('Are you sure you want to delete this partially completed thought?')"/></html:form>
                         <html:form action="/patient/sharingThoughtsEditThought"><html:hidden name="thought" property="id" /><html:submit value="Edit" styleClass="btn"/></html:form></td>
                 </tr>
             </logic:iterate></tbody>
@@ -49,6 +51,8 @@
 
 <div class="page-header">
     <h1>Submitted Thoughts</h1>
+    <br/>
+    <p>Click on "View" to see the thought you have submitted.</p>
 </div>
 
 <logic:present name="<%=SharingThoughts.USERS_THOUGHTS_SUBMITTED_PARAM%>">
@@ -92,8 +96,8 @@
 
 <br/>
 <p align="left">
-    <html:link action="/patient/sharingThoughtsPositiveNegative"><html:submit value="Share a thought" styleClass="btn btn-primary formbutton" /></html:link>
-    &nbsp;&nbsp;<html:link action="/patient/sharingThoughts"><html:submit value="Home" styleClass="btn formbutton" /></html:link>
+    <html:link action="/patient/sharingThoughtsPositiveNegative"><html:submit value="Share a New Thought" styleClass="btn btn-primary formbutton" /></html:link>
+    &nbsp;&nbsp;<html:link action="/patient/sharingThoughts"><html:submit value="Sharing Thoughts Home Page" styleClass="btn formbutton" /></html:link>
 </p>
 
 <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>

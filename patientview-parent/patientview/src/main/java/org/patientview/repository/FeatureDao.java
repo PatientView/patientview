@@ -33,4 +33,6 @@ import java.util.List;
 public interface FeatureDao {
 
     List<Unit> getUnitsForFeature(String feature);
+
+    boolean unitHasFeature(Unit unit, String feature);
 }

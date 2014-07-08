@@ -12,4 +12,4 @@
     or summary of the types of comments patients provide and any action taken. We plan to provide a summary every month.</p>
 
 <br/>
-<p align="left"><html:link action="/patient/sharingThoughts"><html:submit value="Home" styleClass="btn formbutton" /></html:link></p>
+<p align="left"><html:link action="/patient/sharingThoughts"><html:submit value="Sharing Thoughts Home Page" styleClass="btn formbutton" /></html:link></p>

@@ -62,6 +62,12 @@
             <logic:equal value="true" property="<%=SharingThoughts.IS_ABOUT_OTHER%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" >
                 <br />Another patient
             </logic:equal>
+            <logic:equal value="true" property="<%=SharingThoughts.IS_ABOUT_OTHER_NON_PATIENT%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" >
+                <br />Other
+                <logic:notEmpty property="<%=SharingThoughts.IS_ABOUT_OTHER_NON_PATIENT_MORE%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" >
+                    (<bean:write property="<%=SharingThoughts.IS_ABOUT_OTHER_NON_PATIENT_MORE%>" name="<%=SharingThoughts.THOUGHT_PARAM%>" />)
+                </logic:notEmpty>
+            </logic:equal>
         </td>
     </tr>
 
@@ -104,7 +110,7 @@
     </tr>
 
     <tr >
-        <td>Where did this happen?</td><td><bean:write name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.LOCATION%>"/></td>
+        <td>Where did this happen? (please specify the exact location)</td><td><bean:write name="<%=SharingThoughts.THOUGHT_PARAM%>" property="<%=SharingThoughts.LOCATION%>"/></td>
     </tr>
 
     <tr >
@@ -176,5 +182,5 @@
     </logic:notEqual>
 </table>
 
-<html:link action="/patient/sharingThoughts"><html:submit value="Home" styleClass="btn formbutton" /></html:link>
+<html:link action="/patient/sharingThoughts"><html:submit value="Sharing Thoughts Home Page" styleClass="btn formbutton" /></html:link>
 

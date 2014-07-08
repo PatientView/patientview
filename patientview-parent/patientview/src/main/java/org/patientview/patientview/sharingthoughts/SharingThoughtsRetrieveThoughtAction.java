@@ -1,6 +1,7 @@
 package org.patientview.patientview.sharingthoughts;
 
 import org.patientview.ibd.action.BaseAction;
+import org.patientview.model.Unit;
 import org.patientview.patientview.model.SharedThought;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -10,6 +11,8 @@ import org.patientview.service.SharedThoughtManager;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.List;
 
 public class SharingThoughtsRetrieveThoughtAction extends BaseAction {
 
@@ -25,7 +28,12 @@ public class SharingThoughtsRetrieveThoughtAction extends BaseAction {
         request.setAttribute(SharingThoughts.THOUGHT_PARAM, thought);
 
         sharedThoughtManager = getWebApplicationContext().getBean(SharedThoughtManager.class);
-        request.getSession().setAttribute("units", sharedThoughtManager.getLoggedInUsersUnits());
+        List<Unit> units = sharedThoughtManager.getLoggedInUsersUnits();
+        request.getSession().setAttribute("units", units);
+        if (units.size() > 1) {
+            request.setAttribute(SharingThoughts.MULTIPLE_UNITS, true);
+        }
+        request.setAttribute(SharingThoughts.ERRORS_PARAM_MAP, new HashMap<String, Boolean>());
 
         if (thought.getPositiveNegative() == 1) {
             return mapping.findForward("positive");
