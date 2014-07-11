@@ -57,7 +57,7 @@
 </logic:equal>
 
 <logic:present specialty="diabetes">
-    <p><bean:message key="cautionary.medicines.diabetes" /></p>
+    <p><bean:message key="cautionary.medicines.diabetes"/></p>
 </logic:present>
 <logic:present specialty="renal,ibd">
 <p><bean:message key="cautionary.medicines" /></p>
