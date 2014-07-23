@@ -213,8 +213,6 @@ public final class EmailUtils {
         emailBody.append(NEW_LINE);
         emailBody.append(e.getMessage());
         emailBody.append(NEW_LINE);
-        emailBody.append(NEW_LINE).append("Please contact your IT department to ask them to check the encryption.");
-        emailBody.append(NEW_LINE);
 
         return emailBody.toString();
     }
