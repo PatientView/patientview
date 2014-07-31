@@ -512,10 +512,10 @@ public class UserManagerImpl implements UserManager {
         // add/remove usermapping for ECS unit based on opt in status
         if (optIn) {
             // create ECS user mapping
-            save(new UserMapping(user.getUsername(), "ECS", null));
+            save(new UserMapping(user.getUsername(), UnitUtils.ECS_UNITCODE, null));
         } else {
             // remove ECS user mapping
-            deleteUserMappings(user.getUsername(), "ECS");
+            deleteUserMappings(user.getUsername(), UnitUtils.ECS_UNITCODE);
         }
     }
 
