@@ -32,6 +32,7 @@ import org.patientview.model.Unit;
 import org.patientview.patientview.logon.LogonUtils;
 import org.patientview.patientview.model.Medicine;
 import org.patientview.patientview.model.User;
+import org.patientview.patientview.model.comparators.MedicineWithShortNameCompare;
 import org.patientview.patientview.unit.UnitUtils;
 import org.patientview.patientview.user.UserUtils;
 import org.patientview.utils.LegacySpringUtils;
@@ -39,12 +40,11 @@ import org.patientview.utils.LegacySpringUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
 public class MedicineDisplayAction extends Action {
-
-    private static String ecrUnitcode = "ECS";
     private static String medicationsNonEcr = "nonECR";
     private static String medicationsEcr = "ECR";
 
@@ -92,7 +92,7 @@ public class MedicineDisplayAction extends Action {
                 Unit unit = UnitUtils.retrieveUnit(med.getUnitcode());
                 if (unit != null) {
                     if (!isRadarGroup && "radargroup".equalsIgnoreCase(unit.getSourceType())) { continue; }
-                    if (unit.getUnitcode().equals(ecrUnitcode)) {
+                    if (unit.getUnitcode().equals(UnitUtils.ECS_UNITCODE)) {
                         medicinesWithShortNameECR.add(new MedicineWithShortName(med, unit.getShortname()));
                     } else {
                         medicinesWithShortName.add(new MedicineWithShortName(med, unit.getShortname()));
@@ -102,6 +102,8 @@ public class MedicineDisplayAction extends Action {
                 }
             }
         }
+
+        Collections.sort(medicinesWithShortNameECR, new MedicineWithShortNameCompare());
 
         output.put(medicationsNonEcr, medicinesWithShortName);
         output.put(medicationsEcr, medicinesWithShortNameECR);

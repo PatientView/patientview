@@ -17,6 +17,7 @@ import org.patientview.model.Specialty;
 import org.patientview.model.Unit;
 import org.patientview.patientview.model.UserMapping;
 import org.patientview.patientview.parser.ResultParser;
+import org.patientview.patientview.unit.UnitUtils;
 import org.patientview.quartz.exception.PatientNotMappedException;
 import org.patientview.quartz.exception.ProcessException;
 import org.patientview.quartz.exception.ResultParserException;
@@ -150,6 +151,39 @@ public class ImporterMockTest {
 
         }
         testXml.delete();
+    }
+
+    /**
+     * Test against ECS/ECR xml files as produced by LEAP
+     * @throws IOException
+     */
+    @Test
+    public void testProcessECS() throws IOException {
+
+        String[] files = {"ecs_00000_1111111111.gpg.xml",
+                "ecs_00000_4136827210.gpg.xml",
+                "ecs_00001_1910055700.gpg.xml",
+                "ecs_00000_1231231231.gpg.xml"};
+
+        for (String fileName : files) {
+            File testXml = getFile(fileName);
+
+            when(unitDao.get(anyString(), any(Specialty.class))).thenReturn(getECSUnit());
+            when(userMappingDao.getAllByNhsNo(anyString())).thenReturn(getECSMappings());
+
+            try {
+                importManager.process(testXml);
+
+                LOGGER.info("Successfully completed processing patient from " + fileName);
+            } catch (ProcessException pe) {
+                LOGGER.error(pe.getMessage());
+                Assert.fail("This file should not fail, " + fileName);
+
+            }
+            testXml.delete();
+        }
+
+        verify(patientManager, Mockito.times(4)).save(any(Patient.class));
     }
 
     /**
@@ -349,6 +383,20 @@ public class ImporterMockTest {
 
         correctUserMappings.add(userMapping);
 
+        return correctUserMappings;
+    }
+
+    private Unit getECSUnit() {
+        Unit unit = new Unit();
+        unit.setUnitcode(UnitUtils.ECS_UNITCODE);
+        return unit;
+    }
+
+    private List<UserMapping> getECSMappings() {
+        List<UserMapping> correctUserMappings = new ArrayList<UserMapping>();
+        UserMapping userMapping = new UserMapping();
+        userMapping.setUnitcode(UnitUtils.ECS_UNITCODE);
+        correctUserMappings.add(userMapping);
         return correctUserMappings;
     }
 

@@ -25,6 +25,7 @@ import java.util.List;
 public final class UnitUtils {
 
     public static final String PATIENT_ENTERS_UNITCODE = "PATIENT";
+    public static final String ECS_UNITCODE = "ECS";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UnitUtils.class);
 

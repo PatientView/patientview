@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='ASCII'?>
+<patientview>
+    <sequence>0</sequence>
+    <dateofreport>2014-07-22</dateofreport>
+    <flag></flag>
+    <centredetails>
+        <centrecode>ECS</centrecode>
+        <centrename>Emergency Care Summary, Scotland</centrename>
+    </centredetails>
+    <patient>
+        <personaldetails>
+            <nhsno>4136827210</nhsno>
+        </personaldetails>
+    </patient>
+    <drugdetails/>
+</patientview>

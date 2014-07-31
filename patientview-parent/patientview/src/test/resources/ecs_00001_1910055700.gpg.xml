@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='ASCII'?>
+<patientview>
+    <sequence>1</sequence>
+    <dateofreport>2014-07-22</dateofreport>
+    <flag></flag>
+    <centredetails>
+        <centrecode>ECS</centrecode>
+        <centrename>Emergency Care Summary, Scotland</centrename>
+    </centredetails>
+    <patient>
+        <personaldetails>
+            <nhsno>1910055700</nhsno>
+        </personaldetails>
+    </patient>
+    <drugdetails>
+        <drug>
+            <drugstartdate>2004-08-17</drugstartdate>
+            <drugname>Furosamide 40mg tablets</drugname>
+            <drugdose>1 Tab Daily</drugdose>
+            <code>
+                <codetype> </codetype>
+                <codevalue></codevalue>
+            </code>
+        </drug>
+        <drug>
+            <drugstartdate>2004-08-17</drugstartdate>
+            <drugname>Lansoprazole Orodispersible TABS 15MG</drugname>
+            <drugdose>1 Tab Daily</drugdose>
+            <code>
+                <codetype> </codetype>
+                <codevalue></codevalue>
+            </code>
+        </drug>
+        <drug>
+            <drugstartdate>2005-02-23</drugstartdate>
+            <drugname>Perindopril TABS 8MG</drugname>
+            <drugdose>1 Tab In the morning</drugdose>
+            <code>
+                <codetype> </codetype>
+                <codevalue></codevalue>
+            </code>
+        </drug>
+    </drugdetails>
+</patientview>
