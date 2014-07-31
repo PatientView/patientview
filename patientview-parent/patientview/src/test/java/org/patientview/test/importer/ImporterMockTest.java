@@ -160,21 +160,30 @@ public class ImporterMockTest {
     @Test
     public void testProcessECS() throws IOException {
 
-        File testXml = getFile("ecs_00000_1111111111.gpg.xml");
+        String[] files = {"ecs_00000_1111111111.gpg.xml",
+                "ecs_00000_4136827210.gpg.xml",
+                "ecs_00001_1910055700.gpg.xml",
+                "ecs_00000_1231231231.gpg.xml"};
 
-        when(unitDao.get(anyString(), any(Specialty.class))).thenReturn(getECSUnit());
-        when(userMappingDao.getAllByNhsNo(anyString())).thenReturn(getECSMappings());
+        for (String fileName : files) {
+            File testXml = getFile(fileName);
 
-        try {
-            importManager.process(testXml);
-            verify(patientManager, Mockito.times(1)).save(any(Patient.class));
-            LOGGER.info("Successfully completed processing patient");
-        } catch (ProcessException pe) {
-            LOGGER.error(pe.getMessage());
-            Assert.fail("This file should not fail");
+            when(unitDao.get(anyString(), any(Specialty.class))).thenReturn(getECSUnit());
+            when(userMappingDao.getAllByNhsNo(anyString())).thenReturn(getECSMappings());
 
+            try {
+                importManager.process(testXml);
+
+                LOGGER.info("Successfully completed processing patient from " + fileName);
+            } catch (ProcessException pe) {
+                LOGGER.error(pe.getMessage());
+                Assert.fail("This file should not fail, " + fileName);
+
+            }
+            testXml.delete();
         }
-        testXml.delete();
+
+        verify(patientManager, Mockito.times(4)).save(any(Patient.class));
     }
 
     /**
