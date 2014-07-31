@@ -17,6 +17,7 @@ import org.patientview.model.Specialty;
 import org.patientview.model.Unit;
 import org.patientview.patientview.model.UserMapping;
 import org.patientview.patientview.parser.ResultParser;
+import org.patientview.patientview.unit.UnitUtils;
 import org.patientview.quartz.exception.PatientNotMappedException;
 import org.patientview.quartz.exception.ProcessException;
 import org.patientview.quartz.exception.ResultParserException;
@@ -378,14 +379,14 @@ public class ImporterMockTest {
 
     private Unit getECSUnit() {
         Unit unit = new Unit();
-        unit.setUnitcode("ECSUNIT");
+        unit.setUnitcode(UnitUtils.ECS_UNITCODE);
         return unit;
     }
 
     private List<UserMapping> getECSMappings() {
         List<UserMapping> correctUserMappings = new ArrayList<UserMapping>();
         UserMapping userMapping = new UserMapping();
-        userMapping.setUnitcode("ECSUNIT");
+        userMapping.setUnitcode(UnitUtils.ECS_UNITCODE);
         correctUserMappings.add(userMapping);
         return correctUserMappings;
     }
