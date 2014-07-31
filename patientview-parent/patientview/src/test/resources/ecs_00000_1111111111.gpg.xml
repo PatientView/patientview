@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='ASCII'?>
+<patientview>
+    <sequence>0</sequence>
+    <dateofreport>2014-07-22</dateofreport>
+    <flag></flag>
+    <centredetails>
+        <centrecode>ECS</centrecode>
+        <centrename>Emergency Care Summary, Scotland</centrename>
+    </centredetails>
+    <patient>
+        <personaldetails>
+            <nhsno>1111111111</nhsno>
+        </personaldetails>
+    </patient>
+    <drugdetails>
+        <drug>
+            <drugstartdate>1987-10-23</drugstartdate>
+            <drugname>Adalat-P42 5mg capsule</drugname>
+            <drugdose>1 tab three times daily</drugdose>
+            <code>
+                <codetype> </codetype>
+                <codevalue></codevalue>
+            </code>
+        </drug>
+        <drug>
+            <drugstartdate></drugstartdate>
+            <drugname>Aspirin Dispersible TABS 75MG</drugname>
+            <drugdose>1 or 2 Tabs At night</drugdose>
+            <code>
+                <codetype> </codetype>
+                <codevalue></codevalue>
+            </code>
+        </drug>
+        <drug>
+            <drugstartdate>2009-08-07</drugstartdate>
+            <drugname>Levobunolol Hydrochloride Preservative Free Unit Dose Eye 0.4ml DROPS 0.5%</drugname>
+            <drugdose>2 Drops morning and night</drugdose>
+            <code>
+                <codetype> </codetype>
+                <codevalue></codevalue>
+            </code>
+        </drug>
+        <drug>
+            <drugstartdate></drugstartdate>
+            <drugname>Paracetamol Sf Oral SUSP 120MG/5ML</drugname>
+            <drugdose>10 ml morning and night</drugdose>
+            <code>
+                <codetype> </codetype>
+                <codevalue></codevalue>
+            </code>
+        </drug>
+        <drug>
+            <drugstartdate>2009-08-07</drugstartdate>
+            <drugname>Paroxetine TABS 20MG</drugname>
+            <drugdose>1 or 2 Tabs morning and night</drugdose>
+            <code>
+                <codetype> </codetype>
+                <codevalue></codevalue>
+            </code>
+        </drug>
+        <drug>
+            <drugstartdate>1984-12-01</drugstartdate>
+            <drugname>Voltarol retard-P42 100mg tablet SR</drugname>
+            <drugdose>1 tab at night</drugdose>
+            <code>
+                <codetype> </codetype>
+                <codevalue></codevalue>
+            </code>
+        </drug>
+        <drug>
+            <drugstartdate>1986-12-01</drugstartdate>
+            <drugname>Zantac-P42 150mg tablet</drugname>
+            <drugdose>1 tab twice daily</drugdose>
+            <code>
+                <codetype> </codetype>
+                <codevalue></codevalue>
+            </code>
+        </drug>
+    </drugdetails>
+</patientview>
