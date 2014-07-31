@@ -503,10 +503,20 @@ public class UserManagerImpl implements UserManager {
     @Override
     public void setEcrOptInStatus(User user, boolean optIn, boolean permanentlyOptOut) {
 
+        // set opt in status
         user.setEcrOptInStatus(optIn);
         user.setEcrOptOutPermanently(permanentlyOptOut);
         user.setUpdated(new Date());
         userDao.save(user);
+
+        // add/remove usermapping for ECS unit based on opt in status
+        if (optIn) {
+            // create ECS user mapping
+            save(new UserMapping(user.getUsername(), "ECS", null));
+        } else {
+            // remove ECS user mapping
+            deleteUserMappings(user.getUsername(), "ECS");
+        }
     }
 
     @Override

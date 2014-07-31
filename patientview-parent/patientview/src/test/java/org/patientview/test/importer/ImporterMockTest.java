@@ -153,6 +153,30 @@ public class ImporterMockTest {
     }
 
     /**
+     * Test against ECS/ECR xml files as produced by LEAP
+     * @throws IOException
+     */
+    @Test
+    public void testProcessECS() throws IOException {
+
+        File testXml = getFile("ecs_00000_1111111111.gpg.xml");
+
+        when(unitDao.get(anyString(), any(Specialty.class))).thenReturn(getECSUnit());
+        when(userMappingDao.getAllByNhsNo(anyString())).thenReturn(getECSMappings());
+
+        try {
+            importManager.process(testXml);
+            verify(patientManager, Mockito.times(1)).save(any(Patient.class));
+            LOGGER.info("Successfully completed processing patient");
+        } catch (ProcessException pe) {
+            LOGGER.error(pe.getMessage());
+            Assert.fail("This file should not fail");
+
+        }
+        testXml.delete();
+    }
+
+    /**
      * Test: To check a file with an invalid unit code fails the test
      *       The importer does not try and save the patient
      * Fail: The test does not throw a ProcessException
@@ -349,6 +373,20 @@ public class ImporterMockTest {
 
         correctUserMappings.add(userMapping);
 
+        return correctUserMappings;
+    }
+
+    private Unit getECSUnit() {
+        Unit unit = new Unit();
+        unit.setUnitcode("ECSUNIT");
+        return unit;
+    }
+
+    private List<UserMapping> getECSMappings() {
+        List<UserMapping> correctUserMappings = new ArrayList<UserMapping>();
+        UserMapping userMapping = new UserMapping();
+        userMapping.setUnitcode("ECSUNIT");
+        correctUserMappings.add(userMapping);
         return correctUserMappings;
     }
 
