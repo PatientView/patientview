@@ -58,14 +58,17 @@
     <logic:equal name="user" property="ecrOptOutPermanently" value="false">
         <form id="ecrOptedInOptedOut">
             <logic:notEqual name="user" property="ecrOptInStatus" value="true">
-                <div class="alert alert-warning" id="ecrOptedOut">
-                    <h2>Emergency Care Record</h2>
-                    <p>Please click the Opt In button if you would like PatientView to display the prescription from your GP.
-                        This is useful as its usually the most up to date prescription. PatientView can now obtain it for you,
-                        with your permission, from the Scottish Emergency Care Summary.</p>
-                    <p><input type="submit" value="Opt In" id="ecrOptInButton" class="btn btn-primary"/>&nbsp;&nbsp;
-                        <input type="submit" value="Never Ask Me Again" id="ecrOptOutPermanentlyButton" class="btn"/></p>
-                </div>
+                <logic:equal name="user" property="ecrOptInNotNow" value="false">
+                    <div class="alert alert-warning" id="ecrOptedOut">
+                        <h2>Emergency Care Record</h2>
+                        <p>Please click the Opt In button if you would like PatientView to display the prescription from your GP.
+                            This is useful as its usually the most up to date prescription. PatientView can now obtain it for you,
+                            with your permission, from the Scottish Emergency Care Summary.</p>
+                        <p><input type="submit" value="Opt In" id="ecrOptInButton" class="btn btn-primary"/>&nbsp;&nbsp;
+                            <input type="submit" value="Not Now" id="ecrOptInNotNowButton" class="btn"/>&nbsp;&nbsp;
+                            <input type="submit" value="Never Ask Me Again" id="ecrOptOutPermanentlyButton" class="btn"/></p>
+                    </div>
+                </logic:equal>
             </logic:notEqual>
         </form>
     </logic:equal>

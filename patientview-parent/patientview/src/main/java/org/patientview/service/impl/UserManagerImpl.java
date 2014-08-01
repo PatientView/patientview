@@ -501,11 +501,14 @@ public class UserManagerImpl implements UserManager {
     }
 
     @Override
-    public void setEcrOptInStatus(User user, boolean optIn, boolean permanentlyOptOut) {
+    public void setEcrOptInStatus(User user, boolean optIn, boolean permanentlyOptOut
+            , boolean optInNotNow, boolean optOutNotNow) {
 
         // set opt in status
         user.setEcrOptInStatus(optIn);
         user.setEcrOptOutPermanently(permanentlyOptOut);
+        user.setEcrOptInNotNow(optInNotNow);
+        user.setEcrOptOutNotNow(optOutNotNow);
         user.setUpdated(new Date());
         userDao.save(user);
 

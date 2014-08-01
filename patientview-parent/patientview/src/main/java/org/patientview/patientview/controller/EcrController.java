@@ -92,10 +92,18 @@ public class EcrController extends BaseController {
     @ResponseBody
     public ResponseEntity<String> changeOptInOut(HttpServletRequest request,
             @RequestParam(value = "optIn", required = false) String optIn,
-            @RequestParam(value = "optOutPermanently", required = false) String optOutPermanently) {
+            @RequestParam(value = "optOutPermanently", required = false) String optOutPermanently,
+            @RequestParam(value = "optInNotNow", required = false) String optInNotNow,
+            @RequestParam(value = "optOutNotNow", required = false) String optOutNotNow) {
 
         if (StringUtils.isEmpty(optIn) || StringUtils.isEmpty(optOutPermanently)) {
             return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+        }
+        if (StringUtils.isEmpty(optInNotNow)) {
+            optInNotNow = "false";
+        }
+        if (StringUtils.isEmpty(optOutNotNow)) {
+            optOutNotNow = "false";
         }
 
         try {
@@ -106,7 +114,8 @@ public class EcrController extends BaseController {
             } else {
                 user = userManager.getLoggedInUser();
             }
-            userManager.setEcrOptInStatus(user, Boolean.parseBoolean(optIn), Boolean.parseBoolean(optOutPermanently));
+            userManager.setEcrOptInStatus(user, Boolean.parseBoolean(optIn), Boolean.parseBoolean(optOutPermanently),
+                    Boolean.parseBoolean(optInNotNow), Boolean.parseBoolean(optOutNotNow));
             return new ResponseEntity<String>(HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);

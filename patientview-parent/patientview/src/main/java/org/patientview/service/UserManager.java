@@ -123,8 +123,11 @@ public interface UserManager {
      * @param user user to update
      * @param optIn if user is opting in or out of ECR
      * @param permanentlyOptOut if user is permanently opting out of ECR
+     * @param optInNotNow if user is temporarily hiding the Opt In dialog and replacing with a button
+     * @param optOutNotNow if user is temporarily hiding the Opt Out dialog and replacing with a button
      */
-    void setEcrOptInStatus(User user, boolean optIn, boolean permanentlyOptOut);
+    void setEcrOptInStatus(User user, boolean optIn, boolean permanentlyOptOut
+            , boolean optInNotNow, boolean optOutNotNow);
 
     /**
      * Get list of all available patient identifiers (NHS/CHI) where patients are opted in to ECR
