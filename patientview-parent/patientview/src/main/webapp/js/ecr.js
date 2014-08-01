@@ -23,7 +23,11 @@
 
 ecr = {};
 ecr.ecrOptInButton = $('#ecrOptInButton');
+ecr.ecrOptInNowButton = $('#ecrOptInNowButton');
+ecr.ecrOptInNotNowButton = $('#ecrOptInNotNowButton');
 ecr.ecrOptOutButton = $('#ecrOptOutButton');
+ecr.ecrOptOutNowButton = $('#ecrOptOutNowButton');
+ecr.ecrOptOutNotNowButton = $('#ecrOptOutNotNowButton');
 ecr.ecrOptOutPermanentlyButton = $('#ecrOptOutPermanentlyButton');
 ecr.ecrOptedIn = $('#ecrOptedIn');
 ecr.ecrOptedOut = $('#ecrOptedOut');
@@ -44,6 +48,22 @@ ecr.init = function() {
     ecr.ecrOptOutPermanentlyButton.click(function(event) {
         event.preventDefault();
         ecr.optOutPermanently();
+    });
+    ecr.ecrOptInNowButton.click(function(event) {
+        event.preventDefault();
+        ecr.optInNow();
+    });
+    ecr.ecrOptInNotNowButton.click(function(event) {
+        event.preventDefault();
+        ecr.optInNotNow();
+    });
+    ecr.ecrOptOutNowButton.click(function(event) {
+        event.preventDefault();
+        ecr.optOutNow();
+    });
+    ecr.ecrOptOutNotNowButton.click(function(event) {
+        event.preventDefault();
+        ecr.optOutNotNow();
     });
 };
 
@@ -67,6 +87,66 @@ ecr.optOut = function() {
         type: "POST",
         url: "/web/ecr/changeOptInOut",
         data: {"optIn":"false","optOutPermanently":"false"},
+        success: function() {
+            location.reload();
+        },
+        error: function() {
+            alert("There was an error setting your preferences");
+        },
+        dataType: 'json'
+    });
+};
+
+ecr.optInNow = function() {
+    $.ajax({
+        type: "POST",
+        url: "/web/ecr/changeOptInOut",
+        data: {"optIn":"true","optOutPermanently":"false","optInNotNow":"false"},
+        success: function() {
+            location.reload();
+        },
+        error: function() {
+            alert("There was an error setting your preferences");
+        },
+        dataType: 'json'
+    });
+};
+
+ecr.optInNotNow = function() {
+    $.ajax({
+        type: "POST",
+        url: "/web/ecr/changeOptInOut",
+        data: {"optIn":"false","optOutPermanently":"false","optInNotNow":"true"},
+        success: function() {
+            location.reload();
+        },
+        error: function() {
+            alert("There was an error setting your preferences");
+        },
+        dataType: 'json'
+    });
+};
+
+ecr.optOutNotNow = function() {
+    $.ajax({
+        type: "POST",
+        url: "/web/ecr/changeOptInOut",
+        data: {"optIn":"true","optOutPermanently":"false","optOutNotNow":"true"},
+        success: function() {
+            location.reload();
+        },
+        error: function() {
+            alert("There was an error setting your preferences");
+        },
+        dataType: 'json'
+    });
+};
+
+ecr.optOutNow = function() {
+    $.ajax({
+        type: "POST",
+        url: "/web/ecr/changeOptInOut",
+        data: {"optIn":"false","optOutPermanently":"false","optOutNotNow":"false"},
         success: function() {
             location.reload();
         },

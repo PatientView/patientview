@@ -30,27 +30,40 @@
 <div class="page-header">
     <h1>Medicines</h1>
 </div>
-
 <%-- ECR opt in prompt (only if not opted out permanently)--%>
 <logic:equal name="ecrEnabled" value="true">
     <logic:equal name="user" property="ecrOptOutPermanently" value="false">
         <form id="ecrOptedInOptedOut">
             <logic:equal name="user" property="ecrOptInStatus" value="true">
-                <div class="alert alert-success" id="ecrOptedIn">
-                    <h2>Emergency Care Record</h2>
-                    <p>You are currently opted in to retrieve medication details from your Emergency Care Record.</p>
-                    <p><input type="submit" value="Opt Out" id="ecrOptOutButton" class="btn"/></p>
-                </div>
+                <logic:equal name="user" property="ecrOptOutNotNow" value="false">
+                    <div class="alert alert-success" id="ecrOptedIn">
+                        <h2>Emergency Care Record</h2>
+                        <p>You are currently opted in to retrieve medication details from your Emergency Care Record.</p>
+                        <p>
+                            <input type="submit" value="Hide" id="ecrOptOutNotNowButton" class="btn"/>&nbsp;&nbsp;
+                            <input type="submit" value="Opt Out" id="ecrOptOutButton" class="btn"/>
+                        </p>
+                    </div>
+                </logic:equal>
+                <logic:equal name="user" property="ecrOptOutNotNow" value="true">
+                    <p><input type="submit" value="Hide GP Drugs" id="ecrOptInNowButton" class="btn"/></p>
+                </logic:equal>
             </logic:equal>
             <logic:notEqual name="user" property="ecrOptInStatus" value="true">
-                <div class="alert alert-warning" id="ecrOptedOut">
-                    <h2>Emergency Care Record</h2>
-                    <p>Please click the Opt In button if you would like PatientView to display the prescription from your GP.
-                        This is useful as its usually the most up to date prescription. PatientView can now obtain it for you,
-                        with your permission, from the Scottish Emergency Care Summary.</p>
-                    <p><input type="submit" value="Opt In" id="ecrOptInButton" class="btn btn-primary"/>&nbsp;&nbsp;
-                       <input type="submit" value="Never Ask Me Again" id="ecrOptOutPermanentlyButton" class="btn"/></p>
-                </div>
+                <logic:equal name="user" property="ecrOptInNotNow" value="false">
+                    <div class="alert alert-warning" id="ecrOptedOut">
+                        <h2>Emergency Care Record</h2>
+                        <p>Please click the Opt In button if you would like PatientView to display the prescription from your GP.
+                            This is useful as its usually the most up to date prescription. PatientView can now obtain it for you,
+                            with your permission, from the Scottish Emergency Care Summary.</p>
+                        <p><input type="submit" value="Opt In" id="ecrOptInButton" class="btn btn-primary"/>&nbsp;&nbsp;
+                           <input type="submit" value="Not Now" id="ecrOptInNotNowButton" class="btn"/>&nbsp;&nbsp;
+                           <input type="submit" value="Never Ask Me Again" id="ecrOptOutPermanentlyButton" class="btn"/></p>
+                    </div>
+                </logic:equal>
+                <logic:equal name="user" property="ecrOptInNotNow" value="true">
+                    <p><input type="submit" value="Show GP Drugs" id="ecrOptOutNowButton" class="btn"/></p>
+                </logic:equal>
             </logic:notEqual>
         </form>
     </logic:equal>
