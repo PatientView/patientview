@@ -120,13 +120,10 @@ public class Medicine extends BaseModel {
     public String getFormattedStartDate() {
         SimpleDateFormat dateWithoutHourAndMinutes = new SimpleDateFormat("dd/MM/yy");
         SimpleDateFormat dateWithHourAndMinutes = new SimpleDateFormat("dd/MM/yy HH:mm");
-
         String formattedStartDate = "";
 
         if (startdate != null) {
-            /**
-             * if hour and minute information exist, parse it as well.
-             */
+            // if hour and minute information exist, parse it as well.
             if ((startdate.get(Calendar.HOUR_OF_DAY) == 0) && (startdate.get(Calendar.MINUTE) == 0)) {
                 formattedStartDate = dateWithoutHourAndMinutes.format(startdate.getTime());
             } else {
@@ -137,4 +134,24 @@ public class Medicine extends BaseModel {
         return formattedStartDate;
     }
 
+    public String getFormattedStartDate(boolean showTime) {
+        SimpleDateFormat dateWithoutHourAndMinutes = new SimpleDateFormat("dd/MM/yy");
+        SimpleDateFormat dateWithHourAndMinutes = new SimpleDateFormat("dd/MM/yy HH:mm");
+        String formattedStartDate = "";
+
+        if (startdate != null) {
+            // if showTime is true and hour and minute information exist, parse it as well.
+            if (showTime) {
+                if ((startdate.get(Calendar.HOUR_OF_DAY) == 0) && (startdate.get(Calendar.MINUTE) == 0)) {
+                    formattedStartDate = dateWithoutHourAndMinutes.format(startdate.getTime());
+                } else {
+                    formattedStartDate = dateWithHourAndMinutes.format(startdate.getTime());
+                }
+            } else {
+                formattedStartDate = dateWithoutHourAndMinutes.format(startdate.getTime());
+            }
+        }
+
+        return formattedStartDate;
+    }
 }

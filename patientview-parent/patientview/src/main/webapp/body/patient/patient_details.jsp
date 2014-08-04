@@ -60,7 +60,7 @@
             <logic:notEqual name="user" property="ecrOptInStatus" value="true">
                 <logic:equal name="user" property="ecrOptInNotNow" value="false">
                     <div class="alert alert-warning" id="ecrOptedOut">
-                        <h2>Emergency Care Record</h2>
+                        <h2>Medicines From Your GP's Records</h2>
                         <p>Please click the Opt In button if you would like PatientView to display the prescription from your GP.
                             This is useful as its usually the most up to date prescription. PatientView can now obtain it for you,
                             with your permission, from the Scottish Emergency Care Summary.</p>
