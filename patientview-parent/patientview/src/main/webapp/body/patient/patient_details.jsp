@@ -286,7 +286,7 @@
 
 
 
-            <br/>(<a href="http://www.renal.org/rixg/transplant.html" target="_blank">Explain this</a>)
+            <br/>(<a href="http://www.rixg.org/rpv/transplant.html" target="_blank">Explain this</a>)
         </td>
     </tr>
 
