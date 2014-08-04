@@ -282,7 +282,7 @@ public final class LookingLocalUtils {
             for (MedicineWithShortName medicine : medicineWithShortNames) {
                 Element medicineEl = doc.createElement("static");
                 sb = new StringBuffer();
-                sb.append(medicine.getFormattedStartDate()).append(" ");
+                sb.append(medicine.getFormattedStartDate(true)).append(" ");
                 sb.append(medicine.getName()).append(" ");
                 sb.append(medicine.getDose()).append(" ");
                 sb.append(medicine.getShortname());

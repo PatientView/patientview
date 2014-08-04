@@ -37,8 +37,10 @@
             <logic:equal name="user" property="ecrOptInStatus" value="true">
                 <logic:equal name="user" property="ecrOptOutNotNow" value="false">
                     <div class="alert alert-success" id="ecrOptedIn">
-                        <h2>Emergency Care Record</h2>
-                        <p>You are currently opted in to retrieve medication details from your Emergency Care Record.</p>
+                        <h2>Medicines from your GP's records</h2>
+                        <p>We need your explicit permission to access your GP's records of your medication.
+                            <a href="http://www.rixg.org/rpv/ecs-scr.html" target="_blank">(How we access your GP records)</a></p>
+                        <p>You are currently opted in to this service.</p>
                         <p>
                             <input type="submit" value="Hide" id="ecrOptOutNotNowButton" class="btn"/>&nbsp;&nbsp;
                             <input type="submit" value="Opt Out" id="ecrOptOutButton" class="btn"/>
@@ -52,7 +54,7 @@
             <logic:notEqual name="user" property="ecrOptInStatus" value="true">
                 <logic:equal name="user" property="ecrOptInNotNow" value="false">
                     <div class="alert alert-warning" id="ecrOptedOut">
-                        <h2>Emergency Care Record</h2>
+                        <h2>Medicines from your GP's records</h2>
                         <p>Please click the Opt In button if you would like PatientView to display the prescription from your GP.
                             This is useful as its usually the most up to date prescription. PatientView can now obtain it for you,
                             with your permission, from the Scottish Emergency Care Summary.</p>
@@ -79,16 +81,15 @@
 
 <%-- Medication (not ECR) --%>
 <logic:notEmpty name="medicines">
-    <h2 class="tableheader" colspan="4">Medicines for <bean:write name="user" property="name"/></h2>
     <div id="medications">
         <h3>From Your Units</h3>
         <table width="650" border="0" cellspacing="1" cellpadding="3" class="table table-bordered table-striped">
             <thead>
             <tr>
                 <th class="tablecellbold" width="75"><b>Start Date</b></th>
-                <th class="tablecellbold">Medicine Name</th>
-                <th class="tablecellbold">Dose</th>
-                <th class="tablecellbold">Source</th>
+                <th class="tablecellbold" width="300">Medicine Name</th>
+                <th class="tablecellbold" width="300">Dose</th>
+                <th class="tablecellbold" width="100">Source</th>
             </tr>
             </thead>
             <tbody>
@@ -114,13 +115,14 @@
         <logic:equal name="user" property="ecrOptInStatus" value="true">
             <logic:notEmpty name="medicinesECR">
                 <div id="medications-ecr">
-                    <h3>From Your Emergency Care Record</h3>
+                    <h3>Medicines From Your GP's Records</h3>
                     <table width="650" border="0" cellspacing="1" cellpadding="3" class="table table-bordered table-striped">
                         <thead>
                         <tr>
                             <th class="tablecellbold" width="75"><b>Start Date</b></th>
-                            <th class="tablecellbold">Medicine Name</th>
-                            <th class="tablecellbold">Dose</th>
+                            <th class="tablecellbold" width="300">Medicine Name</th>
+                            <th class="tablecellbold" width="300">Dose</th>
+                            <th class="tablecellbold" width="100">Source</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -129,6 +131,7 @@
                                 <td class="tablecell"><bean:write name="medicine" property="formattedStartDate"/></td>
                                 <td class="tablecell"><bean:write name="medicine" property="name"/></td>
                                 <td class="tablecell"><bean:write name="medicine" property="dose"/></td>
+                                <td class="tablecell"><bean:write name="medicine" property="shortname"/></td>
                             </tr>
                         </logic:iterate>
                         </tbody>
@@ -136,7 +139,7 @@
                 </div>
             </logic:notEmpty>
             <logic:empty name="medicinesECR">
-                <div class="alert">No ECS medicines uploaded</div>
+                <div class="alert">No GP medicines uploaded</div>
             </logic:empty>
         </logic:equal>
     </logic:equal>
