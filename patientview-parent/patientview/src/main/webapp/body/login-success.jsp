@@ -104,10 +104,12 @@
                             <h2>Medicines From Your GP's Records</h2>
                             <p>Please click the Opt In button if you would like PatientView to display the prescription from your GP.
                                 This is useful as its usually the most up to date prescription. PatientView can now obtain it for you,
-                                with your permission, from the Scottish Emergency Care Summary.</p>
-                            <p><input type="submit" value="Opt In" id="ecrOptInButton" class="btn btn-primary"/>&nbsp;&nbsp;
-                                <input type="submit" value="Not Now" id="ecrOptInNotNowButton" class="btn"/>&nbsp;&nbsp;
-                                <input type="submit" value="Never Ask Me Again" id="ecrOptOutPermanentlyButton" class="btn"/></p>
+                                with your permission, from the Emergency Care Summary.
+                                <a href="http://www.rixg.org/rpv/ecs-scr.html" target="_blank">(Explain This)</a>
+                            </p>
+                            <p><input type="submit" value="Opt In" id="ecrOptInButton" class="btn"/>&nbsp;&nbsp;
+                                <input type="submit" value="Hide This Notification" id="ecrOptInNotNowButton" class="submitLink"/>&nbsp;&nbsp;
+                                <input type="submit" value="Never Ask Me Again" id="ecrOptOutPermanentlyButton" class="btn hidden"/></p>
                         </div>
                     </logic:equal>
                 </logic:notEqual>
