@@ -39,16 +39,16 @@
                     <div class="alert alert-success" id="ecrOptedIn">
                         <h2>Medicines from your GP's records</h2>
                         <p>We need your explicit permission to access your GP's records of your medication.
-                            <a href="http://www.rixg.org/rpv/ecs-scr.html" target="_blank">(How we access your GP records)</a></p>
-                        <p>You are currently opted in to this service.</p>
+                            <a href="http://www.rixg.org/rpv/ecs-scr.html" target="_blank">(Explain This)</a></p>
+                        <p>You are currently opted in to show medicines from your GP record.</p>
                         <p>
-                            <input type="submit" value="Hide" id="ecrOptOutNotNowButton" class="btn"/>&nbsp;&nbsp;
-                            <input type="submit" value="Opt Out" id="ecrOptOutButton" class="btn"/>
+                            <input type="submit" value="Opt Out" id="ecrOptOutButton" class="btn"/>&nbsp;&nbsp;
+                            <input type="submit" value="Hide This Notification" id="ecrOptOutNotNowButton" class="submitLink"/>
                         </p>
                     </div>
                 </logic:equal>
                 <logic:equal name="user" property="ecrOptOutNotNow" value="true">
-                    <p><input type="submit" value="Hide GP Drugs" id="ecrOptInNowButton" class="btn"/></p>
+                    <p><input type="submit" value="Hide Medicines From My GP Records" id="ecrOptInNowButton" class="submitLink"/></p>
                 </logic:equal>
             </logic:equal>
             <logic:notEqual name="user" property="ecrOptInStatus" value="true">
@@ -57,14 +57,15 @@
                         <h2>Medicines from your GP's records</h2>
                         <p>Please click the Opt In button if you would like PatientView to display the prescription from your GP.
                             This is useful as its usually the most up to date prescription. PatientView can now obtain it for you,
-                            with your permission, from the Scottish Emergency Care Summary.</p>
-                        <p><input type="submit" value="Opt In" id="ecrOptInButton" class="btn btn-primary"/>&nbsp;&nbsp;
-                           <input type="submit" value="Not Now" id="ecrOptInNotNowButton" class="btn"/>&nbsp;&nbsp;
-                           <input type="submit" value="Never Ask Me Again" id="ecrOptOutPermanentlyButton" class="btn"/></p>
+                            with your permission, from the Emergency Care Summary.
+                            <a href="http://www.rixg.org/rpv/ecs-scr.html" target="_blank">(Explain This)</a></p>
+                        <p><input type="submit" value="Opt In" id="ecrOptInButton" class="btn"/>&nbsp;&nbsp;
+                           <input type="submit" value="Hide This Notification" id="ecrOptInNotNowButton" class="submitLink"/>&nbsp;&nbsp;
+                           <input type="submit" value="Never Ask Me Again" id="ecrOptOutPermanentlyButton" class="submitLink hidden"/></p>
                     </div>
                 </logic:equal>
                 <logic:equal name="user" property="ecrOptInNotNow" value="true">
-                    <p><input type="submit" value="Show GP Drugs" id="ecrOptOutNowButton" class="btn"/></p>
+                    <p><input type="submit" value="Show Medicines From My GP Records" id="ecrOptOutNowButton" class="submitLink"/></p>
                 </logic:equal>
             </logic:notEqual>
         </form>

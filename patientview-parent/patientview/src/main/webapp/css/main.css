@@ -877,3 +877,16 @@ td.td-buttons form{
 .error-required {
     color: red;
 }
+
+.submitLink {
+    background-color: transparent;
+    text-decoration: none;
+    border: none;
+    color: #08c;
+    cursor: pointer;
+    padding: 0;
+}
+.submitLink:hover {
+    text-decoration: underline;
+    color: #005580;
+}
