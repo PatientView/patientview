@@ -512,6 +512,9 @@ public class UserManagerImpl implements UserManager {
         user.setUpdated(new Date());
         userDao.save(user);
 
+        // clear ECS user mappings
+        deleteUserMappings(user.getUsername(), UnitUtils.ECS_UNITCODE);
+
         // add/remove usermapping for ECS unit based on opt in status
         if (optIn) {
             // get NHS number from first existing userMapping
@@ -519,9 +522,6 @@ public class UserManagerImpl implements UserManager {
 
             // create ECS user mapping
             save(new UserMapping(user.getUsername(), UnitUtils.ECS_UNITCODE, userMappings.get(0).getNhsno()));
-        } else {
-            // remove ECS user mapping
-            deleteUserMappings(user.getUsername(), UnitUtils.ECS_UNITCODE);
         }
     }
 
