@@ -141,7 +141,7 @@ public class LookingLocalHomeController extends BaseController {
             } else {
                 LOGGER.debug("auth failed, password");
                 try {
-                    LookingLocalUtils.getErrorXml(response);
+                    LookingLocalUtils.getAuthErrorXml(response);
                 } catch (Exception e) {
                     LOGGER.error("Could not create home screen response output stream{}" + e);
                 }
@@ -149,7 +149,7 @@ public class LookingLocalHomeController extends BaseController {
         } else {
             LOGGER.debug("auth failed, user null");
             try {
-                LookingLocalUtils.getErrorXml(response);
+                LookingLocalUtils.getAuthErrorXml(response);
             } catch (Exception e) {
                 LOGGER.error("Could not create home screen response output stream{}" + e);
             }

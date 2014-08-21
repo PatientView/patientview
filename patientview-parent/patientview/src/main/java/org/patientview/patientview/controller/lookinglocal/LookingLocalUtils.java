@@ -24,6 +24,7 @@
 package org.patientview.patientview.controller.lookinglocal;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.patientview.model.Patient;
 import org.patientview.model.Unit;
 import org.patientview.patientview.PatientDetails;
 import org.patientview.patientview.comment.CommentUtils;
@@ -149,81 +150,92 @@ public final class LookingLocalUtils {
 
         // if patient details exist, get first set of patient details and display on screen
         if (!CollectionUtils.isEmpty(patientDetails)) {
+            
+            Patient patient = patientDetails.get(0).getPatient();
 
             if (page == 0) {
                 // first page
                 Element name = doc.createElement("static");
-                name.setAttribute("value", "Name: " + patientDetails.get(0).getPatient().getForename() + " "
-                        + patientDetails.get(0).getPatient().getSurname());
+                name.setAttribute("value", "Name: "
+                        + (patient.getForename() != null ? patient.getForename() : "unavailable")
+                        + (patient.getSurname() != null ? " " + patient.getSurname() : ""));
                 formElement.appendChild(name);
 
                 Element dob = doc.createElement("static");
                 dob.setAttribute("value", "Date of Birth: "
-                        + patientDetails.get(0).getPatient().getFormatedDateOfBirth());
+                       + (patient.getFormatedDateOfBirth() != null ? patient.getFormatedDateOfBirth() : "unavailable"));
                 formElement.appendChild(dob);
 
                 Element nhsNo = doc.createElement("static");
-                nhsNo.setAttribute("value", "NHS Number: " + patientDetails.get(0).getPatient().getNhsno());
+                nhsNo.setAttribute("value", "NHS Number: "
+                        + (patient.getNhsno() != null ? patient.getNhsno() : "unavailable"));
                 formElement.appendChild(nhsNo);
 
                 Element hospitalNo = doc.createElement("static");
                 hospitalNo.setAttribute("value", "Hospital Number: "
-                        + patientDetails.get(0).getPatient().getHospitalnumber());
+                        + (patient.getHospitalnumber() != null ? patient.getHospitalnumber() : "unavailable"));
                 formElement.appendChild(hospitalNo);
 
                 Element address = doc.createElement("static");
                 address.setAttribute("value", "Address: "
-                        + patientDetails.get(0).getPatient().getAddress1() + ","
-                        + patientDetails.get(0).getPatient().getAddress2() + ","
-                        + patientDetails.get(0).getPatient().getAddress3() + ","
-                        + patientDetails.get(0).getPatient().getAddress4());
+                        + (patient.getAddress1() != null ? patient.getAddress1()  + ", ": "unavailable")
+                        + (patient.getAddress2() != null ? patient.getAddress2()  + ", ": " ")
+                        + (patient.getAddress3() != null ? patient.getAddress3()  + ", ": " ")
+                        + (patient.getAddress4() != null ? patient.getAddress4() : " "));
                 formElement.appendChild(address);
 
                 Element telephone1 = doc.createElement("static");
-                telephone1.setAttribute("value", "Telephone 1: " + patientDetails.get(0).getPatient().getTelephone1());
+                telephone1.setAttribute("value", "Telephone 1: "
+                        + (patient.getTelephone1() != null ? patient.getTelephone1() : "unavailable"));
                 formElement.appendChild(telephone1);
 
                 Element telephone2 = doc.createElement("static");
-                telephone2.setAttribute("value", "Telephone 2: " + patientDetails.get(0).getPatient().getTelephone2());
+                telephone2.setAttribute("value", "Telephone 2: "
+                        + (patient.getTelephone2() != null ? patient.getTelephone2() : "unavailable"));
                 formElement.appendChild(telephone2);
 
                 Element mobile = doc.createElement("static");
-                mobile.setAttribute("value", "Mobile: " + patientDetails.get(0).getPatient().getMobile());
+                mobile.setAttribute("value", "Mobile: "
+                        + (patient.getMobile() != null ? patient.getMobile() : "unavailable"));
                 formElement.appendChild(mobile);
 
                 Element diagnosis = doc.createElement("static");
-                diagnosis.setAttribute("value", "Diagnosis: " + patientDetails.get(0).getPatient().getDiagnosis());
+                diagnosis.setAttribute("value", "Diagnosis: "
+                        + (patient.getDiagnosis() != null ? patient.getDiagnosis() : "unavailable"));
                 formElement.appendChild(diagnosis);
 
             } else {
                 // second page
                 Element gpName = doc.createElement("static");
-                gpName.setAttribute("value", "GP Name: " + patientDetails.get(0).getPatient().getGpname());
+                gpName.setAttribute("value", "GP Name: "
+                        + (patient.getGpname() != null ? patient.getGpname() : "unavailable"));
                 formElement.appendChild(gpName);
 
                 Element gpTelephone = doc.createElement("static");
-                gpTelephone.setAttribute("value", "GP Telephone: " + patientDetails.get(0).getPatient().getGptelephone());
+                gpTelephone.setAttribute("value", "GP Telephone: "
+                        + (patient.getGptelephone() != null ? patient.getGptelephone() : "unavailable"));
                 formElement.appendChild(gpTelephone);
 
                 Element gpAddress = doc.createElement("static");
                 gpAddress.setAttribute("value", "Address: "
-                        + patientDetails.get(0).getPatient().getGpaddress1() + ","
-                        + patientDetails.get(0).getPatient().getGpaddress2() + ","
-                        + patientDetails.get(0).getPatient().getGpaddress3());
+                        + (patient.getGpaddress1() != null ? patient.getGpaddress1()  + ", ": "unavailable")
+                        + (patient.getGpaddress2() != null ? patient.getGpaddress2()  + ", ": " ")
+                        + (patient.getGpaddress3() != null ? patient.getGpaddress3() : " "));
                 formElement.appendChild(gpAddress);
 
                 Element treatment = doc.createElement("static");
-                treatment.setAttribute("value", "Treatment: " + patientDetails.get(0).getPatient().getTreatment());
+                treatment.setAttribute("value", "Treatment: "
+                        + (patient.getTreatment() != null ? patient.getTreatment() : "unavailable"));
                 formElement.appendChild(treatment);
 
                 Element transplantStatus = doc.createElement("static");
                 transplantStatus.setAttribute("value", "Transplant status: "
-                        + patientDetails.get(0).getPatient().getTransplantstatus());
+                        + (patient.getTransplantstatus() != null ? patient.getTransplantstatus() : "unavailable"));
                 formElement.appendChild(transplantStatus);
 
                 Element otherConditions = doc.createElement("static");
                 otherConditions.setAttribute("value", "Other conditions: "
-                        + patientDetails.get(0).getPatient().getOtherConditions());
+                        + (patient.getOtherConditions() != null ? patient.getOtherConditions() : "unavailable"));
                 formElement.appendChild(otherConditions);
             }
         } else {
@@ -970,6 +982,53 @@ public final class LookingLocalUtils {
         // static element
         Element details = doc.createElement("static");
         details.setAttribute("value", "There has been an error.");
+        formElement.appendChild(details);
+
+        // home button
+        Element home = doc.createElement("submit");
+        home.setAttribute("name", "left");
+        home.setAttribute("title", "Home");
+        formElement.appendChild(home);
+
+        // form action
+        Element formAction = doc.createElement("hiddenField");
+        formAction.setAttribute("name", "formAction");
+        formAction.setAttribute("value", Routes.SERVER_URL + Routes.LOOKING_LOCAL_HOME);
+        formElement.appendChild(formAction);
+
+        // form method
+        Element formMethod = doc.createElement("hiddenField");
+        formMethod.setAttribute("name", "formMethod");
+        formMethod.setAttribute("value", "get");
+        formElement.appendChild(formMethod);
+
+        outputXml(doc, response);
+    }
+
+    /**
+     * Create XML for the authentication error page in Looking Local
+     * @param response HTTP response
+     * @throws Exception
+     */
+    public static void getAuthErrorXml(HttpServletResponse response) throws Exception {
+
+        Document doc = getDocument();
+        // add page to screen
+        Element pageElement = doc.createElement("page");
+        pageElement.setAttribute("title", "There has been an authentication error");
+        pageElement.setAttribute("transform", "default");
+        doc.getElementsByTagName("screen").item(0).appendChild(pageElement);
+
+        // add form to screen
+        Element formElement = doc.createElement("form");
+        formElement.setAttribute("action", Routes.SERVER_URL + Routes.LOOKING_LOCAL_HOME);
+        formElement.setAttribute("method", "get");
+        pageElement.appendChild(formElement);
+
+        // static element
+        Element details = doc.createElement("static");
+        details.setAttribute("value", "We're sorry, the username/password combination was not recognised. " +
+                "Please try again");
         formElement.appendChild(details);
 
         // home button
