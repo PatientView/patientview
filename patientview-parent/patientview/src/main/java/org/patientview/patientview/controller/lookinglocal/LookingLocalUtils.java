@@ -888,7 +888,7 @@ public final class LookingLocalUtils {
         Document doc = getDocument();
         // add page to screen
         Element pageElement = doc.createElement("page");
-        pageElement.setAttribute("title", "Select what to view");
+        pageElement.setAttribute("title", "PatientView");
         pageElement.setAttribute("transform", "default");
         doc.getElementsByTagName("screen").item(0).appendChild(pageElement);
 
