@@ -43,6 +43,7 @@ public final class Routes {
     public static final String LOOKING_LOCAL_MAIN = "/lookinglocal/secure/main";
     public static final String LOOKING_LOCAL_MAIN_REDIRECT = "secure/main";
     public static final String LOOKING_LOCAL_DETAILS = "/lookinglocal/secure/details";
+    public static final String LOOKING_LOCAL_MY_DETAILS = "/lookinglocal/secure/myDetails";
     public static final String LOOKING_LOCAL_RESULTS_DISPLAY = "/lookinglocal/secure/resultsDisplay";
     public static final String LOOKING_LOCAL_LETTER_DISPLAY = "/lookinglocal/secure/letterDisplay";
 

@@ -66,6 +66,8 @@ public class LookingLocalHomeController extends BaseController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LookingLocalHomeController.class);
 
+    private int page = 0;
+
     /**
      * Deal with the URIs "/lookinglocal/home"
      * @param response HTTP response
@@ -191,18 +193,20 @@ public class LookingLocalHomeController extends BaseController {
      */
     @RequestMapping(value = Routes.LOOKING_LOCAL_DETAILS)
     @ResponseBody
-    public void getDetailsScreenXml(HttpServletRequest request, HttpServletResponse response,
+    public String getDetailsScreenXml(HttpServletRequest request, HttpServletResponse response,
                                     @RequestParam(value = "selection", required = false) String selection,
                                     @RequestParam(value = "buttonPressed", required = false) String buttonPressed) {
         LOGGER.debug("details start");
+        page = 0;
+
         try {
             if (buttonPressed != null) {
                 if (buttonPressed.equals("left")) {
                     getMainScreenXml(response);
                 } else if (selection != null) {
                 switch (Integer.parseInt(selection)) {
-                    case LookingLocalUtils.OPTION_1 : LookingLocalUtils.getMyDetailsXml(request, response);
-                        break;
+                    case LookingLocalUtils.OPTION_1 :
+                        getMyDetailsScreenXml(request, response, selection, buttonPressed);
                     case LookingLocalUtils.OPTION_2 : LookingLocalUtils.getMedicalResultsXml(request, response);
                         break;
                     case LookingLocalUtils.OPTION_3 : LookingLocalUtils.getDrugsXml(request, response);
@@ -217,6 +221,44 @@ public class LookingLocalHomeController extends BaseController {
             } else {
                 getErrorScreenXml(response);
             }
+        } catch (Exception e) {
+            getErrorScreenXml(response);
+            LOGGER.error("Could not create details response output stream: " + e.toString());
+        }
+
+        return "";
+    }
+
+    /**
+     * Deal with the URIs "/lookinglocal/secure/myDetails"
+     * @param request HTTP request
+     * @param response HTTP response
+     * @param selection User option selection
+     * @param buttonPressed button according to Looking Local, used for "Back", "More" etc buttons
+     */
+    @RequestMapping(value = Routes.LOOKING_LOCAL_MY_DETAILS)
+    @ResponseBody
+    public void getMyDetailsScreenXml(HttpServletRequest request, HttpServletResponse response,
+                                    @RequestParam(value = "selection", required = false) String selection,
+                                    @RequestParam(value = "buttonPressed", required = false) String buttonPressed) {
+        LOGGER.debug("my details start");
+        try {
+            if (buttonPressed.equals("right")) {
+                page++;
+            } else if (buttonPressed.equals("left")) {
+                page--;
+            }
+
+            if (page == -1) {
+                page = 0;
+                getDetailsScreenXml(request, response, null, "left");
+            }
+
+            //if (page == 0) {
+                //getDetailsScreenXml(request, response, null, "left");
+                LookingLocalUtils.getMyDetailsXml(request, response, page);
+            //}
+
         } catch (Exception e) {
             getErrorScreenXml(response);
             LOGGER.error("Could not create details response output stream: " + e.toString());
