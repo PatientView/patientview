@@ -150,7 +150,6 @@ public final class LookingLocalUtils {
 
         // if patient details exist, get first set of patient details and display on screen
         if (!CollectionUtils.isEmpty(patientDetails)) {
-            
             Patient patient = patientDetails.get(0).getPatient();
 
             if (page == 0) {
@@ -178,9 +177,9 @@ public final class LookingLocalUtils {
 
                 Element address = doc.createElement("static");
                 address.setAttribute("value", "Address: "
-                        + (patient.getAddress1() != null ? patient.getAddress1()  + ", ": "unavailable")
-                        + (patient.getAddress2() != null ? patient.getAddress2()  + ", ": " ")
-                        + (patient.getAddress3() != null ? patient.getAddress3()  + ", ": " ")
+                        + (patient.getAddress1() != null ? patient.getAddress1()  + ", " : "unavailable")
+                        + (patient.getAddress2() != null ? patient.getAddress2()  + ", " : " ")
+                        + (patient.getAddress3() != null ? patient.getAddress3()  + ", " : " ")
                         + (patient.getAddress4() != null ? patient.getAddress4() : " "));
                 formElement.appendChild(address);
 
@@ -218,8 +217,8 @@ public final class LookingLocalUtils {
 
                 Element gpAddress = doc.createElement("static");
                 gpAddress.setAttribute("value", "Address: "
-                        + (patient.getGpaddress1() != null ? patient.getGpaddress1()  + ", ": "unavailable")
-                        + (patient.getGpaddress2() != null ? patient.getGpaddress2()  + ", ": " ")
+                        + (patient.getGpaddress1() != null ? patient.getGpaddress1()  + ", " : "unavailable")
+                        + (patient.getGpaddress2() != null ? patient.getGpaddress2()  + ", " : " ")
                         + (patient.getGpaddress3() != null ? patient.getGpaddress3() : " "));
                 formElement.appendChild(gpAddress);
 
@@ -527,14 +526,14 @@ public final class LookingLocalUtils {
 
             // for each paragraph (as have split by \n) make sure each line only lineLength
             // long by adding new line after current line (will split words unfortunately)
-            for (int i = 0; i < allLineList.size() ; i++) {
+            for (int i = 0; i < allLineList.size(); i++) {
                 List<String> thisLine = new ArrayList<String>();
                 thisLine.add(allLineList.get(i));
 
-                for (int j = 0; j < thisLine.size() ; j++) {
+                for (int j = 0; j < thisLine.size(); j++) {
                     if (thisLine.get(j).length() > lineLength) {
                         // add new line from linelength to end
-                        thisLine.add(j+1,thisLine.get(j).substring(lineLength, thisLine.get(j).length()));
+                        thisLine.add(j + 1, thisLine.get(j).substring(lineLength, thisLine.get(j).length()));
                         // clip this element
                         thisLine.set(j, thisLine.get(j).substring(0, lineLength));
                         j--;
@@ -1027,8 +1026,8 @@ public final class LookingLocalUtils {
 
         // static element
         Element details = doc.createElement("static");
-        details.setAttribute("value", "We're sorry, the username/password combination was not recognised. " +
-                "Please try again");
+        details.setAttribute("value", "We're sorry, the username/password combination was not recognised. "
+                + "Please try again");
         formElement.appendChild(details);
 
         // home button

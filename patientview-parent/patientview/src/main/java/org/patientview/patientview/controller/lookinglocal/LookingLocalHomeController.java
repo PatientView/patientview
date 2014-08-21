@@ -66,7 +66,10 @@ public class LookingLocalHomeController extends BaseController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LookingLocalHomeController.class);
 
-    private int page = 0, itemsPerPage = 5, lineLength = 50, linesPerPage = 8;
+    private int page = 0;
+    private static final int ITEMS_PER_PAGE = 5;
+    private static final int LINE_LENGTH = 50;
+    private static final int LINES_PER_PAGE = 8;
     private String letterSelection = null;
     private String resultSelection = null;
 
@@ -287,7 +290,7 @@ public class LookingLocalHomeController extends BaseController {
                 getDetailsScreenXml(request, response, null, "left");
             }
 
-            LookingLocalUtils.getDrugsXml(request, response, page, itemsPerPage);
+            LookingLocalUtils.getDrugsXml(request, response, page, ITEMS_PER_PAGE);
 
         } catch (Exception e) {
             getErrorScreenXml(response);
@@ -353,7 +356,7 @@ public class LookingLocalHomeController extends BaseController {
                     page = 0;
                     LookingLocalUtils.getMedicalResultsXml(request, response);
                 } else {
-                    LookingLocalUtils.getResultsDetailsXml(request, response, resultSelection, page, itemsPerPage);
+                    LookingLocalUtils.getResultsDetailsXml(request, response, resultSelection, page, ITEMS_PER_PAGE);
                 }
             } else {
                 page = 0;
@@ -363,7 +366,7 @@ public class LookingLocalHomeController extends BaseController {
                     LookingLocalUtils.getMedicalResultsXml(request, response);
                 } else {
                     resultSelection = selection;
-                    LookingLocalUtils.getResultsDetailsXml(request, response, resultSelection, page, itemsPerPage);
+                    LookingLocalUtils.getResultsDetailsXml(request, response, resultSelection, page, ITEMS_PER_PAGE);
                 }
             }
         } catch (Exception e) {
@@ -397,14 +400,14 @@ public class LookingLocalHomeController extends BaseController {
                 if (page == -1) {
                     getDetailsScreenXml(request, response, null, "left");
                 } else {
-                    LookingLocalUtils.getLettersXml(request, response, page, itemsPerPage);
+                    LookingLocalUtils.getLettersXml(request, response, page, ITEMS_PER_PAGE);
                 }
             } else if (selection != null) {
                 page = 0;
                 letterSelection = selection;
                 getLetterXml(request, response, letterSelection, null);
             } else {
-                LookingLocalUtils.getLettersXml(request, response, page, itemsPerPage);
+                LookingLocalUtils.getLettersXml(request, response, page, ITEMS_PER_PAGE);
             }
         } catch (Exception e) {
             getErrorScreenXml(response);
@@ -435,21 +438,21 @@ public class LookingLocalHomeController extends BaseController {
 
                 if (page == -1) {
                     page = 0;
-                    LookingLocalUtils.getLettersXml(request, response, page, itemsPerPage);
+                    LookingLocalUtils.getLettersXml(request, response, page, ITEMS_PER_PAGE);
                 } else {
-                    LookingLocalUtils.getLetterDetailsXml(request, response, letterSelection, page, linesPerPage,
-                            lineLength);
+                    LookingLocalUtils.getLetterDetailsXml(request, response, letterSelection, page, LINES_PER_PAGE,
+                            LINE_LENGTH);
                 }
             } else {
                 page = 0;
 
                 if (selection == null) {
                     page = 0;
-                    LookingLocalUtils.getLettersXml(request, response, page, itemsPerPage);
+                    LookingLocalUtils.getLettersXml(request, response, page, ITEMS_PER_PAGE);
                 } else {
                     letterSelection = selection;
-                    LookingLocalUtils.getLetterDetailsXml(request, response, letterSelection, page, linesPerPage,
-                            lineLength);
+                    LookingLocalUtils.getLetterDetailsXml(request, response, letterSelection, page, LINES_PER_PAGE,
+                            LINE_LENGTH);
                 }
             }
         } catch (Exception e) {
