@@ -740,7 +740,7 @@ public final class LookingLocalUtils {
         if (filterTestResults != null && !filterTestResults.isEmpty()) {
 
             Element heading = doc.createElement("static");
-            heading.setAttribute("value", "Date time    |    Label    | Value");
+            heading.setAttribute("value", "Date time    |    Value");
             formElement.appendChild(heading);
 
             StringBuffer sb;
