@@ -52,6 +52,7 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -267,7 +268,10 @@ public final class LookingLocalUtils {
      * @param response HTTP response
      * @throws Exception
      */
-    public static void getDrugsXml(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public static void getDrugsXml(HttpServletRequest request, HttpServletResponse response, int page, int itemsPerPage)
+            throws Exception {
+
+        boolean lastPage = false;
 
         User user = UserUtils.retrieveUser(request);
         List<MedicineWithShortName> medicineWithShortNames = getMedicinesForPatient(user);
@@ -293,7 +297,17 @@ public final class LookingLocalUtils {
             formElement.appendChild(name);
 
             StringBuffer sb;
-            for (MedicineWithShortName medicine : medicineWithShortNames) {
+            int totalItems = medicineWithShortNames.size();
+            int start = page * itemsPerPage;
+            int end = start + itemsPerPage;
+            if (end > totalItems) {
+                lastPage = true;
+                end = totalItems;
+            }
+
+            List<MedicineWithShortName> selection = medicineWithShortNames.subList(start, end);
+
+            for (MedicineWithShortName medicine : selection) {
                 Element medicineEl = doc.createElement("static");
                 sb = new StringBuffer();
                 sb.append(medicine.getFormattedStartDate(true)).append(" ");
@@ -312,10 +326,18 @@ public final class LookingLocalUtils {
         back.setAttribute("title", "Back");
         formElement.appendChild(back);
 
+        if (!lastPage) {
+            // more button
+            Element more = doc.createElement("submit");
+            more.setAttribute("name", "right");
+            more.setAttribute("title", "More");
+            formElement.appendChild(more);
+        }
+
         // form action
         Element formAction = doc.createElement("hiddenField");
         formAction.setAttribute("name", "formAction");
-        formAction.setAttribute("value", Routes.SERVER_URL + Routes.LOOKING_LOCAL_DETAILS);
+        formAction.setAttribute("value", Routes.SERVER_URL + Routes.LOOKING_LOCAL_DRUGS);
         formElement.appendChild(formAction);
 
         // form method
@@ -457,7 +479,10 @@ public final class LookingLocalUtils {
      * @throws Exception
      */
     public static void getLetterDetailsXml(HttpServletRequest request, HttpServletResponse response,
-                                           String selection) throws Exception {
+                                           String selection, int page, int linesPerPage, int lineLength)
+                                        throws Exception {
+
+        boolean lastPage = false;
 
         Letter letter = LegacySpringUtils.getLetterManager().get(Long.parseLong(selection));
         boolean permissionToReadLetter = false;
@@ -483,9 +508,43 @@ public final class LookingLocalUtils {
             // display letter using static elements
             String letterContent = letter.getContent();
 
-            for (String paragraph : letterContent.split("\n")) {
+            // create list of all lines
+            String[] allLines = letterContent.split("\n");
+            List<String> allLineList = Arrays.asList(allLines);
+            List<String> finalLineList = new ArrayList<String>();
+
+            // for each paragraph (as have split by \n) make sure each line only lineLength
+            // long by adding new line after current line (will split words unfortunately)
+            for (int i = 0; i < allLineList.size() ; i++) {
+                List<String> thisLine = new ArrayList<String>();
+                thisLine.add(allLineList.get(i));
+
+                for (int j = 0; j < thisLine.size() ; j++) {
+                    if (thisLine.get(j).length() > lineLength) {
+                        // add new line from linelength to end
+                        thisLine.add(j+1,thisLine.get(j).substring(lineLength, thisLine.get(j).length()));
+                        // clip this element
+                        thisLine.set(j, thisLine.get(j).substring(0, lineLength));
+                        j--;
+                    }
+                }
+
+                finalLineList.addAll(thisLine);
+            }
+
+            int totalItems = finalLineList.size();
+            int start = page * linesPerPage;
+            int end = start + linesPerPage;
+            if (end > totalItems) {
+                lastPage = true;
+                end = totalItems;
+            }
+
+            List<String> letterSelection = finalLineList.subList(start, end);
+
+            for (String line : letterSelection) {
                 Element content = doc.createElement("static");
-                content.setAttribute("value", paragraph);
+                content.setAttribute("value", line);
                 formElement.appendChild(content);
             }
         }
@@ -495,6 +554,14 @@ public final class LookingLocalUtils {
         back.setAttribute("name", "left");
         back.setAttribute("title", "Back");
         formElement.appendChild(back);
+
+        if (!lastPage) {
+            // more button
+            Element more = doc.createElement("submit");
+            more.setAttribute("name", "right");
+            more.setAttribute("title", "More");
+            formElement.appendChild(more);
+        }
 
         // form action
         Element formAction = doc.createElement("hiddenField");
@@ -517,8 +584,9 @@ public final class LookingLocalUtils {
      * @param response HTTP response
      * @throws Exception
      */
-    public static void getLettersXml(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+    public static void getLettersXml(HttpServletRequest request, HttpServletResponse response,
+                                     int page, int itemsPerPage) throws Exception {
+        boolean lastPage = false;
         User user = UserUtils.retrieveUser(request);
         List<Letter> letters = LegacySpringUtils.getLetterManager().get(user.getUsername());
 
@@ -531,7 +599,7 @@ public final class LookingLocalUtils {
 
         // add form to screen
         Element formElement = doc.createElement("form");
-        formElement.setAttribute("action", Routes.SERVER_URL + Routes.LOOKING_LOCAL_LETTER_DISPLAY);
+        formElement.setAttribute("action", Routes.SERVER_URL + Routes.LOOKING_LOCAL_LETTERS);
         formElement.setAttribute("method", "post");
         pageElement.appendChild(formElement);
 
@@ -551,7 +619,17 @@ public final class LookingLocalUtils {
             formElement.appendChild(multisubmit);
 
             StringBuffer sb;
-            for (Letter letter : letters) {
+            int totalItems = letters.size();
+            int start = page * itemsPerPage;
+            int end = start + itemsPerPage;
+            if (end > totalItems) {
+                lastPage = true;
+                end = totalItems;
+            }
+
+            List<Letter> selection = letters.subList(start, end);
+
+            for (Letter letter : selection) {
                 Element fieldOption = doc.createElement("fieldOption");
                 sb = new StringBuffer();
                 sb.append(letter.getFormattedDate()).append(" ");
@@ -568,10 +646,18 @@ public final class LookingLocalUtils {
         back.setAttribute("title", "Back");
         formElement.appendChild(back);
 
+        if (!lastPage) {
+            // more button
+            Element more = doc.createElement("submit");
+            more.setAttribute("name", "right");
+            more.setAttribute("title", "More");
+            formElement.appendChild(more);
+        }
+
         // form action
         Element formAction = doc.createElement("hiddenField");
         formAction.setAttribute("name", "formAction");
-        formAction.setAttribute("value", Routes.SERVER_URL + Routes.LOOKING_LOCAL_LETTER_DISPLAY);
+        formAction.setAttribute("value", Routes.SERVER_URL + Routes.LOOKING_LOCAL_LETTERS);
         formElement.appendChild(formAction);
 
         // form method
@@ -591,7 +677,10 @@ public final class LookingLocalUtils {
      * @throws Exception
      */
     public static void getResultsDetailsXml(HttpServletRequest request,
-                                            HttpServletResponse response, String selection) throws Exception {
+                                            HttpServletResponse response, String selection, int page, int itemsPerPage)
+            throws Exception {
+
+        boolean lastPage = false;
 
         User user = UserUtils.retrieveUser(request);
         List<TestResultWithUnitShortname> results
@@ -605,7 +694,7 @@ public final class LookingLocalUtils {
 
         // add form to screen
         Element formElement = doc.createElement("form");
-        formElement.setAttribute("action", Routes.SERVER_URL + Routes.LOOKING_LOCAL_DETAILS);
+        formElement.setAttribute("action", Routes.SERVER_URL + Routes.LOOKING_LOCAL_RESULT_DISPLAY);
         formElement.setAttribute("method", "post");
         pageElement.appendChild(formElement);
 
@@ -643,7 +732,17 @@ public final class LookingLocalUtils {
             formElement.appendChild(heading);
 
             StringBuffer sb;
-            for (TestResultWithUnitShortname result : filterTestResults) {
+            int totalItems = filterTestResults.size();
+            int start = page * itemsPerPage;
+            int end = start + itemsPerPage;
+            if (end > totalItems) {
+                lastPage = true;
+                end = totalItems;
+            }
+
+            List<TestResultWithUnitShortname> resultSelection = filterTestResults.subList(start, end);
+
+            for (TestResultWithUnitShortname result : resultSelection) {
                 // static element
                 Element data = doc.createElement("static");
                 sb = new StringBuffer();
@@ -659,17 +758,28 @@ public final class LookingLocalUtils {
                 formElement.appendChild(data);
             }
 
+        } else {
+            lastPage = true;
         }
+
         // back button
         Element back = doc.createElement("submit");
         back.setAttribute("name", "left");
         back.setAttribute("title", "Back");
         formElement.appendChild(back);
 
+        if (!lastPage) {
+            // more button
+            Element more = doc.createElement("submit");
+            more.setAttribute("name", "right");
+            more.setAttribute("title", "More");
+            formElement.appendChild(more);
+        }
+
         // form action
         Element formAction = doc.createElement("hiddenField");
         formAction.setAttribute("name", "formAction");
-        formAction.setAttribute("value", Routes.SERVER_URL + Routes.LOOKING_LOCAL_DETAILS);
+        formAction.setAttribute("value", Routes.SERVER_URL + Routes.LOOKING_LOCAL_RESULT_DISPLAY);
         formElement.appendChild(formAction);
 
         // form method

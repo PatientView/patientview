@@ -66,7 +66,9 @@ public class LookingLocalHomeController extends BaseController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LookingLocalHomeController.class);
 
-    private int page = 0;
+    private int page = 0, itemsPerPage = 5, lineLength = 50, linesPerPage = 8;
+    private String letterSelection = null;
+    private String resultSelection = null;
 
     /**
      * Deal with the URIs "/lookinglocal/home"
@@ -193,7 +195,7 @@ public class LookingLocalHomeController extends BaseController {
      */
     @RequestMapping(value = Routes.LOOKING_LOCAL_DETAILS)
     @ResponseBody
-    public String getDetailsScreenXml(HttpServletRequest request, HttpServletResponse response,
+    public void getDetailsScreenXml(HttpServletRequest request, HttpServletResponse response,
                                     @RequestParam(value = "selection", required = false) String selection,
                                     @RequestParam(value = "buttonPressed", required = false) String buttonPressed) {
         LOGGER.debug("details start");
@@ -206,13 +208,13 @@ public class LookingLocalHomeController extends BaseController {
                 } else if (selection != null) {
                 switch (Integer.parseInt(selection)) {
                     case LookingLocalUtils.OPTION_1 :
-                        getMyDetailsScreenXml(request, response, selection, buttonPressed);
+                        getMyDetailsScreenXml(request, response, null);
                     case LookingLocalUtils.OPTION_2 : LookingLocalUtils.getMedicalResultsXml(request, response);
                         break;
-                    case LookingLocalUtils.OPTION_3 : LookingLocalUtils.getDrugsXml(request, response);
-                        break;
-                    case LookingLocalUtils.OPTION_4 : LookingLocalUtils.getLettersXml(request, response);
-                        break;
+                    case LookingLocalUtils.OPTION_3 :
+                        getDrugsScreenXml(request, response, null);
+                    case LookingLocalUtils.OPTION_4 :
+                        getLettersScreenXml(request, response, null, null);
                     default : getErrorScreenXml(response);
                     }
                 } else {
@@ -225,39 +227,67 @@ public class LookingLocalHomeController extends BaseController {
             getErrorScreenXml(response);
             LOGGER.error("Could not create details response output stream: " + e.toString());
         }
-
-        return "";
     }
 
     /**
      * Deal with the URIs "/lookinglocal/secure/myDetails"
      * @param request HTTP request
      * @param response HTTP response
-     * @param selection User option selection
      * @param buttonPressed button according to Looking Local, used for "Back", "More" etc buttons
      */
     @RequestMapping(value = Routes.LOOKING_LOCAL_MY_DETAILS)
     @ResponseBody
     public void getMyDetailsScreenXml(HttpServletRequest request, HttpServletResponse response,
-                                    @RequestParam(value = "selection", required = false) String selection,
                                     @RequestParam(value = "buttonPressed", required = false) String buttonPressed) {
         LOGGER.debug("my details start");
+
         try {
-            if (buttonPressed.equals("right")) {
-                page++;
-            } else if (buttonPressed.equals("left")) {
-                page--;
+            if (buttonPressed != null) {
+                if (buttonPressed.equals("right")) {
+                    page++;
+                } else if (buttonPressed.equals("left")) {
+                    page--;
+                }
             }
 
             if (page == -1) {
-                page = 0;
                 getDetailsScreenXml(request, response, null, "left");
             }
 
-            //if (page == 0) {
-                //getDetailsScreenXml(request, response, null, "left");
-                LookingLocalUtils.getMyDetailsXml(request, response, page);
-            //}
+            LookingLocalUtils.getMyDetailsXml(request, response, page);
+
+        } catch (Exception e) {
+            getErrorScreenXml(response);
+            LOGGER.error("Could not create details response output stream: " + e.toString());
+        }
+    }
+
+    /**
+     * Deal with the URIs "/lookinglocal/secure/drugs"
+     * @param request HTTP request
+     * @param response HTTP response
+     * @param buttonPressed button according to Looking Local, used for "Back", "More" etc buttons
+     */
+    @RequestMapping(value = Routes.LOOKING_LOCAL_DRUGS)
+    @ResponseBody
+    public void getDrugsScreenXml(HttpServletRequest request, HttpServletResponse response,
+                                    @RequestParam(value = "buttonPressed", required = false) String buttonPressed) {
+        LOGGER.debug("drugs start");
+
+        try {
+            if (buttonPressed != null) {
+                if (buttonPressed.equals("right")) {
+                    page++;
+                } else if (buttonPressed.equals("left")) {
+                    page--;
+                }
+            }
+
+            if (page == -1) {
+                getDetailsScreenXml(request, response, null, "left");
+            }
+
+            LookingLocalUtils.getDrugsXml(request, response, page, itemsPerPage);
 
         } catch (Exception e) {
             getErrorScreenXml(response);
@@ -281,9 +311,12 @@ public class LookingLocalHomeController extends BaseController {
         try {
             if (buttonPressed != null) {
                 if (buttonPressed.equals("left")) {
-                    getMainScreenXml(response);
+                    getDetailsScreenXml(request, response, null, "left");
                 } else if (selection != null) {
-                    LookingLocalUtils.getResultsDetailsXml(request, response, selection);
+                    //LookingLocalUtils.getResultsDetailsXml(request, response, selection);
+                    page = 0;
+                    resultSelection = selection;
+                    getResultXml(request, response, resultSelection, null);
                 } else {
                     getErrorScreenXml(response);
                 }
@@ -292,6 +325,90 @@ public class LookingLocalHomeController extends BaseController {
             }
         } catch (Exception e) {
             LOGGER.error("Could not create medical result details response output stream{}" + e);
+        }
+    }
+
+    /**
+     * Deal with the URIs "/lookinglocal/secure/resultDisplay"
+     * @param request HTTP request
+     * @param response HTTP response
+     * @param selection User option selection
+     * @param buttonPressed button according to Looking Local, used for "Back", "More" etc buttons
+     */
+    @RequestMapping(value = Routes.LOOKING_LOCAL_RESULT_DISPLAY)
+    @ResponseBody
+    public void getResultXml(HttpServletRequest request, HttpServletResponse response,
+                             @RequestParam(value = "selection", required = false) String selection,
+                             @RequestParam(value = "buttonPressed", required = false) String buttonPressed) {
+        LOGGER.debug("resultDisplay start");
+        try {
+            if (buttonPressed != null) {
+                if (buttonPressed.equals("right")) {
+                    page++;
+                } else if (buttonPressed.equals("left")) {
+                    page--;
+                }
+
+                if (page == -1) {
+                    page = 0;
+                    LookingLocalUtils.getMedicalResultsXml(request, response);
+                } else {
+                    LookingLocalUtils.getResultsDetailsXml(request, response, resultSelection, page, itemsPerPage);
+                }
+            } else {
+                page = 0;
+
+                if (selection == null) {
+                    page = 0;
+                    LookingLocalUtils.getMedicalResultsXml(request, response);
+                } else {
+                    resultSelection = selection;
+                    LookingLocalUtils.getResultsDetailsXml(request, response, resultSelection, page, itemsPerPage);
+                }
+            }
+        } catch (Exception e) {
+            LOGGER.error("Could not create result details response output stream{}" + e);
+            getErrorScreenXml(response);
+        }
+    }
+
+    /**
+     * Deal with the URIs "/lookinglocal/secure/letters"
+     * @param request HTTP request
+     * @param response HTTP response
+     * @param buttonPressed button according to Looking Local, used for "Back", "More" etc buttons
+     */
+    @RequestMapping(value = Routes.LOOKING_LOCAL_LETTERS)
+    @ResponseBody
+    public void getLettersScreenXml(HttpServletRequest request, HttpServletResponse response,
+                                    @RequestParam(value = "selection", required = false) String selection,
+                                    @RequestParam(value = "buttonPressed", required = false) String buttonPressed) {
+        LOGGER.debug("letters start");
+        letterSelection = null;
+
+        try {
+            if (buttonPressed != null) {
+                if (buttonPressed.equals("right")) {
+                    page++;
+                } else if (buttonPressed.equals("left")) {
+                    page--;
+                }
+
+                if (page == -1) {
+                    getDetailsScreenXml(request, response, null, "left");
+                } else {
+                    LookingLocalUtils.getLettersXml(request, response, page, itemsPerPage);
+                }
+            } else if (selection != null) {
+                page = 0;
+                letterSelection = selection;
+                getLetterXml(request, response, letterSelection, null);
+            } else {
+                LookingLocalUtils.getLettersXml(request, response, page, itemsPerPage);
+            }
+        } catch (Exception e) {
+            getErrorScreenXml(response);
+            LOGGER.error("Could not create details response output stream: " + e.toString());
         }
     }
 
@@ -310,18 +427,34 @@ public class LookingLocalHomeController extends BaseController {
         LOGGER.debug("letterDisplay start");
         try {
             if (buttonPressed != null) {
-                if (buttonPressed.equals("left")) {
-                    getMainScreenXml(response);
-                } else if (selection != null) {
-                    LookingLocalUtils.getLetterDetailsXml(request, response, selection);
+                if (buttonPressed.equals("right")) {
+                    page++;
+                } else if (buttonPressed.equals("left")) {
+                    page--;
+                }
+
+                if (page == -1) {
+                    page = 0;
+                    LookingLocalUtils.getLettersXml(request, response, page, itemsPerPage);
                 } else {
-                    getErrorScreenXml(response);
+                    LookingLocalUtils.getLetterDetailsXml(request, response, letterSelection, page, linesPerPage,
+                            lineLength);
                 }
             } else {
-                getErrorScreenXml(response);
+                page = 0;
+
+                if (selection == null) {
+                    page = 0;
+                    LookingLocalUtils.getLettersXml(request, response, page, itemsPerPage);
+                } else {
+                    letterSelection = selection;
+                    LookingLocalUtils.getLetterDetailsXml(request, response, letterSelection, page, linesPerPage,
+                            lineLength);
+                }
             }
         } catch (Exception e) {
             LOGGER.error("Could not create letter details response output stream{}" + e);
+            getErrorScreenXml(response);
         }
     }
 }
