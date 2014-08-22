@@ -67,7 +67,7 @@ public class LookingLocalHomeController extends BaseController {
     private static final Logger LOGGER = LoggerFactory.getLogger(LookingLocalHomeController.class);
 
     private int page = 0;
-    private static final int ITEMS_PER_PAGE = 5;
+    private static final int ITEMS_PER_PAGE = 6;
     private static final int LINE_LENGTH = 50;
     private static final int LINES_PER_PAGE = 8;
     private String letterSelection = null;
@@ -136,7 +136,7 @@ public class LookingLocalHomeController extends BaseController {
                 } else {
                     LOGGER.debug("auth failed, no specialties");
                     try {
-                        LookingLocalUtils.getErrorXml(response);
+                        LookingLocalUtils.getErrorXml(response, "Auth error");
                     } catch (Exception e) {
                         LOGGER.error("Could not create home screen response output stream{}" + e);
                     }
@@ -165,10 +165,10 @@ public class LookingLocalHomeController extends BaseController {
      */
     @RequestMapping(value = Routes.LOOKING_LOCAL_ERROR)
     @ResponseBody
-    public void getErrorScreenXml(HttpServletResponse response) {
+    public void getErrorScreenXml(HttpServletResponse response, String message) {
         LOGGER.debug("error start");
         try {
-            LookingLocalUtils.getErrorXml(response);
+            LookingLocalUtils.getErrorXml(response, message);
         } catch (Exception e) {
             LOGGER.error("Could not create main screen response output stream{}" + e);
         }
@@ -211,23 +211,23 @@ public class LookingLocalHomeController extends BaseController {
                 } else if (selection != null) {
                 switch (Integer.parseInt(selection)) {
                     case LookingLocalUtils.OPTION_1 :
-                        getMyDetailsScreenXml(request, response, null);
+                        getMyDetailsScreenXml(request, response, "go");
                     case LookingLocalUtils.OPTION_2 : LookingLocalUtils.getMedicalResultsXml(request, response);
                         break;
                     case LookingLocalUtils.OPTION_3 :
-                        getDrugsScreenXml(request, response, null);
+                        getDrugsScreenXml(request, response, "go");
                     case LookingLocalUtils.OPTION_4 :
-                        getLettersScreenXml(request, response, null, null);
-                    default : getErrorScreenXml(response);
+                        getLettersScreenXml(request, response, null, "go");
+                    default : getErrorScreenXml(response, "Incorrect option");
                     }
                 } else {
-                    getErrorScreenXml(response);
+                    getErrorScreenXml(response, "Incorrect button");
                 }
             } else {
-                getErrorScreenXml(response);
+                getErrorScreenXml(response, "Button error");
             }
         } catch (Exception e) {
-            getErrorScreenXml(response);
+            getErrorScreenXml(response, e.getMessage());
             LOGGER.error("Could not create details response output stream: " + e.toString());
         }
     }
@@ -260,7 +260,7 @@ public class LookingLocalHomeController extends BaseController {
             LookingLocalUtils.getMyDetailsXml(request, response, page);
 
         } catch (Exception e) {
-            getErrorScreenXml(response);
+            getErrorScreenXml(response, e.getMessage());
             LOGGER.error("Could not create details response output stream: " + e.toString());
         }
     }
@@ -278,22 +278,24 @@ public class LookingLocalHomeController extends BaseController {
         LOGGER.debug("drugs start");
 
         try {
-            if (buttonPressed != null) {
+            if (buttonPressed.equals("left") || buttonPressed.equals("right")) {
                 if (buttonPressed.equals("right")) {
                     page++;
                 } else if (buttonPressed.equals("left")) {
                     page--;
                 }
+            } else {
+                page = 0;
+                LookingLocalUtils.getDrugsXml(request, response, page, ITEMS_PER_PAGE);
             }
 
             if (page == -1) {
                 getDetailsScreenXml(request, response, null, "left");
+            } else {
+                LookingLocalUtils.getDrugsXml(request, response, page, ITEMS_PER_PAGE);
             }
-
-            LookingLocalUtils.getDrugsXml(request, response, page, ITEMS_PER_PAGE);
-
         } catch (Exception e) {
-            getErrorScreenXml(response);
+            getErrorScreenXml(response, e.getMessage());
             LOGGER.error("Could not create details response output stream: " + e.toString());
         }
     }
@@ -316,15 +318,14 @@ public class LookingLocalHomeController extends BaseController {
                 if (buttonPressed.equals("left")) {
                     getDetailsScreenXml(request, response, null, "left");
                 } else if (selection != null) {
-                    //LookingLocalUtils.getResultsDetailsXml(request, response, selection);
                     page = 0;
                     resultSelection = selection;
-                    getResultXml(request, response, resultSelection, null);
+                    getResultXml(request, response, resultSelection, "go");
                 } else {
-                    getErrorScreenXml(response);
+                    getErrorScreenXml(response, "Incorrect button");
                 }
             } else {
-                getErrorScreenXml(response);
+                getErrorScreenXml(response, "Button error");
             }
         } catch (Exception e) {
             LOGGER.error("Could not create medical result details response output stream{}" + e);
@@ -345,7 +346,7 @@ public class LookingLocalHomeController extends BaseController {
                              @RequestParam(value = "buttonPressed", required = false) String buttonPressed) {
         LOGGER.debug("resultDisplay start");
         try {
-            if (buttonPressed != null) {
+            if (buttonPressed.equals("left") || buttonPressed.equals("right")) {
                 if (buttonPressed.equals("right")) {
                     page++;
                 } else if (buttonPressed.equals("left")) {
@@ -371,7 +372,7 @@ public class LookingLocalHomeController extends BaseController {
             }
         } catch (Exception e) {
             LOGGER.error("Could not create result details response output stream{}" + e);
-            getErrorScreenXml(response);
+            getErrorScreenXml(response, e.getMessage());
         }
     }
 
@@ -390,7 +391,7 @@ public class LookingLocalHomeController extends BaseController {
         letterSelection = null;
 
         try {
-            if (buttonPressed != null) {
+            if (buttonPressed.equals("left") || buttonPressed.equals("right")) {
                 if (buttonPressed.equals("right")) {
                     page++;
                 } else if (buttonPressed.equals("left")) {
@@ -405,12 +406,12 @@ public class LookingLocalHomeController extends BaseController {
             } else if (selection != null) {
                 page = 0;
                 letterSelection = selection;
-                getLetterXml(request, response, letterSelection, null);
+                getLetterXml(request, response, letterSelection, "go");
             } else {
                 LookingLocalUtils.getLettersXml(request, response, page, ITEMS_PER_PAGE);
             }
         } catch (Exception e) {
-            getErrorScreenXml(response);
+            getErrorScreenXml(response, e.getMessage());
             LOGGER.error("Could not create details response output stream: " + e.toString());
         }
     }
@@ -429,7 +430,7 @@ public class LookingLocalHomeController extends BaseController {
                              @RequestParam(value = "buttonPressed", required = false) String buttonPressed) {
         LOGGER.debug("letterDisplay start");
         try {
-            if (buttonPressed != null) {
+            if (buttonPressed.equals("left") || buttonPressed.equals("right")) {
                 if (buttonPressed.equals("right")) {
                     page++;
                 } else if (buttonPressed.equals("left")) {
@@ -457,7 +458,7 @@ public class LookingLocalHomeController extends BaseController {
             }
         } catch (Exception e) {
             LOGGER.error("Could not create letter details response output stream{}" + e);
-            getErrorScreenXml(response);
+            getErrorScreenXml(response, e.getMessage());
         }
     }
 }

@@ -963,7 +963,7 @@ public final class LookingLocalUtils {
      * @param response HTTP response
      * @throws Exception
      */
-    public static void getErrorXml(HttpServletResponse response) throws Exception {
+    public static void getErrorXml(HttpServletResponse response, String message) throws Exception {
 
         Document doc = getDocument();
         // add page to screen
@@ -980,7 +980,7 @@ public final class LookingLocalUtils {
 
         // static element
         Element details = doc.createElement("static");
-        details.setAttribute("value", "There has been an error.");
+        details.setAttribute("value", "There has been an error. " + message);
         formElement.appendChild(details);
 
         // home button
