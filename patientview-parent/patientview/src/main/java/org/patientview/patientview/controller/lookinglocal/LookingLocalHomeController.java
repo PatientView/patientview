@@ -68,7 +68,7 @@ public class LookingLocalHomeController extends BaseController {
 
     private int page = 0;
     private static final int ITEMS_PER_PAGE = 6;
-    private static final int LINE_LENGTH = 50;
+    private static final int LINE_LENGTH = 65;
     private static final int LINES_PER_PAGE = 10;
     private String letterSelection = null;
     private String resultSelection = null;
