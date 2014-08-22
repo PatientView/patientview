@@ -323,9 +323,9 @@ public final class LookingLocalUtils {
             for (MedicineWithShortName medicine : selection) {
                 Element medicineEl = doc.createElement("static");
                 sb = new StringBuffer();
-                sb.append(medicine.getFormattedStartDate(true)).append(" | ");
-                sb.append(medicine.getName()).append(" | ");
-                sb.append(medicine.getDose()).append(" | ");
+                sb.append(medicine.getFormattedStartDate(true)).append(" ");
+                sb.append(medicine.getName()).append(" ");
+                sb.append(medicine.getDose()).append(" ");
                 sb.append(medicine.getShortname());
                 medicineEl.setAttribute("value", sb.toString());
                 formElement.appendChild(medicineEl);
@@ -660,7 +660,7 @@ public final class LookingLocalUtils {
             for (Letter letter : selection) {
                 Element fieldOption = doc.createElement("fieldOption");
                 sb = new StringBuffer();
-                sb.append(letter.getFormattedDate()).append(" | ");
+                sb.append(letter.getFormattedDate()).append(" ");
                 sb.append(letter.getType());
                 fieldOption.setAttribute("name", sb.toString());
                 fieldOption.setAttribute("value", letter.getId().toString());
@@ -774,7 +774,7 @@ public final class LookingLocalUtils {
                 // static element
                 Element data = doc.createElement("static");
                 sb = new StringBuffer();
-                sb.append(result.getFormattedDatestamp()).append(" | ");
+                sb.append(result.getFormattedDatestamp()).append(" ");
                 if (result.getPrepost() != null) {
                     sb.append(result.getPrepost()).append(" ");
                 } else {
