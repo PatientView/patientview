@@ -69,7 +69,7 @@ public class LookingLocalHomeController extends BaseController {
     private int page = 0;
     private static final int ITEMS_PER_PAGE = 6;
     private static final int LINE_LENGTH = 50;
-    private static final int LINES_PER_PAGE = 8;
+    private static final int LINES_PER_PAGE = 10;
     private String letterSelection = null;
     private String resultSelection = null;
 
@@ -221,7 +221,7 @@ public class LookingLocalHomeController extends BaseController {
                     default : getErrorScreenXml(response, "Incorrect option");
                     }
                 } else {
-                    getErrorScreenXml(response, "Incorrect button");
+                    getErrorScreenXml(response, "Incorrect button [details] " + buttonPressed);
                 }
             } else {
                 getErrorScreenXml(response, "Button error");
@@ -245,7 +245,7 @@ public class LookingLocalHomeController extends BaseController {
         LOGGER.debug("my details start");
 
         try {
-            if (buttonPressed != null) {
+            if (buttonPressed.equals("left") || buttonPressed.equals("right")) {
                 if (buttonPressed.equals("right")) {
                     page++;
                 } else if (buttonPressed.equals("left")) {
@@ -322,7 +322,7 @@ public class LookingLocalHomeController extends BaseController {
                     resultSelection = selection;
                     getResultXml(request, response, resultSelection, "go");
                 } else {
-                    getErrorScreenXml(response, "Incorrect button");
+                    getErrorScreenXml(response, "Incorrect button [resultsDisplay] " + buttonPressed);
                 }
             } else {
                 getErrorScreenXml(response, "Button error");

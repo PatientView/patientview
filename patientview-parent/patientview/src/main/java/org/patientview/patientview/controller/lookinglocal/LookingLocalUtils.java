@@ -621,7 +621,7 @@ public final class LookingLocalUtils {
             formElement.appendChild(details);
 
             Element heading = doc.createElement("static");
-            heading.setAttribute("value", "Date        | Letter type");
+            heading.setAttribute("value", "Date        | Letter ");
             formElement.appendChild(heading);
 
             //  multisubmitField
@@ -739,7 +739,7 @@ public final class LookingLocalUtils {
         if (filterTestResults != null && !filterTestResults.isEmpty()) {
 
             Element heading = doc.createElement("static");
-            heading.setAttribute("value", "Date time    |    Value");
+            heading.setAttribute("value", "Date     |    Value");
             formElement.appendChild(heading);
 
             StringBuffer sb;
