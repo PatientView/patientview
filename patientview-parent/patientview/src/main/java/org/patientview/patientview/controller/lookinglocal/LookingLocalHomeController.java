@@ -67,7 +67,7 @@ public class LookingLocalHomeController extends BaseController {
     private static final Logger LOGGER = LoggerFactory.getLogger(LookingLocalHomeController.class);
 
     private int page = 0;
-    private static final int ITEMS_PER_PAGE = 5;
+    private static final int ITEMS_PER_PAGE = 6;
     private static final int LINE_LENGTH = 50;
     private static final int LINES_PER_PAGE = 8;
     private String letterSelection = null;
@@ -278,7 +278,7 @@ public class LookingLocalHomeController extends BaseController {
         LOGGER.debug("drugs start");
 
         try {
-            if (buttonPressed != null) {
+            if (buttonPressed.equals("left") || buttonPressed.equals("right")) {
                 if (buttonPressed.equals("right")) {
                     page++;
                 } else if (buttonPressed.equals("left")) {
@@ -347,7 +347,7 @@ public class LookingLocalHomeController extends BaseController {
                              @RequestParam(value = "buttonPressed", required = false) String buttonPressed) {
         LOGGER.debug("resultDisplay start");
         try {
-            if (buttonPressed != null) {
+            if (buttonPressed.equals("left") || buttonPressed.equals("right")) {
                 if (buttonPressed.equals("right")) {
                     page++;
                 } else if (buttonPressed.equals("left")) {
