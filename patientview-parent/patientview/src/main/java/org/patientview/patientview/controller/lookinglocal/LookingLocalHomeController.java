@@ -211,13 +211,13 @@ public class LookingLocalHomeController extends BaseController {
                 } else if (selection != null) {
                 switch (Integer.parseInt(selection)) {
                     case LookingLocalUtils.OPTION_1 :
-                        getMyDetailsScreenXml(request, response, null);
+                        getMyDetailsScreenXml(request, response, "go");
                     case LookingLocalUtils.OPTION_2 : LookingLocalUtils.getMedicalResultsXml(request, response);
                         break;
                     case LookingLocalUtils.OPTION_3 :
-                        getDrugsScreenXml(request, response, null);
+                        getDrugsScreenXml(request, response, "go");
                     case LookingLocalUtils.OPTION_4 :
-                        getLettersScreenXml(request, response, null, null);
+                        getLettersScreenXml(request, response, null, "go");
                     default : getErrorScreenXml(response, "Incorrect option");
                     }
                 } else {
@@ -284,14 +284,16 @@ public class LookingLocalHomeController extends BaseController {
                 } else if (buttonPressed.equals("left")) {
                     page--;
                 }
+            } else {
+                page = 0;
+                LookingLocalUtils.getDrugsXml(request, response, page, ITEMS_PER_PAGE);
             }
 
             if (page == -1) {
                 getDetailsScreenXml(request, response, null, "left");
+            } else {
+                LookingLocalUtils.getDrugsXml(request, response, page, ITEMS_PER_PAGE);
             }
-
-            LookingLocalUtils.getDrugsXml(request, response, page, ITEMS_PER_PAGE);
-
         } catch (Exception e) {
             getErrorScreenXml(response, e.getMessage());
             LOGGER.error("Could not create details response output stream: " + e.toString());
@@ -319,7 +321,7 @@ public class LookingLocalHomeController extends BaseController {
                     //LookingLocalUtils.getResultsDetailsXml(request, response, selection);
                     page = 0;
                     resultSelection = selection;
-                    getResultXml(request, response, resultSelection, null);
+                    getResultXml(request, response, resultSelection, "go");
                 } else {
                     getErrorScreenXml(response, "Incorrect button");
                 }
@@ -390,7 +392,7 @@ public class LookingLocalHomeController extends BaseController {
         letterSelection = null;
 
         try {
-            if (buttonPressed != null) {
+            if (buttonPressed.equals("left") || buttonPressed.equals("right")) {
                 if (buttonPressed.equals("right")) {
                     page++;
                 } else if (buttonPressed.equals("left")) {
@@ -405,7 +407,7 @@ public class LookingLocalHomeController extends BaseController {
             } else if (selection != null) {
                 page = 0;
                 letterSelection = selection;
-                getLetterXml(request, response, letterSelection, null);
+                getLetterXml(request, response, letterSelection, "go");
             } else {
                 LookingLocalUtils.getLettersXml(request, response, page, ITEMS_PER_PAGE);
             }
@@ -429,7 +431,7 @@ public class LookingLocalHomeController extends BaseController {
                              @RequestParam(value = "buttonPressed", required = false) String buttonPressed) {
         LOGGER.debug("letterDisplay start");
         try {
-            if (buttonPressed != null) {
+            if (buttonPressed.equals("left") || buttonPressed.equals("right")) {
                 if (buttonPressed.equals("right")) {
                     page++;
                 } else if (buttonPressed.equals("left")) {
