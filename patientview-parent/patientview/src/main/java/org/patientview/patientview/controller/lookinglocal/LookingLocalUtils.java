@@ -660,7 +660,7 @@ public final class LookingLocalUtils {
             for (Letter letter : selection) {
                 Element fieldOption = doc.createElement("fieldOption");
                 sb = new StringBuffer();
-                sb.append(letter.getFormattedDate()).append(" | ");
+                sb.append(letter.getFormattedDate()).append(" ");
                 sb.append(letter.getType());
                 fieldOption.setAttribute("name", sb.toString());
                 fieldOption.setAttribute("value", letter.getId().toString());
