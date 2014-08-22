@@ -318,7 +318,6 @@ public class LookingLocalHomeController extends BaseController {
                 if (buttonPressed.equals("left")) {
                     getDetailsScreenXml(request, response, null, "left");
                 } else if (selection != null) {
-                    //LookingLocalUtils.getResultsDetailsXml(request, response, selection);
                     page = 0;
                     resultSelection = selection;
                     getResultXml(request, response, resultSelection, "go");
