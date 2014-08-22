@@ -69,6 +69,8 @@ public final class LookingLocalUtils {
     public static final int OPTION_6 = 6;
     public static final int OPTION_7 = 7;
 
+    public static final int MAX_WORD_SIZE = 10;
+
     private LookingLocalUtils() {
     }
 
@@ -525,17 +527,32 @@ public final class LookingLocalUtils {
             List<String> finalLineList = new ArrayList<String>();
 
             // for each paragraph (as have split by \n) make sure each line only lineLength
-            // long by adding new line after current line (will split words unfortunately)
+            // long by adding new line after current line
             for (int i = 0; i < allLineList.size(); i++) {
                 List<String> thisLine = new ArrayList<String>();
                 thisLine.add(allLineList.get(i));
 
                 for (int j = 0; j < thisLine.size(); j++) {
                     if (thisLine.get(j).length() > lineLength) {
-                        // add new line from linelength to end
-                        thisLine.add(j + 1, thisLine.get(j).substring(lineLength, thisLine.get(j).length()));
+
+                        // handle splitting paragraph and not splitting words
+                        int firstSpace;
+
+                        if ((lineLength - MAX_WORD_SIZE) > thisLine.get(j).length()) {
+                            firstSpace = thisLine.get(j).length();
+                        } else {
+                            firstSpace = thisLine.get(j).indexOf(" ", lineLength - MAX_WORD_SIZE);
+                        }
+
+                        if (firstSpace == -1) {
+                            firstSpace = lineLength;
+                        }
+
+                        // add new line from linelength to firstSpace
+                        thisLine.add(j + 1, thisLine.get(j).substring(firstSpace, thisLine.get(j).length()).trim());
+
                         // clip this element
-                        thisLine.set(j, thisLine.get(j).substring(0, lineLength));
+                        thisLine.set(j, thisLine.get(j).substring(0, firstSpace));
                         j--;
                     }
                 }
