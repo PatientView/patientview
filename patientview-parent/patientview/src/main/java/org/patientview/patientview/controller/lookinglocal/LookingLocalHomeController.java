@@ -136,7 +136,7 @@ public class LookingLocalHomeController extends BaseController {
                 } else {
                     LOGGER.debug("auth failed, no specialties");
                     try {
-                        LookingLocalUtils.getErrorXml(response);
+                        LookingLocalUtils.getErrorXml(response, "Auth error");
                     } catch (Exception e) {
                         LOGGER.error("Could not create home screen response output stream{}" + e);
                     }
@@ -165,10 +165,10 @@ public class LookingLocalHomeController extends BaseController {
      */
     @RequestMapping(value = Routes.LOOKING_LOCAL_ERROR)
     @ResponseBody
-    public void getErrorScreenXml(HttpServletResponse response) {
+    public void getErrorScreenXml(HttpServletResponse response, String message) {
         LOGGER.debug("error start");
         try {
-            LookingLocalUtils.getErrorXml(response);
+            LookingLocalUtils.getErrorXml(response, message);
         } catch (Exception e) {
             LOGGER.error("Could not create main screen response output stream{}" + e);
         }
@@ -218,16 +218,16 @@ public class LookingLocalHomeController extends BaseController {
                         getDrugsScreenXml(request, response, null);
                     case LookingLocalUtils.OPTION_4 :
                         getLettersScreenXml(request, response, null, null);
-                    default : getErrorScreenXml(response);
+                    default : getErrorScreenXml(response, "Incorrect option");
                     }
                 } else {
-                    getErrorScreenXml(response);
+                    getErrorScreenXml(response, "Incorrect button");
                 }
             } else {
-                getErrorScreenXml(response);
+                getErrorScreenXml(response, "Button error");
             }
         } catch (Exception e) {
-            getErrorScreenXml(response);
+            getErrorScreenXml(response, e.getMessage());
             LOGGER.error("Could not create details response output stream: " + e.toString());
         }
     }
@@ -260,7 +260,7 @@ public class LookingLocalHomeController extends BaseController {
             LookingLocalUtils.getMyDetailsXml(request, response, page);
 
         } catch (Exception e) {
-            getErrorScreenXml(response);
+            getErrorScreenXml(response, e.getMessage());
             LOGGER.error("Could not create details response output stream: " + e.toString());
         }
     }
@@ -293,7 +293,7 @@ public class LookingLocalHomeController extends BaseController {
             LookingLocalUtils.getDrugsXml(request, response, page, ITEMS_PER_PAGE);
 
         } catch (Exception e) {
-            getErrorScreenXml(response);
+            getErrorScreenXml(response, e.getMessage());
             LOGGER.error("Could not create details response output stream: " + e.toString());
         }
     }
@@ -321,10 +321,10 @@ public class LookingLocalHomeController extends BaseController {
                     resultSelection = selection;
                     getResultXml(request, response, resultSelection, null);
                 } else {
-                    getErrorScreenXml(response);
+                    getErrorScreenXml(response, "Incorrect button");
                 }
             } else {
-                getErrorScreenXml(response);
+                getErrorScreenXml(response, "Button error");
             }
         } catch (Exception e) {
             LOGGER.error("Could not create medical result details response output stream{}" + e);
@@ -371,7 +371,7 @@ public class LookingLocalHomeController extends BaseController {
             }
         } catch (Exception e) {
             LOGGER.error("Could not create result details response output stream{}" + e);
-            getErrorScreenXml(response);
+            getErrorScreenXml(response, e.getMessage());
         }
     }
 
@@ -410,7 +410,7 @@ public class LookingLocalHomeController extends BaseController {
                 LookingLocalUtils.getLettersXml(request, response, page, ITEMS_PER_PAGE);
             }
         } catch (Exception e) {
-            getErrorScreenXml(response);
+            getErrorScreenXml(response, e.getMessage());
             LOGGER.error("Could not create details response output stream: " + e.toString());
         }
     }
@@ -457,7 +457,7 @@ public class LookingLocalHomeController extends BaseController {
             }
         } catch (Exception e) {
             LOGGER.error("Could not create letter details response output stream{}" + e);
-            getErrorScreenXml(response);
+            getErrorScreenXml(response, e.getMessage());
         }
     }
 }
