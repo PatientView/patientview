@@ -296,7 +296,7 @@ public final class LookingLocalUtils {
 
         // add form to screen
         Element formElement = doc.createElement("form");
-        formElement.setAttribute("action", Routes.SERVER_URL + Routes.LOOKING_LOCAL_DETAILS);
+        formElement.setAttribute("action", Routes.SERVER_URL + Routes.LOOKING_LOCAL_DRUGS);
         formElement.setAttribute("method", "post");
         pageElement.appendChild(formElement);
 
