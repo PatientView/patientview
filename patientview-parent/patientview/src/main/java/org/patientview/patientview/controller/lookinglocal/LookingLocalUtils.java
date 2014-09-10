@@ -30,6 +30,7 @@ import org.patientview.patientview.PatientDetails;
 import org.patientview.patientview.comment.CommentUtils;
 import org.patientview.patientview.controller.Routes;
 import org.patientview.patientview.medicine.MedicineWithShortName;
+import org.patientview.patientview.model.EdtaCode;
 import org.patientview.patientview.model.Letter;
 import org.patientview.patientview.model.Medicine;
 import org.patientview.patientview.model.Panel;
@@ -37,6 +38,7 @@ import org.patientview.patientview.model.TestResultWithUnitShortname;
 import org.patientview.patientview.model.User;
 import org.patientview.patientview.unit.UnitUtils;
 import org.patientview.patientview.user.UserUtils;
+import org.patientview.service.EdtaCodeManager;
 import org.patientview.utils.LegacySpringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -124,13 +126,23 @@ public final class LookingLocalUtils {
         out.flush();
     }
 
+    private static String getDiagnosisDescription(String code, EdtaCodeManager edtaCodeManager) {
+        EdtaCode edtaCode = edtaCodeManager.getEdtaCode(code);
+        if (edtaCode != null) {
+            return edtaCode.getDescription();
+        } else {
+            return code;
+        }
+    }
+
     /**
      * Create XML for the My Details screen in Looking Local
      * @param request HTTP request
      * @param response HTTP response
      * @throws Exception
      */
-    public static void getMyDetailsXml(HttpServletRequest request, HttpServletResponse response, int page)
+    public static void getMyDetailsXml(HttpServletRequest request, HttpServletResponse response, int page,
+                                       EdtaCodeManager edtaCodeManager)
             throws Exception {
 
         User user = UserUtils.retrieveUser(request);
@@ -202,7 +214,8 @@ public final class LookingLocalUtils {
 
                 Element diagnosis = doc.createElement("static");
                 diagnosis.setAttribute("value", "Diagnosis: "
-                        + (patient.getDiagnosis() != null ? patient.getDiagnosis() : "unavailable"));
+                        + (patient.getDiagnosis() != null
+                        ? getDiagnosisDescription(patient.getDiagnosis(), edtaCodeManager) : "unavailable"));
                 formElement.appendChild(diagnosis);
 
             } else {
@@ -400,7 +413,7 @@ public final class LookingLocalUtils {
 
         // add page to screen
         Element pageElement = doc.createElement("page");
-        pageElement.setAttribute("title", "Result type");
+        pageElement.setAttribute("title", "Results");
         pageElement.setAttribute("transform", "default");
         doc.getElementsByTagName("screen").item(0).appendChild(pageElement);
 
@@ -413,7 +426,7 @@ public final class LookingLocalUtils {
 
         // static element
         Element details = doc.createElement("static");
-        details.setAttribute("value", "Select the results type to view:");
+        details.setAttribute("value", "Select the results to view:");
         formElement.appendChild(details);
 
         //  multisubmitField
@@ -729,25 +742,25 @@ public final class LookingLocalUtils {
         List<TestResultWithUnitShortname> filterTestResults;
         switch (Integer.parseInt(selection)) {
             case OPTION_1 : filterTestResults = filterTestResults(results, "urea");
-                pageElement.setAttribute("title", "Urea type");
+                pageElement.setAttribute("title", "Urea");
                 break;
             case OPTION_2 : filterTestResults = filterTestResults(results, "creatinine");
-                pageElement.setAttribute("title", "Creatinine type");
+                pageElement.setAttribute("title", "Creatinine");
                 break;
             case OPTION_3 : filterTestResults = filterTestResults(results, "potassium");
-                pageElement.setAttribute("title", "Potassium type");
+                pageElement.setAttribute("title", "Potassium");
                 break;
             case OPTION_4 : filterTestResults = filterTestResults(results, "calcium");
-                pageElement.setAttribute("title", "Calcium type");
+                pageElement.setAttribute("title", "Calcium");
                 break;
             case OPTION_5 : filterTestResults = filterTestResults(results, "phosphate");
-                pageElement.setAttribute("title", "PO4 type");
+                pageElement.setAttribute("title", "PO4");
                 break;
             case OPTION_6 : filterTestResults = filterTestResults(results, "hb");
-                pageElement.setAttribute("title", "Hb type");
+                pageElement.setAttribute("title", "Hb");
                 break;
             case OPTION_7 : filterTestResults = filterTestResults(results, "wbc");
-                pageElement.setAttribute("title", "Wbc type");
+                pageElement.setAttribute("title", "Wbc");
                 break;
             default:filterTestResults = null;
                 break;
