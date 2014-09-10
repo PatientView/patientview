@@ -126,7 +126,9 @@ public final class LookingLocalUtils {
         out.flush();
     }
 
-    private static String getDiagnosisDescription(String code, EdtaCodeManager edtaCodeManager) {
+    private static String getDiagnosisDescription(String code) {
+
+        EdtaCodeManager edtaCodeManager = LegacySpringUtils.getEdtaCodeManager();
         EdtaCode edtaCode = edtaCodeManager.getEdtaCode(code);
         if (edtaCode != null) {
             return edtaCode.getDescription();
@@ -135,14 +137,90 @@ public final class LookingLocalUtils {
         }
     }
 
+    private static String getTreatmentDescription(String code) {
+
+        EdtaCodeManager edtaCodeManager = LegacySpringUtils.getEdtaCodeManager();
+        EdtaCode edtaCode = edtaCodeManager.getEdtaCode(code);
+        if (edtaCode != null) {
+            return edtaCode.getDescription();
+        } else {
+            return code;
+        }
+    }
+
+    // if first patientDetails doesn't have details, e.g. ECS, then try and retrieve details from second
+    private static Patient getPatientDetails(List<PatientDetails> patientDetails) {
+        Patient patient = patientDetails.get(0).getPatient();
+        Patient viewPatient = patient;
+
+        if (patientDetails.size() > 1) {
+            Patient patient1 = patientDetails.get(1).getPatient();
+
+            if (patient.getForename() == null) {
+                viewPatient.setForename(patient1.getForename());
+            }
+            if (patient.getSurname() == null) {
+                viewPatient.setSurname(patient1.getSurname());
+            }
+            if (patient.getDateofbirth() == null) {
+                viewPatient.setDateofbirth(patient1.getDateofbirth());
+            }
+            if (patient.getHospitalnumber() == null) {
+                viewPatient.setHospitalnumber(patient1.getHospitalnumber());
+            }
+            if (patient.getAddress1() == null) {
+                viewPatient.setAddress1(patient1.getAddress1());
+                viewPatient.setAddress2(patient1.getAddress2());
+                viewPatient.setAddress3(patient1.getAddress3());
+                viewPatient.setAddress4(patient1.getAddress4());
+            }
+            if (patient.getHospitalnumber() == null) {
+                viewPatient.setHospitalnumber(patient1.getHospitalnumber());
+            }
+            if (patient.getTelephone1() == null) {
+                viewPatient.setTelephone1(patient1.getTelephone1());
+            }
+            if (patient.getTelephone2() == null) {
+                viewPatient.setTelephone2(patient1.getTelephone2());
+            }
+            if (patient.getMobile() == null) {
+                viewPatient.setMobile(patient1.getMobile());
+            }
+            if (patient.getDiagnosis() == null) {
+                viewPatient.setDiagnosis(patient1.getDiagnosis());
+            }
+            if (patient.getGpname() == null) {
+                viewPatient.setGpname(patient1.getGpname());
+            }
+            if (patient.getGptelephone() == null) {
+                viewPatient.setGptelephone(patient1.getGpname());
+            }
+            if (patient.getGpaddress1() == null) {
+                viewPatient.setGpaddress1(patient1.getGpaddress1());
+                viewPatient.setGpaddress2(patient1.getGpaddress2());
+                viewPatient.setGpaddress3(patient1.getGpaddress3());
+            }
+            if (patient.getTreatment() == null) {
+                viewPatient.setTreatment(patient1.getTreatment());
+            }
+            if (patient.getTransplantstatus() == null) {
+                viewPatient.setTransplantstatus(patient1.getTransplantstatus());
+            }
+            if (patient.getOtherConditions() == null) {
+                viewPatient.setOtherConditions(patient1.getOtherConditions());
+            }
+        }
+
+        return viewPatient;
+    }
+
     /**
      * Create XML for the My Details screen in Looking Local
      * @param request HTTP request
      * @param response HTTP response
      * @throws Exception
      */
-    public static void getMyDetailsXml(HttpServletRequest request, HttpServletResponse response, int page,
-                                       EdtaCodeManager edtaCodeManager)
+    public static void getMyDetailsXml(HttpServletRequest request, HttpServletResponse response, int page)
             throws Exception {
 
         User user = UserUtils.retrieveUser(request);
@@ -164,7 +242,7 @@ public final class LookingLocalUtils {
 
         // if patient details exist, get first set of patient details and display on screen
         if (!CollectionUtils.isEmpty(patientDetails)) {
-            Patient patient = patientDetails.get(0).getPatient();
+            Patient patient = getPatientDetails(patientDetails);
 
             if (page == 0) {
                 // first page
@@ -176,7 +254,8 @@ public final class LookingLocalUtils {
 
                 Element dob = doc.createElement("static");
                 dob.setAttribute("value", "Date of Birth: "
-                       + (patient.getFormatedDateOfBirth() != null ? patient.getFormatedDateOfBirth() : "unavailable"));
+                        + (patient.getFormatedDateOfBirth() != null
+                        ? patient.getFormatedDateOfBirth() : "unavailable"));
                 formElement.appendChild(dob);
 
                 Element nhsNo = doc.createElement("static");
@@ -215,7 +294,7 @@ public final class LookingLocalUtils {
                 Element diagnosis = doc.createElement("static");
                 diagnosis.setAttribute("value", "Diagnosis: "
                         + (patient.getDiagnosis() != null
-                        ? getDiagnosisDescription(patient.getDiagnosis(), edtaCodeManager) : "unavailable"));
+                        ? getDiagnosisDescription(patient.getDiagnosis()) : "unavailable"));
                 formElement.appendChild(diagnosis);
 
             } else {
@@ -231,7 +310,7 @@ public final class LookingLocalUtils {
                 formElement.appendChild(gpTelephone);
 
                 Element gpAddress = doc.createElement("static");
-                gpAddress.setAttribute("value", "Address: "
+                gpAddress.setAttribute("value", "GP Address: "
                         + (patient.getGpaddress1() != null ? patient.getGpaddress1()  + ", " : "unavailable")
                         + (patient.getGpaddress2() != null ? patient.getGpaddress2()  + ", " : " ")
                         + (patient.getGpaddress3() != null ? patient.getGpaddress3() : " "));
@@ -239,7 +318,8 @@ public final class LookingLocalUtils {
 
                 Element treatment = doc.createElement("static");
                 treatment.setAttribute("value", "Treatment: "
-                        + (patient.getTreatment() != null ? patient.getTreatment() : "unavailable"));
+                        + (patient.getTreatment() != null
+                        ? getTreatmentDescription(patient.getTreatment()) : "unavailable"));
                 formElement.appendChild(treatment);
 
                 Element transplantStatus = doc.createElement("static");
@@ -316,12 +396,6 @@ public final class LookingLocalUtils {
         pageElement.appendChild(formElement);
 
         if (medicineWithShortNames != null && !medicineWithShortNames.isEmpty()) {
-
-            // static element
-            Element name = doc.createElement("static");
-            name.setAttribute("value", "Start Date   |   Medicine name   | Dose   | Source");
-            formElement.appendChild(name);
-
             StringBuffer sb;
             int totalItems = medicineWithShortNames.size();
             int start = page * itemsPerPage;
@@ -337,17 +411,31 @@ public final class LookingLocalUtils {
 
             List<MedicineWithShortName> selection = medicineWithShortNames.subList(start, end);
 
-            for (MedicineWithShortName medicine : selection) {
-                Element medicineEl = doc.createElement("static");
-                sb = new StringBuffer();
-                sb.append(medicine.getFormattedStartDate(true)).append(" ");
-                sb.append(medicine.getName()).append(" ");
-                sb.append(medicine.getDose()).append(" ");
-                sb.append(medicine.getShortname());
-                medicineEl.setAttribute("value", sb.toString());
-                formElement.appendChild(medicineEl);
-            }
+            if (!selection.isEmpty()) {
+                // static element
+                Element name = doc.createElement("static");
+                name.setAttribute("value", "Start Date   |   Medicine name   | Dose   | Source");
+                formElement.appendChild(name);
 
+                for (MedicineWithShortName medicine : selection) {
+                    Element medicineEl = doc.createElement("static");
+                    sb = new StringBuffer();
+                    sb.append(medicine.getFormattedStartDate(true)).append(" ");
+                    sb.append(medicine.getName()).append(" ");
+                    sb.append(medicine.getDose()).append(" ");
+                    sb.append(medicine.getShortname());
+                    medicineEl.setAttribute("value", sb.toString());
+                    formElement.appendChild(medicineEl);
+                }
+            } else {
+                Element data = doc.createElement("static");
+                data.setAttribute("value", "End of drug list");
+                formElement.appendChild(data);
+
+                data = doc.createElement("static");
+                data.setAttribute("value", totalItems + " total drugs");
+                formElement.appendChild(data);
+            }
         }
 
         // back button
@@ -511,7 +599,6 @@ public final class LookingLocalUtils {
     public static void getLetterDetailsXml(HttpServletRequest request, HttpServletResponse response,
                                            String selection, int page, int linesPerPage, int lineLength)
                                         throws Exception {
-
         boolean lastPage = false;
 
         Letter letter = LegacySpringUtils.getLetterManager().get(Long.parseLong(selection));
@@ -828,7 +915,6 @@ public final class LookingLocalUtils {
                 data.setAttribute("value", sb.toString());
                 formElement.appendChild(data);
             }
-
         } else {
             lastPage = true;
             Element data = doc.createElement("static");
