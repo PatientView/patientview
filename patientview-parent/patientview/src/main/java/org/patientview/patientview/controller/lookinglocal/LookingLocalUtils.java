@@ -331,6 +331,10 @@ public final class LookingLocalUtils {
                 end = totalItems;
             }
 
+            // set paging at top
+            Double totalPages = Math.floor((double) totalItems / (double) itemsPerPage) + 1;
+            formElement.setAttribute("pagingText", "page " + (page + 1) + " of " + totalPages.intValue());
+
             List<MedicineWithShortName> selection = medicineWithShortNames.subList(start, end);
 
             for (MedicineWithShortName medicine : selection) {
@@ -581,7 +585,25 @@ public final class LookingLocalUtils {
                 end = totalItems;
             }
 
+            // set paging at top
+            Double totalPages = Math.floor((double) totalItems / (double) linesPerPage) + 1;
+            formElement.setAttribute("pagingText", "page " + (page + 1) + " of " + totalPages.intValue());
+
             List<String> letterSelection = finalLineList.subList(start, end);
+
+            if (letterSelection.isEmpty()) {
+                Element content = doc.createElement("static");
+                content.setAttribute("value", "");
+                formElement.appendChild(content);
+
+                content = doc.createElement("static");
+                content.setAttribute("value", "End of letter");
+                formElement.appendChild(content);
+
+                content = doc.createElement("static");
+                content.setAttribute("value", "Sent " + letter.getFormattedDate());
+                formElement.appendChild(content);
+            }
 
             for (String line : letterSelection) {
                 Element content = doc.createElement("static");
@@ -667,6 +689,10 @@ public final class LookingLocalUtils {
                 lastPage = true;
                 end = totalItems;
             }
+
+            // set paging at top
+            Double totalPages = Math.floor((double) totalItems / (double) itemsPerPage) + 1;
+            formElement.setAttribute("pagingText", "page " + (page + 1) + " of " + totalPages.intValue());
 
             List<Letter> selection = letters.subList(start, end);
 
@@ -780,6 +806,10 @@ public final class LookingLocalUtils {
                 lastPage = true;
                 end = totalItems;
             }
+
+            // set paging at top
+            Double totalPages = Math.floor((double) totalItems / (double) itemsPerPage) + 1;
+            formElement.setAttribute("pagingText", "page " + (page + 1) + " of " + totalPages.intValue());
 
             List<TestResultWithUnitShortname> resultSelection = filterTestResults.subList(start, end);
 
