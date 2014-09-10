@@ -30,6 +30,7 @@ import org.patientview.patientview.model.SpecialtyUserRole;
 import org.patientview.patientview.model.User;
 import org.patientview.security.impl.PatientViewPasswordEncoder;
 import org.patientview.security.model.SecurityUser;
+import org.patientview.service.EdtaCodeManager;
 import org.patientview.service.SecurityUserManager;
 import org.patientview.service.UserManager;
 import org.slf4j.Logger;
@@ -63,6 +64,9 @@ public class LookingLocalHomeController extends BaseController {
 
     @Inject
     private SecurityUserManager securityUserManager;
+
+    @Inject
+    private EdtaCodeManager edtaCodeManager;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LookingLocalHomeController.class);
 
@@ -257,7 +261,7 @@ public class LookingLocalHomeController extends BaseController {
                 getDetailsScreenXml(request, response, null, "left");
             }
 
-            LookingLocalUtils.getMyDetailsXml(request, response, page);
+            LookingLocalUtils.getMyDetailsXml(request, response, page, edtaCodeManager);
 
         } catch (Exception e) {
             getErrorScreenXml(response, e.getMessage());
