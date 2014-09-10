@@ -801,6 +801,9 @@ public final class LookingLocalUtils {
 
         } else {
             lastPage = true;
+            Element data = doc.createElement("static");
+            data.setAttribute("value", "No Results Available");
+            formElement.appendChild(data);
         }
 
         // back button
