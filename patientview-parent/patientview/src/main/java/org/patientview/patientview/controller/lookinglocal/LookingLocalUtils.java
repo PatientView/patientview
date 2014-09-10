@@ -316,12 +316,6 @@ public final class LookingLocalUtils {
         pageElement.appendChild(formElement);
 
         if (medicineWithShortNames != null && !medicineWithShortNames.isEmpty()) {
-
-            // static element
-            Element name = doc.createElement("static");
-            name.setAttribute("value", "Start Date   |   Medicine name   | Dose   | Source");
-            formElement.appendChild(name);
-
             StringBuffer sb;
             int totalItems = medicineWithShortNames.size();
             int start = page * itemsPerPage;
@@ -337,17 +331,31 @@ public final class LookingLocalUtils {
 
             List<MedicineWithShortName> selection = medicineWithShortNames.subList(start, end);
 
-            for (MedicineWithShortName medicine : selection) {
-                Element medicineEl = doc.createElement("static");
-                sb = new StringBuffer();
-                sb.append(medicine.getFormattedStartDate(true)).append(" ");
-                sb.append(medicine.getName()).append(" ");
-                sb.append(medicine.getDose()).append(" ");
-                sb.append(medicine.getShortname());
-                medicineEl.setAttribute("value", sb.toString());
-                formElement.appendChild(medicineEl);
-            }
+            if (!selection.isEmpty()) {
+                // static element
+                Element name = doc.createElement("static");
+                name.setAttribute("value", "Start Date   |   Medicine name   | Dose   | Source");
+                formElement.appendChild(name);
 
+                for (MedicineWithShortName medicine : selection) {
+                    Element medicineEl = doc.createElement("static");
+                    sb = new StringBuffer();
+                    sb.append(medicine.getFormattedStartDate(true)).append(" ");
+                    sb.append(medicine.getName()).append(" ");
+                    sb.append(medicine.getDose()).append(" ");
+                    sb.append(medicine.getShortname());
+                    medicineEl.setAttribute("value", sb.toString());
+                    formElement.appendChild(medicineEl);
+                }
+            } else {
+                Element data = doc.createElement("static");
+                data.setAttribute("value", "End of drug list");
+                formElement.appendChild(data);
+
+                data = doc.createElement("static");
+                data.setAttribute("value", totalItems + " total drugs");
+                formElement.appendChild(data);
+            }
         }
 
         // back button
@@ -511,7 +519,6 @@ public final class LookingLocalUtils {
     public static void getLetterDetailsXml(HttpServletRequest request, HttpServletResponse response,
                                            String selection, int page, int linesPerPage, int lineLength)
                                         throws Exception {
-
         boolean lastPage = false;
 
         Letter letter = LegacySpringUtils.getLetterManager().get(Long.parseLong(selection));
@@ -828,7 +835,6 @@ public final class LookingLocalUtils {
                 data.setAttribute("value", sb.toString());
                 formElement.appendChild(data);
             }
-
         } else {
             lastPage = true;
             Element data = doc.createElement("static");
