@@ -31,7 +31,7 @@
                 <logic:present specialty="renal">
                     <li><a href="/disclaimer.do">Disclaimer</a></li>
                     <logic:present name="<%=Messaging.FEEDBACK_ENABLED %>" scope="session">
-                        <li><a href="#" class="feedbackButton">Report Issue</a></li>
+                        <li><a href="#" class="feedbackButton btn btn-primary" style="color:#fff">Report Issue</a></li>
                     </logic:present>
                 </logic:present>
             </ul>
