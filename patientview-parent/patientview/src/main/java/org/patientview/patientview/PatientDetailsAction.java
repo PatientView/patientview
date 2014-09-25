@@ -36,6 +36,7 @@ import org.patientview.patientview.model.EdtaCode;
 import org.patientview.patientview.model.User;
 import org.patientview.patientview.model.UserMapping;
 import org.patientview.patientview.news.NewsUtils;
+import org.patientview.patientview.unit.UnitUtils;
 import org.patientview.patientview.user.UserUtils;
 import org.patientview.service.EdtaCodeManager;
 import org.patientview.service.PatientManager;
@@ -81,7 +82,17 @@ public class PatientDetailsAction extends ActionSupport {
 
         List<PatientDetails> patientDetails = patientManager.getPatientDetails(user.getUsername());
         PatientDetails patientDetail = getRadarPatientDetails(patientDetails);
-        request.setAttribute("patientDetails", patientDetails);
+
+        // hide patient details from ECS unit
+        List<PatientDetails> viewablePatientDetails = new ArrayList<PatientDetails>();
+
+        for (PatientDetails patientDetails1 : patientDetails) {
+            if (!patientDetails1.getUnit().getUnitcode().equals(UnitUtils.ECS_UNITCODE)) {
+                viewablePatientDetails.add(patientDetails1);
+            }
+        }
+
+        request.setAttribute("patientDetails", viewablePatientDetails);
 
         // add user object for ECS/SCS integration
         request.setAttribute("user", user);

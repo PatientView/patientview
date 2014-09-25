@@ -12,6 +12,9 @@ public class MedicineWithShortNameCompare implements Comparator<MedicineWithShor
     @Override
     public int compare(MedicineWithShortName medicine1, MedicineWithShortName medicine2) {
         // compare using dates, used in ordering with Collections.sort
-        return medicine1.getStartdate().before(medicine2.getStartdate()) ? 1 : -1;
+        //return medicine1.getStartdate().before(medicine2.getStartdate()) ? 1 : -1;
+
+        // compare using medicine name (case insensitive)
+        return medicine1.getName().toLowerCase().compareTo(medicine2.getName().toLowerCase());
     }
 }
