@@ -31,11 +31,13 @@ import org.patientview.actionutils.ActionUtils;
 import org.patientview.patientview.edtacode.EdtaCodeUtils;
 import org.patientview.patientview.logon.LogonUtils;
 import org.patientview.patientview.model.User;
+import org.patientview.patientview.unit.UnitUtils;
 import org.patientview.patientview.user.UserUtils;
 import org.patientview.utils.LegacySpringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PatientDetailsAdminViewAction extends Action {
@@ -58,7 +60,16 @@ public class PatientDetailsAdminViewAction extends Action {
         List<PatientDetails> patientDetails = LegacySpringUtils.getPatientManager().getPatientDetails(
                 user.getUsername());
 
-        request.setAttribute("patientDetails", patientDetails);
+        // hide patient details from ECS unit
+        List<PatientDetails> viewablePatientDetails = new ArrayList<PatientDetails>();
+
+        for (PatientDetails patientDetails1 : patientDetails) {
+            if (!patientDetails1.getUnit().getUnitcode().equals(UnitUtils.ECS_UNITCODE)) {
+                viewablePatientDetails.add(patientDetails1);
+            }
+        }
+
+        request.setAttribute("patientDetails", viewablePatientDetails);
 
         EdtaCodeUtils.addEdtaCodeToRequest("static", "staticLinks", request);
 
