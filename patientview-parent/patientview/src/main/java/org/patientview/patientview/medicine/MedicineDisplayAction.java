@@ -66,7 +66,6 @@ public class MedicineDisplayAction extends Action {
         }
 
         HashMap medicines = getMedicinesForPatient(user, request, isRadarGroup);
-        //sortNullDatesOnMedicines(medicines);
 
         request.setAttribute("medicines", medicines.get(medicationsNonEcr));
         request.setAttribute("medicinesECR", medicines.get(medicationsEcr));
@@ -104,22 +103,10 @@ public class MedicineDisplayAction extends Action {
         }
 
         Collections.sort(medicinesWithShortNameECR, new MedicineWithShortNameCompare());
+        Collections.sort(medicinesWithShortName, new MedicineWithShortNameCompare());
 
         output.put(medicationsNonEcr, medicinesWithShortName);
         output.put(medicationsEcr, medicinesWithShortNameECR);
         return output;
     }
-
-    private List sortNullDatesOnMedicines(List medicines) {
-        for (Object obj : medicines) {
-            Medicine medicine = (Medicine) obj;
-
-            // todo this probably won't work anymore
-            Medicine tempMed = LegacySpringUtils.getMedicineManager().get(medicine.getId());
-            medicine.setStartdate(tempMed.getStartdate());
-        }
-
-        return medicines;
-    }
-
 }
