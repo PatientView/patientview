@@ -117,7 +117,9 @@
             <logic:notEmpty name="medicinesECR">
                 <div id="medications-ecr">
                     <h3>Medicines From Your GP's Records</h3>
-                    <p>Please Note: if present, (RP) means a repeat subscription.</p>
+                    <p>(RP) means regular medicine on your GP’s repeat prescription list, with the date last issued.
+                        Other medicines shown should be one-off (‘Acute’) prescriptions, but we are aware that regular
+                        medicines are sometimes shown this way too.</p>
                     <table width="650" border="0" cellspacing="1" cellpadding="3" class="table table-bordered table-striped">
                         <thead>
                         <tr>
