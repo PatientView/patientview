@@ -196,7 +196,7 @@
                         </div>
                         <logic:notPresent name="isBulkMessage">
                             <logic:equal value="false" name="conversation" property="clinicianClosed">
-                                <input type="submit" value="Reply" class="pull-right btn btn-primary js-message-submit-btn" />
+                                <input type="submit" value="Send" class="pull-right btn btn-primary js-message-submit-btn" />
                             </logic:equal>
                         </logic:notPresent>
                     </form>

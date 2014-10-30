@@ -253,7 +253,7 @@
                                                     </optgroup>
                                                 </logic:notEmpty>
                                             </select>
-                                            <span class="js-message-filtered" style="display: none"/>
+                                            <div class="js-message-filtered" style="display: none"></div>
                                         </div>
                                     </div>
 
