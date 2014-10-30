@@ -504,18 +504,28 @@ public class UserManagerImpl implements UserManager {
     public void setEcrOptInStatus(User user, boolean optIn, boolean permanentlyOptOut
             , boolean optInNotNow, boolean optOutNotNow) {
 
+        Date now = new Date();
+
         // set opt in status
         user.setEcrOptInStatus(optIn);
         user.setEcrOptOutPermanently(permanentlyOptOut);
         user.setEcrOptInNotNow(optInNotNow);
         user.setEcrOptOutNotNow(optOutNotNow);
-        user.setUpdated(new Date());
+        user.setUpdated(now);
+
+        // set opt in date
+        if (optIn) {
+            user.setEcrOptInDate(now);
+        } else {
+            user.setEcrOptInDate(null);
+        }
+
         userDao.save(user);
 
         // clear ECS user mappings
         deleteUserMappings(user.getUsername(), UnitUtils.ECS_UNITCODE);
 
-        // add/remove usermapping for ECS unit based on opt in status
+        // add usermapping for ECS unit based on opt in status
         if (optIn) {
             // get NHS number from first existing userMapping
             List<UserMapping> userMappings = userMappingDao.getAll(user.getUsername());

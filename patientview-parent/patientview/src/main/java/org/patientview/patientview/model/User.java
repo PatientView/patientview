@@ -109,6 +109,9 @@ public class User extends BaseModel {
     private boolean ecrOptOutNotNow = false;
 
     @Column(nullable = true)
+    private Date ecrOptInDate;
+
+    @Column(nullable = true)
     private Date created;
 
     @Column(nullable = true)
@@ -280,6 +283,14 @@ public class User extends BaseModel {
     public boolean isEcrOptInNotNow() { return ecrOptInNotNow; }
     public void setEcrOptInNotNow(boolean ecrOptInNotNow) {
         this.ecrOptInNotNow = ecrOptInNotNow;
+    }
+
+    public Date getEcrOptInDate() {
+        return ecrOptInDate;
+    }
+
+    public void setEcrOptInDate(Date ecrOptInDate) {
+        this.ecrOptInDate = ecrOptInDate;
     }
 
     public Date getCreated() {
