@@ -61,6 +61,11 @@ public class LetterManagerImpl implements LetterManager {
     }
 
     @Override
+    public List<Letter> getByNhsNoAndUnit(String nhsNo, String unitcode) {
+        return letterDao.getByNhsNoAndUnit(nhsNo, unitcode);
+    }
+
+    @Override
     public List<Letter> getAll() {
         return letterDao.getAll();
     }

@@ -65,6 +65,11 @@ public class MedicineManagerImpl implements MedicineManager {
     }
 
     @Override
+    public List<Medicine> getByNhsnoAndUnitcode(String nhsno, String unitcode) {
+        return medicineDao.getByNhsnoAndUnitcode(nhsno, unitcode);
+    }
+
+    @Override
     public void save(Medicine medicine) {
         medicineDao.save(medicine);
     }

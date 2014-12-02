@@ -42,6 +42,8 @@ public interface LetterManager {
 
     List<Letter> get(String username);
 
+    List<Letter> getByNhsNoAndUnit(String nhsNo, String unitcode);
+
     List<Letter> getAll();
 
     void delete(String nhsno, String unitcode, Date date);

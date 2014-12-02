@@ -40,6 +40,8 @@ public interface MedicineManager {
 
     List<Medicine> getUserMedicines(User user);
 
+    List<Medicine> getByNhsnoAndUnitcode(String nhsno, String unitcode);
+
     void save(Medicine medicine);
 
     List<Medicine> getAll();

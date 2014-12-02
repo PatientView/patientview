@@ -1,7 +1,7 @@
 /* example patient delete script, with nhsno */
 DELETE FROM testresult WHERE nhsno = '1111111111';
 DELETE FROM usermapping WHERE nhsno = '1111111111';
-DELETE FROM uktstatus WHERE nhsno = '1111111111'; 
+DELETE FROM uktstatus WHERE nhsno = '1111111111';
 DELETE FROM treatment WHERE nhsno = '1111111111';
 DELETE FROM pv_user_log WHERE nhsno = '1111111111';
 DELETE FROM pv_procedure WHERE nhsno = '1111111111';

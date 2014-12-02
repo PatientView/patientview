@@ -40,6 +40,8 @@ public interface LetterDao {
 
     List<Letter> get(String username, Specialty specialty);
 
+    List<Letter> getByNhsNoAndUnit(String nhsNo, String unitcode);
+
     List<Letter> getAll();
 
     void delete(String nhsno, String unitcode, Date date);

@@ -41,4 +41,6 @@ public interface MedicineDao {
     List<Medicine> getAll();
 
     void delete(String nhsno, String unitcode);
+
+    List<Medicine> getByNhsnoAndUnitcode(String nhsno, String unitcode);
 }

@@ -41,4 +41,7 @@ public interface EmailVerificationDao {
     void delete(String username);
 
     void delete(EmailVerification emailVerification);
+
+    // required for pv2 migration
+    List<EmailVerification> getByEmail(String email);
 }

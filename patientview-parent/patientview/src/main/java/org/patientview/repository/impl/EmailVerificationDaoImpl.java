@@ -71,4 +71,12 @@ public class EmailVerificationDaoImpl extends AbstractHibernateDAO<EmailVerifica
         query.setParameter(EmailVerification_.username.getName(), username);
         query.executeUpdate();
     }
+
+    @Override
+    public List<EmailVerification> getByEmail(String email) {
+        String sql = "SELECT ev.* FROM emailverification ev WHERE ev.email = :email";
+        Query query = getEntityManager().createNativeQuery(sql, EmailVerification.class);
+        query.setParameter("email", email);
+        return query.getResultList();
+    }
 }
