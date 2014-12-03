@@ -42,7 +42,7 @@ public interface LetterManager {
 
     List<Letter> get(String username);
 
-    List<Letter> getByNhsNoAndUnit(String nhsNo, String unitcode);
+    List<Letter> getByNhsnoAndUnitcode(String nhsNo, String unitcode);
 
     List<Letter> getAll();
 

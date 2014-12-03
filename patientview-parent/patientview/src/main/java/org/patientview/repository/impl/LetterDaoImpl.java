@@ -64,11 +64,11 @@ public class LetterDaoImpl extends AbstractHibernateDAO<Letter> implements Lette
     }
 
     @Override
-    public List<Letter> getByNhsNoAndUnit(String nhsNo, String unitcode) {
+    public List<Letter> getByNhsnoAndUnitcode(String nhsNo, String unitcode) {
 
-        String sql = "SELECT l FROM letter l "
-                + "WHERE l.nhsno = :nhsno "
-                + "AND l.unitcode = :unitcode";
+        String sql = "SELECT letter.* FROM letter "
+                + "WHERE letter.nhsno = :nhsno "
+                + "AND letter.unitcode = :unitcode";
 
         Query query = getEntityManager().createNativeQuery(sql, Letter.class);
         query.setParameter("nhsno", nhsNo);

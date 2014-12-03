@@ -40,7 +40,7 @@ public interface LetterDao {
 
     List<Letter> get(String username, Specialty specialty);
 
-    List<Letter> getByNhsNoAndUnit(String nhsNo, String unitcode);
+    List<Letter> getByNhsnoAndUnitcode(String nhsNo, String unitcode);
 
     List<Letter> getAll();
 

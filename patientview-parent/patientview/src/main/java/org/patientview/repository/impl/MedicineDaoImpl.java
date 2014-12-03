@@ -69,9 +69,9 @@ public class MedicineDaoImpl extends AbstractHibernateDAO<Medicine> implements M
 
     @Override
     public List<Medicine> getByNhsnoAndUnitcode(String nhsno, String unitcode) {
-        String sql = "SELECT m FROM medicine m "
-                + "WHERE m.nhsno = :nhsno "
-                + "AND m.unitcode = :unitcode";
+        String sql = "SELECT medicine.* FROM medicine "
+                + "WHERE medicine.nhsno = :nhsno "
+                + "AND medicine.unitcode = :unitcode";
 
         Query query = getEntityManager().createNativeQuery(sql, Medicine.class);
         query.setParameter("nhsno", nhsno);
