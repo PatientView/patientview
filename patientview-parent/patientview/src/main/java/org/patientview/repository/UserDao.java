@@ -40,6 +40,8 @@ public interface UserDao {
 
     List<User> get(String nhsno, String unitcode);
 
+    List<User> getByUnitcode(String unitcode);
+
     void save(User user);
 
     void delete(User user);

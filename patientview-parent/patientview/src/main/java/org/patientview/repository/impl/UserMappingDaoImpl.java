@@ -241,6 +241,19 @@ public class UserMappingDaoImpl extends AbstractHibernateDAO<UserMapping> implem
     }
 
     @Override
+    public List<UserMapping> getAllByUnitcode(String unitcode) {
+        CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<UserMapping> criteria = builder.createQuery(UserMapping.class);
+        Root<UserMapping> from = criteria.from(UserMapping.class);
+        List<Predicate> wherePredicates = new ArrayList<Predicate>();
+
+        wherePredicates.add(builder.equal(from.get(UserMapping_.unitcode), unitcode));
+
+        buildWhereClause(criteria, wherePredicates);
+        return getEntityManager().createQuery(criteria).getResultList();
+    }
+
+    @Override
     public String getUsersRealUnitcodeBestGuess(String username, Specialty specialty) {
 
         List<UserMapping> userMappings = getAllExcludeUnitcode(username, UnitUtils.PATIENT_ENTERS_UNITCODE, specialty);
