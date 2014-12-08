@@ -44,6 +44,8 @@ public interface UserDao {
 
     List<Long> getIdsByUnitcode(String unitcode);
 
+    List<Long> getIdsByUnitcodeNoGp(String unitcode);
+
     void save(User user);
 
     void delete(User user);

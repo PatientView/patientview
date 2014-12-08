@@ -86,6 +86,22 @@ public class UserDaoImpl extends AbstractHibernateDAO<User> implements UserDao {
     }
 
     @Override
+    public List<Long> getIdsByUnitcodeNoGp(String unitcode) {
+        StringBuilder hsql = new StringBuilder();
+
+        hsql.append("SELECT   DISTINCT u.id ");
+        hsql.append("FROM     UserMapping usm, User u ");
+        hsql.append("WHERE    usm.unitcode = :unitcode ");
+        hsql.append("AND      usm.username = u.username ");
+        hsql.append("AND      u.username NOT LIKE '%-GP' ");
+
+        Query query = getEntityManager().createQuery(hsql.toString(), Long.class);
+        query.setParameter("unitcode", unitcode);
+
+        return query.getResultList();
+    }
+
+    @Override
     public User get(String username) {
 
         CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();

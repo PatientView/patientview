@@ -29,10 +29,10 @@ import org.patientview.repository.AboutmeDao;
 import org.patientview.repository.AbstractHibernateDAO;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.util.List;
 
 @Repository(value = "aboutmeDao")
 public class AboutmeDaoImpl extends AbstractHibernateDAO<Aboutme> implements AboutmeDao {
@@ -45,10 +45,13 @@ public class AboutmeDaoImpl extends AbstractHibernateDAO<Aboutme> implements Abo
 
         criteria.where(builder.equal(aboutmeRoot.get(Aboutme_.nhsno), nhsno));
 
-        try {
-            return getEntityManager().createQuery(criteria).getSingleResult();
-        } catch (NoResultException e) {
-            return null;
+        // safer, as possible there may be multiple
+        List results = getEntityManager().createQuery(criteria).getResultList();
+        Aboutme foundAboutMe = null;
+        if (!results.isEmpty()) {
+            foundAboutMe = (Aboutme) results.get(0);
         }
+
+        return foundAboutMe;
     }
 }
