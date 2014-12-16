@@ -35,5 +35,8 @@ public interface AboutmeDao {
 
     Aboutme get(String nhsno);
 
+    // migration only
+    Aboutme getNative(String nhsno);
+
     void save(Aboutme aboutme);
 }

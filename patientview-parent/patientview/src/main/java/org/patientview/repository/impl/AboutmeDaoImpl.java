@@ -23,19 +23,34 @@
 
 package org.patientview.repository.impl;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.patientview.patientview.model.Aboutme;
 import org.patientview.patientview.model.Aboutme_;
 import org.patientview.repository.AboutmeDao;
 import org.patientview.repository.AbstractHibernateDAO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import javax.inject.Inject;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository(value = "aboutmeDao")
 public class AboutmeDaoImpl extends AbstractHibernateDAO<Aboutme> implements AboutmeDao {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AboutmeDaoImpl.class);
+    private static final int THREE = 3;
+
+    @Inject
+    private DataSource dataSource;
 
     @Override
     public Aboutme get(String nhsno) {
@@ -53,5 +68,37 @@ public class AboutmeDaoImpl extends AbstractHibernateDAO<Aboutme> implements Abo
         }
 
         return foundAboutMe;
+    }
+
+    @Override
+    public Aboutme getNative(String nhsno) {
+        List<Aboutme> aboutmes = new ArrayList<Aboutme>();
+
+        try {
+            Connection connection = dataSource.getConnection();
+
+            String query = "SELECT a.nhsno, a.aboutme, a.talkabout "
+                    + "FROM aboutme a "
+                    + "WHERE a.nhsno = '" + nhsno + "'";
+
+            java.sql.Statement statement = connection.createStatement();
+            ResultSet results = statement.executeQuery(query);
+
+            while ((results.next())) {
+                Aboutme aboutme = new Aboutme();
+                aboutme.setNhsno(results.getString(1));
+                aboutme.setAboutme(results.getString(2));
+                aboutme.setTalkabout(results.getString(THREE));
+                aboutmes.add(aboutme);
+            }
+        } catch (SQLException se) {
+            LOGGER.error("SQLException: ", se);
+        }
+
+        if (CollectionUtils.isNotEmpty(aboutmes)) {
+            return aboutmes.get(0);
+        } else {
+            return null;
+        }
     }
 }

@@ -44,4 +44,7 @@ public interface EmailVerificationDao {
 
     // required for pv2 migration
     List<EmailVerification> getByEmail(String email);
+
+    // migration only
+    List<EmailVerification> getByEmailNative(String email);
 }

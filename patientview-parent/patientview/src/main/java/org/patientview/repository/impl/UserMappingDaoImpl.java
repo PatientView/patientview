@@ -34,11 +34,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import javax.inject.Inject;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,6 +54,11 @@ import java.util.List;
 public class UserMappingDaoImpl extends AbstractHibernateDAO<UserMapping> implements UserMappingDao {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserMappingDaoImpl.class);
+
+    @Inject
+    private DataSource dataSource;
+
+    private static final int THREE = 3;
 
     @Override
     public void deleteUserMappings(String username, String unitcode, Specialty specialty) {
@@ -132,6 +142,34 @@ public class UserMappingDaoImpl extends AbstractHibernateDAO<UserMapping> implem
 
         buildWhereClause(criteria, wherePredicates);
         return getEntityManager().createQuery(criteria).getResultList();
+    }
+
+    @Override
+    public List<UserMapping> getAllNative(String username) {
+        List<UserMapping> userMappings = new ArrayList<UserMapping>();
+
+        try {
+            Connection connection = dataSource.getConnection();
+
+            String query = "SELECT um.username, um.unitcode, um.nhsno "
+                    + "FROM usermapping um "
+                    + "WHERE um.username = '" + username + "'";
+
+            java.sql.Statement statement = connection.createStatement();
+            ResultSet results = statement.executeQuery(query);
+
+            while ((results.next())) {
+                UserMapping userMapping = new UserMapping();
+                userMapping.setUsername(results.getString(1));
+                userMapping.setUnitcode(results.getString(2));
+                userMapping.setNhsno(results.getString(THREE));
+                userMappings.add(userMapping);
+            }
+        } catch (SQLException se) {
+            LOGGER.error("SQLException: ", se);
+        }
+
+        return userMappings;
     }
 
     @Override

@@ -27,19 +27,31 @@ import org.patientview.patientview.model.EmailVerification;
 import org.patientview.patientview.model.EmailVerification_;
 import org.patientview.repository.AbstractHibernateDAO;
 import org.patientview.repository.EmailVerificationDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import javax.inject.Inject;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 @Repository(value = "emailVerificationDao")
 public class EmailVerificationDaoImpl extends AbstractHibernateDAO<EmailVerification> implements EmailVerificationDao {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(EmailVerificationDaoImpl.class);
+
+    @Inject
+    private DataSource dataSource;
 
     @Override
     public List<EmailVerification> get(String verificationCode) {
@@ -78,5 +90,30 @@ public class EmailVerificationDaoImpl extends AbstractHibernateDAO<EmailVerifica
         Query query = getEntityManager().createNativeQuery(sql, EmailVerification.class);
         query.setParameter("email", email);
         return query.getResultList();
+    }
+
+    @Override
+    public List<EmailVerification> getByEmailNative(String email) {
+        List<EmailVerification> emailVerifications = new ArrayList<EmailVerification>();
+
+        try {
+            Connection connection = dataSource.getConnection();
+
+            String query = "SELECT ev.verificationcode "
+                    + "FROM emailverification ev "
+                    + "WHERE ev.email = '" + email + "'";
+
+            java.sql.Statement statement = connection.createStatement();
+            ResultSet results = statement.executeQuery(query);
+
+            while ((results.next())) {
+                EmailVerification emailVerification = new EmailVerification();
+                emailVerification.setVerificationcode(results.getString(1));
+            }
+        } catch (SQLException se) {
+            LOGGER.error("SQLException: ", se);
+        }
+
+        return emailVerifications;
     }
 }

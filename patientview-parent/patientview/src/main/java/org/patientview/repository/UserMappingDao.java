@@ -49,6 +49,9 @@ public interface UserMappingDao {
 
     List<UserMapping> getAll(String username);
 
+    // migration only
+    List<UserMapping> getAllNative(String username);
+
     List<UserMapping> getAll(String username, String unitcode);
 
     List<UserMapping> getAll(String username, Specialty specialty);

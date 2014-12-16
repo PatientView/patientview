@@ -35,6 +35,9 @@ public interface UktStatusDao {
 
     UktStatus get(String nhsno);
 
+    // migration only
+    UktStatus getNative(String nhsno);
+
     void save(UktStatus uktStatus);
 
     void deleteAll();

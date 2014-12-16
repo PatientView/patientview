@@ -23,18 +23,26 @@
 
 package org.patientview.repository.impl;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.patientview.patientview.model.UktStatus;
 import org.patientview.patientview.model.UktStatus_;
 import org.patientview.repository.AbstractHibernateDAO;
 import org.patientview.repository.UktStatusDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import javax.inject.Inject;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +51,11 @@ import java.util.List;
  */
 @Repository(value = "uktStatusDao")
 public class UktStatusDaoImpl extends AbstractHibernateDAO<UktStatus> implements UktStatusDao {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AboutmeDaoImpl.class);
+
+    @Inject
+    private DataSource dataSource;
 
     @Override
     public UktStatus get(String nhsno) {
@@ -58,6 +71,37 @@ public class UktStatusDaoImpl extends AbstractHibernateDAO<UktStatus> implements
         try {
             return getEntityManager().createQuery(criteria).getSingleResult();
         } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public UktStatus getNative(String nhsno) {
+        List<UktStatus> uktStatuses = new ArrayList<UktStatus>();
+
+        try {
+            Connection connection = dataSource.getConnection();
+
+            String query = "SELECT u.kidney, u.pancreas "
+                    + "FROM uktstatus u "
+                    + "WHERE u.nhsno = '" + nhsno + "'";
+
+            java.sql.Statement statement = connection.createStatement();
+            ResultSet results = statement.executeQuery(query);
+
+            while ((results.next())) {
+                UktStatus uktStatus = new UktStatus();
+                uktStatus.setKidney(results.getString(1));
+                uktStatus.setPancreas(results.getString(2));
+                uktStatuses.add(uktStatus);
+            }
+        } catch (SQLException se) {
+            LOGGER.error("SQLException: ", se);
+        }
+
+        if (CollectionUtils.isNotEmpty(uktStatuses)) {
+            return uktStatuses.get(0);
+        } else {
             return null;
         }
     }
