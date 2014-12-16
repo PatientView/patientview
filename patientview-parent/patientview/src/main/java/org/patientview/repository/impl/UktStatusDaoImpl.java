@@ -95,6 +95,12 @@ public class UktStatusDaoImpl extends AbstractHibernateDAO<UktStatus> implements
                 uktStatus.setPancreas(results.getString(2));
                 uktStatuses.add(uktStatus);
             }
+            // try and close the open connection
+            try {
+                connection.close();
+            } catch (SQLException e2) {
+                LOGGER.error("Cannot close connection {}", e2);
+            }
         } catch (SQLException se) {
             LOGGER.error("SQLException: ", se);
         }

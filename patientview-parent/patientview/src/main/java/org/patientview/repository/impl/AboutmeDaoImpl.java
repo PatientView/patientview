@@ -91,6 +91,12 @@ public class AboutmeDaoImpl extends AbstractHibernateDAO<Aboutme> implements Abo
                 aboutme.setTalkabout(results.getString(THREE));
                 aboutmes.add(aboutme);
             }
+            // try and close the open connection
+            try {
+                connection.close();
+            } catch (SQLException e2) {
+                LOGGER.error("Cannot close connection {}", e2);
+            }
         } catch (SQLException se) {
             LOGGER.error("SQLException: ", se);
         }

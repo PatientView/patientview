@@ -165,6 +165,13 @@ public class UserMappingDaoImpl extends AbstractHibernateDAO<UserMapping> implem
                 userMapping.setNhsno(results.getString(THREE));
                 userMappings.add(userMapping);
             }
+            // try and close the open connection
+            try {
+                    connection.close();
+            } catch (SQLException e2) {
+                LOGGER.error("Cannot close connection {}", e2);
+            }
+
         } catch (SQLException se) {
             LOGGER.error("SQLException: ", se);
         }
