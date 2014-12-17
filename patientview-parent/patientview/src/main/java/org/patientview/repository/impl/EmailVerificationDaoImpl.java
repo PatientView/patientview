@@ -109,6 +109,7 @@ public class EmailVerificationDaoImpl extends AbstractHibernateDAO<EmailVerifica
             while ((results.next())) {
                 EmailVerification emailVerification = new EmailVerification();
                 emailVerification.setVerificationcode(results.getString(1));
+                emailVerifications.add(emailVerification);
             }
             // try and close the open connection
             try {

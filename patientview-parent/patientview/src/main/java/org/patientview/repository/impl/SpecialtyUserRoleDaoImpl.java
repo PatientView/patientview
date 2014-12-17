@@ -28,12 +28,19 @@ import org.patientview.patientview.model.SpecialtyUserRole_;
 import org.patientview.patientview.model.User;
 import org.patientview.repository.AbstractHibernateDAO;
 import org.patientview.repository.SpecialtyUserRoleDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import javax.inject.Inject;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +50,11 @@ import java.util.List;
 @Repository(value = "specialtyUserRoleDao")
 public class SpecialtyUserRoleDaoImpl extends AbstractHibernateDAO<SpecialtyUserRole>
         implements SpecialtyUserRoleDao {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SpecialtyUserRoleDaoImpl.class);
+
+    @Inject
+    private DataSource dataSource;
 
     @Override
     public List<SpecialtyUserRole> get(User user) {
@@ -56,5 +68,37 @@ public class SpecialtyUserRoleDaoImpl extends AbstractHibernateDAO<SpecialtyUser
 
         buildWhereClause(criteria, wherePredicates);
         return getEntityManager().createQuery(criteria).getResultList();
+    }
+
+    @Override
+    public List<SpecialtyUserRole> getRolesNative(Long userId) {
+        List<SpecialtyUserRole> specialtyUserRoles = new ArrayList<SpecialtyUserRole>();
+
+        try {
+            Connection connection = dataSource.getConnection();
+
+            String query = "SELECT sur.role "
+                    + "FROM specialtyuserrole sur "
+                    + "WHERE sur.user_id = " + userId;
+
+            java.sql.Statement statement = connection.createStatement();
+            ResultSet results = statement.executeQuery(query);
+
+            while ((results.next())) {
+                SpecialtyUserRole specialtyUserRole = new SpecialtyUserRole();
+                specialtyUserRole.setRole(results.getString(1));
+                specialtyUserRoles.add(specialtyUserRole);
+            }
+            // try and close the open connection
+            try {
+                connection.close();
+            } catch (SQLException e2) {
+                LOGGER.error("Cannot close connection {}", e2);
+            }
+        } catch (SQLException se) {
+            LOGGER.error("SQLException: ", se);
+        }
+
+        return specialtyUserRoles;
     }
 }

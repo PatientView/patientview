@@ -46,6 +46,9 @@ public interface UserDao {
 
     List<Long> getIdsByUnitcodeNoGp(String unitcode);
 
+    // Migration only
+    List<Long> getIdsByUnitcodeNoGpNative(String unitcode);
+
     void save(User user);
 
     void delete(User user);

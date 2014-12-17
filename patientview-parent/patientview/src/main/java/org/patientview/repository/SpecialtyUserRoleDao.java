@@ -38,6 +38,9 @@ public interface SpecialtyUserRoleDao {
 
     List<SpecialtyUserRole> get(User user);
 
+    // Migration only
+    List<SpecialtyUserRole> getRolesNative(Long userId);
+
     void save(SpecialtyUserRole specialtyUserRole);
 
     void delete(SpecialtyUserRole specialtyUserRole);

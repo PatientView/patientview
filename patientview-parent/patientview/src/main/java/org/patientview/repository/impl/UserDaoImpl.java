@@ -29,17 +29,30 @@ import org.patientview.patientview.model.User;
 import org.patientview.patientview.model.User_;
 import org.patientview.repository.AbstractHibernateDAO;
 import org.patientview.repository.UserDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import javax.inject.Inject;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository(value = "userDao")
 public class UserDaoImpl extends AbstractHibernateDAO<User> implements UserDao {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserDaoImpl.class);
+
+    @Inject
+    private DataSource dataSource;
 
     @Override
     public List<User> get(String nhsno, String unitcode) {
@@ -99,6 +112,38 @@ public class UserDaoImpl extends AbstractHibernateDAO<User> implements UserDao {
         query.setParameter("unitcode", unitcode);
 
         return query.getResultList();
+    }
+
+    @Override
+    public List<Long> getIdsByUnitcodeNoGpNative(String unitcode) {
+        List<Long> userIds = new ArrayList<Long>();
+
+        try {
+            Connection connection = dataSource.getConnection();
+
+            String query = "SELECT DISTINCT u.id "
+                    + "FROM usermapping um, user u "
+                    + "WHERE um.unitcode = '" + unitcode + "' "
+                    + "AND um.username = u.username "
+                    + "AND u.username NOT LIKE '%-GP'";
+
+            java.sql.Statement statement = connection.createStatement();
+            ResultSet results = statement.executeQuery(query);
+
+            while ((results.next())) {
+                userIds.add(results.getLong(1));
+            }
+            // try and close the open connection
+            try {
+                connection.close();
+            } catch (SQLException e2) {
+                LOGGER.error("Cannot close connection {}", e2);
+            }
+        } catch (SQLException se) {
+            LOGGER.error("SQLException: ", se);
+        }
+
+        return userIds;
     }
 
     @Override
