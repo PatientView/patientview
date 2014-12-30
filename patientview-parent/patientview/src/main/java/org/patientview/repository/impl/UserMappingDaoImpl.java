@@ -148,6 +148,9 @@ public class UserMappingDaoImpl extends AbstractHibernateDAO<UserMapping> implem
     public List<UserMapping> getAllNative(String username) {
         List<UserMapping> userMappings = new ArrayList<UserMapping>();
 
+        // handle ' in name e.g. O'Donnell
+        username = username.replace("'", "''");
+
         try {
             Connection connection = dataSource.getConnection();
 
