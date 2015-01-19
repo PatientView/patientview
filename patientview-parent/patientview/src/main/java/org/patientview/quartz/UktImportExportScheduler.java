@@ -67,6 +67,7 @@ public class UktImportExportScheduler {
             exportUktData();
             exportPatientData();
         }
+        LOGGER.info("UKT done");
     }
 
     private void exportPatientData() {
