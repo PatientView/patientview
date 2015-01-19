@@ -70,56 +70,64 @@ public class UktImportExportScheduler {
 
     private void exportPatientData() {
 
-        try {
-            ukTransplantManager.exportPatientData();
-        } catch (Exception e) {
-            LOGGER.error("Failed to exportPatientData: {}", e);
-            LOGGER.debug(e.getMessage(), e);
-        }
+        if ((runUkt != null) && runUkt.equalsIgnoreCase("true")) {
+            try {
+                ukTransplantManager.exportPatientData();
+            } catch (Exception e) {
+                LOGGER.error("Failed to exportPatientData: {}", e);
+                LOGGER.debug(e.getMessage(), e);
+            }
 
-        LOGGER.info("Completed exportPatientData()");
+            LOGGER.info("Completed exportPatientData()");
+        }
     }
 
     private void importUktData() {
-        int numFilesImported = 0;
-        try {
-            File uktDir = new File(uktDirectory);
-            File[] uktFiles = uktDir.listFiles(new UktFileFilter());
-            if (uktFiles != null && uktFiles.length > 0) {
-                // this is legacy logic - but there should only be one file, only the most recent matters
-                for (File uktFile : uktFiles) {
-                    ukTransplantManager.importUktStatusData(uktFile);
-                    numFilesImported++;
-                }
-            }
-        } catch (Exception e) {
-            LOGGER.error("Failed to importUktData: {}", e.getMessage());
-            LOGGER.debug(e.getMessage(), e);
-        }
 
-        LOGGER.info("Completed importUktData, imported {} files", numFilesImported);
+        if ((runUkt != null) && runUkt.equalsIgnoreCase("true")) {
+            int numFilesImported = 0;
+            try {
+                File uktDir = new File(uktDirectory);
+                File[] uktFiles = uktDir.listFiles(new UktFileFilter());
+                if (uktFiles != null && uktFiles.length > 0) {
+                    // this is legacy logic - but there should only be one file, only the most recent matters
+                    for (File uktFile : uktFiles) {
+                        ukTransplantManager.importUktStatusData(uktFile);
+                        numFilesImported++;
+                    }
+                }
+            } catch (Exception e) {
+                LOGGER.error("Failed to importUktData: {}", e.getMessage());
+                LOGGER.debug(e.getMessage(), e);
+            }
+
+            LOGGER.info("Completed importUktData, imported {} files", numFilesImported);
+        }
     }
 
     private void exportUktData() {
-        try {
-            File uktExportDir = new File(uktExportDirectory);
-            File uktExportFile = new File(uktExportDir, "ukt_rpv_export.txt");
-            if (!uktExportFile.isFile()) {
-                if (!uktExportFile.createNewFile()) {
-                    LOGGER.error("Failed to exportUktData: uktExportFile is not a file");
-                    return;
-                }
-            }
 
-            CSVPrinter csv = new CSVPrinter(new FileWriter(uktExportFile));
-            csv.setAlwaysQuote(true);
-            csv.writeln(getPatients());
-            csv.flush();
-            csv.close();
-            LOGGER.info("Completed exportUktData()");
-        } catch (Exception e) {
-            LOGGER.error("Failed to exportUktData: {}", e.getMessage());
-            LOGGER.debug(e.getMessage(), e);
+        if ((runUkt != null) && runUkt.equalsIgnoreCase("true")) {
+            try {
+                File uktExportDir = new File(uktExportDirectory);
+                File uktExportFile = new File(uktExportDir, "ukt_rpv_export.txt");
+                if (!uktExportFile.isFile()) {
+                    if (!uktExportFile.createNewFile()) {
+                        LOGGER.error("Failed to exportUktData: uktExportFile is not a file");
+                        return;
+                    }
+                }
+
+                CSVPrinter csv = new CSVPrinter(new FileWriter(uktExportFile));
+                csv.setAlwaysQuote(true);
+                csv.writeln(getPatients());
+                csv.flush();
+                csv.close();
+                LOGGER.info("Completed exportUktData()");
+            } catch (Exception e) {
+                LOGGER.error("Failed to exportUktData: {}", e.getMessage());
+                LOGGER.debug(e.getMessage(), e);
+            }
         }
     }
 
