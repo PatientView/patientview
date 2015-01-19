@@ -80,7 +80,7 @@ public class UktImportExportScheduler {
                 LOGGER.debug(e.getMessage(), e);
             }
 
-            LOGGER.info("Completed exportPatientData()");
+            LOGGER.info("Completed exportPatientData() successfully");
         }
     }
 
@@ -104,7 +104,7 @@ public class UktImportExportScheduler {
                 LOGGER.debug(e.getMessage(), e);
             }
 
-            LOGGER.info("Completed importUktData, imported {} files", numFilesImported);
+            LOGGER.info("Completed importUktData successfully, imported {} files", numFilesImported);
         }
     }
 
@@ -127,7 +127,7 @@ public class UktImportExportScheduler {
                 csv.writeln(getPatients());
                 csv.flush();
                 csv.close();
-                LOGGER.info("Completed exportUktData()");
+                LOGGER.info("Completed exportUktData() successfully");
             } catch (Exception e) {
                 LOGGER.error("Failed to exportUktData: {}", e.getMessage());
                 LOGGER.debug(e.getMessage(), e);
