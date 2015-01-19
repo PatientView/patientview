@@ -72,6 +72,7 @@ public class UktImportExportScheduler {
     private void exportPatientData() {
 
         if ((runUkt != null) && runUkt.equalsIgnoreCase("true")) {
+            LOGGER.info("UKT enabled: " + runUkt);
             try {
                 ukTransplantManager.exportPatientData();
             } catch (Exception e) {
@@ -86,6 +87,7 @@ public class UktImportExportScheduler {
     private void importUktData() {
 
         if ((runUkt != null) && runUkt.equalsIgnoreCase("true")) {
+            LOGGER.info("UKT enabled: " + runUkt);
             int numFilesImported = 0;
             try {
                 File uktDir = new File(uktDirectory);
@@ -109,6 +111,7 @@ public class UktImportExportScheduler {
     private void exportUktData() {
 
         if ((runUkt != null) && runUkt.equalsIgnoreCase("true")) {
+            LOGGER.info("UKT enabled: " + runUkt);
             try {
                 File uktExportDir = new File(uktExportDirectory);
                 File uktExportFile = new File(uktExportDir, "ukt_rpv_export.txt");
