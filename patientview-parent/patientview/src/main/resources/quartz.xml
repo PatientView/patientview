@@ -92,7 +92,7 @@
     </bean>
 
     <!-- UKt import and export -->
-    <!--<bean id="uktImportExportScheduler" class="org.patientview.quartz.UktImportExportScheduler" />
+    <bean id="uktImportExportScheduler" class="org.patientview.quartz.UktImportExportScheduler" />
     <bean id="uktImportExportJobTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
         <property name="targetObject" ref="uktImportExportScheduler"/>
         <property name="targetMethod" value="execute"/>
@@ -101,5 +101,5 @@
     <bean id="uktImportExportCron" class="org.springframework.scheduling.quartz.CronTriggerBean">
         <property name="jobDetail" ref="uktImportExportJobTask" />
         <property name="cronExpression" value="${quartz.uktimportexport.cron}" />
-    </bean>-->
+    </bean>
 </beans>
