@@ -62,7 +62,7 @@ public class EmailManagerImpl implements EmailManager {
     private String environment;
 
     @Value("${email.enabled}")
-    private boolean emailEnabled;
+    private String emailEnabled;
 
     private boolean redirect;
 
@@ -179,7 +179,7 @@ public class EmailManagerImpl implements EmailManager {
             messageHelper.setSubject(subject);
             messageHelper.setText(body, false); // Note: the second param indicates to send plaintext
 
-            if (emailEnabled) {
+            if (Boolean.parseBoolean(emailEnabled)) {
                 javaMailSender.send(messageHelper.getMimeMessage());
             }
         } catch (Exception e) {
@@ -215,7 +215,7 @@ public class EmailManagerImpl implements EmailManager {
         messageHelper.setSubject(subject);
         messageHelper.setText(body, false);
 
-        if (emailEnabled) {
+        if (Boolean.parseBoolean(emailEnabled)) {
             javaMailSender.send(messageHelper.getMimeMessage());
         }
     }
