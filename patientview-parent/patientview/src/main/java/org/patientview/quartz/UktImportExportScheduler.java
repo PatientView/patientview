@@ -62,6 +62,7 @@ public class UktImportExportScheduler {
     public void execute() {
         LOGGER.info("UKT enabled: " + runUkt);
         if ((runUkt != null) && runUkt.equalsIgnoreCase("true")) {
+            LOGGER.info("UKT enabled: " + runUkt);
             importUktData();
             exportUktData();
             exportPatientData();
