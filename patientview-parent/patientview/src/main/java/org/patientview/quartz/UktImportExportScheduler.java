@@ -60,6 +60,7 @@ public class UktImportExportScheduler {
     private static final Logger LOGGER = LoggerFactory.getLogger(UktImportExportScheduler.class);
 
     public void execute() {
+        LOGGER.info("UKT enabled: " + runUkt);
         if ((runUkt != null) && runUkt.equalsIgnoreCase("true")) {
             importUktData();
             exportUktData();
