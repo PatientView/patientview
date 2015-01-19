@@ -61,6 +61,9 @@ public class EmailManagerImpl implements EmailManager {
     @Value("${config.environment}")
     private String environment;
 
+    @Value("${email.enabled}")
+    private boolean emailEnabled;
+
     private boolean redirect;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EmailManagerImpl.class);
@@ -176,7 +179,9 @@ public class EmailManagerImpl implements EmailManager {
             messageHelper.setSubject(subject);
             messageHelper.setText(body, false); // Note: the second param indicates to send plaintext
 
-            javaMailSender.send(messageHelper.getMimeMessage());
+            if (emailEnabled) {
+                javaMailSender.send(messageHelper.getMimeMessage());
+            }
         } catch (Exception e) {
             LOGGER.error("Could send email: {}", e);
         }
@@ -210,7 +215,9 @@ public class EmailManagerImpl implements EmailManager {
         messageHelper.setSubject(subject);
         messageHelper.setText(body, false);
 
-        javaMailSender.send(messageHelper.getMimeMessage());
+        if (emailEnabled) {
+            javaMailSender.send(messageHelper.getMimeMessage());
+        }
     }
 
 
