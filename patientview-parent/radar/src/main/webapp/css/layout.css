@@ -21,6 +21,10 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html The GNU General Public License V3.0
  */
 
+.hidden {
+    display:none;
+}
+
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6 {
   margin: 0;
   padding: 0;
