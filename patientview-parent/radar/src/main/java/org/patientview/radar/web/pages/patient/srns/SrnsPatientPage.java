@@ -206,7 +206,6 @@ public class SrnsPatientPage extends BasePage implements PatientCallBack {
 
         @Override
         public void onClick(AjaxRequestTarget target) {
-//            if (radarNumberModel.getObject() != null) {
             currentTab = tab;
             // Add the links container to update hover class
             target.add(linksContainer);
@@ -226,8 +225,6 @@ public class SrnsPatientPage extends BasePage implements PatientCallBack {
             }
 
             target.add(pageNumber);
-            //            }
-
         }
 
         @Override

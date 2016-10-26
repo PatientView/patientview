@@ -193,17 +193,15 @@ public class GenericPatientPage extends BasePage {
 
         @Override
         public void onClick(AjaxRequestTarget target) {
-            if (patient.hasValidId()) {
-                GenericPatientPage.this.currentTab = tab;
-                // Add the links container to update hover class
-                target.add(linksContainer);
-                target.add(genericDemographicsPanel, geneticsPanel, medicalResultsPanel, medicinePanel);
+            GenericPatientPage.this.currentTab = tab;
+            // Add the links container to update hover class
+            target.add(linksContainer);
+            target.add(genericDemographicsPanel, geneticsPanel, medicalResultsPanel, medicinePanel);
 
-                Component pageNumber = getPage().get("pageNumber");
-                IModel pageNumberModel = pageNumber.getDefaultModel();
-                pageNumberModel.setObject(GenericPatientPage.this.currentTab.getPageNumber());
-                target.add(pageNumber);
-            }
+            Component pageNumber = getPage().get("pageNumber");
+            IModel pageNumberModel = pageNumber.getDefaultModel();
+            pageNumberModel.setObject(GenericPatientPage.this.currentTab.getPageNumber());
+            target.add(pageNumber);
         }
 
         @Override
