@@ -8,7 +8,7 @@ import javax.persistence.Enumerated;
 import java.util.Arrays;
 import java.util.List;
 
-@Entity(name = "rdc_genetic_test")
+@Entity(name = "rdr_genetic_test")
 public class Genetics extends BaseModel {
 
     public enum TestsDone {

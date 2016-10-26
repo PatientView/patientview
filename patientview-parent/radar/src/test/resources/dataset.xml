@@ -19582,7 +19582,7 @@ AFAFHDAH]]></value>
         </row>
     </table>
 
-    <table name="rdc_genetic_test">
+    <table name="rdr_genetic_test">
         <column>id</column>
         <column>radar_no</column>
         <column>testsDone</column>
